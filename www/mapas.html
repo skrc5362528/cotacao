@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+
+</head>
+<body>
+    <div id="content" class="page-content">
+        <div class="header">
+            <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
+            <em>Notificações</em>
+            <a onclick="CarregaMenu('configrss.html');"><i class="fa fa-cog"></i></a>
+        </div>
+
+        <div class="header-clear"></div>
+        <div class="decoration"></div>
+        <div class="content">
+            <!--<div class="one-half-responsive last-column">-->
+            <div class="container" id="rss">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        jQuery(document).ready(function () { BuscaRss(100, 'http://www.infomoney.com.br/mercados/cambio/rss'); })
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
