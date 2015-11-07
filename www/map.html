@@ -17,77 +17,45 @@
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />-->
     <title>COTACAO</title>
     <!--CSS DE ESTILOS-->
-    
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
+
+
     <link href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" rel="stylesheet" />
     <link href="styles/mapa.css" rel="stylesheet" />
 
-   
-   
+
+
 
     <!--SCRIPTS BASICOS-->
 
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
-    
+    <script type="text/javascript" src="scripts/paginas/map.js"></script>
+
+
     <style>
         body {
-    padding: 0;
-    margin: 0;
-}
-html, body, #map {
-    height: 100%;
-}
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+        }
     </style>
- 
+
 
 </head>
 <body>
 
     <div id="map" class="map leaflet-container leaflet-fade-anim" style="position: relative;" tabindex="0"></div>
-    
-        <script type="text/javascript">
-    jQuery(document).ready(function () {
-        //variável necessária para guardar o objeto map retornado na função mapStart()
-        var mapInstance = App.mapStart();
 
-    });
-    
+    <script type="text/javascript">
+        jQuery(window).ready(function () {
+            BuscaMapa();
+        });
 
-        var App = function () {
-            return {
-                mapStart: function () {
-                    var map = L.map('map').setView([-8.0968439, -34.970715], 13);
-                    // add an OpenStreetMap tile layer
-                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                        attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-
-                    return map;
-                },
-                //final da funcao
-            };
-        }();
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
