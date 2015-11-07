@@ -35,7 +35,7 @@
   <icon src="www/res/icon/windows-phone/icon-173-tile.png" gap:platform="winphone" gap:role="background"/>
 
 
-  <gap:plugin name="orcordova-plugin-geolocation" />
+  <gap:plugin name="cordova-plugin-geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
 
   <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
