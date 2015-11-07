@@ -2,28 +2,53 @@
 <html>
 <head>
     <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
-    <script src="scripts/paginas/mapa.js"></script>
- 
 
 </head>
 <body>
     <div id="content" class="page-content">
         <div class="header">
             <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
-            <em>Mapa</em>
-            <a onclick="CarregaMenu('cotacao.html')"><i class="fa fa-arrow-left"></i></a>
-        </div>
-        <div class="header-clear"></div>
-        <div class="decoration"></div>
-      
-        <iframe id="frmmap" src="map.html" frameborder="0" style="width:1000px; height:2000px; overflow:hidden;"></iframe>
-        
+            <em>Notificações</em>
+            <a onclick="CarregaMenu('configrss.html');"><i class="fa fa-cog"></i></a>
         </div>
 
+        <div class="header-clear"></div>
+        <div class="decoration"></div>
+        <div class="content">
+            <!--<div class="one-half-responsive last-column">-->
+            <div class="container" id="rss">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        jQuery(document).ready(function () { BuscaRss(100, 'http://www.infomoney.com.br/mercados/cambio/rss'); })
+    </script>
 </body>
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
