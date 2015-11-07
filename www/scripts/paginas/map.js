@@ -1,21 +1,18 @@
 ﻿function BuscaMapa() {
-
-    var lat = '-8.0968439';
-    var long = '-34.970715';
-
-    localStorage.setItem('latitude', lat);
-    localStorage.setItem('longitude', long);
-
-    if (localStorage.latitude != '' && localStorage.longitude != '') {
-        CarregaMapa(localStorage.latitude, localStorage.longitude);
+    var Long = localStorage.getItem('longitude');
+    var Lat = localStorage.getItem('latitude');
+    if (Long!= '' &&  Lat!= '') {
+        IniciaMapa(Lat, Long);
     }
     else {
         alert('Não há localização disponível');
     }
 }
 
-function CarregaMapa(latitude,longitude) {
+function IniciaMapa(latitude, longitude) {
 
+    //alert(latitude);
+    //alert(longitude);
     var map = L.map('map').setView([latitude, longitude], 13);
 
    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
