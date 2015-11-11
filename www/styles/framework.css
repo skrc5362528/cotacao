@@ -1,4 +1,4 @@
-/*Epsilon Framework Version 2*/
+﻿/*Epsilon Framework Version 2*/
 /*Framework author: Enabled*/
 /*License: This stylesheet cannot be resold by anyone else except Enabled and Cosmin Cotor*/
 
@@ -1837,7 +1837,9 @@ table tr:hover td{
 	display:block!important;
 	padding-bottom:0px;	
 	box-sizing:border-box;
-	max-height:150px;
+	/*max-height:150px;*/
+    min-height:1000px;
+    min-width:1000px;
 	overflow:hidden;
 	margin-bottom:30px;
 }

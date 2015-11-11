@@ -2,12 +2,12 @@
 <html>
 <head>
     <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
-    <script src="scripts/paginas/mapa.js"></script>
+   
  
 
 </head>
@@ -20,10 +20,13 @@
         </div>
         <div class="header-clear"></div>
         <div class="decoration"></div>
-      
-        <iframe id="frmmap" src="map.html" frameborder="0" style="width:1000px; height:2000px; overflow:hidden;"></iframe>
+        <!--<div class="maps-container">
+            <div id="map" class="map leaflet-container leaflet-fade-anim" style="position: relative;" tabindex="0"></div>-->
+            <div class="maps-container">
+                <iframe id="frmmap" src="map.html" class="responsive-image maps" width="1000" height="1000"></iframe>
+            </div>
         
         </div>
-
-</body>
+    
+ </body>
 </html>
