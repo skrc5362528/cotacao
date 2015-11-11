@@ -3,8 +3,8 @@ var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true};
 
 function success(pos) {
     var crd = pos.coords;
-    localStorage.setItem('latitude', crd.latitude);
-    localStorage.setItem('longitude', crd.longitude);
+    sessionStorage.setItem('latitude', crd.latitude);
+    sessionStorage.setItem('longitude', crd.longitude);
 
    // alert(crd.latitude, crd.longitude);
 };

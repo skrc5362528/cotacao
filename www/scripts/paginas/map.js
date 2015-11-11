@@ -1,6 +1,6 @@
 ﻿function BuscaMapa() {
-    var Long = localStorage.getItem('longitude');
-    var Lat = localStorage.getItem('latitude');
+    var Long = sessionStorage.getItem('longitude');
+    var Lat = sessionStorage.getItem('latitude');
     if (Long!= '' &&  Lat!= '') {
         IniciaMapa(Lat, Long);
     }
@@ -10,7 +10,15 @@
 }
 
 function AtualizaMapa() {
- //   alert("Atualizaou");
+
+    var Long = sessionStorage.getItem('longitude');
+    var Lat = sessionStorage.getItem('latitude');;
+    var newLatLng = new L.LatLng(Lat, Long);
+    marker.setLatLng(newLatLng);
+
+    marker.setLatLng(e.latlng);
+    map.setView(marker.getLatLng(), map.getZoom());
+    alert('Marker has been set to position :' + marker.getLatLng().toString());
 } 
 
 function IniciaMapa(latitude, longitude) {
@@ -29,3 +37,26 @@ function IniciaMapa(latitude, longitude) {
 
 
 
+//document.addEventListener("deviceready", onDeviceReady, false);
+//var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+
+//function success(pos) {
+//    if (sessionStorage.getItem('longitude') == '' || sessionStorage.getItem('latitude') == '') {
+//        IniciaMapa(crd.latitude, crd.longitude);
+//    }
+//    else {
+//        AtualizaMapa();
+//    }
+//};
+
+//function error(err) {
+//    alert('ERROR(' + err.code + '): ' + err.message);
+//};
+
+//function onDeviceReady() {
+//    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+//}
+//navigator.geolocation.getCurrentPosition(success, error, optionsWatchPosition);
+//cordova.plugins.locationServices.geolocation.watchPosition(success, error, optionsWatchPosition);
+//alert('tentativa location services');
+//var optionsGetCurrentPosition = { maximumAge: 3000, enableHighAccuracy: true};
