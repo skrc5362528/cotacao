@@ -17,8 +17,7 @@
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />-->
     <title></title>
     <!--CSS DE ESTILOS-->
-    <script type="text/javascript" src="cordova.js"></script>-
-
+    <script type="text/javascript" src="cordova.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <link href="styles/mapa.css" rel="stylesheet" />
 
@@ -28,10 +27,10 @@
     <!--SCRIPTS BASICOS-->
 
     <script type="text/javascript" src="scripts/jquery.js"></script>
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
-    <script src="scripts/jquery-timing.min.js"></script>
- 
+    <script type="text/javascript" src="scripts/jquery-timing.min.js"></script>
+
 
 
     <style>
@@ -44,21 +43,16 @@
             height: 100%;
         }
     </style>
-
-
 </head>
 <body>
-
     <div id="map" class="map leaflet-container leaflet-fade-anim" style="position: relative;" tabindex="0"></div>
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-           //BuscaMapa();
-            jQuery('#map').repeat(5000).each(function () { BuscaMapa();});
+            iniciaMapa();
+            jQuery('#map').repeat(15000).each(function () { BuscaMapa(); });
         });
-
     </script>
-
     <script type="text/javascript" src="scripts/paginas/map.js"></script>
 </body>
 </html>
