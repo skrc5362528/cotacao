@@ -16,33 +16,6 @@ function BuscaValores() {
     var moeda = jQuery('#MOEDA').val();
     var data = jQuery('#DATA_COTACAO').val();
 
-
-    BuscaDadosMoeda(moeda);
-    BuscaCotacaoMoeda(moeda, data);
-
-
-
-}
-
-function BuscaDadosMoeda(COD_MOEDA) {
-    var data = jQuery.parseJSON(ListaSerieVO(COD_MOEDA, null, null));
-    CarregaDadosMoeda(data.NOMEABREVIADOFIELD, data.UNIDADEPADRAOFIELD, data.FULLNAMEFIELD, data.NOMEABREVIADOFIELD, data.PERIODICIDADEFIELD);
-}
-
-
-function CarregaDadosMoeda(NOMEABREVIADOFIELD, UNIDADEPADRAOFIELD, FULLNAMEFIELD, NOMEABREVIADOFIELD, PERIODICIDADEFIELD) {
-
-    jQuery('#NOMEABREVIADOFIELD').val(NOMEABREVIADOFIELD);
-    jQuery('#UNIDADEPADRAOFIELD').val(UNIDADEPADRAOFIELD);
-    jQuery('#FULLNAMEFIELD').val(FULLNAMEFIELD);
-    jQuery('#NOMEABREVIADOFIELD').val(NOMEABREVIADOFIELD);
-    jQuery('#PERIODICIDADEFIELD').val(PERIODICIDADEFIELD);
-
-}
-
-function BuscaCotacaoMoeda(moeda, data) {
-
-
     var ret = true;
     var dia = '';
     var mes = '';
@@ -55,27 +28,72 @@ function BuscaCotacaoMoeda(moeda, data) {
         ano = dt.getFullYear();
     }
     else {
+
+        //var dt = new Date(data);
+        //dia = dt.getDate();
+        //mes = (dt.getMonth() + 1);
+        //ano = dt.getFullYear();
+
         data = data.match(/\d+/g);
+        dia = data[2];
         mes = data[1];
         ano = data[0];
-        dia = data[2];
+        
     }
+    BuscaUltimoValorVO(moeda);
+    BuscaCotacaoMoeda(moeda, dia, mes, ano)
 
-    var data = jQuery.parseJSON(ListaValorCotacao(moeda, dia, mes, ano, null, null));
-    CarregaCotacaoMoeda(data);
-    
+
+
 }
 
-function CarregaCotacaoMoeda(data) {
+function BuscaUltimoValorVO(moeda) {
 
-    if (data != null) {
-        jQuery.each(data, function () {
-            var dia = jQuery(this).find('DIAFIELD').text();
-            var mes = jQuery(this).find('MESFIELD').text();
-            var ano = jQuery(this).find('ANOFIELD').text()
-            jQuery('#DATACOTACAO').text(data.DIAFIELD + '/' + data.MESFIELD + '/' + data.ANOFIELD);
-            jQuery('#SVALORFIELD ').text('R$ ' + data.SVALORFIELD);
-        });
+    var data = jQuery.parseJSON(UtlimoValorVO(moeda, null, null));
+    CarregaUltimoVaorVO(data);
+}
+
+function CarregaUltimoVaorVO(data) {
+
+    jQuery('#NOMEABREVIADOFIELD').text(data.nomeAbreviado);
+    jQuery('#UNIDADEPADRAOFIELD').text(data.unidadePadrao);
+    jQuery('#FULLNAMEFIELD').text(data.fullName);
+    jQuery('#NOMEABREVIADOFIELD').text(data.nomeAbreviado);
+    jQuery('#PERIODICIDADEFIELD').text(data.periodicidade);
+
+    jQuery('#DATACOTACAO').text(data.ultimoValor.dia + '/' + data.ultimoValor.mes + '/' + data.ultimoValor.ano);
+    jQuery('#SVALORFIELD ').text('R$ ' + data.ultimoValor.svalor);
+
+    jQuery('#DIVCOTACAO').css('visibility', 'visible');
+}
+
+function BuscaDadosMoeda(COD_MOEDA) {
+    var data = jQuery.parseJSON(ListaSerieVO(COD_MOEDA, null, null));
+    CarregaDadosMoeda(data.NOMEABREVIADOFIELD, data.UNIDADEPADRAOFIELD, data.FULLNAMEFIELD, data.NOMEABREVIADOFIELD, data.PERIODICIDADEFIELD);
+}
+
+function CarregaDadosMoeda(NOMEABREVIADOFIELD, UNIDADEPADRAOFIELD, FULLNAMEFIELD, NOMEABREVIADOFIELD, PERIODICIDADEFIELD) {
+
+    jQuery('#NOMEABREVIADOFIELD').val(NOMEABREVIADOFIELD);
+    jQuery('#UNIDADEPADRAOFIELD').val(UNIDADEPADRAOFIELD);
+    jQuery('#FULLNAMEFIELD').val(FULLNAMEFIELD);
+    jQuery('#NOMEABREVIADOFIELD').val(NOMEABREVIADOFIELD);
+    jQuery('#PERIODICIDADEFIELD').val(PERIODICIDADEFIELD);
+
+}
+
+function BuscaCotacaoMoeda(moeda, dia, mes, ano) {
+
+    var valor = jQuery.parseJSON(ValorPorData(moeda, dia, mes, ano, null, null));
+    CarregaCotacaoMoeda(valor, dia, mes, ano);
+
+}
+
+function CarregaCotacaoMoeda(valor, dia, mes, ano) {
+
+    if (valor != null) {
+        jQuery('#SVALORFIELD ').text('R$ ' + valor);
+        jQuery('#DATACOTACAO').text(dia + '/' + mes + '/' + ano);
     }
     else {
         alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS'); //MESAGEM DE alerta
