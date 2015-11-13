@@ -4,8 +4,9 @@
     <title>Leaflet mobile example</title>
     <script type="text/javascript" src="cordova.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="styles/leaflet.css" rel="stylesheet" />
-    <script src="scripts/leaflet.js"></script>
+    <script src="scripts/jquery-2.1.4.js"></script>
+    <link href="leaflet/leaflet.css" rel="stylesheet" />
+    <script src="leaflet/leaflet.js"></script>
 
     <style>
         body {
@@ -24,6 +25,34 @@
     </div>
 
     <script>
+
+
+        //document.addEventListener("deviceready", onDeviceReady, false);
+        //var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+
+
+        //function success(pos) {
+
+        //    var crd = pos.coords;
+
+        //    localStorage.setItem('latitude', crd.latitude);
+        //    localStorage.setItem('longitude', crd.longitude);
+        //};
+
+        //function error(err) {
+        //    alert('ERROR(' + err.code + '): ' + err.message);
+        //};
+
+        //function onDeviceReady() {
+        //    navigator.geolocation.watchPosition(onLocationFound, error, optionsWatchPosition);
+        //    //navigator.geolocation.getCurrentPosition(success, error, optionsWatchPosition);
+        //}
+
+
+
+        //navigator.geolocation.watchPosition(optionsWatchPosition);
+
+
         var map = L.map('map');
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -37,8 +66,8 @@
 
         function onLocationFound(e) {
             var radius = e.accuracy / 2;
-            //L.marker(e.latlng).addTo(map);
-            L.circle(e.latlng, radius).addTo(map).bindPopup("Você está aqui!").openPopup();
+            L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
+           // L.circle(e.latlng, radius).addTo(map)
 
             CarregaEstabelecimentos();
         }
@@ -56,28 +85,9 @@
 
         }
 
+      
 
 
-        document.addEventListener("deviceready", onDeviceReady, false);
-        var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
-
-
-        function success(pos) {
-
-            var crd = pos.coords;
-
-            localStorage.setItem('latitude', crd.latitude);
-            localStorage.setItem('longitude', crd.longitude);
-        };
-
-        function error(err) {
-            alert('ERROR(' + err.code + '): ' + err.message);
-        };
-
-        function onDeviceReady() {
-            navigator.geolocation.watchPosition(onLocationFound, error, optionsWatchPosition);
-            //navigator.geolocation.getCurrentPosition(success, error, optionsWatchPosition);
-        }
 
     </script>
 
