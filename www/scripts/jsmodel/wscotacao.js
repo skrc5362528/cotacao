@@ -8,7 +8,7 @@
 
 //---------------------------------------------------------------------------//
 //-----------------------------Object Models--------------------------------//
-//--------------------------------------------------------------------------//
+//--------------------------------------------------------------------------//ultli
 
 
 
@@ -144,7 +144,7 @@ function UtlimoValorVO(COD_MOEDA,successFunc,errorFunc)
     var $res = '';
     jQuery.ajax({
         type: "POST",
-        url: "http://www.visional.com.br/cotacao.asmx/UtlimoValorVO",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/UtlimoValorVO",
         contentType: "application/json; charset=utf-8",
         async: false,
         cache: false,
@@ -162,7 +162,7 @@ function UtlimoValorVO(COD_MOEDA,successFunc,errorFunc)
                 successFunc(data);
             }
         },
-        error:function(){
+        error:function(data){
             if(errorFunc!=null)
 				errorFunc();
         }
@@ -186,7 +186,7 @@ function ValorPorData(COD_MOEDA,dia,mes,ano,successFunc,errorFunc)
     var $res = '';
     jQuery.ajax({
         type: "POST",
-        url: "http://www.visional.com.br/cotacao.asmx/ValorPorData",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/ValorPorData",
         contentType: "application/json; charset=utf-8",
         async: false,
         cache: false,
@@ -231,7 +231,7 @@ function ValoresSerieVO(COD_MOEDA,diaIni,mesIni,anoIni,diaFim,mesFim,anoFim,succ
     var $res = '';
     jQuery.ajax({
         type: "POST",
-        url: "http://www.visional.com.br/cotacao.asmx/ValoresSerieVO",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/ValoresSerieVO",
         contentType: "application/json; charset=utf-8",
         async: false,
         cache: false,
