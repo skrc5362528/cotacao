@@ -28,20 +28,13 @@ function BuscaValores() {
         ano = dt.getFullYear();
     }
     else {
-
-        //var dt = new Date(data);
-        //dia = dt.getDate();
-        //mes = (dt.getMonth() + 1);
-        //ano = dt.getFullYear();
-
         data = data.match(/\d+/g);
         dia = data[2];
         mes = data[1];
         ano = data[0];
         
     }
-    BuscaUltimoValorVO(moeda);
-    BuscaCotacaoMoeda(moeda, dia, mes, ano)
+
 
 
 
@@ -67,6 +60,10 @@ function CarregaUltimoVaorVO(data) {
     jQuery('#DIVCOTACAO').css('visibility', 'visible');
 }
 
+//function BuscaDadosMoeda(COD_MOEDA) {
+//    var data = jQuery.parseJSON(ListaSerieVO(COD_MOEDA, null, null));
+//    CarregaDadosMoeda(data.NOMEABREVIADOFIELD, data.UNIDADEPADRAOFIELD, data.FULLNAMEFIELD, data.NOMEABREVIADOFIELD, data.PERIODICIDADEFIELD);
+//}
 
 function CarregaDadosMoeda(NOMEABREVIADOFIELD, UNIDADEPADRAOFIELD, FULLNAMEFIELD, NOMEABREVIADOFIELD, PERIODICIDADEFIELD) {
 

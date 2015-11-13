@@ -1765,10 +1765,12 @@ table tr:hover td{
 @media (min-width:768px){
 	.contact-information{
 		padding-left:20px;	
+       
 	}
 }
 
 .contact-call{
+     font-size:15px;
 	color:#666;
 	height:25px;
 	display:block;
@@ -1781,6 +1783,7 @@ table tr:hover td{
 }
 
 .contact-text{
+     font-size:15px;
 	color:#666;
 	height:25px;
 	display:block;
@@ -1793,6 +1796,7 @@ table tr:hover td{
 }
 
 .contact-mail{
+     font-size:15px;
 	color:#666;
 	height:25px;
 	display:block;
@@ -1805,6 +1809,7 @@ table tr:hover td{
 }
 
 .contact-facebook{
+     font-size:15px;
 	color:#666;
 	height:25px;
 	display:block;
@@ -1817,12 +1822,14 @@ table tr:hover td{
 }
 
 .contact-twitter{
+     font-size:15px;
 	color:#666;
 	height:25px;
 	display:block;
 }
 
 .contact-twitter i{
+     font-size:15px;
 	width:12px;
 	diplay:block;
 	margin-right:20px;	
@@ -1832,24 +1839,24 @@ table tr:hover td{
 /*Maps*/
 /*////*/
 
-
+/*
 .maps-container{
 	display:block!important;
 	padding-bottom:0px;	
 	box-sizing:border-box;
-	/*max-height:150px;*/
+	max-height:150px;
     min-height:1000px;
     min-width:1000px;
 	overflow:hidden;
 	margin-bottom:30px;
 }
-
+/*
 .maps{
 	display:block!important;
 	width:100%;
 	overflow:hidden;
 }
-
+*/
 /*/////////*/
 /*Blog Post*/
 /*/////////*/

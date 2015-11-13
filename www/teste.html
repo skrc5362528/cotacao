@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Leaflet mobile example</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="styles/leaflet.css" rel="stylesheet" />
+    <script src="scripts/leaflet.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim" tabindex="0" style="position: relative;">
+
+    </div>
+
+    <script>
+        var map = L.map('map');
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            id: 'vitorcastro.cigoy6vp700eyusm1aljj8ifi',
+            accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
+        }).addTo(map);
+
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+            //L.marker(e.latlng).addTo(map);
+            L.circle(e.latlng, radius).addTo(map).bindPopup("Você está aqui!").openPopup();
+
+            CarregaEstabelecimentos();
+        }
+
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+
+        map.locate({ setView: true, maxZoom: 16 });
+
+        function CarregaEstabelecimentos() {
+
+        }
+
+
+
+        document.addEventListener("deviceready", onDeviceReady, false);
+        var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+
+
+        function success(pos) {
+
+            var crd = pos.coords;
+
+            localStorage.setItem('latitude', crd.latitude);
+            localStorage.setItem('longitude', crd.longitude);
+        };
+
+        function error(err) {
+            alert('ERROR(' + err.code + '): ' + err.message);
+        };
+
+        function onDeviceReady() {
+            navigator.geolocation.watchPosition(onLocationFound, error, optionsWatchPosition);
+            //navigator.geolocation.getCurrentPosition(success, error, optionsWatchPosition);
+        }
+
+    </script>
+
+
+</body>
+</html>
