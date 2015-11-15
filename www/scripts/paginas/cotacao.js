@@ -49,8 +49,16 @@ function BuscaValores() {
 
 function BuscaUltimoValorVO(moeda) {
 
-    var data = jQuery.parseJSON(UtlimoValorVO(moeda, null, null));
+    var data = UtlimoValorVO(moeda, null, null)
+    if (data != '')
+    {
+    data = jQuery.parseJSON(data);
     CarregaUltimoVaorVO(data);
+}
+    else {
+        alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS');
+    }
+
 }
 
 function CarregaUltimoVaorVO(data) {
@@ -80,8 +88,15 @@ function CarregaDadosMoeda(NOMEABREVIADOFIELD, UNIDADEPADRAOFIELD, FULLNAMEFIELD
 
 function BuscaCotacaoMoeda(moeda, dia, mes, ano) {
 
-    var valor = jQuery.parseJSON(ValorPorData(moeda, dia, mes, ano, null, null));
-    CarregaCotacaoMoeda(valor, dia, mes, ano);
+    var data = ValorPorData(moeda, dia, mes, ano, null, null);
+    if (data != '') {
+        data = jQuery.parseJSON(data);
+        CarregaCotacaoMoeda(valor, dia, mes, ano);
+    }
+    else {
+        alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS');
+    }
+
 
 }
 
