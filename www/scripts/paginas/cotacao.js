@@ -14,7 +14,7 @@ function MontaSelect(CODIGO, NOME) {
 function BuscaValores() {
 
     var moeda = jQuery('#MOEDA').val();
-    var data = jQuery('#DATA_COTACAO').val();
+    var data = '';
 
     var ret = true;
     var dia = '';
@@ -34,10 +34,10 @@ function BuscaValores() {
         //mes = (dt.getMonth() + 1);
         //ano = dt.getFullYear();
 
-        data = data.match(/\d+/g);
-        dia = data[2];
-        mes = data[1];
-        ano = data[0];
+        //data = data.match(/\d+/g);
+        //dia = data[2];
+        //mes = data[1];
+        //ano = data[0];
         
     }
     BuscaUltimoValorVO(moeda);
@@ -49,8 +49,16 @@ function BuscaValores() {
 
 function BuscaUltimoValorVO(moeda) {
 
-    var data = jQuery.parseJSON(UtlimoValorVO(moeda, null, null));
+    var data = UtlimoValorVO(moeda, null, null)
+    if (data != '')
+    {
+    data = jQuery.parseJSON(data);
     CarregaUltimoVaorVO(data);
+}
+    else {
+        alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS');
+    }
+
 }
 
 function CarregaUltimoVaorVO(data) {
@@ -80,8 +88,15 @@ function CarregaDadosMoeda(NOMEABREVIADOFIELD, UNIDADEPADRAOFIELD, FULLNAMEFIELD
 
 function BuscaCotacaoMoeda(moeda, dia, mes, ano) {
 
-    var valor = jQuery.parseJSON(ValorPorData(moeda, dia, mes, ano, null, null));
-    CarregaCotacaoMoeda(valor, dia, mes, ano);
+    var data = ValorPorData(moeda, dia, mes, ano, null, null);
+    if (data != '') {
+        data = jQuery.parseJSON(data);
+        CarregaCotacaoMoeda(valor, dia, mes, ano);
+    }
+    else {
+        alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS');
+    }
+
 
 }
 

@@ -11,16 +11,19 @@
 </head>
 <body>
     <div id="content" class="page-content">
+        <script>
+             var ID_ESTABELECIMENTO = 'TESTE DE QUERYSTRING';
+        </script>
         <div class="header">
             <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
             <em>Casas de Cambio</em>
-            <a onclick="BuscarEstabelecimento(jQuery('#ESTABELECIMENTO').val());"><i class="fa fa-search"></i></a>
+            <a onclick="BuscarEstabelecimento('TESTE QUERY STRING APP IFRAME',jQuery('#MOEDA').val());"><i class="fa fa-search"></i></a>
         </div>
 
         <div class="header-clear"></div>
         <div class="decoration"></div>
         <div class="content">
-            <div class="container no-bottom">
+            <!--<div class="container no-bottom">
                 <div class="no-bottom">
                     <div>
                         <fieldset>
@@ -31,84 +34,94 @@
                         </fieldset>
                     </div>
                 </div>
+            </div>-->
+            <div class="container no-bottom">
+                <div class="no-bottom">
+                    <div>
+                        <fieldset>
+                            <div class="formFieldWrap">
+                                <h2>Moeda : </h2>
+                                <select name="" class="contactField" id="MOEDA" onchange="BuscarEstabelecimento('TESTE_QUERY_STRING_APP_IFRAME',this.value)"></select>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
             </div>
-            <div class="container">
+            <div id="DIVESTABELECIMENTO" class="container">
+                <!--<div class="static-notification">
+                    <div class="toggle-1">
+                        <div class="tab-content tab-content-1">
+                            <div class="one-half-responsive">
+                                <div class="static-notification">
+                                    <iframe id='FRMCONTATO' src="pg_contato.html?ID_ESTABELECIMENTO=" class='' height='260' weight='200' frameborder='0'></iframe>
+                                    <br />
+                                    <p>
+                                        <div class="one-third-responsive last-column full-bottom ">
+                                            <a class="button button-red" onclick="check(this,ID_ESTABELECIMENTO);"><i class="fa fa-square"></i></a>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <div class="static-notification">
                     <div class="toggle-1">
                         <div class="tab-content tab-content-1">
                             <div class="one-half-responsive">
                                 <div class="static-notification">
-                                    <h3>NOME DA CASA</h3>
+                                    <h3 id="RAZAO_SOCIAL">NOME DA CASA</h3>
                                     <p>
-                                        <img src="images/general-nature/1s.jpg" class="float-left" width="64" alt="img">
+                                        <a href="#" class="contact-call" id="FONE"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-call" id="CEP"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-call" id="CIDADE"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-call" id="BAIRRO"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-text" id="ENDERECO"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
+                                        <a href="#" class="contact-mail" id="EMAIL"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
+                                        <a href="#" class="contact-facebook" id="CNPJ"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
                                     </p>
+                                    <br />
                                     <p>
-                                        
-                                        <a href="#" class="contact-call"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
-                                        <a href="#" class="contact-text"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
-                                        <a href="#" class="contact-mail"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
-                                        <a href="#" class="contact-facebook"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
-                                        <a href="#" class="contact-twitter"><i class="fa fa-twitter"></i>Twitter: @iEnabled</a>
+                                        <div class="one-third-responsive last-column full-bottom ">
+                                            <a class="button button-red" onclick="check(this);"><i class="fa fa-square"></i></a>
+                                        </div>
                                     </p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                    <p>
-                    </p>
                 </div>
+                <br />
                 <div class="static-notification">
                     <div class="toggle-1">
                         <div class="tab-content tab-content-1">
                             <div class="one-half-responsive">
                                 <div class="static-notification">
-                                    <h3>NOME DA CASA</h3>
+                                    <h3 id="RAZAO_SOCIAL">NOME DA CASA</h3>
                                     <p>
-                                        <img src="images/general-nature/1s.jpg" class="float-left" width="64" alt="img">
+                                        <a href="#" class="contact-call" id="FONE"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-call" id="CEP"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-call" id="CIDADE"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-call" id="BAIRRO"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+                                        <a href="#" class="contact-text" id="ENDERECO"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
+                                        <a href="#" class="contact-mail" id="EMAIL"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
+                                        <a href="#" class="contact-facebook" id="CNPJ"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
                                     </p>
+                                    <br />
                                     <p>
-
-                                        <a href="#" class="contact-call"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
-                                        <a href="#" class="contact-text"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
-                                        <a href="#" class="contact-mail"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
-                                        <a href="#" class="contact-facebook"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
-                                        <a href="#" class="contact-twitter"><i class="fa fa-twitter"></i>Twitter: @iEnabled</a>
+                                        <div class="one-third-responsive last-column full-bottom ">
+                                            <a class="button button-red" onclick="check(this);"><i class="fa fa-square"></i></a>
+                                        </div>
                                     </p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                    <p>
-                    </p>
-                </div>
-                <div class="static-notification">
-                    <div class="toggle-1">
-                        <div class="tab-content tab-content-1">
-                            <div class="one-half-responsive">
-                                <div class="static-notification">
-                                    <h3>NOME DA CASA</h3>
-                                    <p>
-                                        <img src="images/general-nature/1s.jpg" class="float-left" width="64" alt="img">
-                                    </p>
-                                    <p>
-                                        <a href="#" class="contact-call"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
-                                        <a href="#" class="contact-text"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
-                                        <a href="#" class="contact-mail"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
-                                        <a href="#" class="contact-facebook"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
-                                        <a href="#" class="contact-twitter"><i class="fa fa-twitter"></i>Twitter: @iEnabled</a>
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                    </p>
-                </div>
+                </div>-->
             </div>
         </div>
+        <script src="scripts/paginas/estabelecimento.js"></script>
     </div>
 </body>
 

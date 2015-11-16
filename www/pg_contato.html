@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="styles/animate.css" rel="stylesheet" type="text/css">
+
+    <!--SCRIPTS BASICOS-->
+    <script src="scripts/jquery-2.1.4.js"></script>
+    <!--<script type="text/javascript" src="scripts/jquery.js"></script>-->
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
+    <script>
+
+        var DATA = '';
+
+        function PreencheSelect() {
+            var data = jQuery.parseJSON(ListaMoeda(null, null));
+            if (data.length > 0) {
+                jQuery.each(data, function () {
+                    MontaSelect(this.CODIGO, this.NOME);
+                });
+                jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
+            }
+        }
+
+        function MontaSelect(CODIGO, NOME) {
+            jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
+        }
+
+        function BuscaUltimoValorVO() {
+
+            var cotacao = DATA.ID_ESTABELECIMENTO;
+            var data = jQuery.parseJSON(UtlimoValorVO(jQuery('#MOEDA').val(), null, null));
+            CarregaUltimoVaorVO(data);
+        }
+
+        function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
+   
+        }
+        function CarregaUltimoVaorVO(data) {
+            jQuery('#VALOR').text('R$ ' + data.ultimoValor.svalor);
+            //jQuery('#DIVBUSCACOTACAO').css('visibility', 'visible');
+            //Query('#DIVCOTACAO').css('visibility', 'hidden');
+        }
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        jQuery(document).ready(function () {
+            DATA = getUrlVars();
+            if ( !DATA.hasOwnProperty('ID_MOEDA')) {
+                jQuery('#DIVCOTACAO').css('display', 'none');
+                CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, null);
+            }
+            else {
+                CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, DATA.ID_MOEDA);
+                jQuery('#DIVBUSCACOTACAO').css('display', 'none');
+            }
+        });
+    </script>
+</head>
+<body onload="PreencheSelect();">     
+    <strong id="NOME_ESTABELECIMENTO"></strong><br>
+    <a href="#" class="contact-text"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
+    <a href="#" class="contact-text"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
+    <a href="#" class="contact-text"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
+    <a href="#" class="contact-text"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
+    <a href="#" class="contact-text"><i class="fa fa-twitter"></i>Twitter: @iEnabled</a>
+    <div id="DIVBUSCACOTACAO">
+        <div href="#" class="contact-text">Moeda:</div>
+        <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>
+
+        <div href="#" class="contact-text">Cotação :</div>
+        <label class="contact-text" id="VALOR"></label>
+    </div>
+    <div id="DIVCOTACAO">
+        <div href="#" class="contact-text">Moeda:</div>
+        <label class="contact-text" id="LBLMOEDA" ></label>
+
+        <div href="#" class="contact-text">Cotação :</div>
+        <label class="contact-text" id="LBLVALOR"></label>
+    </div>
+</body>
+</html>
