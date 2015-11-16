@@ -14,7 +14,7 @@ function MontaSelect(CODIGO, NOME) {
 function BuscaValores() {
 
     var moeda = jQuery('#MOEDA').val();
-    var data = jQuery('#DATA_COTACAO').val();
+    var data = '';
 
     var ret = true;
     var dia = '';
@@ -34,10 +34,10 @@ function BuscaValores() {
         //mes = (dt.getMonth() + 1);
         //ano = dt.getFullYear();
 
-        data = data.match(/\d+/g);
-        dia = data[2];
-        mes = data[1];
-        ano = data[0];
+        //data = data.match(/\d+/g);
+        //dia = data[2];
+        //mes = data[1];
+        //ano = data[0];
         
     }
     BuscaUltimoValorVO(moeda);

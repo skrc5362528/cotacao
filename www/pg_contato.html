@@ -31,9 +31,11 @@
                 jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
             }
         }
+
         function MontaSelect(CODIGO, NOME) {
             jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
         }
+
         function BuscaUltimoValorVO() {
 
             var cotacao = DATA.ID_ESTABELECIMENTO;
@@ -41,9 +43,13 @@
             CarregaUltimoVaorVO(data);
         }
 
+        function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
+   
+        }
         function CarregaUltimoVaorVO(data) {
             jQuery('#VALOR').text('R$ ' + data.ultimoValor.svalor);
-            jQuery('#DIVCOTACAO').css('visibility', 'visible');
+            //jQuery('#DIVBUSCACOTACAO').css('visibility', 'visible');
+            //Query('#DIVCOTACAO').css('visibility', 'hidden');
         }
         function getUrlVars() {
             var vars = [], hash;
@@ -57,7 +63,14 @@
         }
         jQuery(document).ready(function () {
             DATA = getUrlVars();
-            jQuery("#NOME_ESTABELECIMENTO").text(DATA.ID_ESTABELECIMENTO);
+            if ( !DATA.hasOwnProperty('ID_MOEDA')) {
+                jQuery('#DIVCOTACAO').css('display', 'none');
+                CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, null);
+            }
+            else {
+                CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, DATA.ID_MOEDA);
+                jQuery('#DIVBUSCACOTACAO').css('display', 'none');
+            }
         });
     </script>
 </head>
@@ -68,11 +81,19 @@
     <a href="#" class="contact-text"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
     <a href="#" class="contact-text"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
     <a href="#" class="contact-text"><i class="fa fa-twitter"></i>Twitter: @iEnabled</a>
-    <div href="#" class="contact-text">Moeda:</div>
-    <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>
-    <div id="DIVCOTACAO">
+    <div id="DIVBUSCACOTACAO">
+        <div href="#" class="contact-text">Moeda:</div>
+        <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>
+
         <div href="#" class="contact-text">Cotação :</div>
         <label class="contact-text" id="VALOR"></label>
+    </div>
+    <div id="DIVCOTACAO">
+        <div href="#" class="contact-text">Moeda:</div>
+        <label class="contact-text" id="LBLMOEDA" ></label>
+
+        <div href="#" class="contact-text">Cotação :</div>
+        <label class="contact-text" id="LBLVALOR"></label>
     </div>
 </body>
 </html>
