@@ -1,6 +1,20 @@
-﻿function BuscarEstabelecimento(ESTABELECIMENTO, ID_MOEDA) {
+﻿function BuscarEstabelecimento(ID_MOEDA) {
+    var dt = new Date();
+    var DIA = dt.getDate();
+    var MES = (dt.getMonth() + 1);
+    var ANO = dt.getFullYear();
 
-    jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(ESTABELECIMENTO, ID_MOEDA));
+    function PreencheSelect() {
+        var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA,DIA,MES,ANO,null, null));
+        if (data.length > 0) {
+            jQuery.each(data, function () {
+                jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
+            });
+        }
+    }
+
+
+  
 
 }
 
@@ -30,25 +44,25 @@
 
 //}
 
-function CarregaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA) {
+function CarregaEstabelecimento(data) {
         var html = "<div class='static-notification'>" +
                     "<div class='toggle-1'>" +
                     "<div class='tab-content tab-content-1'>" +
                     "<div class='one-half-responsive'>" +
                     "<div class='static-notification'>  " +
-                    " <strong id='NOME_ESTABELECIMENTO'></strong><br>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: + 123 456 7890</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: + 123 456 7890</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: mail@doamin.com</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage: enabled.labs</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter: @iEnabled</a>" +
+                    " <strong id='NOME_ESTABELECIMENTO'>"+data.NOME_ESTABELECIMENTO+"</strong><br>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: " + data.NOME_ESTABELECIMENTO + "" +
+                    "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: +" + data.NOME_ESTABELECIMENTO + "</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: " + data.NOME_ESTABELECIMENTO + "</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage:" + data.NOME_ESTABELECIMENTO + "</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter:" + data.NOME_ESTABELECIMENTO + "</a>" +
                     "<div id='DIVCOTACAO'>" +
                     "<div href='#' class='contact-text'>Moeda:</div>" +
-                    "<label class='contact-text' id='LBLMOEDA' ></label>" +
+                    "<label class='contact-text' id='LBLMOEDA' >" + data.NOME_MOEDA + "</label>" +
                     "<div href='#' class='contact-text'>Cotação :</div>" +
-                    "<label class='contact-text' id='LBLVALOR'></label>" +
+                    "<label class='contact-text' id='LBLVALOR'>R$ " + data.VALOR_COTACAO + "</label>" +
                     "</div>" +
-                    "<a class='button button-red' id='" + ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
+                    "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
                     "</div>" +
                     "</div>" +
                     "</div>" +
@@ -60,7 +74,6 @@ function CarregaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA) {
 
 function check(obj) {
 
-    alert(obj.id);
     var id = obj.id;
 
     if (jQuery(obj).html() == '<i class="fa fa-square"></i>')
