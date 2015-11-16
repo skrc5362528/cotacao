@@ -5,29 +5,57 @@
 }
 
 
+//function CarregaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA) {
+
+//    var html = "  <div class='static-notification'>                                                                                                                " +
+//                "    <div class='toggle-1'>                                                                                                                         " +
+//                "        <div class='tab-content tab-content-1'>                                                                                                    " +
+//                "            <div class='one-half-responsive'>                                                                                                      " +
+//                "                <div class='static-notification'>                                                                                                  " +
+//                "                    <iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + ID_ESTABELECIMENTO + "&ID_MOEDA="+ID_MOEDA+"' class='' height='260' weight='200' frameborder='0'></iframe> " +
+//                //"                    <br />                                                                                                                         " +
+//                //"                    <p>                                                                                                                            " +
+//               // "                        <div class='one-third-responsive last-column full-bottom '>                                                                " +
+//                "                            <a class='button button-red' id='"+ ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>                " +
+//               // "                        </div>                                                                                                                     " +
+//               // "                    </p>                                                                                                                           " +
+//                "                </div>                                                                                                                             " +
+//                "            </div>                                                                                                                                 " +
+//                "        </div>                                                                                                                                     " +
+//                "    </div>                                                                                                                                         " +
+//                "</div>                                                                                                                                             " +
+//                "<br />";
+
+//    return html;
+
+//}
+
 function CarregaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA) {
-
-    var html = "  <div class='static-notification'>                                                                                                                " +
-                "    <div class='toggle-1'>                                                                                                                         " +
-                "        <div class='tab-content tab-content-1'>                                                                                                    " +
-                "            <div class='one-half-responsive'>                                                                                                      " +
-                "                <div class='static-notification'>                                                                                                  " +
-                "                    <iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + ID_ESTABELECIMENTO + "&ID_MOEDA="+ID_MOEDA+"' class='' height='260' weight='200' frameborder='0'></iframe> " +
-                //"                    <br />                                                                                                                         " +
-                //"                    <p>                                                                                                                            " +
-               // "                        <div class='one-third-responsive last-column full-bottom '>                                                                " +
-                "                            <a class='button button-red' id='"+ ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>                " +
-               // "                        </div>                                                                                                                     " +
-               // "                    </p>                                                                                                                           " +
-                "                </div>                                                                                                                             " +
-                "            </div>                                                                                                                                 " +
-                "        </div>                                                                                                                                     " +
-                "    </div>                                                                                                                                         " +
-                "</div>                                                                                                                                             " +
-                "<br />";
-
+        var html = "<div class='static-notification'>" +
+                    "<div class='toggle-1'>" +
+                    "<div class='tab-content tab-content-1'>" +
+                    "<div class='one-half-responsive'>" +
+                    "<div class='static-notification'>  " +
+                    " <strong id='NOME_ESTABELECIMENTO'></strong><br>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: + 123 456 7890</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: + 123 456 7890</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: mail@doamin.com</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage: enabled.labs</a>" +
+                    "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter: @iEnabled</a>" +
+                    "<div id='DIVCOTACAO'>" +
+                    "<div href='#' class='contact-text'>Moeda:</div>" +
+                    "<label class='contact-text' id='LBLMOEDA' ></label>" +
+                    "<div href='#' class='contact-text'>Cotação :</div>" +
+                    "<label class='contact-text' id='LBLVALOR'></label>" +
+                    "</div>" +
+                    "<a class='button button-red' id='" + ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "<br />";
     return html;
-
 }
 
 function check(obj) {
@@ -58,10 +86,10 @@ function PreencheSelect() {
         jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
     }
 }
+
 function MontaSelect(CODIGO, NOME) {
     jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
 }
-
 
 jQuery(document).ready(function () {
 
