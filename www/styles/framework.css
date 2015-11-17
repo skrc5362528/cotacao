@@ -38,6 +38,7 @@
 body {
 	margin: 0;
 	padding: 0;
+    background-color:#0489B1;
 }
 
 a:hover{
@@ -49,10 +50,18 @@ a:hover{
 	color: #000;
 }
 
-div, a, p, img, blockquote, form, fieldset, textarea, input, label, iframe, code, pre {
+div, a, p, img, blockquote, form, fieldset, textarea, label, iframe, code, pre {
 	display: block;
 	position:relative;
 	overflow:hidden;
+    
+}
+
+input select{
+    	display: block;
+	position:relative;
+	overflow:hidden;
+    border-radius:50px;
 }
 
 p {
@@ -1643,10 +1652,11 @@ table tr:hover td{
 /*Contact Form */
 
 .contactField{
-	background-color:rgba(255,255,255,0.4);
-	font-size:12px;
+	background-color:rgba(255,255,255,1);
+	font-size:15px;
 	color:#666;
 	border:solid 1px #cacaca;
+    border-radius: 10px;
 }
 
 .contactTextarea{
