@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: 'LilyUPC';
-    src: url('fonts/upcll.ttf') format('truetype');
+    src: url('../fonts/upcll.ttf') format('truetype');
 }
 /* CSS Document */
 
@@ -121,7 +121,7 @@
 }
 
 .header-logo{
-    font-family:'LilyUPC', sans-serif;
+    font-family:LilyUPC, sans-serif;
   	color:#FFFFFF;
 	display:block;
 	text-align:center;
