@@ -1,114 +1,211 @@
-﻿function PreencheSelect() {
-    var data = jQuery.parseJSON(ListaMoeda(null, null));
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            MontaSelect(this.CODIGO, this.NOME);
+﻿
+
+function PreencheSelect()
+{
+    var ret = true;
+
+    var url = 'http://www.visional.com.br/wscotacao/cotacao.asmx/ListaMoeda';
+
+    jQuery.ajax({
+        url: url,
+        //data: {format: 'json'},
+        async: false,
+        type: 'GET',
+        dataType: 'xml',
+        success: function (xml) {
+            CarregaMoeda(xml);
+
+        },
+        error: function (xml) {
+            //alert(xml.statusText);
+            ret = false;
+        }
+    });
+
+    return ret;
+}
+
+
+
+
+function PreencheMapa() {
+
+
+
+    jQuery.getJSON("http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes.json'", 
+        function (data) {
+        var items = [];
+        jQuery.each(data, function (key, val) {
+            items.push("<li id='" + key + "'>" + val + "</li>");
         });
-    }
+
+            jQuery("<ul/>", {
+            "class": "my-new-list",
+            html: items.join("")
+        }).appendTo("body");
+    });
+
+
+
+    var ret = true;
+
+    var url = 'http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes.json';
+
+    jQuery.ajax({
+        url: url,
+        //data: {format: 'json'},
+        contentType:"application/json; charset=utf-8",
+        async: false,
+        type: 'GET',
+        dataType: 'json',
+        data:'',
+        success: function (data) {
+            ret = data; 
+           
+            //CarregaMoeda(xml);
+
+        },
+        error: function (data) {
+            //alert(xml.statusText);
+            ret = false;
+        }
+    });
+
+    return ret;
+
+
+    
 }
 
-function MontaSelect(CODIGO, NOME) {
-    jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
-}
+function CarregaMoeda(xml) {
 
+
+    jQuery(xml).find('MOEDA').each(function () {
+
+        var CODIGO = jQuery(this).find('CODIGO').text();
+        var NOME = jQuery(this).find('NOME').text();
+   
+        jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
+
+    });
+}
+ 
 function BuscaValores() {
 
     var moeda = jQuery('#MOEDA').val();
-    var data = '';
+    var data = jQuery('#DATA_COTACAO').val();
+
+
+    BuscaDadosMoeda(moeda);
+    BuscaCotacaoMoeda(moeda, data);
+ 
+}
+
+function BuscaDadosMoeda(moeda){
+
+    var ret = true;
+
+    var url = 'http://www.visional.com.br/wscotacao/cotacao.asmx/ListaSerieVO?COD_MOEDA=' + moeda + '';
+
+    jQuery.ajax({
+        url: url,
+        //data: {format: 'json'},
+        async: false,
+        type: 'GET',
+        dataType: 'xml',
+        success: function (xml) {
+            CarregaDadosMoeda(xml);
+
+        },
+        error: function (xml) {
+            alert("ERRO");
+            ret = false;
+        }
+    });
+
+    return ret;
+}
+
+function CarregaDadosMoeda(xml) {
+
+    jQuery(xml).find('SERIE_VO').each(function () {
+
+        jQuery('#NOMEABREVIADOFIELD').text(jQuery(this).find('NOMEABREVIADOFIELD').text());
+        jQuery('#UNIDADEPADRAOFIELD').text(jQuery(this).find('UNIDADEPADRAOFIELD').text());
+        jQuery('#FULLNAMEFIELD').text( jQuery(this).find('FULLNAMEFIELD').text());
+        jQuery('#NOMEABREVIADOFIELD').text(jQuery(this).find('NOMEABREVIADOFIELD').text());
+        jQuery('#PERIODICIDADEFIELD').text(jQuery(this).find('PERIODICIDADEFIELD').text());
+    });
+}
+
+function BuscaCotacaoMoeda(moeda, data) {
+
 
     var ret = true;
     var dia = '';
     var mes = '';
     var ano = '';
 
-    if (data == '') {
+    
+   
+    if (data == '')
+    {
         var dt = new Date();
-        dia = dt.getDate();
-        mes = (dt.getMonth() + 1);
+        dia =dt.getDate();
+        mes = (dt.getMonth()+1);
         ano = dt.getFullYear();
     }
-    else {
-
-        //var dt = new Date(data);
-        //dia = dt.getDate();
-        //mes = (dt.getMonth() + 1);
-        //ano = dt.getFullYear();
-
-        //data = data.match(/\d+/g);
-        //dia = data[2];
-        //mes = data[1];
-        //ano = data[0];
-        
-    }
-    BuscaUltimoValorVO(moeda);
-    BuscaCotacaoMoeda(moeda, dia, mes, ano)
-
-
-
-}
-
-function BuscaUltimoValorVO(moeda) {
-
-    var data = UtlimoValorVO(moeda, null, null)
-    if (data != '')
+    else
     {
-    data = jQuery.parseJSON(data);
-    CarregaUltimoVaorVO(data);
-}
-    else {
-        alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS');
+        data = data.match(/\d+/g);
+        mes = data[1];
+        ano = data[0];
+        dia = data[2];
     }
+    
+  
+    var url = 'http://www.visional.com.br/wscotacao/cotacao.asmx/ListaValorCotacao?COD_MOEDA='+moeda+'&dia='+dia+'&mes='+mes+'&ano='+ano+'';
+
+    jQuery.ajax({
+        url: url,
+        //data: {format: 'json'},
+        async: false,
+        type: 'GET',
+        dataType: 'xml',
+        success: function (xml) {
+            CarregaCotacaoMoeda(xml);
+
+        },
+        error: function () {
+            alert("ERRO");
+            ret = false;
+        }
+    });
+
+    return ret;
 
 }
 
-function CarregaUltimoVaorVO(data) {
+function CarregaCotacaoMoeda(xml) {
 
-    jQuery('#NOMEABREVIADOFIELD').text(data.nomeAbreviado);
-    jQuery('#UNIDADEPADRAOFIELD').text(data.unidadePadrao);
-    jQuery('#FULLNAMEFIELD').text(data.fullName);
-    jQuery('#NOMEABREVIADOFIELD').text(data.nomeAbreviado);
-    jQuery('#PERIODICIDADEFIELD').text(data.periodicidade);
+    if (jQuery(xml).find('VALOR_SERIE_VO').length > 0)
+    {
+        jQuery(xml).find('VALOR_SERIE_VO').each(function ()
+        {
 
-    jQuery('#DATACOTACAO').text(data.ultimoValor.dia + '/' + data.ultimoValor.mes + '/' + data.ultimoValor.ano);
-    jQuery('#SVALORFIELD ').text('R$ ' + data.ultimoValor.svalor);
+            var dia =  jQuery(this).find('DIAFIELD').text();
+            var mes = jQuery(this).find('MESFIELD').text();
+            var ano = jQuery(this).find('ANOFIELD').text()
+            jQuery('#DATACOTACAO').text(dia + '/' + mes + '/' + ano);
+            jQuery('#SVALORFIELD ').text('R$ '+jQuery(this).find('SVALORFIELD').text());
 
-    jQuery('#DIVCOTACAO').css('visibility', 'visible');
-}
+       });
 
-
-function CarregaDadosMoeda(NOMEABREVIADOFIELD, UNIDADEPADRAOFIELD, FULLNAMEFIELD, NOMEABREVIADOFIELD, PERIODICIDADEFIELD) {
-
-    jQuery('#NOMEABREVIADOFIELD').val(NOMEABREVIADOFIELD);
-    jQuery('#UNIDADEPADRAOFIELD').val(UNIDADEPADRAOFIELD);
-    jQuery('#FULLNAMEFIELD').val(FULLNAMEFIELD);
-    jQuery('#NOMEABREVIADOFIELD').val(NOMEABREVIADOFIELD);
-    jQuery('#PERIODICIDADEFIELD').val(PERIODICIDADEFIELD);
-
-}
-
-function BuscaCotacaoMoeda(moeda, dia, mes, ano) {
-
-    var data = ValorPorData(moeda, dia, mes, ano, null, null);
-    if (data != '') {
-        data = jQuery.parseJSON(data);
-        CarregaCotacaoMoeda(valor, dia, mes, ano);
+        jQuery('#DIVCOTACAO').css('visibility', 'visible');
     }
-    else {
-        alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS');
-    }
-
-
-}
-
-function CarregaCotacaoMoeda(valor, dia, mes, ano) {
-
-    if (valor != null) {
-        jQuery('#SVALORFIELD ').text('R$ ' + valor);
-        jQuery('#DATACOTACAO').text(dia + '/' + mes + '/' + ano);
-    }
-    else {
+    else
+    {
         alert('OS VALORES PARA ESTA DATA NÃO ESTÃO DISPONÍVEIS'); //MESAGEM DE alerta
     }
-    jQuery('#DIVCOTACAO').css('visibility', 'visible');
 
 }

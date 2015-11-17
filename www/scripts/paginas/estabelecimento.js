@@ -5,7 +5,7 @@
     var ANO = dt.getFullYear();
 
     function PreencheSelect() {
-        var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA,DIA,MES,ANO,null, null));
+        var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
         if (data.length > 0) {
             jQuery.each(data, function () {
                 jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
@@ -14,7 +14,7 @@
     }
 
 
-  
+
 
 }
 
@@ -45,30 +45,30 @@
 //}
 
 function CarregaEstabelecimento(data) {
-        var html = "<div class='static-notification'>" +
-                    "<div class='toggle-1'>" +
-                    "<div class='tab-content tab-content-1'>" +
-                    "<div class='one-half-responsive'>" +
-                    "<div class='static-notification'>  " +
-                    " <strong id='NOME_ESTABELECIMENTO'>"+data.NOME_ESTABELECIMENTO+"</strong><br>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: " + data.NOME_ESTABELECIMENTO + "" +
-                    "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: +" + data.NOME_ESTABELECIMENTO + "</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: " + data.NOME_ESTABELECIMENTO + "</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage:" + data.NOME_ESTABELECIMENTO + "</a>" +
-                    "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter:" + data.NOME_ESTABELECIMENTO + "</a>" +
-                    "<div id='DIVCOTACAO'>" +
-                    "<div href='#' class='contact-text'>Moeda:</div>" +
-                    "<label class='contact-text' id='LBLMOEDA' >" + data.NOME_MOEDA + "</label>" +
-                    "<div href='#' class='contact-text'>Cotação :</div>" +
-                    "<label class='contact-text' id='LBLVALOR'>R$ " + data.VALOR_COTACAO + "</label>" +
-                    "</div>" +
-                    "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "<br />";
+    var html = "<div class='static-notification'>" +
+                "<div class='toggle-1'>" +
+                "<div class='tab-content tab-content-1'>" +
+                "<div class='one-half-responsive'>" +
+                "<div class='static-notification'>  " +
+                " <strong id='NOME_ESTABELECIMENTO'>" + data.NOME_ESTABELECIMENTO + "</strong><br>" +
+                "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: " + data.NOME_ESTABELECIMENTO + "" +
+                "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: +" + data.NOME_ESTABELECIMENTO + "</a>" +
+                "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: " + data.NOME_ESTABELECIMENTO + "</a>" +
+                "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage:" + data.NOME_ESTABELECIMENTO + "</a>" +
+                "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter:" + data.NOME_ESTABELECIMENTO + "</a>" +
+                "<div id='DIVCOTACAO'>" +
+                "<div href='#' class='contact-text'>Moeda:</div>" +
+                "<label class='contact-text' id='LBLMOEDA' >" + data.NOME_MOEDA + "</label>" +
+                "<div href='#' class='contact-text'>Cotação :</div>" +
+                "<label class='contact-text' id='LBLVALOR'>R$ " + data.VALOR_COTACAO + "</label>" +
+                "</div>" +
+                "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "<br />";
     return html;
 }
 
@@ -76,8 +76,7 @@ function check(obj) {
 
     var id = obj.id;
 
-    if (jQuery(obj).html() == '<i class="fa fa-square"></i>')
-    { 
+    if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
         jQuery(obj).html('<i class="fa fa-check-square"></i>');
         jQuery(obj).removeClass('button button-red');
         jQuery(obj).addClass('button button-green');
@@ -106,6 +105,41 @@ function MontaSelect(CODIGO, NOME) {
 
 jQuery(document).ready(function () {
 
-    PreencheSelect();
+    PreencheSelectSuaMoeda();
+    PreencheSelectMoedaProcura();
+    PreencheTransacaoProcura();
 
 });
+
+
+function PreencheSelectSuaMoeda() {
+    var data = MOEDA;
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            jQuery('#SUA_MOEDA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+        });
+    }
+    jQuery('#SUA_MOEDA').append('<option value="" selected>Qual a sua moeda?</option>');
+}
+
+function PreencheSelectMoedaProcura() {
+    var data = MOEDA;
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            jQuery('#MOEDA_PROCURA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+        });
+    }
+    jQuery('#MOEDA_PROCURA').append('<option value="" selected>Que moeda você procura?</option>');
+
+}
+
+function PreencheTransacaoProcura() {
+    var data = TRANSACAO;
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            jQuery('#TRANSACAO').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+        });
+    }
+    jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
+
+}

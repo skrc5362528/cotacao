@@ -22,15 +22,19 @@
     <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="scripts/jquery.js"></script>
+
+    <!--SCRIPTS BASICOS-->
+    <script src="scripts/jquery-2.1.4.js"></script>
+    <!--<script type="text/javascript" src="scripts/jquery.js"></script>-->
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
-    <script src="scripts/Model/wsusuario.js"></script>
-    <script src="scripts/paginas/novousuario.js"></script>
+    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
+    <script src="scripts/paginas/registro.js"></script>
+    <script src="scripts/jsmodel/moedas.js"></script>
 
 </head>
-<body style="background-color: aqua">
+<body>
     <div id="preloader">
         <div id="status">
             <p class="center-text">
@@ -43,7 +47,7 @@
         <div class=" header">
             <div class=" header">
                 <a onclick="Voltar();"><i class="fa  fa-arrow-left"></i></a>
-                <em> Novo Cervejeiro </em>
+                <a class="header-logo">eXCHANGE</a>
                 <a onclick="GravaUsuario();"><i class="fa fa-check"></i></a>
             </div>
         </div>
@@ -64,32 +68,25 @@
                 <div class="no-bottom">
                     <div>
                         <fieldset>
-                            <div class="formFieldWrap">
-                                <label class="field-title contactNameField" for="contactNameField">Nome : </label>
-                                <input type="text" name="contactNameField" value="" class="contactField" id="NOME" required />
-                            </div>
-                            <div class="formFieldWrap">
-                                <label class="field-title contactNameField" for="contactNameField">Nome do Usuário : </label>
-                                <input type="text" name="contactNameField" value="" class="contactField" id="LOGIN" required />
-                            </div>
-                            <div class="formFieldWrap">
-                                <label class="field-title contactNameField" for="contactEmailField">E-mail : </label>
-                                <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" required />
-                            </div>
-                            <div class="formFieldWrap">
-                                <label class="field-title contactNameField" for="contactEmailField">Senha : </label>
-                                <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" required />
-                            </div>
-                            <div class="formFieldWrap">
-                                <label class="field-title contactNameField" for="contactEmailField">Confirme sua senha : </label>
-                                <input type="password" name="contactNameField" value="" class="contactField" id="CONFIRMA_SENHA" required />
-                            </div>
+                            <label class="input-label">Cadastro</label>
+
+                            <input type="text" name="contactNameField" value="" class="contactField" id="NOME" placeholder="Seu nome" required />
+
+                            <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
+
+                            <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
+
+                            <input type="password" name="contactNameField" value="" class="contactField" id="CONFIRMA_SENHA" placeholder="Confirme sua senha" required />
+
+                            <label class="input-label">Moeda base</label>
+
+                            <select name="" class="contactField" id="SUA_MOEDA"></select>
+
                         </fieldset>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="decoration"></div>
     </div>
 </body>
 </html>
