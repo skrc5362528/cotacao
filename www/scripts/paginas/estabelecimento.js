@@ -19,56 +19,60 @@
 }
 
 
-//function CarregaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA) {
-
-//    var html = "  <div class='static-notification'>                                                                                                                " +
-//                "    <div class='toggle-1'>                                                                                                                         " +
-//                "        <div class='tab-content tab-content-1'>                                                                                                    " +
-//                "            <div class='one-half-responsive'>                                                                                                      " +
-//                "                <div class='static-notification'>                                                                                                  " +
-//                "                    <iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + ID_ESTABELECIMENTO + "&ID_MOEDA="+ID_MOEDA+"' class='' height='260' weight='200' frameborder='0'></iframe> " +
-//                //"                    <br />                                                                                                                         " +
-//                //"                    <p>                                                                                                                            " +
-//               // "                        <div class='one-third-responsive last-column full-bottom '>                                                                " +
-//                "                            <a class='button button-red' id='"+ ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>                " +
-//               // "                        </div>                                                                                                                     " +
-//               // "                    </p>                                                                                                                           " +
-//                "                </div>                                                                                                                             " +
-//                "            </div>                                                                                                                                 " +
-//                "        </div>                                                                                                                                     " +
-//                "    </div>                                                                                                                                         " +
-//                "</div>                                                                                                                                             " +
-//                "<br />";
-
-//    return html;
-
-//}
-
 function CarregaEstabelecimento(data) {
-    var html = "<div class='static-notification'>" +
-                "<div class='toggle-1'>" +
-                "<div class='tab-content tab-content-1'>" +
-                "<div class='one-half-responsive'>" +
-                "<div class='static-notification'>  " +
-                " <strong id='NOME_ESTABELECIMENTO'>" + data.NOME_ESTABELECIMENTO + "</strong><br>" +
-                "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: " + data.NOME_ESTABELECIMENTO + "" +
-                "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: +" + data.NOME_ESTABELECIMENTO + "</a>" +
-                "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: " + data.NOME_ESTABELECIMENTO + "</a>" +
-                "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage:" + data.NOME_ESTABELECIMENTO + "</a>" +
-                "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter:" + data.NOME_ESTABELECIMENTO + "</a>" +
-                "<div id='DIVCOTACAO'>" +
-                "<div href='#' class='contact-text'>Moeda:</div>" +
-                "<label class='contact-text' id='LBLMOEDA' >" + data.NOME_MOEDA + "</label>" +
-                "<div href='#' class='contact-text'>Cotação :</div>" +
-                "<label class='contact-text' id='LBLVALOR'>R$ " + data.VALOR_COTACAO + "</label>" +
-                "</div>" +
-                "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "<br />";
+    //var html = "<div class='static-notification'>" +
+    //            "<div class='toggle-1'>" +
+    //            "<div class='tab-content tab-content-1'>" +
+    //            "<div class='one-half-responsive'>" +
+    //            "<div class='static-notification'>  " +
+    //            " <strong id='NOME_ESTABELECIMENTO'>" + data.NOME_ESTABELECIMENTO + "</strong><br>" +
+    //            "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: " + data.NOME_ESTABELECIMENTO + "" +
+    //            "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: +" + data.NOME_ESTABELECIMENTO + "</a>" +
+    //            "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: " + data.NOME_ESTABELECIMENTO + "</a>" +
+    //            "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage:" + data.NOME_ESTABELECIMENTO + "</a>" +
+    //            "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter:" + data.NOME_ESTABELECIMENTO + "</a>" +
+    //            "<div id='DIVCOTACAO'>" +
+    //            "<div href='#' class='contact-text'>Moeda:</div>" +
+    //            "<label class='contact-text' id='LBLMOEDA' >" + data.NOME_MOEDA + "</label>" +
+    //            "<div href='#' class='contact-text'>Cotação :</div>" +
+    //            "<label class='contact-text' id='LBLVALOR'>R$ " + data.VALOR_COTACAO + "</label>" +
+    //            "</div>" +
+    //            "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
+    //            "</div>" +
+    //            "</div>" +
+    //            "</div>" +
+    //            "</div>" +
+    //            "</div>" +
+    //            "<br />";
+    //return html;
+
+
+    var html = "<div class='big-notification static-notification-white'>" +
+    "<strong><label class='busca-text'>"+data.NOME_ESTABELECIMENTO+"</label></strong> " +
+    "<div class='one-half'>" +
+    "<label class='contact-text'> " + data.FONE + "</label>" +
+    "<label class='contact-text'>R$: " + data.VALOR_COTACAO + "</label>" +
+    "</div>" +
+    "<div class='two-half last-column'>" +
+    "<span class='span-stars'>" +
+    estrelas(numeroestrelas);+
+    "</span>" +
+    "<label class='contact-text'>0.6 km</label>" +
+    "</div>" +
+     "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' value='ver localizacao' onclick='check(this);'><i class='fa fa-square'></i></a>" +
+    "</div>";
+    return html;
+    }
+
+function estrelas(numeroestrelas) {
+    html = '';
+    for (var i = 0; i <= numeroestrelas; i++) {
+        htm += "<i class='fa fa-star'></i>";
+    }
+
+    for (var i = 0; i <= (5-numeroestrelas); i++) {
+        html += "<i class='fa fa-star-o'></i>";
+    }
     return html;
 }
 

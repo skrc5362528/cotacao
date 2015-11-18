@@ -13,8 +13,6 @@
     <link href="leaflet/leaflet.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
 
-
-
     <style>
         body {
             padding: 0;
@@ -32,8 +30,21 @@
     </div>
 
     <script>
-        var map = L.map('map');
+        var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+        navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 
+        function success(pos) {
+            var crd = pos.coords;
+            localStorage.setItem('latitude', crd.latitude);
+            localStorage.setItem('longitude', crd.longitude);
+        };
+        function error(err) {
+            alert('ERROR(' + err.code + '): ' + err.message);
+        };
+
+        //==============================================================================================================================//
+
+        var map = L.map('map');
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -58,7 +69,6 @@
 
         map.on('locationfound', onLocationFound);
         map.on('locationerror', onLocationError);
-
         map.locate({ setView: true, maxZoom: 16 });
 
         function CarregaEstabelecimentos() {
@@ -67,10 +77,7 @@
                 jQuery.each(data, function () {
                     L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup(MontaMapa(data));
                 });
-
             }
-
-
         }
 
         function MontaMapa(data) {

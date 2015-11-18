@@ -48,7 +48,7 @@ function ValidaEntrada() {
 }
 
 function Voltar() {
-    window.location.assign("login.html")
+    window.location.assign("inicio.html")
 }
 
 function ExibeMensagem(texto) {

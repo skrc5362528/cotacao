@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" media="screen and (max-device-width: 320px)" />
+    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
+    <link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+    <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+    <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png" media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />
+    <title>COTACAO</title>
+    <!--CSS DE ESTILOS-->
+
+	 <!--<script type="text/javascript" src="cordova.js"></script>-->
+	
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="styles/animate.css" rel="stylesheet" type="text/css">
+
+    <!--SCRIPTS BASICOS-->
+    <script src="scripts/jquery-2.1.4.js"></script>
+
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
+
+    
+    <!--SCRIPTS DE PÁGINAS-->
+    
+    <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
+    <script type="text/javascript" src="scripts/paginas/rss.js"></script>
+    <script type="text/javascript" src="scripts/paginas/cotacao.js"></script>
+    <script type="text/javascript" src="scripts/paginas/configrss.js"></script>
+
+
+
+
+</head>
+<body onload="PreparaSistema('mapa.html');">
+    <!--class="snapjs-left"-->
+    <div id="preloader" class="preloader">
+        <div id="status">
+            <!--<p class="center-text">
+                Carregando...
+                <em>O carregamento depende da sua conexão!</em>
+            </p>-->
+        </div>
+    </div>
+    <div class="all-elements">
+        <div id="sidebar" class="page-sidebar">
+            <div id="page_sidebar" class="page-sidebar-scroll">
+                <div class="sidebar-shortcuts">
+                    <!--<a onclick="CarregaMenu('mensagem.html')"><i class="fa fa-envelope-o"></i></a>
+                    <a onclick="CarregaMenu('favoritas.html')"><i class="fa fa-star-o"></i></a>
+                    <a onclick="CarregaMenu('amigos.html')"><i class="fa fa-users"></i></a>
+                    <a onclick="CarregaMenu('buscaramigos.html')"><i class="fa fa-search-plus"></i></a>-->
+                    <!--<a class="close-nav" href="#"><i class="fa fa-times"></i></a>-->
+                </div>
+                <div class="sidebar-logo">
+                    <img src="img/LOGO_eXCHANGE_BRANCO.png" width="128" height="70" />
+                </div>
+                <!--<div class="navigation-item">
+                    <a onclick="PreencheMapa()" class="nav-item">
+                        <i class="fa fa-navicon"></i>
+                        MENU
+                        <i class="fa"></i>
+                    </a>
+                </div>-->
+                <div class="navigation-item">
+                    <a onclick="CarregaMenu('mapa.html')" class="nav-item">
+                        <i class="fa fa-map-marker"></i>
+                        Mapa
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <!--<div class="sidebar-decoration"></div>-->
+                <div class="navigation-item">
+                    <a onclick="CarregaMenu('estabelecimento.html')" class="nav-item">
+                        <i class="fa fa-search"></i>
+                        Busca
+                        <i class="fa" ></i>
+                    </a>
+                </div>
+                <!--<div class="sidebar-decoration"></div>-->
+                <div class="navigation-item">
+                    <a onclick="CarregaMenu('perfil.html')" class="nav-item">
+                        <i class="fa fa-user"></i>
+                        Meus Dados
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <!--<div class="sidebar-decoration"></div>-->
+                <div class="navigation-item">
+                    <a onclick="CarregaMenu('endereco.html')" class="nav-item">
+                        <i class="fa fa-building"></i>
+                        Endereço
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <!--<div class="sidebar-decoration"></div>-->
+                <div class="navigation-item">
+                    <a onclick="CarregaMenu('historico.html')" class="nav-item">
+                        <i class="fa fa-clock-o"></i>
+                        Histórico
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <!--<div class="sidebar-decoration"></div>-->
+                <div class="navigation-item">
+                    <a href="#" class="close-nav nav-item">
+                        <i class="fa fa-area-chart"></i>
+                        Avaliações
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <div class="sidebar-breadcrumb">
+                <br />
+                <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="navigation-item">
+                    <a href="#" class="close-nav nav-item">
+                        <i class="fa fa-cog"></i>
+                        Opções
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <div class="navigation-item">
+                    <a href="#" class="close-nav nav-item">
+                        <i class="fa fa-envelope"></i>
+                        Fale Conosco
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <div class="navigation-item">
+                    <a href="#" class="close-nav nav-item">
+                        <i class="fa fa-sign-out"></i>
+                        Sair
+                        <i class="fa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="maincontent">
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

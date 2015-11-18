@@ -9,11 +9,11 @@ function GravaUsuario() {
         var SENHA = jQuery('#SENHA').val();
         var DATA_CADASTRO = new Date().getDate + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();
         var ATIVO = true;
-        var val = ValidaUsuario(EMAIL);
+        var val = jQuery.parseJSON(ValidaUsuario(EMAIL));
 
-
-       var usu = InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADASTRO, EMAIL, ATIVO, successFunc, errorFunc);
-
+        if (val == null) {
+            var usu = InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADASTRO, EMAIL, ATIVO, successFunc, errorFunc);
+        }
         //var usu = InsereUsuario(SENHA, NOME, LOGIN, EMAIL, null, null)
 
         if (usu != null) {
