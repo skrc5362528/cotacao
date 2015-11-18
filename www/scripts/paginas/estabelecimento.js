@@ -4,18 +4,12 @@
     var MES = (dt.getMonth() + 1);
     var ANO = dt.getFullYear();
 
-    function PreencheSelect() {
-        var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
-        if (data.length > 0) {
-            jQuery.each(data, function () {
-                jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
-            });
-        }
+    var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
+        });
     }
-
-
-
-
 }
 
 
@@ -48,21 +42,21 @@ function CarregaEstabelecimento(data) {
 
 
     var html = "<div class='big-notification static-notification-white'>" +
-    "<strong><label class='busca-text'>"+data.NOME_ESTABELECIMENTO+"</label></strong> " +
+    "<strong><label class='busca-text'>" + data.NOME_ESTABELECIMENTO + "</label></strong> " +
     "<div class='one-half'>" +
     "<label class='contact-text'> " + data.FONE + "</label>" +
     "<label class='contact-text'>R$: " + data.VALOR_COTACAO + "</label>" +
     "</div>" +
     "<div class='two-half last-column'>" +
     "<span class='span-stars'>" +
-    estrelas(numeroestrelas);+
+    estrelas(numeroestrelas); +
     "</span>" +
     "<label class='contact-text'>0.6 km</label>" +
     "</div>" +
      "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' value='ver localizacao' onclick='check(this);'><i class='fa fa-square'></i></a>" +
     "</div>";
     return html;
-    }
+}
 
 function estrelas(numeroestrelas) {
     html = '';
@@ -70,7 +64,7 @@ function estrelas(numeroestrelas) {
         htm += "<i class='fa fa-star'></i>";
     }
 
-    for (var i = 0; i <= (5-numeroestrelas); i++) {
+    for (var i = 0; i <= (5 - numeroestrelas) ; i++) {
         html += "<i class='fa fa-star-o'></i>";
     }
     return html;
