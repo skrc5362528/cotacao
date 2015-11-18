@@ -7,11 +7,11 @@ function GravaUsuario() {
         var EMAIL = jQuery('#EMAIL').val();
         var SENHA = jQuery('#SENHA').val();
 
-        var val = ValidaUsuario(EMAIL);
-
-        //var usu = InsereUsuario(SENHA, NOME, LOGIN, EMAIL, null, null)
-
-        if (usu != null) {
+        var val = jQuery.parseJSON(ValidaUsuario(EMAIL, null, null));
+        if (val == null) {
+            var usu = InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, null)
+        }
+        if (usu != '') {
             CarregaUSUARIO(usu);
         }
         else {
@@ -25,7 +25,7 @@ function GravaUsuario() {
 
 function ValidaEntrada() {
 
-    var res = 'Teste de valores';
+    var res = '';
     if (jQuery('#NOME').val() == '') {
         res = 'NOME OBRIGATÓRIO';
     }
@@ -53,7 +53,6 @@ function Voltar() {
 
 function ExibeMensagem(texto) {
 
-
     navigator.notification.alert(
     texto,                  // message
     alertDismissed,         // callback
@@ -66,15 +65,17 @@ function ExibeMensagem(texto) {
     //navigator.notifivation.alert("texto");
 }
 
+
 function CarregaUSUARIO(data) {
 
     if (data.ID_USUARIO == '') {
         return false;
     }
     else {
-        localStorage.setItem("USUARIO", data);
+        localStorage.setItem("USUARIO", JSON.stringify(data));
     }
 }
+
 
 function PreencheSelectSuaMoeda() {
     var data = MOEDA;

@@ -1,20 +1,37 @@
 ﻿
+
+function CarregaLogin() {
+
+
+
+        var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+        if (usu != null) {
+            jQuery('#EMAIL').val(usu.EMAIL);
+            jQuery('#SENHA').val(usu.SENHA);
+        }
+
+ 
+
+}
+
+
+
 function BuscaLogin() {
 
-    //if (jQuery('#EMAIL').val() != '' && jQuery('#SENHA').val() != '') {
-    //    var NOME_USUARIO = jQuery('#EMAIL').val();
-    //    var SENHA = jQuery('#SENHA').val();
-    //    var usu = Login(NOME_USUARIO, SENHA, null, null);
-    //    if (usu.ID_USUARIO != '') {
-    //        CarregaUSUARIO(usu);
-    //        window.location.assign("master.html");
-    //    }
-    //    else {
-    //        ExibeMensagem("Usuário ou senha inválidos");
-    //    }
-    //}
+    if (jQuery('#EMAIL').val() != '' && jQuery('#SENHA').val() != '') {
+        var EMAIL = jQuery('#EMAIL').val();
+        var SENHA = jQuery('#SENHA').val();
+        var usu = jQuery.parseJSON(Login(EMAIL, SENHA, null, null));
+        if (usu != null) {
+            CarregaUSUARIO(usu);
+            window.location.assign("index.html");
+        }
+        else {
+            ExibeMensagem("Usuário ou senha inválidos");
+        }
+    }
 
-    window.location.assign("index.html");
+  //  window.location.assign("index.html");
 
 }
 
@@ -39,7 +56,26 @@ function Registrar() {
     window.location.assign("registro.html")
 }
 
+//function ExibeMensagem(texto) {
+//    jQuery('#mensagem').css('display', 'block');
+//    jQuery('#txtmsg').text(texto);
+//}
+
+
 function ExibeMensagem(texto) {
-    jQuery('#mensagem').css('display', 'block');
-    jQuery('#txtmsg').text(texto);
+
+    navigator.notification.alert(
+    texto,                  // message
+    alertDismissed,         // callback
+    'Alerta',            // title
+    'Ok'                  // buttonName
+);
+
+    //jQuery('#mensagem').css('display', 'block');
+    //jQuery('#txtmsg').text(texto);
+    //navigator.notifivation.alert("texto");
+
+
+
+    
 }

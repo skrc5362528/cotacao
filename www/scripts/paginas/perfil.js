@@ -93,7 +93,8 @@ function PreencheSelectSuaMoeda() {
 
 jQuery(document).ready(function () {
 
-    PreencheSelectSuaMoeda();
+    CarregaPerfil();
+    //PreencheSelectSuaMoeda();
 
 });
 
@@ -102,7 +103,7 @@ function CarregaPerfil() {
     var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
 
     jQuery('#NOME').val(usu.NOME);
-    jQuery('#LOGIN').val(usu.LOGIN);
+    //jQuery('#LOGIN').val(usu.LOGIN);
     jQuery('#EMAIL').val(usu.EMAIL);
     jQuery('#SENHA').val(usu.SENHA);
     jQuery('#CONFIRMA_SENHA').val(usu.CONFIRMA_SENHA);
