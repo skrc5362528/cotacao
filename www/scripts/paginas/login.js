@@ -1,24 +1,18 @@
 ﻿
 
 function CarregaLogin() {
-
-
-
         var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
         if (usu != null) {
             jQuery('#EMAIL').val(usu.EMAIL);
             jQuery('#SENHA').val(usu.SENHA);
         }
-
- 
-
 }
 
 
 
 function BuscaLogin() {
 
-    if (jQuery('#EMAIL').val() != '' && jQuery('#SENHA').val() != '') {
+    if (jQuery('#EMAIL').val() != ''|| jQuery('#SENHA').val() != '') {
         var EMAIL = jQuery('#EMAIL').val();
         var SENHA = jQuery('#SENHA').val();
         var usu = jQuery.parseJSON(Login(EMAIL, SENHA, null, null));
@@ -29,10 +23,9 @@ function BuscaLogin() {
         else {
             ExibeMensagem("Usuário ou senha inválidos");
         }
+    } else {
+        ExibeMensagem("Usuário ou senha vazios");
     }
-
-  //  window.location.assign("index.html");
-
 }
 
 function CarregaUSUARIO(data) {
@@ -64,18 +57,17 @@ function Registrar() {
 
 function ExibeMensagem(texto) {
 
-    navigator.notification.alert(
-    texto,                  // message
-    alertDismissed,         // callback
-    'Alerta',            // title
-    'Ok'                  // buttonName
-);
+
+    alert(texto);
+    //navigator.notification.alert(
+    //texto,                  // message
+    //alertDismissed,         // callback
+    //'Alerta',            // title
+    //'Ok'                  // buttonName
+//);
 
     //jQuery('#mensagem').css('display', 'block');
     //jQuery('#txtmsg').text(texto);
     //navigator.notifivation.alert("texto");
-
-
-
     
 }
