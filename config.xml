@@ -19,6 +19,8 @@
   <preference name="android-minSdkVersion" value="14"/>
   <preference name="android-installLocation" value="auto"/>
 
+  <platform name="ios|winphone|wp8|android" />
+  
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
   <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
@@ -73,7 +75,12 @@
     <allow-intent href="market:*"/>
   </platform>
 
-  <platform name="windows">
+  <platform name="winphone">
+    <preference name="phonegap-version" value="3.8.1" />
+    <preference name="orientation" value="portrait" />
+  </platform>
+
+  <platform name="wp8">
     <preference name="phonegap-version" value="3.8.1" />
     <preference name="orientation" value="portrait" />
   </platform>
