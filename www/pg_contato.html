@@ -45,11 +45,21 @@
         function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
    
         }
+
+
+        function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
+            var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO,null, null));
+            if (data.length > 0) {
+                jQuery.each(data, function () {
+                        MontaMapa(this);
+                });
+            }
+        }
+
         function CarregaUltimoVaorVO(data) {
             jQuery('#VALOR').text('R$ ' + data.ultimoValor.svalor);
-            //jQuery('#DIVBUSCACOTACAO').css('visibility', 'visible');
-            //Query('#DIVCOTACAO').css('visibility', 'hidden');
         }
+
         function getUrlVars() {
             var vars = [], hash;
             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -64,22 +74,32 @@
             DATA = getUrlVars();
             if ( !DATA.hasOwnProperty('ID_MOEDA')) {
                 jQuery('#DIVCOTACAO').css('display', 'none');
-                CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, null);
+                RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
             }
             else {
                 CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, DATA.ID_MOEDA);
                 jQuery('#DIVBUSCACOTACAO').css('display', 'none');
             }
         });
+
+        function MontaMapa(data)
+        {
+
+         var html=   "<p>" +
+            "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
+            "<a class='contact-call' href='#'><i class='fa fa-phone'></i>Phone:  "+ data.FONE +"</a>" +
+            "<a class='contact-text' href='#'><i class='fa fa-comments'></i>Message: + 123 456 7890</a>" +
+            "<a class='contact-mail' href='#'><i class='fa fa-envelope'></i>Email: " + data.EMAIL + "</a>" +
+            "</p>";
+
+         jQuery('#DIVINFO').html(html);
+        }
     </script>
 </head>
-<body onload="PreencheSelect();">     
-    <strong id="NOME_ESTABELECIMENTO"></strong><br>
-    <a href="#" class="contact-text"><i class="fa fa-phone"></i>Phone: + 123 456 7890</a>
-    <a href="#" class="contact-text"><i class="fa fa-comments"></i>Message: + 123 456 7890</a>
-    <a href="#" class="contact-text"><i class="fa fa-envelope"></i>Email: mail@doamin.com</a>
-    <a href="#" class="contact-text"><i class="fa fa-facebook"></i>Fanpage: enabled.labs</a>
-    <a href="#" class="contact-text"><i class="fa fa-twitter"></i>Twitter: @iEnabled</a>
+<body onload="PreencheSelect();" style="background-color:white;">     
+<div id="DIVINFO">
+
+</div>
     <div id="DIVBUSCACOTACAO">
         <div href="#" class="contact-text">Moeda:</div>
         <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>

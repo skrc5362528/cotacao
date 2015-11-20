@@ -1,59 +1,70 @@
-﻿function BuscarEstabelecimento(ID_MOEDA) {
+﻿
+function BuscarEstabelecimento(ID_MOEDA) {
     var dt = new Date();
     var DIA = dt.getDate();
     var MES = (dt.getMonth() + 1);
     var ANO = dt.getFullYear();
+    jQuery('#DIVESTABELECIMENTO').html('');
 
-    var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
+    var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
         });
     }
 }
+function verificaPosicao() {
+    var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+}
+
+function success(pos) {
+    var crd = pos.coords;
+
+    sessionStorage.setItem('lat',crd.latitude);
+    sessionStorage.setItem('long', crd.longitude);//alert(crd.longitude);
+}
+
+function error(err) {
+    alert('ERROR(' + err.code + '): ' + err.message);
+}
+
+function calculo(latPara, longPara) {
+
+    var km = d = GeoCodeCalc.CalcDistance(sessionStorage.getItem('lat'), sessionStorage.getItem('long'), latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
+    return (km / 1000).toString().substring(0,4);
+}
+
+
+
 
 
 function CarregaEstabelecimento(data) {
-    //var html = "<div class='static-notification'>" +
-    //            "<div class='toggle-1'>" +
-    //            "<div class='tab-content tab-content-1'>" +
-    //            "<div class='one-half-responsive'>" +
-    //            "<div class='static-notification'>  " +
-    //            " <strong id='NOME_ESTABELECIMENTO'>" + data.NOME_ESTABELECIMENTO + "</strong><br>" +
-    //            "<a href='#' class='contact-text'><i class='fa fa-phone'></i>Phone: " + data.NOME_ESTABELECIMENTO + "" +
-    //            "<a href='#' class='contact-text'><i class='fa fa-comments'></i>Message: +" + data.NOME_ESTABELECIMENTO + "</a>" +
-    //            "<a href='#' class='contact-text'><i class='fa fa-envelope'></i>Email: " + data.NOME_ESTABELECIMENTO + "</a>" +
-    //            "<a href='#' class='contact-text'><i class='fa fa-facebook'></i>Fanpage:" + data.NOME_ESTABELECIMENTO + "</a>" +
-    //            "<a href='#' class='contact-text'><i class='fa fa-twitter'></i>Twitter:" + data.NOME_ESTABELECIMENTO + "</a>" +
-    //            "<div id='DIVCOTACAO'>" +
-    //            "<div href='#' class='contact-text'>Moeda:</div>" +
-    //            "<label class='contact-text' id='LBLMOEDA' >" + data.NOME_MOEDA + "</label>" +
-    //            "<div href='#' class='contact-text'>Cotação :</div>" +
-    //            "<label class='contact-text' id='LBLVALOR'>R$ " + data.VALOR_COTACAO + "</label>" +
-    //            "</div>" +
-    //            "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' onclick='check(this);'><i class='fa fa-square'></i></a>" +
-    //            "</div>" +
-    //            "</div>" +
-    //            "</div>" +
-    //            "</div>" +
-    //            "</div>" +
-    //            "<br />";
-    //return html;
 
 
-    var html = "<div class='big-notification static-notification-white'>" +
-    "<strong><label class='busca-text'>" + data.NOME_ESTABELECIMENTO + "</label></strong> " +
+    var km = calculo(data.LATITUDE, data.LONGITUDE);
+
+    var html =
+    "<div onclic='alert('teste de escolha');' class='big-notification static-notification-white'>" +
+    "<strong><label class='busca-text'>" + data.NOME + "</label></strong> " +
     "<div class='one-half'>" +
     "<label class='contact-text'> " + data.FONE + "</label>" +
-    "<label class='contact-text'>R$: " + data.VALOR_COTACAO + "</label>" +
+    "<label class='contact-text'>R$: 10,00 </label>" +// + + data.VALOR_COTACAO + "</label>" +
     "</div>" +
     "<div class='two-half last-column'>" +
     "<span class='span-stars'>" +
-    estrelas(numeroestrelas); +
+    "<i class='fa fa-star'></i>"+
+    "<i class='fa fa-star'></i>"+
+    "<i class='fa fa-star'></i>"+
+    "<i class='fa fa-star'></i>"+
+    "<i class='fa fa-star-o'></i>"+
+    //estrelas(numeroestrelas); +
     "</span>" +
-    "<label class='contact-text'>0.6 km</label>" +
+    "<label class='contact-text'>Km " + km + "</label>" +
     "</div>" +
-     "<a class='button button-red' id='" + data.ID_ESTABELECIMENTO + "' value='ver localizacao' onclick='check(this);'><i class='fa fa-square'></i></a>" +
+     "<div class='two-half last-column'>" +
+     "<a  id='" + data.ID_ESTABELECIMENTO + "' value='ver localizacao' onclick='check(this);'></a>" +
+    "</div>"+
     "</div>";
     return html;
 }
@@ -101,14 +112,6 @@ function MontaSelect(CODIGO, NOME) {
     jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
 }
 
-jQuery(document).ready(function () {
-
-    PreencheSelectSuaMoeda();
-    PreencheSelectMoedaProcura();
-    PreencheTransacaoProcura();
-
-});
-
 
 function PreencheSelectSuaMoeda() {
     var data = MOEDA;
@@ -141,3 +144,20 @@ function PreencheTransacaoProcura() {
     jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
 
 }
+
+var GeoCodeCalc = {};
+GeoCodeCalc.EarthRadiusInKilometers = 6367.0;
+
+GeoCodeCalc.ToRadian = function (v)
+{ return v * (Math.PI / 180); };
+
+GeoCodeCalc.DiffRadian = function (v1, v2)
+{
+    return GeoCodeCalc.ToRadian(v2) - GeoCodeCalc.ToRadian(v1);
+};
+
+GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
+    return radius * 2 * Math.asin(Math.min(1, Math.sqrt((Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lat1, lat2)) / 2.0), 2.0) + Math.cos(GeoCodeCalc.ToRadian(lat1)) * Math.cos(GeoCodeCalc.ToRadian(lat2)) * Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lng1, lng2)) / 2.0), 2.0)))));
+};
+
+// Calculate distance in Kilometersvar 

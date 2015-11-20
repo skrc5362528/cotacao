@@ -18,6 +18,7 @@ function CarregaTela() {
 function PreparaSistema(pagina) {
     CarregaMenu(pagina);
     CarregaTela();
+    MenuAdmin();
 }
 
 function success(pos) {
@@ -32,9 +33,17 @@ function error(err) {
     alert('ERROR(' + err.code + '): ' + err.message);
 };
 
-//function onDeviceReady() {
-   
-//}
+function MenuAdmin() {
+
+        var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+        if (usu.ID_TP_USUARIO == '2')
+        {
+            jQuery("#ADMINAREA").show();
+        }
+        else {
+            jQuery("#ADMINAREA").hide();
+        }
+}
 
 
 function ExibeMensagem(texto) {
@@ -45,8 +54,4 @@ function ExibeMensagem(texto) {
     'Atenção',            // title
     'Ok'                  // buttonName
 );
-}
-
-function alertDismissed() {
-
 }

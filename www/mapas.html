@@ -75,14 +75,20 @@
             var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
             if (data.length > 0) {
                 jQuery.each(data, function () {
-                    L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup(MontaMapa(data));
+                    if (this.LATITUDE != '' && this.LONGITUDE != '') {
+                        // L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup(MontaMapa(this));
+                        MontaMapa(this);
+                    }
                 });
             }
         }
 
         function MontaMapa(data) {
 
-            L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
+            //L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
+            L.circle([data.LATITUDE, data.LONGITUDE], 120, { color: 'red', fillColor: '#f03', fillOpacity: 0.5 }).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
+
+
         }
 
         //jQuery(document).ready(function () {

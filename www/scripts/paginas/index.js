@@ -1,12 +1,12 @@
-﻿document.addEventListener("deviceready", onDeviceReady, false);
+﻿//document.addEventListener("deviceready", onDeviceReady, false);
 
 
 function CarregaLogin() {
-        var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
-        if (usu != null) {
-            jQuery('#EMAIL').val(usu.EMAIL);
-            jQuery('#SENHA').val(usu.SENHA);
-        }
+    var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+    if (usu != null) {
+        jQuery('#EMAIL').val(usu.EMAIL);
+        jQuery('#SENHA').val(usu.SENHA);
+    }
 }
 
 function BuscaLogin() {
@@ -39,12 +39,6 @@ function Registrar() {
     window.location.assign("registro.html")
 }
 
-//function ExibeMensagem(texto) {
-//    jQuery('#mensagem').css('display', 'block');
-//    jQuery('#txtmsg').text(texto);
-//}
-
-
 function ExibeMensagem(texto) {
 
     navigator.notification.alert(
@@ -54,14 +48,4 @@ function ExibeMensagem(texto) {
     'Ok'                  // buttonName
 );
 
-    function alertDismissed() {
-
-    }
-    //jQuery('#mensagem').css('display', 'block');
-    //jQuery('#txtmsg').text(texto);
-    //navigator.notifivation.alert("texto");
-
-
-
-    
 }

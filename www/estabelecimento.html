@@ -7,7 +7,7 @@
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
-    
+
 </head>
 <body>
     <div id="content" class="page-content">
@@ -38,63 +38,13 @@
         </div>
         <br />
         <br />
-        <div class="container">
+        <div  class="container">
             <div class="content">
                 <div class="container no-bottom">
                     <div class="no-bottom">
                         <fieldset>
                             <div id="DIVESTABELECIMENTO">
-                                <!--<div class="big-notification static-notification-white">
-                                    <strong><label class="busca-text"> Nome do estabelecimento muito grande ltda </label></strong>
-                                    <div class="one-half">
-                                        <label class="contact-text"> telefone </label>
-                                        <label class="contact-text">R$: 4,00</label>
-                                    </div>
-                                    <div class="two-half last-column">
-                                        <span class="span-stars">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </span>
-                                        <label class="contact-text">0.6 km</label>
-                                    </div>
-                                </div>
-                                <div class="big-notification static-notification-white">
-                                    <strong><label class="busca-text"> Nome do estabelecimento muito grande ltda </label></strong>
-                                    <div class="one-half">
-                                        <label class="contact-text"> telefone </label>
-                                        <label class="contact-text">R$: 4,00</label>
-                                    </div>
-                                    <div class="two-half last-column">
-                                        <span class="span-stars">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </span>
-                                        <label class="contact-text">0.6 km</label>
-                                    </div>
-                                </div>
-                                <div class="big-notification static-notification-white">
-                                    <strong><label class="busca-text"> Nome do estabelecimento muito grande ltda </label></strong>
-                                    <div class="one-half">
-                                        <label class="contact-text"> telefone </label>
-                                        <label class="contact-text">R$: 4,00</label>
-                                    </div>
-                                    <div class="two-half last-column">
-                                        <span class="span-stars">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </span>
-                                        <label class="contact-text">0.6 km</label>
-                                    </div>
-                                </div>-->
+
                             </div>
                         </fieldset>
                     </div>
@@ -104,7 +54,17 @@
         <script src="scripts/jsmodel/moedas.js"></script>
         <script src="scripts/jsmodel/transacao.js"></script>
         <script src="scripts/paginas/estabelecimento.js"></script>
-        </div>
+        <script>
+            jQuery(document).ready(function () {
+
+                PreencheSelectSuaMoeda();
+                PreencheSelectMoedaProcura();
+                PreencheTransacaoProcura();
+                verificaPosicao();
+
+            });
+        </script>
+    </div>
 </body>
 
 </html>

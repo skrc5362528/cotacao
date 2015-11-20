@@ -478,7 +478,8 @@ a{
 
 .button{
 	display:inline-block;
-	padding:10px 20px;	
+	padding:10px 20px;
+    border-radius:10px;	
 }
 
 .button-3d{
@@ -534,6 +535,21 @@ a{
 .button-grey{			background-color:#7f8c8d; color:#FFFFFF;}
 .button-grey:hover{		background-color:#95a5a6;}
 
+.white-3d{				
+    border-bottom:solid 4px #fff;}
+.button-white{
+    background-color:#fff; 
+    color:#fff;}
+.button-white:hover{	
+    background-color:#e9e9e9;}
+
+.acqua-3d{				
+    border-bottom:solid 4px #0489B1;}
+.button-acqua{
+    background-color:#0489B1; 
+    color:#0489B1;}
+.button-acqua:hover{	
+    background-color:#0489B1;}
 /*/////////////*/
 /*Buttons Icons*/
 /*/////////////*/
