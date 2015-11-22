@@ -1,4 +1,20 @@
-﻿
+﻿function BuscarTeste() {
+    var dt = new Date();
+    var DIA = dt.getDate();
+    var MES = (dt.getMonth() + 1);
+    var ANO = dt.getFullYear();
+    jQuery('#DIVESTABELECIMENTO').html('');
+
+    var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
+        });
+    }
+}
+
+
+
 function BuscarEstabelecimento(ID_MOEDA) {
     var dt = new Date();
     var DIA = dt.getDate();
@@ -13,6 +29,7 @@ function BuscarEstabelecimento(ID_MOEDA) {
         });
     }
 }
+
 function verificaPosicao() {
     var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
     navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
@@ -26,7 +43,7 @@ function success(pos) {
 }
 
 function error(err) {
-    alert('ERROR(' + err.code + '): ' + err.message);
+    //alert('ERROR(' + err.code + '): ' + err.message);
 }
 
 function calculo(latPara, longPara) {
@@ -36,7 +53,11 @@ function calculo(latPara, longPara) {
 }
 
 
+function chamaAlerta() {
 
+    alert("CHAMA ALERTA");
+
+}
 
 
 function CarregaEstabelecimento(data) {
@@ -45,7 +66,7 @@ function CarregaEstabelecimento(data) {
     var km = calculo(data.LATITUDE, data.LONGITUDE);
 
     var html =
-    "<div onclic='alert('teste de escolha');' class='big-notification static-notification-white'>" +
+    "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
     "<strong><label class='busca-text'>" + data.NOME + "</label></strong> " +
     "<div class='one-half'>" +
     "<label class='contact-text'> " + data.FONE + "</label>" +
@@ -53,20 +74,35 @@ function CarregaEstabelecimento(data) {
     "</div>" +
     "<div class='two-half last-column'>" +
     "<span class='span-stars'>" +
-    "<i class='fa fa-star'></i>"+
-    "<i class='fa fa-star'></i>"+
-    "<i class='fa fa-star'></i>"+
-    "<i class='fa fa-star'></i>"+
-    "<i class='fa fa-star-o'></i>"+
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star-o'></i>" +
     //estrelas(numeroestrelas); +
     "</span>" +
     "<label class='contact-text'>Km " + km + "</label>" +
     "</div>" +
      "<div class='two-half last-column'>" +
-     "<a  id='" + data.ID_ESTABELECIMENTO + "' value='ver localizacao' onclick='check(this);'></a>" +
-    "</div>"+
-    "</div>";
+    "</div>" +
+    "</div>" +
+    "</br>";
+    
     return html;
+
+                            
+}
+
+
+
+function carregadetalhes(ID_ESTABELECIMENTO) {
+
+    var html = "</br><div class='one-half'><div class='big-notification static-notification-white'>" +
+                             "<h4 class='uppercase'>Notification Title</h4>" +
+                             "<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" +ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>"
+                             "</div>"+
+                             "</div>";
+    jQuery('#' + ID_ESTABELECIMENTO + '').append(html);
 }
 
 function estrelas(numeroestrelas) {
@@ -111,7 +147,6 @@ function PreencheSelect() {
 function MontaSelect(CODIGO, NOME) {
     jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
 }
-
 
 function PreencheSelectSuaMoeda() {
     var data = MOEDA;
@@ -161,3 +196,13 @@ GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
 };
 
 // Calculate distance in Kilometersvar 
+
+
+jQuery(document).ready(function () {
+
+    PreencheSelectSuaMoeda();
+    PreencheSelectMoedaProcura();
+    PreencheTransacaoProcura();
+    verificaPosicao();
+
+});

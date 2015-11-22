@@ -1,4 +1,4 @@
-﻿document.addEventListener("deviceready", onDeviceReady, false);
+﻿//document.addEventListener("deviceready", onDeviceReady, false);
 
 
 function CarregaLogin() {
@@ -41,11 +41,28 @@ function Registrar() {
 
 function ExibeMensagem(texto) {
 
-    navigator.notification.alert(
-    texto,                  // message
-    alertDismissed,         // callback
-    'Alerta',            // title
-    'Ok'                  // buttonName
-);
+
+    alert(texto);
+//    navigator.notification.alert(
+//    texto,                  // message
+//    alertDismissed,         // callback
+//    'Alerta',            // title
+//    'Ok'                  // buttonName
+//)           ;
 
 }
+
+function CarregaTelaTeste() {
+
+        jQuery('#EMAIL').val('vitorcastro78@gmail.com');
+        jQuery('#SENHA').val('lara2308');
+    
+}
+
+
+jQuery(document).ready(function myfunction() {
+
+    CarregaTelaTeste();
+
+});
+

@@ -219,7 +219,7 @@ function InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, successFunc, er
 }
 
 // -- InsereEstabelecimento
-function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, successFunc, errorFunc) {
+function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, successFunc, errorFunc) {
     /// <summary></summary>
     /// <param name="NOME" type="string">NOME</param>
     /// <param name="FONE" type="string">FONE</param>
@@ -239,7 +239,7 @@ function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF
     var $res = '';
     
 
-    var dt = "{NOME:" + JSON.stringify(NOME) + ",FONE:" + JSON.stringify(FONE) + ",LATITUDE:" + JSON.stringify(LATITUDE) + ",LONGITUDE:" + JSON.stringify(LONGITUDE) + ",RAZAO_SOCIAL:" + JSON.stringify(RAZAO_SOCIAL) + ",UF:" + JSON.stringify(UF) + ",BAIRRO:" + JSON.stringify(BAIRRO) + ",CEP:" + JSON.stringify(CEP) + ",CIDADE:" + JSON.stringify(CIDADE) + ",CNPJ:" + JSON.stringify(CNPJ) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ENDERECO:" + JSON.stringify(ENDERECO) + "}";
+    var dt = "{NOME:" + JSON.stringify(NOME) + ",FONE:" + JSON.stringify(FONE) + ",LATITUDE:" + JSON.stringify(LATITUDE) + ",LONGITUDE:" + JSON.stringify(LONGITUDE) + ",RAZAO_SOCIAL:" + JSON.stringify(RAZAO_SOCIAL) + ",UF:" + JSON.stringify(UF) + ",BAIRRO:" + JSON.stringify(BAIRRO) + ",CEP:" + JSON.stringify(CEP) + ",CIDADE:" + JSON.stringify(CIDADE) + ",CNPJ:" + JSON.stringify(CNPJ) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ENDERECO:" + JSON.stringify(ENDERECO) +  ",NUMERO:" + JSON.stringify(NUMERO) + ", COMPLEMENTO:" + JSON.stringify(COMPLEMENTO) + "}";
 
 
     jQuery.ajax({
@@ -516,7 +516,7 @@ function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADAS
 }
 
 // -- AlteraEstabelecimento
-function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, successFunc, errorFunc) {
+function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, successFunc, errorFunc) {
     /// <summary></summary>
     /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
     /// <param name="NOME" type="string">NOME</param>
@@ -542,7 +542,7 @@ function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITU
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",NOME:" + JSON.stringify(NOME) + ",FONE:" + JSON.stringify(FONE) + ",LATITUDE:" + JSON.stringify(LATITUDE) + ",LONGITUDE:" + JSON.stringify(LONGITUDE) + ",RAZAO_SOCIAL:" + JSON.stringify(RAZAO_SOCIAL) + ",UF:" + JSON.stringify(UF) + ",BAIRRO:" + JSON.stringify(BAIRRO) + ",CEP:" + JSON.stringify(CEP) + ",CIDADE:" + JSON.stringify(CIDADE) + ",CNPJ:" + JSON.stringify(CNPJ) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ENDERECO:" + JSON.stringify(ENDERECO) + "}",
+        data: "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",NOME:" + JSON.stringify(NOME) + ",FONE:" + JSON.stringify(FONE) + ",LATITUDE:" + JSON.stringify(LATITUDE) + ",LONGITUDE:" + JSON.stringify(LONGITUDE) + ",RAZAO_SOCIAL:" + JSON.stringify(RAZAO_SOCIAL) + ",UF:" + JSON.stringify(UF) + ",BAIRRO:" + JSON.stringify(BAIRRO) + ",CEP:" + JSON.stringify(CEP) + ",CIDADE:" + JSON.stringify(CIDADE) + ",CNPJ:" + JSON.stringify(CNPJ) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ENDERECO:" + JSON.stringify(ENDERECO) + ",NUMERO:" + JSON.stringify(NUMERO) + ", COMPLEMENTO:" + JSON.stringify(COMPLEMENTO) + "}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
@@ -595,4 +595,125 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc)
 
     });
     return $res;
+}
+
+
+function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO,NOME)
+{
+
+    var $res = '';
+
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",CODIGO:" + JSON.stringify(CODIGO) + ",NOME:" + JSON.stringify(NOME) + "}";
+
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO) {
+
+    var $res = '';
+
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",ATIVO:" + JSON.stringify(ATIVO) + "}";
+
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/AlteraMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+
+}
+
+
+
+
+function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO) {
+
+    var $res = '';
+
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + "}";
+
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+
 }

@@ -48,10 +48,11 @@ function MenuAdmin() {
 
 function ExibeMensagem(texto) {
 
-    navigator.notification.alert(
-    texto,                  // message
-    alertDismissed,         // callback
-    'Atenção',            // title
-    'Ok'                  // buttonName
-);
+    alert(texto);
+    //navigator.notification.alert(
+    //texto,                  // message
+    //alertDismissed,         // callback
+    //'Atenção',            // title
+    //'Ok'                  // buttonName
+//);
 }
