@@ -39,7 +39,7 @@
             localStorage.setItem('longitude', crd.longitude);
         };
         function error(err) {
-            alert('ERROR(' + err.code + '): ' + err.message);
+            alert('Localização desabilitada, favor habilitar a localização');
         };
 
         //==============================================================================================================================//
@@ -64,7 +64,13 @@
         }
 
         function onLocationError(e) {
-            alert(e.message);
+         var lat =   localStorage.getItem('latitude');
+         var long = localStorage.getItem('longitude');
+
+         var radius = e.accuracy / 2;
+         L.marker([lat,long]).addTo(map).bindPopup("Localização Inicial").openPopup();
+         CarregaEstabelecimentos();
+         map.panTo(new L.LatLng(lat, long));
         }
 
         map.on('locationfound', onLocationFound);
@@ -75,7 +81,7 @@
             var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
             if (data.length > 0) {
                 jQuery.each(data, function () {
-                    if (this.LATITUDE != '' && this.LONGITUDE != '') {
+                    if (this.LATITUDE != null  && this.LONGITUDE != null) {
                         // L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup(MontaMapa(this));
                         MontaMapa(this);
                     }

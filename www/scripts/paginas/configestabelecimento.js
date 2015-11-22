@@ -92,7 +92,11 @@ function Grava() {
 
 
     data = jQuery.parseJSON(AlteraEstabelecimento(data.ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, null, null));
-    RetornaEstabelecimento(data.ID_ESTABELECIMENTO);
+    if (data.ID_ESTABELECIMENTO = ! '')
+    {
+        RetornaEstabelecimento(data.ID_ESTABELECIMENTO);
+        alert("Estabelecimento alterado com sucesso!");
+    }
 }
 
 
@@ -114,6 +118,8 @@ function Grava() {
         var location = response.results[0].locations[0];
         jQuery('#LATITUDE').val(location.latLng.lat);
         jQuery('#LONGITUDE').val(location.latLng.lng);
+
+        alert("Localizado com sucesso!");
     }
 
     function RecuperaGeolocalizacao() {
