@@ -90,7 +90,7 @@
 
         function MontaMapa(data) {
             //L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
-            L.circle([data.LATITUDE, data.LONGITUDE], 10, { color: 'red', fillColor: '#f03', fillOpacity: 0.5 }).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
+            L.circle([data.LATITUDE, data.LONGITUDE], 20 , { color: 'red', fillColor: '#f03', fillOpacity: 0.5 }).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
         }
 
         //jQuery(document).ready(function () {

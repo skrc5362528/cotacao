@@ -39,9 +39,21 @@
     <!--SCRIPTS DE PÁGINAS-->
 
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
-    <!--<script type="text/javascript" src="scripts/paginas/rss.js"></script>
-    <script type="text/javascript" src="scripts/paginas/cotacao.js"></script>
-    <script type="text/javascript" src="scripts/paginas/configrss.js"></script>-->
+
+    <script>
+        var loading = jQuery('#preloader').css('display', 'hidden');
+        var status = jQuery('#status').css('display', 'hidden');
+        jQuery(document)
+          .ajaxStart(function () {
+              loading.css('display', 'block');
+              status.css('display', 'block');
+          })
+          .ajaxStop(function () {
+              loading.css('display', 'hidden');
+              status.css('display', 'hidden');
+          });
+
+    </script>
 
 
 
@@ -125,9 +137,9 @@
                 </div>
                 <div id="ADMINAREA">
                     <div class="navigation-item">
-                        <a onclick="CarregaMenu('estabelecimentos.html')" class="nav-item">
+                        <a onclick="CarregaMenu('estabelecimentomoeda.html')" class="nav-item">
                             <i class="fa fa-clock-o"></i>
-                            Pesquisa Estabelecimento
+                            Config. Estabelecimento
                             <i class="fa"></i>
                         </a>
                     </div>
@@ -139,9 +151,9 @@
                         </a>
                     </div>
                     <div class="navigation-item">
-                        <a onclick="CarregaMenu('configestabelecimento.html')" class="nav-item">
+                        <a onclick="CarregaMenu('pefilestabelecimento.html')" class="nav-item">
                             <i class="fa fa-clock-o"></i>
-                            Configura Estabelecimento
+                            Perfil Estabelecimento
                             <i class="fa"></i>
                         </a>
                     </div>

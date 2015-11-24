@@ -55,14 +55,16 @@ div, a, p, img, blockquote, form, fieldset, textarea, label, iframe, code, pre {
 	display: block;
 	position:relative;
 	overflow:hidden;
+   -webkit-box-sizing:content-box;
     
 }
 
 input select{
-    	display: block;
+    display: block;
 	position:relative;
 	overflow:hidden;
     border-radius:50px;
+    -webkit-box-sizing:content-box;
 }
 
 p {

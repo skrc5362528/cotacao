@@ -20,6 +20,8 @@ function ListaMoeda(successFunc, errorFunc) {
     /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">ListaMoedaResult as string</returns>
+    loading(true);
+
     var $res = '';
     jQuery.ajax({
         type: "POST",
@@ -48,6 +50,7 @@ function ListaMoeda(successFunc, errorFunc) {
 
 
     });
+    loading(false);
     return $res;
 }
 
@@ -598,7 +601,7 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc)
 }
 
 
-function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO,NOME)
+function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, successFunc, errorFunc)
 {
 
     var $res = '';
@@ -637,7 +640,7 @@ function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO,NOME)
     return $res;
 }
 
-function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO) {
+function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO, successFunc, errorFunc) {
 
     var $res = '';
 
@@ -679,7 +682,7 @@ function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO) {
 
 
 
-function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO) {
+function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO, successFunc, errorFunc) {
 
     var $res = '';
 
@@ -711,9 +714,89 @@ function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO) {
             if (errorFunc != null)
                 errorFunc();
         }
-
-
     });
     return $res;
 
 }
+
+function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, VALOR_COTACAO, DIA, MES, ANO, successFunc, errorFunc) {
+
+    var $res = '';
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) + ",DIA:" + JSON.stringify(DIA) + ",MES:" + JSON.stringify(MES) + ",ANO:" + JSON.stringify(ANO) + "}";
+
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereCotacaoEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+function RetornaCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, successFunc, errorFunc) {
+
+    var $res = '';
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + "}";
+
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaCotacaoEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+
+
+
+
+
+
+

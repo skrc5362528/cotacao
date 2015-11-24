@@ -508,4 +508,14 @@ $(document).ready(function(){
 
 });
 
+function loading(status) {
+    if (status == true) {
+        loading.css('display', 'block');
+        status.css('display', 'block');
+    }
+    else {
+        loading.css('display', 'hidden');
+        status.css('display', 'hidden');
+    }
+}
 }(jQuery));

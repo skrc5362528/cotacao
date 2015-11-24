@@ -23,7 +23,6 @@
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
-
     <script type="text/javascript" src="cordova.js"></script>
     <!--SCRIPTS BASICOS-->
     <script type="text/javascript" src="scripts/jquery-2.1.4.js"></script>
@@ -32,7 +31,19 @@
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
     <script type="text/javascript" src="scripts/paginas/index.js"></script>
-
+    <script>
+        var loading = jQuery('#preloader');
+        var status = jQuery('#status');
+        jQuery(document)
+          .ajaxStart(function () {
+              loading.css('display', 'block');
+              status.css('display', 'block');
+          })
+          .ajaxStop(function () {
+              loading.css('display', 'block');
+              status.css('display', 'block');
+          });
+    </script>
 </head>
 <body>
     <div id="preloader">
@@ -65,11 +76,11 @@
             <div class="container no-bottom">
                 <div class="no-bottom">
                     <div>
-                        <fieldset>
+                        <!--<fieldset>-->
                             <label class="input-label">Entrar</label>
                             <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
                             <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
-                        </fieldset>
+                        <!--</fieldset>-->
                     </div>
                 </div>
             </div>
