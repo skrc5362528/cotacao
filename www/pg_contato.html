@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <link href="styles/framework.css" rel="stylesheet" type="text/css">
@@ -22,36 +22,37 @@
         var DATA = '';
 
         function PreencheSelect() {
+            jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
             var data = jQuery.parseJSON(ListaMoeda(null, null));
             if (data.length > 0) {
                 jQuery.each(data, function () {
-                    MontaSelect(this.CODIGO, this.NOME);
+                    MontaSelect('MOEDA', this.CODIGO, this.NOME, this.PAIS);
                 });
-                jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
+
             }
         }
 
-        function MontaSelect(CODIGO, NOME) {
-            jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
+        function MontaSelect(OBJETO, CODIGO, NOME, PAIS) {
+            jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' ( ' + PAIS + ' )</option>');
         }
 
         function BuscaUltimoValorVO() {
 
             var cotacao = DATA.ID_ESTABELECIMENTO;
-            var data = jQuery.parseJSON(UtlimoValorVO(jQuery('#MOEDA').val(), null, null));
+            var data = jQuery.parseJSON(UtlimoValorVO(jQuery('#MOEDA selection').val(), null, null));
             CarregaUltimoVaorVO(data);
         }
 
         function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
-   
+
         }
 
 
         function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
-            var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO,null, null));
+            var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
             if (data.length > 0) {
                 jQuery.each(data, function () {
-                        MontaMapa(this);
+                    MontaMapa(this);
                 });
             }
         }
@@ -72,7 +73,7 @@
         }
         jQuery(document).ready(function () {
             DATA = getUrlVars();
-            if ( !DATA.hasOwnProperty('ID_MOEDA')) {
+            if (!DATA.hasOwnProperty('ID_MOEDA')) {
                 jQuery('#DIVCOTACAO').css('display', 'none');
                 RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
             }
@@ -82,24 +83,23 @@
             }
         });
 
-        function MontaMapa(data)
-        {
+        function MontaMapa(data) {
 
-         var html=   "<p>" +
-            "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
-            "<a class='contact-call' href='#'><i class='fa fa-phone'></i>Phone:  "+ data.FONE +"</a>" +
-            "<a class='contact-text' href='#'><i class='fa fa-comments'></i>Message: + 123 456 7890</a>" +
-            "<a class='contact-mail' href='#'><i class='fa fa-envelope'></i>Email: " + data.EMAIL + "</a>" +
-            "</p>";
+            var html = "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
+               "<a class='contact-call' href='#'>Tel :" + data.FONE + "</a>" +
+               //"<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
+               "<a class='contact-text' href='#'>Endereço :" + data.ENDERECO + "," + data.NUMERO + "</a>" +
+               "<a class='contact-text' href='#'>" + data.COMPLEMENTO + " " + data.BAIRRO + "</a>" +
+               "<a class='contact-text' href='#'>" + data.CIDADE + "," + data.UF + "</a>" ;
 
-         jQuery('#DIVINFO').html(html);
+            jQuery('#DIVINFO').html(html);
         }
     </script>
 </head>
-<body onload="PreencheSelect();" style="background-color:white;">     
-<div id="DIVINFO">
+<body onload="PreencheSelect();" style="background-color:white;">
+    <div id="DIVINFO">
 
-</div>
+    </div>
     <div id="DIVBUSCACOTACAO">
         <div href="#" class="contact-text">Moeda:</div>
         <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>
@@ -109,7 +109,7 @@
     </div>
     <div id="DIVCOTACAO">
         <div href="#" class="contact-text">Moeda:</div>
-        <label class="contact-text" id="LBLMOEDA" ></label>
+        <label class="contact-text" id="LBLMOEDA"></label>
 
         <div href="#" class="contact-text">Cotação :</div>
         <label class="contact-text" id="LBLVALOR"></label>

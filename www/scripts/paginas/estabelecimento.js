@@ -30,27 +30,15 @@ function BuscarEstabelecimento(ID_MOEDA) {
     }
 }
 
-function verificaPosicao() {
-    var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
-    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-}
-
-function success(pos) {
-    var crd = pos.coords;
-
-    sessionStorage.setItem('lat',crd.latitude);
-    sessionStorage.setItem('long', crd.longitude);//alert(crd.longitude);
-}
-
-function error(err) {
-    //alert('ERROR(' + err.code + '): ' + err.message);
-}
-
 function calculo(latPara, longPara) {
 
-    var km = d = GeoCodeCalc.CalcDistance(sessionStorage.getItem('lat'), sessionStorage.getItem('long'), latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
-    return (km / 1000).toString().substring(0,4);
+    var lat = localStorage.getItem('latitude');
+    var long = localStorage.getItem('longitude');
+
+    var km = d = GeoCodeCalc.CalcDistance(lat, long, latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
+    return (km).toString().substring(0, 4);
 }
+
 
 
 function chamaAlerta() {
@@ -62,6 +50,8 @@ function chamaAlerta() {
 
 function CarregaEstabelecimento(data) {
 
+    //alert(data.LATITUDE);
+    //alert(data.LONGITUDE);
 
     var km = calculo(data.LATITUDE, data.LONGITUDE);
 
@@ -134,53 +124,58 @@ function check(obj) {
 
 }
 
-function PreencheSelect() {
-    var data = jQuery.parseJSON(ListaMoeda(null, null));
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            MontaSelect(this.CODIGO, this.NOME);
-        });
-        jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
-    }
-}
+//function PreencheSelect() {
+//    jQuery('#MOEDAS_TRABALHADAS').append('<option value="" selected> Selecione uma moeda </option>');
+//    var data = jQuery.parseJSON(ListaMoeda(null, null));
+//    if (data.length > 0) {
+//        jQuery.each(data, function () {
+//            MontaSelect('MOEDA', this.CODIGO, this.NOME, this.PAIS);
+//        });
+//        jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
+//    }
+//}
 
-function MontaSelect(CODIGO, NOME) {
-    jQuery('#MOEDA').append('<option value=' + CODIGO + '>' + NOME + '</option>');
+function MontaSelect(OBJETO,CODIGO, NOME,PAIS) {
+    jQuery('#'+OBJETO+'').append('<option value=' + CODIGO + '>' + NOME + ' ( '+PAIS+' )</option>');
 }
 
 function PreencheSelectSuaMoeda() {
+
+    jQuery('#SUA_MOEDA').append('<option value="" selected> Que moeda você procura? </option>');
     var data = MOEDA;
     if (data.length > 0) {
         jQuery.each(data, function () {
-            jQuery('#SUA_MOEDA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+            MontaSelect('SUA_MOEDA', this.CODIGO, this.NOME,this.PAIS);
         });
     }
-    jQuery('#SUA_MOEDA').append('<option value="" selected>Qual a sua moeda?</option>');
+ 
 }
 
 function PreencheSelectMoedaProcura() {
+    jQuery('#MOEDA_PROCURA').append('<option value="" selected> Que moeda você procura? </option>');
     var data = MOEDA;
     if (data.length > 0) {
         jQuery.each(data, function () {
-            jQuery('#MOEDA_PROCURA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+            MontaSelect('MOEDA_PROCURA', this.CODIGO, this.NOME,this.PAIS);
         });
     }
-    jQuery('#MOEDA_PROCURA').append('<option value="" selected>Que moeda você procura?</option>');
+   
 
 }
 
 function PreencheTransacaoProcura() {
+    jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
     var data = TRANSACAO;
     if (data.length > 0) {
         jQuery.each(data, function () {
             jQuery('#TRANSACAO').append('<option value=' + this[0] + '>' + this[1] + '</option>');
         });
     }
-    jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
-
+   
 }
 
 var GeoCodeCalc = {};
+
 GeoCodeCalc.EarthRadiusInKilometers = 6367.0;
 
 GeoCodeCalc.ToRadian = function (v)
@@ -201,8 +196,8 @@ GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
 jQuery(document).ready(function () {
 
     PreencheSelectSuaMoeda();
-    PreencheSelectMoedaProcura();
+   // PreencheSelectMoedaProcura();
     PreencheTransacaoProcura();
-    verificaPosicao();
+    //verificaPosicao();
 
 });

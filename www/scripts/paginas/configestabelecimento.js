@@ -100,14 +100,15 @@ function Grava() {
 }
 
 
-    function PreencheSelectSuaMoeda() {
+function PreencheSelectSuaMoeda() {
+    jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
         var data = MOEDA;
         if (data.length > 0) {
             jQuery.each(data, function () {
-                jQuery('#MOEDA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+                MontaSelect('MOEDA', this.CODIGO, this.NOME, this.PAIS)
             });
         }
-        jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
+       
     }
 
     function AdicionaMoeda() {
@@ -130,7 +131,7 @@ function Grava() {
         var CIDADE = jQuery('#CIDADE').val();
         var ENDERECO = jQuery('#ENDERECO').val() + ',' + jQuery('#NUMERO').val();
         var UF = jQuery('#UF').val();
-        var URL = 'http://open.mapquestapi.com/geocoding/v1/address?key=YFK7SPhPwnZ2KCHvDvLBFAGVzO4bi8FC&location=' + ENDERECO + ',' + BAIRRO + ',' + CIDADE + ',' + UF + '&callback=retornoGeocode';
+        var URL = 'http://open.mapquestapi.com/geocoding/v1/address?key=YFK7SPhPwnZ2KCHvDvLBFAGVzO4bi8FC&location=' + ENDERECO + ','+''+',' + CIDADE + ',' + UF + '&callback=retornoGeocode';
 
         script.src = URL;
         document.body.appendChild(script);
@@ -138,11 +139,16 @@ function Grava() {
     }
 
     function PreencheSelectMoeda() {
+        jQuery('#MOEDAS_TRABALHADAS').append('<option value="" selected> Selecione uma moeda </option>');
         var data = MOEDA;
         if (data.length > 0) {
             jQuery.each(data, function () {
-                jQuery('#MOEDAS_TRABALHADAS').append('<option value=' + this[0] + '>' + this[1] + '</option>');
+                MontaSelect('MOEDAS_TRABALHADAS',this.CODIGO,this.NOME,this.PAIS)
             });
         }
-        jQuery('#MOEDAS_TRABALHADAS').append('<option value="" selected>Qual a sua moeda?</option>');
+        
+    }
+
+    function MontaSelect(OBJETO, CODIGO, NOME, PAIS) {
+        jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' ( ' + PAIS + ' )</option>');
     }
