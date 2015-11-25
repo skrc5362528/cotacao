@@ -40,22 +40,6 @@
 
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
-    <script>
-        var loading = jQuery('#preloader').css('display', 'hidden');
-        var status = jQuery('#status').css('display', 'hidden');
-        jQuery(document)
-          .ajaxStart(function () {
-              loading.css('display', 'block');
-              status.css('display', 'block');
-          })
-          .ajaxStop(function () {
-              loading.css('display', 'hidden');
-              status.css('display', 'hidden');
-          });
-
-    </script>
-
-
 
 </head>
 <body onload="PreparaSistema('mapa.html');">

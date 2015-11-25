@@ -57,8 +57,8 @@ function CarregaEstabelecimento(data) {
     "</div>" +
     "</div>" +
     "</br>";
-    
-    return html;                   
+
+    return html;
 }
 
 function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
@@ -79,55 +79,56 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
         if (this.CODIGO == jQuery('#MOEDA').val()) {
             ID_MOEDA = this.ID_MOEDA;
             CODIGO = this.CODIGO;
-            NOME = this.NOME;            
+            NOME = this.NOME;
         }
     });
 
     var dt = new Date();
 
-    InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME,null,null);
-    InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, jQuery('#PERCENTUAL').val(),dt.getDate(), (dt.getMonth()+1), dt.getFullYear(),null,null);
+    InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, null, null);
+    InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, jQuery('#PERCENTUAL').val(), dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
 
 
     PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO);
 }
 
-function CarregaMoedasTrabalhadas(ID_ESTABELECIMENTO)
-{
-    
+function CarregaMoedasTrabalhadas(ID_ESTABELECIMENTO) {
+
 }
 
 function PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO) {
 
-        var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO),null,null);
-        if (data.length > 0) {
-            jQuery.each(data, function () {
-                var html = MontaMoedasTrabalhadas(this);
-                jQuery('#DIVESTABELECIMENTO').append(html);
-            });
-        }
-    
+    var html = '';
+    var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO), null, null);
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            html += MontaMoedasTrabalhadas(this);
+        });
+
+        jQuery('#DIVESTABELECIMENTO').html(html);
+    }
+
 
 }
 
 function MontaMoedasTrabalhadas(data) {
     //var ret = RetornaCotacaoEstabelecimento(data.ID_ESTABELECIMENTO, data.ID_MOEDA,null,null);
- //   var cotaca = jQuery.parseJSON( );
+    //   var cotaca = jQuery.parseJSON( );
     var html =
    "<div id='" + data.ID_ESTABELECIMENTO_MOEDA + "' class='big-notification static-notification-white'>" +
-   "<strong><label class='busca-text'>Moeda : " + data.NOME + "</label></strong> " +
+   "<strong><label class='busca-text'>Moeda:" + data.NOME + "</label></strong> " +
    "<div class='one-half'>" +
-   "<label class='contact-text'> Código Moeda Bco Central : " + data.CODIGO + "</label>" +
-   "<label class='contact-text'>Status : " + verificaAtivo(data.ATIVO) + "</label>"
+   "<label class='contact-text'> Cod.:" + data.CODIGO + "</label>" +
+   "<label class='contact-text'>Status:" + verificaAtivo(data.ATIVO) + "</label>"
     //"<label class='contact-text'>Status : " + cotaca.VALOR_COTACAO + "</label>" +
-   "</div>" +
-   "<div class='two-half last-column'>" +
-   "<label class='contact-text'></label>" +
-   "</div>" +
-    "<div>" +
+    "</div>" +
+    "<div class='two-half last-column'>" +
+    "<label class='contact-text'></label>" +
+    "</div>" +
+     "<div>" +
 
-   "</div>" +
-   "</div>";
+    "</div>" +
+    "</div>";
 
     return html;
 
@@ -149,7 +150,7 @@ function verificaAtivo(ATIVO) {
         ret = 'ATIVO';
     else
         ret = 'DESATIVADO';
-        
+
     return ret;
 
 }

@@ -1,4 +1,4 @@
-﻿//document.addEventListener("deviceready", onDeviceReady, false);
+﻿document.addEventListener("deviceready", onDeviceReady, false);
 
 
 function CarregaLogin() {
@@ -66,3 +66,17 @@ jQuery(document).ready(function myfunction() {
 
 });
 
+
+function onDeviceReady() {
+    var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+}
+
+function success(pos) {
+    var crd = pos.coords;
+    localStorage.setItem('latitude', crd.latitude);
+    localStorage.setItem('longitude', crd.longitude);
+};
+function error(err) {
+    alert('Localização desabilitada, favor habilitar a localização');
+};

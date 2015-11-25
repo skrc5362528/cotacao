@@ -64,13 +64,15 @@
         }
 
         function onLocationError(e) {
-         var lat =   localStorage.getItem('latitude');
-         var long = localStorage.getItem('longitude');
+            navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 
-         var radius = 10;//e.accuracy / 2;
-         L.marker([lat,long]).addTo(map).bindPopup("Localização Inicial").openPopup();
-         CarregaEstabelecimentos();
-         map.panTo(new L.LatLng(lat, long));
+         //var lat =   localStorage.getItem('latitude');
+         //var long = localStorage.getItem('longitude');
+
+         //var radius = 10;//e.accuracy / 2;
+         //L.marker([lat,long]).addTo(map).bindPopup("Localização Inicial").openPopup();
+         //CarregaEstabelecimentos();
+         //map.panTo(new L.LatLng(lat, long));
         }
 
         map.on('locationfound', onLocationFound);
