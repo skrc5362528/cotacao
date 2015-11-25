@@ -84,14 +84,32 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
     });
 
     var dt = new Date();
-
-    InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, null, null);
-    InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, jQuery('#PERCENTUAL').val(), dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
-
-
+    var valida = ValidaMoedaExistente(ID_ESTABELECIMENTO, ID_MOEDA);
+    alert(valida);
+    if (valida == false) {
+        InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, null, null);
+        InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, jQuery('#PERCENTUAL').val(), dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
+    }
+    else {
+        alert('Moeda já cadastrada!');
+    }
     PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO);
 }
 
+function ValidaMoedaExistente(ID_ESTABELECIMENTO, ID_MOEDA) {
+
+    var val = '';
+    var data = jQuery.parseJSON(RetornaMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, null, null));
+    if (data.length > 0) {
+    val = true;     
+    }
+    else {
+    val = false;
+    }
+ 
+
+    return val;
+}
 function CarregaMoedasTrabalhadas(ID_ESTABELECIMENTO) {
 
 }
@@ -99,36 +117,29 @@ function CarregaMoedasTrabalhadas(ID_ESTABELECIMENTO) {
 function PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO) {
 
     var html = '';
-    var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO), null, null);
+    var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             html += MontaMoedasTrabalhadas(this);
         });
-
-        jQuery('#DIVESTABELECIMENTO').html(html);
     }
-
+    jQuery('#DIVESTABELECIMENTO').html(html);
 
 }
 
 function MontaMoedasTrabalhadas(data) {
-    //var ret = RetornaCotacaoEstabelecimento(data.ID_ESTABELECIMENTO, data.ID_MOEDA,null,null);
-    //   var cotaca = jQuery.parseJSON( );
+
     var html =
    "<div id='" + data.ID_ESTABELECIMENTO_MOEDA + "' class='big-notification static-notification-white'>" +
-   "<strong><label class='busca-text'>Moeda:" + data.NOME + "</label></strong> " +
+   "<strong><label class='busca-text'>Moeda:" + data.NOME_MOEDA + "</label></strong> " +
    "<div class='one-half'>" +
    "<label class='contact-text'> Cod.:" + data.CODIGO + "</label>" +
-   "<label class='contact-text'>Status:" + verificaAtivo(data.ATIVO) + "</label>"
-    //"<label class='contact-text'>Status : " + cotaca.VALOR_COTACAO + "</label>" +
-    "</div>" +
-    "<div class='two-half last-column'>" +
-    "<label class='contact-text'></label>" +
-    "</div>" +
-     "<div>" +
-
+    " <input type='number' name='PERCENTUAL' value='"+ data.VALOR_COTACAO +"' class='contactField' id='PERCENTUAL' placeholder='Percentual de valoração' required />"+
+   // "<label class='contact-text'>Perc.:" + data.VALOR_COTACAO + "%</label>" +
     "</div>" +
     "</div>";
+    
+
 
     return html;
 

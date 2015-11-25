@@ -600,7 +600,6 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc)
     return $res;
 }
 
-
 function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, successFunc, errorFunc)
 {
 
@@ -679,9 +678,6 @@ function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO, success
 
 }
 
-
-
-
 function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO, successFunc, errorFunc) {
 
     var $res = '';
@@ -719,11 +715,11 @@ function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO, successFunc, error
 
 }
 
-function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, VALOR_COTACAO, DIA, MES, ANO, successFunc, errorFunc) {
+function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, COD_MOEDA, VALOR_COTACAO, DIA, MES, ANO, successFunc, errorFunc) {
 
     var $res = '';
 
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) + ",DIA:" + JSON.stringify(DIA) + ",MES:" + JSON.stringify(MES) + ",ANO:" + JSON.stringify(ANO) + "}";
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",COD_MOEDA:" + JSON.stringify(COD_MOEDA) + ",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) + ",DIA:" + JSON.stringify(DIA) + ",MES:" + JSON.stringify(MES) + ",ANO:" + JSON.stringify(ANO) + "}";
 
 
     jQuery.ajax({
@@ -793,10 +789,80 @@ function RetornaCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, successFunc
     return $res;
 }
 
+function RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, successFunc, errorFunc) {
 
 
+    var $res = '';
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + "}";
 
 
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedaEstabelecimentoCotacao",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+function RetornaMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, successFunc, errorFunc) {
+
+    var $res = '';
+
+    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + "}";
+
+
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: dt,
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
 
 
 
