@@ -1023,3 +1023,43 @@ function RetornaListaEstabelecimentoPorMoeda(SIMBOLO, successFunc, errorFunc) {
     });
     return $res;
 }
+
+
+// -- RetornaCotacaoEstabelecimento
+function RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, successFunc, errorFunc) {
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaCotacaoEstabelecimentoPorMoeda as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaCotacaoEstabelecimentoPorMoeda",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function () {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}

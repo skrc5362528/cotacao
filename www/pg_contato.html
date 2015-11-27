@@ -39,8 +39,8 @@
         function BuscaUltimoValorVO() {
 
             var ID_ESTABELECIMENTO = DATA.ID_ESTABELECIMENTO;
-            var MOEDA = jQuery('#MOEDA').val();
-            var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, MOEDA, null, null));
+            var SIMBOLO = jQuery('#MOEDA').val();
+            var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
             CarregaUltimaCotacao(data);
         }
 
