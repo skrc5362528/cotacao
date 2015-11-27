@@ -8,10 +8,15 @@
     <!--SCRIPTS BASICOS-->
     <script src="scripts/jquery-2.1.4.js"></script>
     <script src="leaflet/leaflet.js"></script>
+    <script src="leaflet-routing-machine/leaflet-routing-machine.js"></script>
+
     <script src="scripts/jqueryui.js"></script>
     <script src="scripts/jsmodel/wscotacao.js"></script>
+
     <link href="leaflet/leaflet.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="leaflet-routing-machine/leaflet-routing-machine.css" rel="stylesheet" />
+
 
     <style>
         body {
@@ -32,16 +37,7 @@
     <script>
         var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
         navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-
-        function success(pos) {
-            var crd = pos.coords;
-            localStorage.setItem('latitude', crd.latitude);
-            localStorage.setItem('longitude', crd.longitude);
-        };
-        function error(err) {
-            alert('Localização desabilitada, favor habilitar a localização');
-        };
-
+        var rota = '';
         //==============================================================================================================================//
 
         var map = L.map('map');
@@ -54,8 +50,25 @@
             accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
         }).addTo(map);
 
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+        map.locate({ setView: true, maxZoom: 16 });
+        map.on('popupopen', onMapClick);
+
+        //=============================================================================================================================//
+
+        function success(pos) {
+            var crd = pos.coords;
+            localStorage.setItem('latitude', crd.latitude);
+            localStorage.setItem('longitude', crd.longitude);
+        };
+
+        function error(err) {
+            alert('Localização desabilitada, favor habilitar a localização');
+        };
+
         function onLocationFound(e) {
-           // var ID_ESTABELECIMENTO = 'TESTE DE QUERYSTRING';
+            // var ID_ESTABELECIMENTO = 'TESTE DE QUERYSTRING';
             var radius = 10;// e.accuracy / 2;
             L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
             CarregaEstabelecimentos();
@@ -66,24 +79,20 @@
         function onLocationError(e) {
             navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 
-         //var lat =   localStorage.getItem('latitude');
-         //var long = localStorage.getItem('longitude');
+            //var lat =   localStorage.getItem('latitude');
+            //var long = localStorage.getItem('longitude');
 
-         //var radius = 10;//e.accuracy / 2;
-         //L.marker([lat,long]).addTo(map).bindPopup("Localização Inicial").openPopup();
-         //CarregaEstabelecimentos();
-         //map.panTo(new L.LatLng(lat, long));
+            //var radius = 10;//e.accuracy / 2;
+            //L.marker([lat,long]).addTo(map).bindPopup("Localização Inicial").openPopup();
+            //CarregaEstabelecimentos();
+            //map.panTo(new L.LatLng(lat, long));
         }
-
-        map.on('locationfound', onLocationFound);
-        map.on('locationerror', onLocationError);
-        map.locate({ setView: true, maxZoom: 16 });
 
         function CarregaEstabelecimentos() {
             var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
             if (data.length > 0) {
                 jQuery.each(data, function () {
-                    if (this.LATITUDE != null  && this.LONGITUDE != null) {
+                    if (this.LATITUDE != null && this.LONGITUDE != null) {
                         MontaMapa(this);
                     }
                 });
@@ -92,13 +101,28 @@
 
         function MontaMapa(data) {
             //L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
-            L.circle([data.LATITUDE, data.LONGITUDE], 20 , { color: 'red', fillColor: '#f03', fillOpacity: 0.5 }).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
+            L.circle([data.LATITUDE, data.LONGITUDE], 20, { color: 'red', fillColor: '#f03', fillOpacity: 0.5 }).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='300'  weight='200' frameBorder='0'></iframe>").fire('onMapClick');
         }
 
-        //jQuery(document).ready(function () {
-        //    //BuscaMapa();
-        //    jQuery('#map').repeat(5000).each(function () { BuscaMapa(); });
-        //});
+        function onMapClick(e) {
+
+            if (rota != '') {
+                rota.spliceWaypoints(0, 2);
+            }
+            var lat = localStorage.getItem('latitude');
+            var lng = localStorage.getItem('longitude');
+
+            rota = L.Routing.control(
+                {
+                    waypoints: [L.latLng(lat, lng), L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)],
+                    //router: L.routing.graphHopper('' , {urlParameters: {vehicle: 'foot'}}),
+                    routeWhileDragging: false,
+                    autoRoute: true
+                }
+                ).addTo(map);
+
+            jQuery(".leaflet-control").hide();
+        }
 
     </script>
 

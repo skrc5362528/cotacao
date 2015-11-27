@@ -13,16 +13,16 @@
     }
 }
 
+function BuscarEstabelecimento() {
 
-
-function BuscarEstabelecimento(ID_MOEDA) {
+    var SIMBOLO = jQuery('#SUA_MOEDA').val();
     var dt = new Date();
     var DIA = dt.getDate();
     var MES = (dt.getMonth() + 1);
     var ANO = dt.getFullYear();
     jQuery('#DIVESTABELECIMENTO').html('');
 
-    var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
+    var data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
@@ -50,33 +50,32 @@ function chamaAlerta() {
 
 function CarregaEstabelecimento(data) {
 
-    //alert(data.LATITUDE);
-    //alert(data.LONGITUDE);
+   var km = calculo(data.LATITUDE, data.LONGITUDE);
 
-    var km = calculo(data.LATITUDE, data.LONGITUDE);
-
-    var html =
-    "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
-    "<strong><label class='busca-text'>" + data.NOME + "</label></strong> " +
-    "<div class='one-half'>" +
-    "<label class='contact-text'> " + data.FONE + "</label>" +
-    "<label class='contact-text'>R$: 10,00 </label>" +// + + data.VALOR_COTACAO + "</label>" +
-    "</div>" +
+   var html =
+   "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
+   "<strong><label class='busca-text'>" + data.NOME + "</label></strong> " +
+   "<div class='one-half'>" +
+   "<label class='contact-text'> " + data.FONE + "</label>" +
+   "<label class='contact-text'>Compra: </label>" +
+   "<label class='contact-text'>R$ " + data.TAXA_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
+    "<label class='contact-text'> " + data.DATA_COTACAO + "</label>" +
+   "</div>" +
+   "<div class='two-half last-column'>" +
+   "<span class='span-stars'>" +
+   "<i class='fa fa-star'></i>" +
+   "<i class='fa fa-star'></i>" +
+   "<i class='fa fa-star'></i>" +
+   "<i class='fa fa-star'></i>" +
+   "<i class='fa fa-star-o'></i>" +
+   "</span>" +
+    "<label class='contact-text'>Venda: </label>" +
+   "<label class='contact-text'>R$ " + data.TAXA_VENDA + "</label>" +
+   "<label class='contact-text'>Km " + km + "</label>" +
+   "</div>" +
     "<div class='two-half last-column'>" +
-    "<span class='span-stars'>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star-o'></i>" +
-    //estrelas(numeroestrelas); +
-    "</span>" +
-    "<label class='contact-text'>Km " + km + "</label>" +
-    "</div>" +
-     "<div class='two-half last-column'>" +
-    "</div>" +
-    "</div>" +
-    "</br>";
+   "</div>" +
+   "</div>";
     
     return html;
 
@@ -135,17 +134,17 @@ function check(obj) {
 //    }
 //}
 
-function MontaSelect(OBJETO,CODIGO, NOME,PAIS) {
-    jQuery('#'+OBJETO+'').append('<option value=' + CODIGO + '>' + NOME + ' ( '+PAIS+' )</option>');
+function MontaSelect(OBJETO, SIMBOLO, NOME) {
+    jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
 }
 
 function PreencheSelectSuaMoeda() {
 
     jQuery('#SUA_MOEDA').append('<option value="" selected> Que moeda você procura? </option>');
-    var data = MOEDA;
+    var data = jQuery.parseJSON(RetornaListaMoedasUtilizadas())
     if (data.length > 0) {
         jQuery.each(data, function () {
-            MontaSelect('SUA_MOEDA', this.CODIGO, this.NOME,this.PAIS);
+            MontaSelect('SUA_MOEDA', this.SIMBOLO, this.NOME_MOEDA);
         });
     }
  
@@ -156,7 +155,7 @@ function PreencheSelectMoedaProcura() {
     var data = MOEDA;
     if (data.length > 0) {
         jQuery.each(data, function () {
-            MontaSelect('MOEDA_PROCURA', this.CODIGO, this.NOME,this.PAIS);
+            MontaSelect('MOEDA_PROCURA', this.SIMBOLO, this.NOME_MOEDA);
         });
     }
    

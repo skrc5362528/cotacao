@@ -15,13 +15,12 @@
 //-----------------------------Methods---------------------------------//
 
 // -- ListaMoeda
-function ListaMoeda(successFunc, errorFunc) {
+function ListaMoeda(successFunc,errorFunc)
+{
     /// <summary></summary>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">ListaMoedaResult as string</returns>
-    loading(true);
-
     var $res = '';
     jQuery.ajax({
         type: "POST",
@@ -34,31 +33,31 @@ function ListaMoeda(successFunc, errorFunc) {
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    loading(false);
-    return $res;
+    return  $res;
 }
 
 // -- UtlimoValorVO
-function UtlimoValorVO(COD_MOEDA, successFunc, errorFunc) {
+function UtlimoValorVO(COD_MOEDA,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="COD_MOEDA" type="int">COD_MOEDA</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">UtlimoValorVOResult as string</returns>
     var $res = '';
@@ -69,37 +68,38 @@ function UtlimoValorVO(COD_MOEDA, successFunc, errorFunc) {
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{COD_MOEDA:" + JSON.stringify(COD_MOEDA) + "}",
+        data: "{COD_MOEDA:"+JSON.stringify(COD_MOEDA)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- ValorPorData
-function ValorPorData(COD_MOEDA, dia, mes, ano, successFunc, errorFunc) {
+function ValorPorData(COD_MOEDA,dia,mes,ano,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="COD_MOEDA" type="int">COD_MOEDA</param>
     /// <param name="dia" type="int">dia</param>
     /// <param name="mes" type="int">mes</param>
     /// <param name="ano" type="int">ano</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">ValorPorDataResult as string</returns>
     var $res = '';
@@ -110,31 +110,32 @@ function ValorPorData(COD_MOEDA, dia, mes, ano, successFunc, errorFunc) {
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{COD_MOEDA:" + JSON.stringify(COD_MOEDA) + ",dia:" + JSON.stringify(dia) + ",mes:" + JSON.stringify(mes) + ",ano:" + JSON.stringify(ano) + "}",
+        data: "{COD_MOEDA:"+JSON.stringify(COD_MOEDA)+",dia:"+JSON.stringify(dia)+",mes:"+JSON.stringify(mes)+",ano:"+JSON.stringify(ano)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- ValoresSerieVO
-function ValoresSerieVO(COD_MOEDA, diaIni, mesIni, anoIni, diaFim, mesFim, anoFim, successFunc, errorFunc) {
+function ValoresSerieVO(COD_MOEDA,diaIni,mesIni,anoIni,diaFim,mesFim,anoFim,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="COD_MOEDA" type="int">COD_MOEDA</param>
     /// <param name="diaIni" type="int">diaIni</param>
@@ -143,7 +144,7 @@ function ValoresSerieVO(COD_MOEDA, diaIni, mesIni, anoIni, diaFim, mesFim, anoFi
     /// <param name="diaFim" type="int">diaFim</param>
     /// <param name="mesFim" type="int">mesFim</param>
     /// <param name="anoFim" type="int">anoFim</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">ValoresSerieVOResult as string</returns>
     var $res = '';
@@ -154,40 +155,39 @@ function ValoresSerieVO(COD_MOEDA, diaIni, mesIni, anoIni, diaFim, mesFim, anoFi
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{COD_MOEDA:" + JSON.stringify(COD_MOEDA) + ",diaIni:" + JSON.stringify(diaIni) + ",mesIni:" + JSON.stringify(mesIni) + ",anoIni:" + JSON.stringify(anoIni) + ",diaFim:" + JSON.stringify(diaFim) + ",mesFim:" + JSON.stringify(mesFim) + ",anoFim:" + JSON.stringify(anoFim) + "}",
+        data: "{COD_MOEDA:"+JSON.stringify(COD_MOEDA)+",diaIni:"+JSON.stringify(diaIni)+",mesIni:"+JSON.stringify(mesIni)+",anoIni:"+JSON.stringify(anoIni)+",diaFim:"+JSON.stringify(diaFim)+",mesFim:"+JSON.stringify(mesFim)+",anoFim:"+JSON.stringify(anoFim)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- InsereUsuario
-function InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, successFunc, errorFunc) {
+function InsereUsuario(LOGIN,NOME,SENHA,ID_TP_USUARIO,EMAIL,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="LOGIN" type="string">LOGIN</param>
     /// <param name="NOME" type="string">NOME</param>
     /// <param name="SENHA" type="string">SENHA</param>
     /// <param name="ID_TP_USUARIO" type="string">ID_TP_USUARIO</param>
-    /// <param name="DATA_CADASTRO" type="string">DATA_CADASTRO</param>
     /// <param name="EMAIL" type="string">EMAIL</param>
-    /// <param name="ATIVO" type="string">ATIVO</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">InsereUsuarioResult as string</returns>
     var $res = '';
@@ -198,37 +198,38 @@ function InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, successFunc, er
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{LOGIN:" + JSON.stringify(LOGIN) + ",NOME:" + JSON.stringify(NOME) + ",SENHA:" + JSON.stringify(SENHA) + ",ID_TP_USUARIO:" + JSON.stringify(ID_TP_USUARIO) + ",EMAIL:" + JSON.stringify(EMAIL) +"}",
+        data: "{LOGIN:"+JSON.stringify(LOGIN)+",NOME:"+JSON.stringify(NOME)+",SENHA:"+JSON.stringify(SENHA)+",ID_TP_USUARIO:"+JSON.stringify(ID_TP_USUARIO)+",EMAIL:"+JSON.stringify(EMAIL)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- InsereEstabelecimento
-function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, successFunc, errorFunc) {
+function InsereEstabelecimento(NOME,FONE,LATITUDE,LONGITUDE,RAZAO_SOCIAL,UF,BAIRRO,CEP,CIDADE,CNPJ,EMAIL,ENDERECO,NUMERO,COMPLEMENTO,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="NOME" type="string">NOME</param>
     /// <param name="FONE" type="string">FONE</param>
     /// <param name="LATITUDE" type="string">LATITUDE</param>
     /// <param name="LONGITUDE" type="string">LONGITUDE</param>
-    /// <param name="RAZAO_SOCAL" type="string">RAZAO_SOCAL</param>
+    /// <param name="RAZAO_SOCIAL" type="string">RAZAO_SOCIAL</param>
     /// <param name="UF" type="string">UF</param>
     /// <param name="BAIRRO" type="string">BAIRRO</param>
     /// <param name="CEP" type="string">CEP</param>
@@ -236,15 +237,12 @@ function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF
     /// <param name="CNPJ" type="string">CNPJ</param>
     /// <param name="EMAIL" type="string">EMAIL</param>
     /// <param name="ENDERECO" type="string">ENDERECO</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="NUMERO" type="string">NUMERO</param>
+    /// <param name="COMPLEMENTO" type="string">COMPLEMENTO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">InsereEstabelecimentoResult as string</returns>
     var $res = '';
-    
-
-    var dt = "{NOME:" + JSON.stringify(NOME) + ",FONE:" + JSON.stringify(FONE) + ",LATITUDE:" + JSON.stringify(LATITUDE) + ",LONGITUDE:" + JSON.stringify(LONGITUDE) + ",RAZAO_SOCIAL:" + JSON.stringify(RAZAO_SOCIAL) + ",UF:" + JSON.stringify(UF) + ",BAIRRO:" + JSON.stringify(BAIRRO) + ",CEP:" + JSON.stringify(CEP) + ",CIDADE:" + JSON.stringify(CIDADE) + ",CNPJ:" + JSON.stringify(CNPJ) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ENDERECO:" + JSON.stringify(ENDERECO) +  ",NUMERO:" + JSON.stringify(NUMERO) + ", COMPLEMENTO:" + JSON.stringify(COMPLEMENTO) + "}";
-
-
     jQuery.ajax({
         type: "POST",
         url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereEstabelecimento",
@@ -252,33 +250,34 @@ function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF
         async: false,
         cache: false,
         dataType: 'json',
-        data: dt ,
+        data: "{NOME:"+JSON.stringify(NOME)+",FONE:"+JSON.stringify(FONE)+",LATITUDE:"+JSON.stringify(LATITUDE)+",LONGITUDE:"+JSON.stringify(LONGITUDE)+",RAZAO_SOCIAL:"+JSON.stringify(RAZAO_SOCIAL)+",UF:"+JSON.stringify(UF)+",BAIRRO:"+JSON.stringify(BAIRRO)+",CEP:"+JSON.stringify(CEP)+",CIDADE:"+JSON.stringify(CIDADE)+",CNPJ:"+JSON.stringify(CNPJ)+",EMAIL:"+JSON.stringify(EMAIL)+",ENDERECO:"+JSON.stringify(ENDERECO)+",NUMERO:"+JSON.stringify(NUMERO)+",COMPLEMENTO:"+JSON.stringify(COMPLEMENTO)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- RetornaListaEstabelecimentos
-function RetornaListaEstabelecimentos(successFunc, errorFunc) {
+function RetornaListaEstabelecimentos(successFunc,errorFunc)
+{
     /// <summary></summary>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">RetornaListaEstabelecimentosResult as string</returns>
     var $res = '';
@@ -293,34 +292,35 @@ function RetornaListaEstabelecimentos(successFunc, errorFunc) {
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- RetornaEstabelecimentoEcotacao
-function RetornaEstabelecimentoEcotacao(id_estabelecimento, id_moeda, dia, mes, ano, successFunc, errorFunc) {
+function RetornaEstabelecimentoEcotacao(id_estabelecimento,id_moeda,dia,mes,ano,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="id_estabelecimento" type="int">id_estabelecimento</param>
     /// <param name="id_moeda" type="int">id_moeda</param>
     /// <param name="dia" type="int">dia</param>
     /// <param name="mes" type="int">mes</param>
     /// <param name="ano" type="int">ano</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">RetornaEstabelecimentoEcotacaoResult as string</returns>
     var $res = '';
@@ -331,37 +331,38 @@ function RetornaEstabelecimentoEcotacao(id_estabelecimento, id_moeda, dia, mes, 
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{id_estabelecimento:" + JSON.stringify(id_estabelecimento) + ",id_moeda:" + JSON.stringify(id_moeda) + ",dia:" + JSON.stringify(dia) + ",mes:" + JSON.stringify(mes) + ",ano:" + JSON.stringify(ano) + "}",
+        data: "{id_estabelecimento:"+JSON.stringify(id_estabelecimento)+",id_moeda:"+JSON.stringify(id_moeda)+",dia:"+JSON.stringify(dia)+",mes:"+JSON.stringify(mes)+",ano:"+JSON.stringify(ano)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- RetornaListaEstabelecimentoEcotacao
-function RetornaListaEstabelecimentoEcotacao(id_moeda, dia, mes, ano, successFunc, errorFunc) {
+function RetornaListaEstabelecimentoEcotacao(id_moeda,dia,mes,ano,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="id_moeda" type="int">id_moeda</param>
     /// <param name="dia" type="int">dia</param>
     /// <param name="mes" type="int">mes</param>
     /// <param name="ano" type="int">ano</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">RetornaListaEstabelecimentoEcotacaoResult as string</returns>
     var $res = '';
@@ -372,35 +373,36 @@ function RetornaListaEstabelecimentoEcotacao(id_moeda, dia, mes, ano, successFun
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{id_moeda:" + JSON.stringify(id_moeda) + ",dia:" + JSON.stringify(dia) + ",mes:" + JSON.stringify(mes) + ",ano:" + JSON.stringify(ano) + "}",
+        data: "{id_moeda:"+JSON.stringify(id_moeda)+",dia:"+JSON.stringify(dia)+",mes:"+JSON.stringify(mes)+",ano:"+JSON.stringify(ano)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- Login
-function Login(email, senha, successFunc, errorFunc) {
+function Login(email,senha,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="email" type="string">email</param>
     /// <param name="senha" type="string">senha</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">LoginResult as string</returns>
     var $res = '';
@@ -411,37 +413,37 @@ function Login(email, senha, successFunc, errorFunc) {
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{email:" + JSON.stringify(email) + ",senha:" + JSON.stringify(senha) + "}",
+        data: "{email:"+JSON.stringify(email)+",senha:"+JSON.stringify(senha)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- ValidaUsuario
-function ValidaUsuario(email, successFunc, errorFunc) {
+function ValidaUsuario(email,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="email" type="string">email</param>
-    /// <param name="senha" type="string">senha</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
-    /// <returns type="string">LoginResult as string</returns>
+    /// <returns type="string">ValidaUsuarioResult as string</returns>
     var $res = '';
     jQuery.ajax({
         type: "POST",
@@ -450,31 +452,32 @@ function ValidaUsuario(email, successFunc, errorFunc) {
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{email:" + JSON.stringify(email) + "}",
+        data: "{email:"+JSON.stringify(email)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- AlteraUsuario
-function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADASTRO, EMAIL, ATIVO, successFunc, errorFunc) {
+function AlteraUsuario(ID_USUARIO,LOGIN,NOME,SENHA,ID_TP_USUARIO,DATA_CADASTRO,EMAIL,ATIVO,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="ID_USUARIO" type="int">ID_USUARIO</param>
     /// <param name="LOGIN" type="string">LOGIN</param>
@@ -484,7 +487,7 @@ function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADAS
     /// <param name="DATA_CADASTRO" type="string">DATA_CADASTRO</param>
     /// <param name="EMAIL" type="string">EMAIL</param>
     /// <param name="ATIVO" type="string">ATIVO</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">AlteraUsuarioResult as string</returns>
     var $res = '';
@@ -495,38 +498,39 @@ function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADAS
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",LOGIN:" + JSON.stringify(LOGIN) + ",NOME:" + JSON.stringify(NOME) + ",SENHA:" + JSON.stringify(SENHA) + ",ID_TP_USUARIO:" + JSON.stringify(ID_TP_USUARIO) + ",DATA_CADASTRO:" + JSON.stringify(DATA_CADASTRO) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ATIVO:" + JSON.stringify(ATIVO) + "}",
+        data: "{ID_USUARIO:"+JSON.stringify(ID_USUARIO)+",LOGIN:"+JSON.stringify(LOGIN)+",NOME:"+JSON.stringify(NOME)+",SENHA:"+JSON.stringify(SENHA)+",ID_TP_USUARIO:"+JSON.stringify(ID_TP_USUARIO)+",DATA_CADASTRO:"+JSON.stringify(DATA_CADASTRO)+",EMAIL:"+JSON.stringify(EMAIL)+",ATIVO:"+JSON.stringify(ATIVO)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function () {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
 // -- AlteraEstabelecimento
-function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, successFunc, errorFunc) {
+function AlteraEstabelecimento(ID_ESTABELECIMENTO,NOME,FONE,LATITUDE,LONGITUDE,RAZAO_SOCIAL,UF,BAIRRO,CEP,CIDADE,CNPJ,EMAIL,ENDERECO,NUMERO,COMPLEMENTO,successFunc,errorFunc)
+{
     /// <summary></summary>
     /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
     /// <param name="NOME" type="string">NOME</param>
     /// <param name="FONE" type="string">FONE</param>
     /// <param name="LATITUDE" type="string">LATITUDE</param>
     /// <param name="LONGITUDE" type="string">LONGITUDE</param>
-    /// <param name="RAZAO_SOCAL" type="string">RAZAO_SOCAL</param>
+    /// <param name="RAZAO_SOCIAL" type="string">RAZAO_SOCIAL</param>
     /// <param name="UF" type="string">UF</param>
     /// <param name="BAIRRO" type="string">BAIRRO</param>
     /// <param name="CEP" type="string">CEP</param>
@@ -534,7 +538,9 @@ function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITU
     /// <param name="CNPJ" type="string">CNPJ</param>
     /// <param name="EMAIL" type="string">EMAIL</param>
     /// <param name="ENDERECO" type="string">ENDERECO</param>
-    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="NUMERO" type="string">NUMERO</param>
+    /// <param name="COMPLEMENTO" type="string">COMPLEMENTO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
     /// <param name="errorFunc" type="function">Error Function</param>
     /// <returns type="string">AlteraEstabelecimentoResult as string</returns>
     var $res = '';
@@ -545,30 +551,37 @@ function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITU
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",NOME:" + JSON.stringify(NOME) + ",FONE:" + JSON.stringify(FONE) + ",LATITUDE:" + JSON.stringify(LATITUDE) + ",LONGITUDE:" + JSON.stringify(LONGITUDE) + ",RAZAO_SOCIAL:" + JSON.stringify(RAZAO_SOCIAL) + ",UF:" + JSON.stringify(UF) + ",BAIRRO:" + JSON.stringify(BAIRRO) + ",CEP:" + JSON.stringify(CEP) + ",CIDADE:" + JSON.stringify(CIDADE) + ",CNPJ:" + JSON.stringify(CNPJ) + ",EMAIL:" + JSON.stringify(EMAIL) + ",ENDERECO:" + JSON.stringify(ENDERECO) + ",NUMERO:" + JSON.stringify(NUMERO) + ", COMPLEMENTO:" + JSON.stringify(COMPLEMENTO) + "}",
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",NOME:"+JSON.stringify(NOME)+",FONE:"+JSON.stringify(FONE)+",LATITUDE:"+JSON.stringify(LATITUDE)+",LONGITUDE:"+JSON.stringify(LONGITUDE)+",RAZAO_SOCIAL:"+JSON.stringify(RAZAO_SOCIAL)+",UF:"+JSON.stringify(UF)+",BAIRRO:"+JSON.stringify(BAIRRO)+",CEP:"+JSON.stringify(CEP)+",CIDADE:"+JSON.stringify(CIDADE)+",CNPJ:"+JSON.stringify(CNPJ)+",EMAIL:"+JSON.stringify(EMAIL)+",ENDERECO:"+JSON.stringify(ENDERECO)+",NUMERO:"+JSON.stringify(NUMERO)+",COMPLEMENTO:"+JSON.stringify(COMPLEMENTO)+"}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
+				if(successFunc!=null)
+                successFunc(data.d);
             }
-            else {
+            else{
                 $res = data;
-                if (successFunc != null)
-                    successFunc(data);
+				if(successFunc!=null)
+                successFunc(data);
             }
         },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
         }
 
 
     });
-    return $res;
+    return  $res;
 }
 
-function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc) {
+// -- RetornaEstabelecimentoPorId
+function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="string">RetornaEstabelecimentoPorIdResult as string</returns>
     var $res = '';
     jQuery.ajax({
         type: "POST",
@@ -577,7 +590,379 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc)
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + "}",
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- InsereMoedaEstabelecimento
+function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO,ID_MOEDA,CODIGO,NOME,SIMBOLO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="CODIGO" type="string">CODIGO</param>
+    /// <param name="NOME" type="string">NOME</param>
+    /// <param name="SIMBOLO" type="string">SIMBOLO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="string">InsereMoedaEstabelecimentoResult as string</returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+",CODIGO:"+JSON.stringify(CODIGO)+",NOME:"+JSON.stringify(NOME)+",SIMBOLO:"+JSON.stringify(SIMBOLO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- AlteraMoedaEstabelecimento
+function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO,ID_MOEDA,ATIVO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="ATIVO" type="boolean">ATIVO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">AlteraMoedaEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/AlteraMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+",ATIVO:"+JSON.stringify(ATIVO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- RetornaMoedaEstabelecimento
+function RetornaMoedaEstabelecimento(ID_ESTABELECIMENTO,ID_MOEDA,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaMoedaEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- RetornaListaMoedaEstabelecimento
+function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaListaMoedaEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedaEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- RetornaCotacaoEstabelecimento
+function RetornaCotacaoEstabelecimento(ID_ESTABELECIMENTO,ID_MOEDA,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaCotacaoEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaCotacaoEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- InsereCotacaoEstabelecimento
+function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO,VALOR_COTACAO,ID_MOEDA,COD_MOEDA,SIMBOLO,DIA,MES,ANO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="VALOR_COTACAO" type="string">VALOR_COTACAO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="COD_MOEDA" type="string">COD_MOEDA</param>
+    /// <param name="SIMBOLO" type="string">SIMBOLO</param>
+    /// <param name="DIA" type="int">DIA</param>
+    /// <param name="MES" type="int">MES</param>
+    /// <param name="ANO" type="int">ANO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">InsereCotacaoEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereCotacaoEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",VALOR_COTACAO:"+JSON.stringify(VALOR_COTACAO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+",COD_MOEDA:"+JSON.stringify(COD_MOEDA)+",SIMBOLO:"+JSON.stringify(SIMBOLO)+",DIA:"+JSON.stringify(DIA)+",MES:"+JSON.stringify(MES)+",ANO:"+JSON.stringify(ANO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- AlteraCotacaoEstabelecimento
+function AlteraCotacaoEstabelecimento(ID_COTACAO,VALOR_COTACAO,ID_ESTABELECIMENTO,ID_MOEDA,DIA,MES,ANO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_COTACAO" type="int">ID_COTACAO</param>
+    /// <param name="VALOR_COTACAO" type="string">VALOR_COTACAO</param>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="DIA" type="int">DIA</param>
+    /// <param name="MES" type="int">MES</param>
+    /// <param name="ANO" type="int">ANO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">AlteraCotacaoEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/AlteraCotacaoEstabelecimento",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_COTACAO:"+JSON.stringify(ID_COTACAO)+",VALOR_COTACAO:"+JSON.stringify(VALOR_COTACAO)+",ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+",DIA:"+JSON.stringify(DIA)+",MES:"+JSON.stringify(MES)+",ANO:"+JSON.stringify(ANO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+// -- RetornaListaMoedaEstabelecimentoCotacao
+function RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO,successFunc,errorFunc)
+{
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+   /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaListaMoedaEstabelecimentoCotacaoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedaEstabelecimentoCotacao",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+				if(successFunc!=null)
+                successFunc(data.d);
+            }
+            else{
+                $res = data;
+				if(successFunc!=null)
+                successFunc(data);
+            }
+        },
+        error:function(){
+            if(errorFunc!=null)
+				errorFunc();
+        }
+
+
+    });
+    return  $res;
+}
+
+
+// -- RetornaListaMoedaEstabelecimentoCotacao
+function RetornaListaMoedasUtilizadas(successFunc, errorFunc) {
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaListaMoedaEstabelecimentoCotacaoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedasUtilizadas",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
@@ -600,23 +985,23 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc)
     return $res;
 }
 
-function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, successFunc, errorFunc)
-{
 
+// -- RetornaListaEstabelecimentoPorMoeda
+function RetornaListaEstabelecimentoPorMoeda(SIMBOLO, successFunc, errorFunc) {
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaListaMoedaEstabelecimentoCotacaoResult as </returns>
     var $res = '';
-
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",CODIGO:" + JSON.stringify(CODIGO) + ",NOME:" + JSON.stringify(NOME) + "}";
-
-
     jQuery.ajax({
         type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereMoedaEstabelecimento",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaEstabelecimentoPorMoeda",
         contentType: "application/json; charset=utf-8",
         async: false,
         cache: false,
         dataType: 'json',
-        data: dt,
+        data: "{SIMBOLO:" + JSON.stringify(SIMBOLO) + "}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
@@ -629,7 +1014,7 @@ function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, 
                     successFunc(data);
             }
         },
-        error: function (data) {
+        error: function () {
             if (errorFunc != null)
                 errorFunc();
         }
@@ -638,231 +1023,3 @@ function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, 
     });
     return $res;
 }
-
-function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO, successFunc, errorFunc) {
-
-    var $res = '';
-
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",ATIVO:" + JSON.stringify(ATIVO) + "}";
-
-
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/AlteraMoedaEstabelecimento",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: dt,
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
-                $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
-            }
-            else {
-                $res = data;
-                if (successFunc != null)
-                    successFunc(data);
-            }
-        },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
-        }
-
-
-    });
-    return $res;
-
-}
-
-function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO, successFunc, errorFunc) {
-
-    var $res = '';
-
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + "}";
-
-
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedaEstabelecimento",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: dt,
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
-                $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
-            }
-            else {
-                $res = data;
-                if (successFunc != null)
-                    successFunc(data);
-            }
-        },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
-        }
-    });
-    return $res;
-
-}
-
-function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, COD_MOEDA, VALOR_COTACAO, DIA, MES, ANO, successFunc, errorFunc) {
-
-    var $res = '';
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",COD_MOEDA:" + JSON.stringify(COD_MOEDA) + ",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) + ",DIA:" + JSON.stringify(DIA) + ",MES:" + JSON.stringify(MES) + ",ANO:" + JSON.stringify(ANO) + "}";
-
-
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereCotacaoEstabelecimento",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: dt,
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
-                $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
-            }
-            else {
-                $res = data;
-                if (successFunc != null)
-                    successFunc(data);
-            }
-        },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
-        }
-
-
-    });
-    return $res;
-}
-
-function RetornaCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, successFunc, errorFunc) {
-
-    var $res = '';
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + "}";
-
-
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaCotacaoEstabelecimento",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: dt,
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
-                $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
-            }
-            else {
-                $res = data;
-                if (successFunc != null)
-                    successFunc(data);
-            }
-        },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
-        }
-
-
-    });
-    return $res;
-}
-
-function RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, successFunc, errorFunc) {
-
-
-    var $res = '';
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + "}";
-
-
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedaEstabelecimentoCotacao",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: dt,
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
-                $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
-            }
-            else {
-                $res = data;
-                if (successFunc != null)
-                    successFunc(data);
-            }
-        },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
-        }
-
-
-    });
-    return $res;
-}
-
-function RetornaMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, successFunc, errorFunc) {
-
-    var $res = '';
-
-    var dt = "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + "}";
-
-
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaMoedaEstabelecimento",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: dt,
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
-                $res = data.d;
-                if (successFunc != null)
-                    successFunc(data.d);
-            }
-            else {
-                $res = data;
-                if (successFunc != null)
-                    successFunc(data);
-            }
-        },
-        error: function (data) {
-            if (errorFunc != null)
-                errorFunc();
-        }
-
-
-    });
-    return $res;
-}
-
-
-

@@ -21,26 +21,27 @@
 
         var DATA = '';
 
-        function PreencheSelect() {
+        function PreencheSelect(ID_ESTABELECIMENTO) {
             jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
-            var data = jQuery.parseJSON(ListaMoeda(null, null));
+            var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, null, null));
             if (data.length > 0) {
                 jQuery.each(data, function () {
-                    MontaSelect('MOEDA', this.CODIGO, this.NOME, this.PAIS);
+                    MontaSelect('MOEDA', this.SIMBOLO, this.NOME_MOEDA, this.PAIS);
                 });
 
             }
         }
 
-        function MontaSelect(OBJETO, CODIGO, NOME, PAIS) {
-            jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' ( ' + PAIS + ' )</option>');
+        function MontaSelect(OBJETO, SIMBOLO, NOME_MOEDA, PAIS) {
+            jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME_MOEDA + '</option>');
         }
 
         function BuscaUltimoValorVO() {
 
-            var cotacao = DATA.ID_ESTABELECIMENTO;
-            var data = jQuery.parseJSON(UtlimoValorVO(jQuery('#MOEDA selection').val(), null, null));
-            CarregaUltimoVaorVO(data);
+            var ID_ESTABELECIMENTO = DATA.ID_ESTABELECIMENTO;
+            var MOEDA = jQuery('#MOEDA').val();
+            var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, MOEDA, null, null));
+            CarregaUltimaCotacao(data);
         }
 
         function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
@@ -57,8 +58,9 @@
             }
         }
 
-        function CarregaUltimoVaorVO(data) {
-            jQuery('#VALOR').text('R$ ' + data.ultimoValor.svalor);
+        function CarregaUltimaCotacao(data) {
+            jQuery('#VALOR_COMPRA').text('R$ ' + data[0].TAXA_COMPRA);
+            jQuery('#VALOR_VENDA').text('R$ ' + data[0].TAXA_VENDA);
         }
 
         function getUrlVars() {
@@ -71,10 +73,12 @@
             }
             return vars;
         }
+
         jQuery(document).ready(function () {
             DATA = getUrlVars();
             if (!DATA.hasOwnProperty('ID_MOEDA')) {
                 jQuery('#DIVCOTACAO').css('display', 'none');
+                PreencheSelect(DATA.ID_ESTABELECIMENTO);
                 RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
             }
             else {
@@ -90,29 +94,37 @@
                //"<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
                "<a class='contact-text' href='#'>Endereço :" + data.ENDERECO + "," + data.NUMERO + "</a>" +
                "<a class='contact-text' href='#'>" + data.COMPLEMENTO + " " + data.BAIRRO + "</a>" +
-               "<a class='contact-text' href='#'>" + data.CIDADE + "," + data.UF + "</a>" ;
+               "<a class='contact-text' href='#'>" + data.CIDADE + "," + data.UF + "</a>";
 
             jQuery('#DIVINFO').html(html);
         }
     </script>
 </head>
-<body onload="PreencheSelect();" style="background-color:white;">
+<body style="background-color:white;">
     <div id="DIVINFO">
 
     </div>
     <div id="DIVBUSCACOTACAO">
-        <div href="#" class="contact-text">Moeda:</div>
+        <div class="contact-text">Moeda:</div>
         <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>
-
-        <div href="#" class="contact-text">Cotação :</div>
-        <label class="contact-text" id="VALOR"></label>
+        <span>
+            <label class="contact-text">Compra :</label>
+            <label class="contact-text" id="VALOR_COMPRA"></label>
+        </span>
+        <span>
+            <label class="contact-text">Venda :</label>
+            <label class="contact-text" id="VALOR_VENDA"></label>
+        </span>
     </div>
     <div id="DIVCOTACAO">
-        <div href="#" class="contact-text">Moeda:</div>
-        <label class="contact-text" id="LBLMOEDA"></label>
-
-        <div href="#" class="contact-text">Cotação :</div>
-        <label class="contact-text" id="LBLVALOR"></label>
+        <span>
+            <label class="contact-text">Compra :</label>
+            <label class="contact-text" id="LBLVALOR_COMPRA"></label>
+        </span>
+        <span>
+            <label class="contact-text">Venda :</label>
+            <label class="contact-text" id="LBLVALOR_VENDA"></label>
+        </span>
     </div>
 </body>
 </html>

@@ -13,14 +13,14 @@ function PreencheSelectMoeda() {
     var data = MOEDA;
     if (data.length > 0) {
         jQuery.each(data, function () {
-            MontaSelect('MOEDA', this.CODIGO, this.NOME, this.PAIS);
+            MontaSelect('MOEDA', this.SIMBOLO, this.NOME, this.PAIS);
         });
     }
 }
 
-function MontaSelect(OBJETO, CODIGO, NOME, PAIS) {
+function MontaSelect(OBJETO, SIMBOLO, NOME, PAIS) {
 
-    jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' ( ' + PAIS + ' )</option>');
+    jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
 }
 
 
@@ -73,22 +73,26 @@ function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
 function AdicionaMoeda(ID_ESTABELECIMENTO) {
 
     var ID_MOEDA = '';
-    var CODIGO = '';
+    var SIMBOLO = '';
     var NOME = '';
+    var CODIGO = '';
     jQuery.each(MOEDA, function () {
-        if (this.CODIGO == jQuery('#MOEDA').val()) {
+        if (this.SIMBOLO == jQuery('#MOEDA').val()) {
             ID_MOEDA = this.ID_MOEDA;
-            CODIGO = this.CODIGO;
+            SIMBOLO = this.SIMBOLO;
             NOME = this.NOME;
+            CODIGO = this.CODIGO;
         }
     });
 
     var dt = new Date();
     var valida = ValidaMoedaExistente(ID_ESTABELECIMENTO, ID_MOEDA);
-    alert(valida);
+    //alert(valida);
     if (valida == false) {
-        InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, null, null);
-        InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, jQuery('#PERCENTUAL').val(), dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
+        var VALOR_COTACAO = jQuery('#PERCENTUAL').val();
+
+        InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, SIMBOLO, null, null)
+        InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, VALOR_COTACAO, ID_MOEDA, CODIGO, SIMBOLO, dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
     }
     else {
         alert('Moeda já cadastrada!');
@@ -133,9 +137,9 @@ function MontaMoedasTrabalhadas(data) {
    "<div id='" + data.ID_ESTABELECIMENTO_MOEDA + "' class='big-notification static-notification-white'>" +
    "<strong><label class='busca-text'>Moeda:" + data.NOME_MOEDA + "</label></strong> " +
    "<div class='one-half'>" +
-   "<label class='contact-text'> Cod.:" + data.CODIGO + "</label>" +
-    " <input type='number' name='PERCENTUAL' value='"+ data.VALOR_COTACAO +"' class='contactField' id='PERCENTUAL' placeholder='Percentual de valoração' required />"+
-   // "<label class='contact-text'>Perc.:" + data.VALOR_COTACAO + "%</label>" +
+   "<label class='contact-text'> Cod.:" + data.SIMBOLO + "</label>" +
+   // "<input type='number' name='PERCENTUAL' value='"+ data.VALOR_COTACAO +"' class='contactField' id='PERCENTUAL' placeholder='Percentual de valoração' required />"+
+    "<label class='contact-text'>Perc.:" + data.VALOR_COTACAO + "%</label>" +
     "</div>" +
     "</div>";
     

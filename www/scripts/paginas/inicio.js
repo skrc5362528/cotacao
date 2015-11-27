@@ -1,9 +1,5 @@
-﻿
-var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+﻿var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
 navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-
-
-
 
 
 function CarregaMenu(pagina) {
@@ -44,7 +40,6 @@ function MenuAdmin() {
             jQuery("#ADMINAREA").hide();
         }
 }
-
 
 function ExibeMensagem(texto) {
 
