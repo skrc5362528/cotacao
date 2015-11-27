@@ -1857,7 +1857,7 @@ if (typeof module !== undefined) module.exports = polyline;
 
 	L.Routing.OSRM = L.Class.extend({
 		options: {
-			serviceUrl: '//router.project-osrm.org/viaroute',
+			serviceUrl: 'http://router.project-osrm.org/viaroute',
 			timeout: 30 * 1000,
 			routingOptions: {}
 		},

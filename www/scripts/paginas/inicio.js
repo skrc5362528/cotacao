@@ -26,7 +26,7 @@ function success(pos) {
 };
 
 function error(err) {
-    alert('ERROR(' + err.code + '): ' + err.message);
+    alert('Localização desabilitada, favor habilitar a localização');
 };
 
 function MenuAdmin() {
