@@ -23,6 +23,9 @@ function BuscaLogin() {
             ExibeMensagem("Usuário ou senha inválidos");
         }
     }
+    else {
+        ExibeMensagem("Usuário e senha obrigatórios");
+    }
 }
 
 function CarregaUSUARIO(data) {
@@ -62,7 +65,7 @@ function CarregaTelaTeste() {
 
 jQuery(document).ready(function myfunction() {
 
-    CarregaTelaTeste();
+
 
 });
 
@@ -76,7 +79,10 @@ function success(pos) {
     var crd = pos.coords;
     localStorage.setItem('latitude', crd.latitude);
     localStorage.setItem('longitude', crd.longitude);
+
 };
 function error(err) {
     alert('Localização desabilitada, favor habilitar a localização');
 };
+
+
