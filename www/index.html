@@ -31,14 +31,17 @@
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
     <script type="text/javascript" src="scripts/paginas/index.js"></script>
+    <script src="scripts/jquery.blockUI.js"></script>
+
+
 </head>
 <body>
-    <div id="preloader" style="display:block;">
-        <div id="status" style="display:block;">
+    <div id="preloader">
+        <div id="status">
             <!--<p class="center-text">
-            Carregando...
-            <em>O carregamento depende da sua conexão!</em>
-        </p>-->
+                Carregando...
+                <em>O carregamento depende da sua conexão!</em>
+            </p>-->
         </div>
     </div>
     <div id="content">
@@ -64,16 +67,16 @@
                 <div class="no-bottom">
                     <div>
                         <!--<fieldset>-->
-                            <label class="input-label">Entrar</label>
-                            <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
-                            <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
+                        <label class="input-label">Entrar</label>
+                        <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
+                        <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
                         <!--</fieldset>-->
                     </div>
                 </div>
             </div>
         </div>
         <script>
-            jQuery(document).ready(function() {
+            jQuery(document).ready(function () {
                 CarregaLogin();
             })
         </script>
@@ -81,12 +84,6 @@
 </body>
 
 </html>
-
-
-
-
-
-
 
 
 

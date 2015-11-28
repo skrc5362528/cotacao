@@ -39,22 +39,13 @@ function calculo(latPara, longPara) {
     return (km).toString().substring(0, 4);
 }
 
-
-
-function chamaAlerta() {
-
-    alert("CHAMA ALERTA");
-
-}
-
-
 function CarregaEstabelecimento(data) {
 
    var km = calculo(data.LATITUDE, data.LONGITUDE);
 
    var html =
    "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
-   "<strong><label class='busca-text'>" + data.NOME + "</label></strong> " +
+   "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
    "<div class='one-half'>" +
    "<label class='contact-text'> " + data.FONE + "</label>" +
    "<label class='contact-text'>Compra: </label>" +
@@ -62,13 +53,14 @@ function CarregaEstabelecimento(data) {
     "<label class='contact-text'> " + data.DATA_COTACAO + "</label>" +
    "</div>" +
    "<div class='two-half last-column'>" +
-   "<span class='span-stars'>" +
-   "<i class='fa fa-star'></i>" +
-   "<i class='fa fa-star'></i>" +
-   "<i class='fa fa-star'></i>" +
-   "<i class='fa fa-star'></i>" +
-   "<i class='fa fa-star-o'></i>" +
-   "</span>" +
+    "<a onclick='check(this);' class='button-acquainverso'><i class='fa fa-square'></i></a>" +
+   //"<span class='span-stars'>" +
+   //"<i class='fa fa-star'></i>" +
+   //"<i class='fa fa-star'></i>" +
+   //"<i class='fa fa-star'></i>" +
+   //"<i class='fa fa-star'></i>" +
+   //"<i class='fa fa-star-o'></i>" +
+   //"</span>" +
     "<label class='contact-text'>Venda: </label>" +
    "<label class='contact-text'>R$ " + data.TAXA_VENDA + "</label>" +
    "<label class='contact-text'>Km " + km + "</label>" +
@@ -81,8 +73,6 @@ function CarregaEstabelecimento(data) {
 
                             
 }
-
-
 
 function carregadetalhes(ID_ESTABELECIMENTO) {
 
@@ -110,15 +100,17 @@ function check(obj) {
 
     var id = obj.id;
 
-    if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
+    if (jQuery(obj).html() == '<i class="fa fa-square"></i>')
+    {
         jQuery(obj).html('<i class="fa fa-check-square"></i>');
-        jQuery(obj).removeClass('button button-red');
-        jQuery(obj).addClass('button button-green');
+        //jQuery(obj).removeClass('button button-acqua');
+        //jQuery(obj).addClass('button button-white');
     }
-    else {
+    else
+    {
         jQuery(obj).html('<i class="fa fa-square"></i>')
-        jQuery(obj).removeClass('button button-green');
-        jQuery(obj).addClass('button button-red');
+        //jQuery(obj).removeClass('button button-white');
+        //jQuery(obj).addClass('button button-acqua');
     }
 
 }
@@ -191,12 +183,7 @@ GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
 
 // Calculate distance in Kilometersvar 
 
-
 jQuery(document).ready(function () {
 
     PreencheSelectSuaMoeda();
-   // PreencheSelectMoedaProcura();
-    PreencheTransacaoProcura();
-    //verificaPosicao();
-
 });
