@@ -1180,7 +1180,6 @@ function RetornaFavoritosUsuario(ID_USUARIO, successFunc, errorFunc) {
     });
     return $res;
 }
-<<<<<<< HEAD
 
 
 function ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, successFunc, errorFunc)
@@ -1215,5 +1214,3 @@ function ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, success
     });
     return $res;
 }
-=======
->>>>>>> 9154001a95a1fad301576c54c718c7eb90e83798
