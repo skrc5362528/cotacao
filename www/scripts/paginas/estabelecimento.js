@@ -28,9 +28,15 @@ function CarregaEstabelecimento(data) {
 
     var html =
     "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
+<<<<<<< HEAD
     "<div>" +
     "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
     "</div>" +
+=======
+    "<div>"+
+    "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
+    "</div>"+
+>>>>>>> 9154001a95a1fad301576c54c718c7eb90e83798
     "<div class='one-half'>" +
     "<label class='contact-text'> " + data.FONE + "</label>" +
     "<label class='contact-text'>Compra: </label>" +
@@ -85,6 +91,7 @@ function check(obj) {
 
     var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
     var id = obj.id.split("_");
+<<<<<<< HEAD
 
     var ID_USUARIO = data.ID_USUARIO;
     var ID_ESTABELECIMENTO = id[0];
@@ -103,6 +110,21 @@ function check(obj) {
     }
     else {
         Alert("Moeda e corretora já cadastrado em seus favoritos !")
+=======
+
+    var ID_USUARIO = data.ID_USUARIO;
+    var ID_ESTABELECIMENTO = id[0];
+    var SIMBOLO = id[1];
+
+
+    if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
+        jQuery(obj).html('<i class="fa fa-check-square"></i>');
+        InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
+    }
+    else {
+        jQuery(obj).html('<i class="fa fa-square"></i>');
+        ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
+>>>>>>> 9154001a95a1fad301576c54c718c7eb90e83798
     }
 }
 
