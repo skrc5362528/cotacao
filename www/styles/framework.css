@@ -552,13 +552,21 @@ a{
     color:#0489B1;}
 .button-acqua:hover{	
     background-color:#0489B1;}
+
+.acquainverso-3d{				
+    border-bottom:solid 4px #0489B1;}
+.button-acquainverso{
+    background-color:rgba(255, 255, 255, 1);; 
+    color:#0489B1;}
+.button-acquainverso:hover{	
+    background-color:#fff;}
 /*/////////////*/
 /*Buttons Icons*/
 /*/////////////*/
 
-.icon-home{background-image:url(../images/icons/misc/home.html);}
+/*.icon-home{background-image:url(../images/icons/misc/home.html);}
 .icon-setting{background-image:url(../images/icons/settings/cog4.html);}
-.icon-mail{background-image:url(../images/icons/misc/mail.html);}
+.icon-mail{background-image:url(../images/icons/misc/mail.html);}*/
 
 
 /*////////////////*/
@@ -1377,7 +1385,7 @@ table tr:hover td{
 .static-notification-white{
 	overflow:hidden;
 	background-color: white;
-	color:#FFFFFF;
+	color:black;
     border-radius:10px;
 	margin-bottom:30px;
    
@@ -1842,7 +1850,7 @@ table tr:hover td{
 }
 
 .contact-text{
-    font-size:15px;
+    font-size:13px;
 	color:#666;
 	height:25px;
 	display:block;

@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui" />
@@ -29,22 +28,28 @@
 
     <!--SCRIPTS BASICOS-->
     <script src="scripts/jquery-2.1.4.js"></script>
-
+    <script src="scripts/jquery.blockUI.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
 
-
     <!--SCRIPTS DE PÁGINAS-->
-
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
-
+    <script>
+        jQuery(this).ajaxStart(function () {
+            jQuery("#status").fadeOut();
+            jQuery("#preloader").delay(400).fadeOut("slow");
+        }).ajaxStop(function () {
+            jQuery("#status").fadeIn();
+            jQuery("#preloader").delay(400).fadeIn("slow");
+        });
+    </script>
 
 </head>
 <body onload="PreparaSistema('mapa.html');">
     <!--class="snapjs-left"-->
-    <div id="preloader" class="preloader">
+    <div id="preloader">
         <div id="status">
             <!--<p class="center-text">
                 Carregando...
@@ -113,7 +118,7 @@
                 </div>
                 <!--<div class="sidebar-decoration"></div>-->
                 <div class="navigation-item">
-                    <a onclick="CarregaMenu('avaliacoes.html')" class="close-nav nav-item">
+                    <a onclick="CarregaMenu('avaliacao.html')" class="close-nav nav-item">
                         <i class="fa fa-area-chart"></i>
                         Avaliações
                         <i class="fa"></i>
@@ -175,7 +180,6 @@
 
         </div>
     </div>
-
 </body>
 </html>
 

@@ -65,7 +65,7 @@ function CarregaTelaTeste() {
 
 jQuery(document).ready(function myfunction() {
 
-
+    CarregaTelaTeste();
 
 });
 

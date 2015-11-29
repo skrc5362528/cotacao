@@ -1063,3 +1063,154 @@ function RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, succ
     });
     return $res;
 }
+
+// -- InsereCotacaoEstabelecimento
+function InsereFavoritosUsuario(ID_USUARIO,ID_ESTABELECIMENTO, SIMBOLO, successFunc, errorFunc) {
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="VALOR_COTACAO" type="string">VALOR_COTACAO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="COD_MOEDA" type="string">COD_MOEDA</param>
+    /// <param name="SIMBOLO" type="string">SIMBOLO</param>
+    /// <param name="DIA" type="int">DIA</param>
+    /// <param name="MES" type="int">MES</param>
+    /// <param name="ANO" type="int">ANO</param>
+    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">InsereCotacaoEstabelecimentoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/InsereFavoritosUsuario",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function () {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+function ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, successFunc, errorFunc)
+{
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/ExcluiFavorito",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function () {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+// -- RetornaCotacaoEstabelecimento
+function RetornaFavoritosUsuario(ID_USUARIO, successFunc, errorFunc) {
+    /// <summary></summary>
+    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
+    /// <param name="ID_MOEDA" type="int">ID_MOEDA</param>
+    /// <param name="successFunc" type="function">Success Function</param>
+    /// <param name="errorFunc" type="function">Error Function</param>
+    /// <returns type="">RetornaCotacaoEstabelecimentoPorMoeda as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaFavoritosUsuario",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}
+
+
+function ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, successFunc, errorFunc)
+{
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/ValidaFavoritosUsuario",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function () {
+            if (errorFunc != null)
+                errorFunc();
+        }
+
+
+    });
+    return $res;
+}

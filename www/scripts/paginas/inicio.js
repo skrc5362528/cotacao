@@ -1,5 +1,5 @@
-﻿var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
-navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+﻿var optionsWatchPosition = { enableHighAccuracy: true };
+navigator.geolocation.getCurrentPosition(success, error, optionsWatchPosition);
 
 
 function CarregaMenu(pagina) {
