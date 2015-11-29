@@ -23,13 +23,9 @@ function MontaSelect(OBJETO, SIMBOLO, NOME, PAIS) {
     jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
 }
 
-
 function MontaSelectEstabelecimento(OBJETO, CODIGO, NOME) {
-
     jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' </option>');
 }
-
-
 
 function PreencheTransacaoProcura() {
     jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
@@ -86,7 +82,7 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
     });
 
     var dt = new Date();
-    var valida = ValidaMoedaExistente(ID_ESTABELECIMENTO, ID_MOEDA);
+    var valida = ValidaMoedaExistente(ID_ESTABELECIMENTO, SIMBOLO);
     //alert(valida);
     if (valida == false) {
         var VALOR_COTACAO = jQuery('#PERCENTUAL').val();
@@ -100,10 +96,10 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
     PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO);
 }
 
-function ValidaMoedaExistente(ID_ESTABELECIMENTO, ID_MOEDA) {
+function ValidaMoedaExistente(ID_ESTABELECIMENTO, SIMBOLO) {
 
     var val = '';
-    var data = jQuery.parseJSON(RetornaMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, null, null));
+    var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
     if (data.length > 0) {
     val = true;     
     }

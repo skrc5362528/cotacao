@@ -1,25 +1,8 @@
-﻿function BuscarTeste() {
-    var dt = new Date();
-    var DIA = dt.getDate();
-    var MES = (dt.getMonth() + 1);
-    var ANO = dt.getFullYear();
-    jQuery('#DIVESTABELECIMENTO').html('');
-
-    var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
-        });
-    }
-}
+﻿
 
 function BuscarEstabelecimento() {
 
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
-    var dt = new Date();
-    var DIA = dt.getDate();
-    var MES = (dt.getMonth() + 1);
-    var ANO = dt.getFullYear();
     jQuery('#DIVESTABELECIMENTO').html('');
 
     var data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
@@ -41,46 +24,48 @@ function calculo(latPara, longPara) {
 
 function CarregaEstabelecimento(data) {
 
-   var km = calculo(data.LATITUDE, data.LONGITUDE);
+    var km = calculo(data.LATITUDE, data.LONGITUDE);
 
-   var html =
-   "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
-   "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
-   "<div class='one-half'>" +
-   "<label class='contact-text'> " + data.FONE + "</label>" +
-   "<label class='contact-text'>Compra: </label>" +
-   "<label class='contact-text'>R$ " + data.TAXA_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
-    "<label class='contact-text'> " + data.DATA_COTACAO + "</label>" +
-   "</div>" +
-   "<div class='two-half last-column'>" +
-    "<a onclick='check(this);' class='button-acquainverso'><i class='fa fa-square'></i></a>" +
-   //"<span class='span-stars'>" +
-   //"<i class='fa fa-star'></i>" +
-   //"<i class='fa fa-star'></i>" +
-   //"<i class='fa fa-star'></i>" +
-   //"<i class='fa fa-star'></i>" +
-   //"<i class='fa fa-star-o'></i>" +
-   //"</span>" +
-    "<label class='contact-text'>Venda: </label>" +
-   "<label class='contact-text'>R$ " + data.TAXA_VENDA + "</label>" +
-   "<label class='contact-text'>Km " + km + "</label>" +
-   "</div>" +
+    var html =
+    "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
+    "<div>"+
+    "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
+    "</div>"+
+    "<div class='one-half'>" +
+    "<label class='contact-text'> " + data.FONE + "</label>" +
+    "<label class='contact-text'>Compra: </label>" +
+    "<label class='contact-text'>R$ " + data.TAXA_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
+     "<label class='contact-text'> " + data.DATA_COTACAO + "</label>" +
+    "</div>" +
     "<div class='two-half last-column'>" +
-   "</div>" +
-   "</div>";
-    
+     "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button-acquainverso'><i class='fa fa-square'></i></a>" +
+    //"<span class='span-stars'>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star-o'></i>" +
+    //"</span>" +
+     "<label class='contact-text'>Venda: </label>" +
+    "<label class='contact-text'>R$ " + data.TAXA_VENDA + "</label>" +
+    "<label class='contact-text'>Km " + km + "</label>" +
+    "</div>" +
+     "<div class='two-half last-column'>" +
+    "</div>" +
+    "</div>";
+
     return html;
 
-                            
+
 }
 
 function carregadetalhes(ID_ESTABELECIMENTO) {
 
     var html = "</br><div class='one-half'><div class='big-notification static-notification-white'>" +
                              "<h4 class='uppercase'>Notification Title</h4>" +
-                             "<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" +ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>"
-                             "</div>"+
-                             "</div>";
+                             "<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>"
+    "</div>" +
+    "</div>";
     jQuery('#' + ID_ESTABELECIMENTO + '').append(html);
 }
 
@@ -98,19 +83,21 @@ function estrelas(numeroestrelas) {
 
 function check(obj) {
 
-    var id = obj.id;
+    var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+    var id = obj.id.split("_");
 
-    if (jQuery(obj).html() == '<i class="fa fa-square"></i>')
-    {
+    var ID_USUARIO = data.ID_USUARIO;
+    var ID_ESTABELECIMENTO = id[0];
+    var SIMBOLO = id[1];
+
+
+    if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
         jQuery(obj).html('<i class="fa fa-check-square"></i>');
-        //jQuery(obj).removeClass('button button-acqua');
-        //jQuery(obj).addClass('button button-white');
+        InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
     }
-    else
-    {
-        jQuery(obj).html('<i class="fa fa-square"></i>')
-        //jQuery(obj).removeClass('button button-white');
-        //jQuery(obj).addClass('button button-acqua');
+    else {
+        jQuery(obj).html('<i class="fa fa-square"></i>');
+        ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
     }
 
 }
@@ -139,7 +126,7 @@ function PreencheSelectSuaMoeda() {
             MontaSelect('SUA_MOEDA', this.SIMBOLO, this.NOME_MOEDA);
         });
     }
- 
+
 }
 
 function PreencheSelectMoedaProcura() {
@@ -150,7 +137,7 @@ function PreencheSelectMoedaProcura() {
             MontaSelect('MOEDA_PROCURA', this.SIMBOLO, this.NOME_MOEDA);
         });
     }
-   
+
 
 }
 
@@ -162,7 +149,7 @@ function PreencheTransacaoProcura() {
             jQuery('#TRANSACAO').append('<option value=' + this[0] + '>' + this[1] + '</option>');
         });
     }
-   
+
 }
 
 var GeoCodeCalc = {};
@@ -172,8 +159,7 @@ GeoCodeCalc.EarthRadiusInKilometers = 6367.0;
 GeoCodeCalc.ToRadian = function (v)
 { return v * (Math.PI / 180); };
 
-GeoCodeCalc.DiffRadian = function (v1, v2)
-{
+GeoCodeCalc.DiffRadian = function (v1, v2) {
     return GeoCodeCalc.ToRadian(v2) - GeoCodeCalc.ToRadian(v1);
 };
 
