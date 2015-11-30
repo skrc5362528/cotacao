@@ -14,10 +14,8 @@ function BuscaLogin() {
     if (jQuery('#EMAIL').val() != '' && jQuery('#SENHA').val() != '') {
         var EMAIL = jQuery('#EMAIL').val();
         var SENHA = jQuery('#SENHA').val();
-        //BloqueiaTela("Buscando usuário...");
-
         var login = Login(EMAIL, SENHA, null, ERROCONEXAO);
-        if (ERROCONEXAO == null || ERROCONEXAO == undefined) {
+        if (login != '') {
             var usu = jQuery.parseJSON(login);
             if (usu != null) {
                 CarregaUSUARIO(usu);
