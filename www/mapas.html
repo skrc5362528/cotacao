@@ -8,10 +8,12 @@
     <!--SCRIPTS BASICOS-->
     <script src="scripts/jquery-2.1.4.js"></script>
     <script src="leaflet/leaflet.js"></script>
+
     <script src="leaflet-routing-machine/leaflet-routing-machine.js"></script>
 
     <script src="scripts/jqueryui.js"></script>
     <script src="scripts/jsmodel/wscotacao.js"></script>
+    <script src="scripts/framework.plugins.js"></script>
 
     <link href="leaflet/leaflet.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
@@ -30,22 +32,23 @@
     </style>
 </head>
 <body>
+   
     <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim" tabindex="0" style="position: relative;">
 
     </div>
 
     <script>
-        var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+        BloqueiaTela("Carregando mapa...")
+        var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
         navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
         var rota = '';
-        //==============================================================================================================================//
 
+        //==============================================================================================================================//
+        //var map = L.map('map').setView([localStorage.getItem('latitude'), localStorage.getItem('longitude')], 16);
         var map = L.map('map');
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            attribution: '&copy; BUNKER07',
             id: 'vitorcastro.cigoy6vp700eyusm1aljj8ifi',
             accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
         }).addTo(map);
@@ -64,7 +67,8 @@
         };
 
         function error(err) {
-            alert('Localização desabilitada, favor habilitar a localização');
+            BloqueiaTela('Localização desabilitada, favor habilitar a localização');
+            DesbloqueiaTelaDelay();
         };
 
         function onLocationFound(e) {
@@ -73,6 +77,8 @@
             L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
             CarregaEstabelecimentos();
             map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+
+            DesbloqueiaTela();
             //L.marker([e.latlng.lat, e.latlng.lng]).addTo(map).bindPopup(MontaMapa(null));
         }
 
@@ -115,7 +121,6 @@
             rota = L.Routing.control(
                 {
                     waypoints: [L.latLng(lat, lng), L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)],
-                    //router: L.routing.graphHopper('' , {urlParameters: {vehicle: 'foot'}}),
                     routeWhileDragging: false,
                     autoRoute: true
                 }

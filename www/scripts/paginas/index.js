@@ -14,13 +14,18 @@ function BuscaLogin() {
     if (jQuery('#EMAIL').val() != '' && jQuery('#SENHA').val() != '') {
         var EMAIL = jQuery('#EMAIL').val();
         var SENHA = jQuery('#SENHA').val();
-        var usu = jQuery.parseJSON(Login(EMAIL, SENHA, null, null));
-        if (usu != null) {
-            CarregaUSUARIO(usu);
-            window.location.assign("inicio.html");
-        }
-        else {
-            ExibeMensagem("Usuário ou senha inválidos");
+        //BloqueiaTela("Buscando usuário...");
+
+        var login = Login(EMAIL, SENHA, null, ERROCONEXAO);
+        if (ERROCONEXAO == null || ERROCONEXAO == undefined) {
+            var usu = jQuery.parseJSON(login);
+            if (usu != null) {
+                CarregaUSUARIO(usu);
+                window.location.assign("inicio.html");
+            }
+            else {
+                ExibeMensagem("Usuário ou senha inválidos");
+            }
         }
     }
     else {
@@ -42,18 +47,7 @@ function Registrar() {
     window.location.assign("registro.html")
 }
 
-function ExibeMensagem(texto) {
 
-
-    alert(texto);
-//    navigator.notification.alert(
-//    texto,                  // message
-//    alertDismissed,         // callback
-//    'Alerta',            // title
-//    'Ok'                  // buttonName
-//)           ;
-
-}
 
 function CarregaTelaTeste() {
 
@@ -71,7 +65,7 @@ jQuery(document).ready(function myfunction() {
 
 
 function onDeviceReady() {
-    var optionsWatchPosition = { frequency: 3000, enableHighAccuracy: true };
+    var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
     navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 }
 
@@ -82,7 +76,7 @@ function success(pos) {
 
 };
 function error(err) {
-    alert('Localização desabilitada, favor habilitar a localização');
+    ExibeMensagem('Localização desabilitada, favor habilitar a localização');
 };
 
 

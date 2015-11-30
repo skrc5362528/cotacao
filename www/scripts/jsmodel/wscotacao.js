@@ -42,9 +42,9 @@ function ListaMoeda(successFunc,errorFunc)
                 successFunc(data);
             }
         },
-        error:function(){
+        error: function (data) {
             if(errorFunc!=null)
-				errorFunc();
+                errorFunc(data);
         }
 
 
@@ -426,9 +426,9 @@ function Login(email,senha,successFunc,errorFunc)
                 successFunc(data);
             }
         },
-        error:function(){
+        error:function(data){
             if(errorFunc!=null)
-				errorFunc();
+				errorFunc(data);
         }
 
 
