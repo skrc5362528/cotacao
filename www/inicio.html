@@ -28,22 +28,19 @@
 
     <!--SCRIPTS BASICOS-->
     <script src="scripts/jquery-2.1.4.js"></script>
-    <script src="scripts/jquery.blockUI.js"></script>
+
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
+    <script src="scripts/jquery.blockUI.js"></script>
 
     <!--SCRIPTS DE PÁGINAS-->
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
     <script>
-        jQuery(this).ajaxStart(function () {
-            jQuery("#status").fadeOut();
-            jQuery("#preloader").delay(400).fadeOut("slow");
-        }).ajaxStop(function () {
-            jQuery("#status").fadeIn();
-            jQuery("#preloader").delay(400).fadeIn("slow");
-        });
+      function BloqueiaTela() {
+          jQuery.blockUI({ message: '<img src="img/LOGO_eXCHANGE_BRANCO.png" width="128" height="70" />' });
+        }
     </script>
 
 </head>
@@ -71,7 +68,7 @@
                     <img src="img/LOGO_eXCHANGE_BRANCO.png" width="128" height="70" />
                 </div>
                 <!--<div class="navigation-item">
-                    <a onclick="PreencheMapa()" class="nav-item">
+                    <a onclick="ClickBlock();" class="nav-item">
                         <i class="fa fa-navicon"></i>
                         MENU
                         <i class="fa"></i>

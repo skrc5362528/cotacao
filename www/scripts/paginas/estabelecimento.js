@@ -5,12 +5,14 @@ function BuscarEstabelecimento() {
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').html('');
 
+    BloqueiaTela("Carregando...");
     var data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
         });
     }
+    DesbloqueiaTela();
 }
 
 function calculo(latPara, longPara) {
@@ -102,7 +104,7 @@ function check(obj) {
         }
     }
     else {
-        Alert("Moeda e corretora já cadastrado em seus favoritos !")
+        ExibeMensagem("Moeda e corretora já cadastrados em seus favoritos !")
     }
 }
 

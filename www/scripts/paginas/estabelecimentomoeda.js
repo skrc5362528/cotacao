@@ -10,7 +10,7 @@
 
 function PreencheSelectMoeda() {
     jQuery('#MOEDA').append('<option value="" selected> Que moeda você procura? </option>');
-    var data = MOEDA;
+    var data = jQuery.parseJSON(ListaMoeda(null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             MontaSelect('MOEDA', this.SIMBOLO, this.NOME, this.PAIS);
@@ -83,7 +83,7 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
 
     var dt = new Date();
     var valida = ValidaMoedaExistente(ID_ESTABELECIMENTO, SIMBOLO);
-    //alert(valida);
+    alert(valida);
     if (valida == false) {
         var VALOR_COTACAO = jQuery('#PERCENTUAL').val();
 

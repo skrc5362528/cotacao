@@ -1,5 +1,5 @@
-﻿var optionsWatchPosition = { enableHighAccuracy: true };
-navigator.geolocation.getCurrentPosition(success, error, optionsWatchPosition);
+﻿var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 
 
 function CarregaMenu(pagina) {
@@ -15,6 +15,7 @@ function PreparaSistema(pagina) {
     CarregaMenu(pagina);
     CarregaTela();
     MenuAdmin();
+    jQuery("#dialog-message").show();
 }
 
 function success(pos) {
