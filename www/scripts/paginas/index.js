@@ -14,18 +14,14 @@ function BuscaLogin() {
     if (jQuery('#EMAIL').val() != '' && jQuery('#SENHA').val() != '') {
         var EMAIL = jQuery('#EMAIL').val();
         var SENHA = jQuery('#SENHA').val();
-        //BloqueiaTela("Buscando usuário...");
-
-        var login = Login(EMAIL, SENHA, null, ERROCONEXAO);
-        if (ERROCONEXAO == null || ERROCONEXAO == undefined) {
-            var usu = jQuery.parseJSON(login);
-            if (usu != null) {
-                CarregaUSUARIO(usu);
-                window.location.assign("inicio.html");
-            }
-            else {
-                ExibeMensagem("Usuário ou senha inválidos");
-            }
+        BloqueiaTela("Buscando usuário...");
+        var usu = jQuery.parseJSON(Login(EMAIL, SENHA, null, null));
+        if (usu != null) {
+            CarregaUSUARIO(usu);
+            window.location.assign("inicio.html");
+        }
+        else {
+            ExibeMensagem("Usuário ou senha inválidos");
         }
     }
     else {
