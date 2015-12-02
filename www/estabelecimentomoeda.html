@@ -25,9 +25,10 @@
                             <label class="input-label">Configurações</label>
                             <select name="" class="contactField" id="ESTABELECIMENTO" onchange="PreencheMoedasTrabalhadas(jQuery('#ESTABELECIMENTO').val())"></select>
                             <!--<label class="input-label">Moedas trabalhadas</label>-->
-                            <select name="" class="contactField" id="MOEDA"></select>
+                            <select name="" class="contactField" id="MOEDA" onchange="CarregaMoedaTrabalhada(jQuery('#ESTABELECIMENTO').val(),jQuery('#MOEDA').val())"></select>
                             <!--<label class="input-label">Percentual de valoração</label>-->
-                            <input type="number" name="PERCENTUAL" value="" class="contactField" id="PERCENTUAL" placeholder="Percentual de valoração" required />
+                            <input type="number" name="VALOR_COTACAO" value="" class="contactField" id="VALOR_COTACAO" placeholder="Perc. serviço de venda" required />
+                            <input type="number" name="VALOR_COTACAO_COMPRA" value="" class="contactField" id="VALOR_COTACAO_COMPRA" placeholder="Perc. serviço de Compra" required />
                             <!--<label class="input-label">Status</label>-->
                             <select name="STATUS" class="contactField" id="STATUS">
                                 <option selected="selected">Status</option>

@@ -715,7 +715,7 @@ var BloqueiaTela = function BloqueiaTela(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "<img src='img/LOGO_eXCHANGE_BRANCO.png' width='128' height='70' /><br/> " + mensagem + "",
+        message: "<img src='img/LOGO_eXCHANGE_BRANCO.png' width='128' height='70' /><br/> <label class='input-label'>" + mensagem + "</label>",
     });
 }
 
@@ -733,7 +733,7 @@ var ExibeMensagem = function ExibeMensagem(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "" + mensagem + "",
+        message: "<label class='input-label'>" + mensagem + "</label>",
     });
 
     DesbloqueiaTelaDelay(2000);

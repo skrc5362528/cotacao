@@ -1,18 +1,87 @@
 ﻿
+var data = '';
+var ordem = '';
+var cpo_tx_venda = 'TAXA_VENDA';
+var cpo_tx_compra = 'TAXA_COMPRA';
+var cpo_nome = 'NOME';
+var ord_nome = false;
+var ord_tx_venda = false;
+var ord_tx_compra = false;
 
-function BuscarEstabelecimento() {
-
+function BuscarEstabelecimento(campo,ordena) {
+    BloqueiaTela("Carregando...");
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').html('');
+    
+    jQuery('#DIVESTABELECIMENTO').append("<p><div>" +
+                            "<div class='one-third center-text'>" +
+                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            "</div>" +
+                            "<div class='one-third center-text'>" +
+                            "<a onclick='OrdenaBusca(this,cpo_tx_compra,ord_tx_compra);' id='ordenatxcompra'><label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            "</div>" +
+                            "<div class='one-third last-column center-text'>" +
+                            "<a onclick='OrdenaBusca(this,cpo_nome,ord_nome);' id='ordenanome'><label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            "</div>" +
+                            "</div></p>");
+    data = OrdenaResultados('NOME', ordena , jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, null)));
 
-    BloqueiaTela("Carregando...");
-    var data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, null));//var data = jQuery.parseJSON(RetornaListaEstabelecimentoEcotacao(ID_MOEDA, DIA, MES, ANO, null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
         });
     }
+
     DesbloqueiaTela();
+}
+
+function OrdenaBusca(obj,campo,ordena) {
+
+    BuscarEstabelecimento(campo, ordena);
+
+    if (ordena == true)
+    {
+        if (obj.id == 'ordenatxvenda') {
+             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+            ord_tx_venda = false;
+
+        }
+        if (obj.id == 'ordenatxcompra') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+            ord_tx_compra = false;
+        }
+        if (obj.id == 'ordenanome') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+            ord_nome = false;
+        }
+    }
+    else {
+        
+        if (obj.id == 'ordenatxvenda') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+            ord_tx_venda = true;
+       
+        }
+        if (obj.id == 'ordenatxcompra') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+            ord_tx_compra = true;
+        }
+        if (obj.id == 'ordenanome') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+            ord_nome = true;
+        }
+    }
+
+   
+}
+
+function OrdenaResultados(prop, asc, obj) {
+    obj = obj.sort(function (a, b) {
+        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    });
+
+    return obj;
 }
 
 function calculo(latPara, longPara) {
@@ -92,7 +161,7 @@ function check(obj) {
     var ID_ESTABELECIMENTO = id[0];
     var SIMBOLO = id[1];
     var COUNT = ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
-    
+
     if (COUNT == 0) {
         if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
             jQuery(obj).html('<i class="fa fa-check-square"></i>');
@@ -107,18 +176,6 @@ function check(obj) {
         ExibeMensagem("Moeda e corretora já cadastrados em seus favoritos !")
     }
 }
-
-
-//function PreencheSelect() {
-//    jQuery('#MOEDAS_TRABALHADAS').append('<option value="" selected> Selecione uma moeda </option>');
-//    var data = jQuery.parseJSON(ListaMoeda(null, null));
-//    if (data.length > 0) {
-//        jQuery.each(data, function () {
-//            MontaSelect('MOEDA', this.CODIGO, this.NOME, this.PAIS);
-//        });
-//        jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
-//    }
-//}
 
 function MontaSelect(OBJETO, SIMBOLO, NOME) {
     jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
@@ -144,19 +201,6 @@ function PreencheSelectMoedaProcura() {
             MontaSelect('MOEDA_PROCURA', this.SIMBOLO, this.NOME_MOEDA);
         });
     }
-
-
-}
-
-function PreencheTransacaoProcura() {
-    jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
-    var data = TRANSACAO;
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            jQuery('#TRANSACAO').append('<option value=' + this[0] + '>' + this[1] + '</option>');
-        });
-    }
-
 }
 
 var GeoCodeCalc = {};

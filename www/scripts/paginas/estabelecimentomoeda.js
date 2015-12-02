@@ -27,16 +27,6 @@ function MontaSelectEstabelecimento(OBJETO, CODIGO, NOME) {
     jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' </option>');
 }
 
-function PreencheTransacaoProcura() {
-    jQuery('#TRANSACAO').append('<option value="" selected>O que você quer fazer?</option>');
-    var data = TRANSACAO;
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            jQuery('#TRANSACAO').append('<option value=' + this[0] + '>' + this[1] + '</option>');
-        });
-    }
-}
-
 function CarregaEstabelecimento(data) {
 
     var html =
@@ -80,37 +70,36 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
             CODIGO = this.CODIGO;
         }
     });
+    var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
+    var VALOR_COTACAO_COMPRA = jQuery('#VALOR_COTACAO_COMPRA').val();
+
 
     var dt = new Date();
-    var valida = ValidaMoedaExistente(ID_ESTABELECIMENTO, SIMBOLO);
-    alert(valida);
-    if (valida == false) {
-        var VALOR_COTACAO = jQuery('#PERCENTUAL').val();
+    var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
+
+    if (data.length == 0) {
 
         InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, SIMBOLO, null, null)
-        InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, VALOR_COTACAO, ID_MOEDA, CODIGO, SIMBOLO, dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
+        InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, VALOR_COTACAO,VALOR_COTACAO_COMPRA, ID_MOEDA, CODIGO, SIMBOLO, dt.getDate(), (dt.getMonth() + 1), dt.getFullYear(), null, null);
     }
     else {
-        alert('Moeda já cadastrada!');
+        ExibeMensagem('Moeda já cadastrada!');
     }
     PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO);
 }
 
-function ValidaMoedaExistente(ID_ESTABELECIMENTO, SIMBOLO) {
-
-    var val = '';
+function CarregaMoedaTrabalhada(ID_ESTABELECIMENTO, SIMBOLO)
+{
     var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
     if (data.length > 0) {
-    val = true;     
+        jQuery.each(data, function () {
+            jQuery('#VALOR_COTACAO').val(this.VALOR_COTACAO);
+            jQuery('#VALOR_COTACAO_COMPRA').val(this.VALOR_COTACAO_COMPRA);
+            jQuery('#STATUS').val(this.STATUS);
+        });
     }
-    else {
-    val = false;
-    }
- 
 
-    return val;
-}
-function CarregaMoedasTrabalhadas(ID_ESTABELECIMENTO) {
+
 
 }
 
@@ -138,18 +127,15 @@ function MontaMoedasTrabalhadas(data) {
     "<label class='contact-text'>Perc.:" + data.VALOR_COTACAO + "%</label>" +
     "</div>" +
     "</div>";
-    
-
 
     return html;
-
 }
 
 jQuery(document).ready(function () {
 
     CarregaSelectEstabelecimentos();
     PreencheSelectMoeda();
-    PreencheTransacaoProcura();
+
 
 });
 

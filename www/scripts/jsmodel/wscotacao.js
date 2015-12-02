@@ -817,7 +817,7 @@ function RetornaCotacaoEstabelecimento(ID_ESTABELECIMENTO,ID_MOEDA,successFunc,e
 }
 
 // -- InsereCotacaoEstabelecimento
-function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO,VALOR_COTACAO,ID_MOEDA,COD_MOEDA,SIMBOLO,DIA,MES,ANO,successFunc,errorFunc)
+function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, VALOR_COTACAO, VALOR_COTACAO_COMPRA,ID_MOEDA, COD_MOEDA, SIMBOLO, DIA, MES, ANO, successFunc, errorFunc)
 {
     /// <summary></summary>
     /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
@@ -839,7 +839,7 @@ function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO,VALOR_COTACAO,ID_MOEDA,
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",VALOR_COTACAO:"+JSON.stringify(VALOR_COTACAO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+",COD_MOEDA:"+JSON.stringify(COD_MOEDA)+",SIMBOLO:"+JSON.stringify(SIMBOLO)+",DIA:"+JSON.stringify(DIA)+",MES:"+JSON.stringify(MES)+",ANO:"+JSON.stringify(ANO)+"}",
+        data: "{ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) + ",VALOR_COTACAO_COMPRA:" + JSON.stringify(VALOR_COTACAO_COMPRA) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",COD_MOEDA:" + JSON.stringify(COD_MOEDA) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + ",DIA:" + JSON.stringify(DIA) + ",MES:" + JSON.stringify(MES) + ",ANO:" + JSON.stringify(ANO) + "}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;
@@ -863,7 +863,7 @@ function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO,VALOR_COTACAO,ID_MOEDA,
 }
 
 // -- AlteraCotacaoEstabelecimento
-function AlteraCotacaoEstabelecimento(ID_COTACAO,VALOR_COTACAO,ID_ESTABELECIMENTO,ID_MOEDA,DIA,MES,ANO,successFunc,errorFunc)
+function AlteraCotacaoEstabelecimento(ID_COTACAO, VALOR_COTACAO, VALOR_COTACAO_COMPRA, ID_ESTABELECIMENTO, ID_MOEDA, DIA, MES, ANO, successFunc, errorFunc)
 {
     /// <summary></summary>
     /// <param name="ID_COTACAO" type="int">ID_COTACAO</param>
@@ -884,7 +884,7 @@ function AlteraCotacaoEstabelecimento(ID_COTACAO,VALOR_COTACAO,ID_ESTABELECIMENT
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_COTACAO:"+JSON.stringify(ID_COTACAO)+",VALOR_COTACAO:"+JSON.stringify(VALOR_COTACAO)+",ID_ESTABELECIMENTO:"+JSON.stringify(ID_ESTABELECIMENTO)+",ID_MOEDA:"+JSON.stringify(ID_MOEDA)+",DIA:"+JSON.stringify(DIA)+",MES:"+JSON.stringify(MES)+",ANO:"+JSON.stringify(ANO)+"}",
+        data: "{ID_COTACAO:" + JSON.stringify(ID_COTACAO) + ",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) + ",VALOR_COTACAO_COMPRA:" + JSON.stringify(VALOR_COTACAO_COMPRA) + ",ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_MOEDA:" + JSON.stringify(ID_MOEDA) + ",DIA:" + JSON.stringify(DIA) + ",MES:" + JSON.stringify(MES) + ",ANO:" + JSON.stringify(ANO) + "}",
         success: function (data) {
             if (data.hasOwnProperty("d")) {
                 $res = data.d;

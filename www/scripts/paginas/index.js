@@ -48,17 +48,14 @@ function Registrar() {
 
 
 function CarregaTelaTeste() {
-
         jQuery('#EMAIL').val('vitorcastro78@gmail.com');
         jQuery('#SENHA').val('lara2308');
-    
 }
 
 
 jQuery(document).ready(function myfunction() {
-
+    CarregaLogin();
     CarregaTelaTeste();
-
 });
 
 
