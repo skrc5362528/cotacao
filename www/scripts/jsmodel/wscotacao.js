@@ -286,7 +286,7 @@ function RetornaListaEstabelecimentos(successFunc,errorFunc)
         url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaEstabelecimentos",
         contentType: "application/json; charset=utf-8",
         async: false,
-        cache: false,
+        cache: true,
         dataType: 'json',
         data: '',
         success: function (data) {
@@ -999,7 +999,7 @@ function RetornaListaEstabelecimentoPorMoeda(SIMBOLO, successFunc, errorFunc) {
         url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaEstabelecimentoPorMoeda",
         contentType: "application/json; charset=utf-8",
         async: false,
-        cache: false,
+        cache: true,
         dataType: 'json',
         data: "{SIMBOLO:" + JSON.stringify(SIMBOLO) + "}",
         success: function (data) {

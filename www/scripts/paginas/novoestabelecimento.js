@@ -16,7 +16,7 @@ function Grava() {
         var COMPLEMENTO =   jQuery('#COMPLEMENTO').val();
 
     if(NOME != "" || FONE != ""){
-        var resp = jQuery.parseJSON(InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, null, null));
+        var resp = jQuery.parseJSON(InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, null, ERROCONEXAO));
         if (resp.ID_ESTABELECIMENTO != '')
         {
             sessionStorage.setItem("ESTABELECIMENTO", JSON.stringify(resp));

@@ -33,7 +33,6 @@
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
-    <script src="scripts/jquery.blockUI.js"></script>
 
     <!--SCRIPTS DE PÁGINAS-->
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
@@ -48,10 +47,6 @@
     <!--class="snapjs-left"-->
     <div id="preloader">
         <div id="status">
-            <!--<p class="center-text">
-                Carregando...
-                <em>O carregamento depende da sua conexão!</em>
-            </p>-->
         </div>
     </div>
     <div class="all-elements">
@@ -144,6 +139,25 @@
                         </a>
                     </div>
                 </div>
+
+                <div id="ESTABELECIMENTO">
+                    <div class="navigation-item">
+                        <a onclick="CarregaMenu('estabelecimentomoeda.html')" class="nav-item">
+                            <i class="fa fa-clock-o"></i>
+                            Config. Estabelecimento
+                            <i class="fa"></i>
+                        </a>
+                    </div>
+
+                    <div class="navigation-item">
+                        <a onclick="CarregaMenu('pefilestabelecimento.html')" class="nav-item">
+                            <i class="fa fa-clock-o"></i>
+                            Perfil Estabelecimento
+                            <i class="fa"></i>
+                        </a>
+                    </div>
+                </div>
+
                 <div class="sidebar-breadcrumb">
                     <br />
                     <br />
@@ -165,7 +179,7 @@
                     </a>
                 </div>
                 <div class="navigation-item">
-                    <a href="#" class="close-nav nav-item">
+                    <a href="index.html" class="close-nav nav-item">
                         <i class="fa fa-sign-out"></i>
                         Sair
                         <i class="fa"></i>

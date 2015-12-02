@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-   
+
     <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim" tabindex="0" style="position: relative;">
 
     </div>
@@ -79,23 +79,25 @@
             map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
 
             DesbloqueiaTela();
-            //L.marker([e.latlng.lat, e.latlng.lng]).addTo(map).bindPopup(MontaMapa(null));
         }
 
         function onLocationError(e) {
             navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-
-            //var lat =   localStorage.getItem('latitude');
-            //var long = localStorage.getItem('longitude');
-
-            //var radius = 10;//e.accuracy / 2;
-            //L.marker([lat,long]).addTo(map).bindPopup("Localização Inicial").openPopup();
-            //CarregaEstabelecimentos();
-            //map.panTo(new L.LatLng(lat, long));
         }
 
         function CarregaEstabelecimentos() {
-            var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
+
+            var data = '';
+
+            if(localStorage.getItem('ESTABELECIMENTOS') == undefined)
+            {
+                data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
+                localStorage.setItem('ESTABELECIMENTOS', JSON.stringify(data));}
+           else {
+                data = jQuery.parseJSON(localStorage.getItem('ESTABELECIMENTOS'));
+            }
+       
+    
             if (data.length > 0) {
                 jQuery.each(data, function () {
                     if (this.LATITUDE != null && this.LONGITUDE != null) {
@@ -103,7 +105,11 @@
                     }
                 });
             }
+              
+            
+
         }
+        
 
         function MontaMapa(data) {
             //L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");

@@ -699,9 +699,6 @@
 
 }(jQuery));
 
-
-
-
 var BloqueiaTela = function BloqueiaTela(mensagem) {
 
     jQuery.blockUI({
@@ -715,10 +712,9 @@ var BloqueiaTela = function BloqueiaTela(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "<img src='img/LOGO_eXCHANGE_BRANCO.png' width='128' height='70' /><br/> <label class='input-label'>" + mensagem + "</label>",
+        message: "<img src='img/LOGO_eXCHANGE_BRANCO.png' width='128' height='70' /><br/> <strong>" + mensagem + "</strong>",
     });
 }
-
 
 var ExibeMensagem = function ExibeMensagem(mensagem) {
 
@@ -733,7 +729,7 @@ var ExibeMensagem = function ExibeMensagem(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "<label class='input-label'>" + mensagem + "</label>",
+        message: "<h3>" + mensagem + "</h3>",
     });
 
     DesbloqueiaTelaDelay(2000);
@@ -746,7 +742,6 @@ var DesbloqueiaTelaDelay = function DesbloqueiaTelaDelay(milissegundos) {
 var DesbloqueiaTela = function DesbloqueiaTela() {
     jQuery.unblockUI();
 }
-
 
 var ERROCONEXAO = function ERROCONEXAO(data) {
 

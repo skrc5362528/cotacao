@@ -6,7 +6,7 @@ var POST = 'http://open.mapquestapi.com/geocoding/v1/address?key=YFK7SPhPwnZ2KCH
 
 function PreencheSelect() {
     jQuery('#ESTABELECIMENTO').append('<option value="" selected>Selecione o estabelecimento</option>');
-    var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
+    var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
             MontaSelect('ESTABELECIMENTO',this.ID_ESTABELECIMENTO ,this.NOME );
@@ -21,11 +21,17 @@ function MontaSelect(OBJETO, CODIGO, NOME) {
 
 jQuery(document).ready(function () {
     PreencheSelect();
+
+    var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+
+    //jQuery('#ESTABELECIMENTO').val(ID_ESTABELECIMENTO);
+    //RetornaEstabelecimento(ID_ESTABELECIMENTO);
+
 });
 
 
 function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
-    var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
+    var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
             MontaTela(this);

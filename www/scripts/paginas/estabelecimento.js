@@ -12,7 +12,14 @@ function BuscarEstabelecimento(campo,ordena) {
     BloqueiaTela("Carregando...");
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').html('');
-    
+    CarregaFiltros();
+    data = OrdenaResultados('NOME', ordena, jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO)));
+    CarregaDados(data);
+
+    DesbloqueiaTela();
+}
+
+function CarregaFiltros() {
     jQuery('#DIVESTABELECIMENTO').append("<p><div>" +
                             "<div class='one-third center-text'>" +
                             "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
@@ -24,7 +31,17 @@ function BuscarEstabelecimento(campo,ordena) {
                             "<a onclick='OrdenaBusca(this,cpo_nome,ord_nome);' id='ordenanome'><label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "</div></p>");
-    data = OrdenaResultados('NOME', ordena , jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, null)));
+}
+
+function FiltraBusca(campo, ordena) {
+
+    data = OrdenaResultados(campo, ordena, data);
+    jQuery('#DIVESTABELECIMENTO').html('');
+    CarregaFiltros();
+    CarregaDados(data);
+}
+
+function CarregaDados(data) {
 
     if (data.length > 0) {
         jQuery.each(data, function () {
@@ -32,12 +49,11 @@ function BuscarEstabelecimento(campo,ordena) {
         });
     }
 
-    DesbloqueiaTela();
 }
 
 function OrdenaBusca(obj,campo,ordena) {
 
-    BuscarEstabelecimento(campo, ordena);
+    FiltraBusca(campo, ordena);
 
     if (ordena == true)
     {
@@ -84,7 +100,7 @@ function OrdenaResultados(prop, asc, obj) {
     return obj;
 }
 
-function calculo(latPara, longPara) {
+function calculoDistancia(latPara, longPara) {
 
     var lat = localStorage.getItem('latitude');
     var long = localStorage.getItem('longitude');
@@ -92,10 +108,20 @@ function calculo(latPara, longPara) {
     var km = d = GeoCodeCalc.CalcDistance(lat, long, latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
     return (km).toString().substring(0, 4);
 }
+function calculoCompra(TAXA_COMPRA, VALOR_COTACAO)
+{
+    return TAXA_COMPRA;
+}
+
+function calculoVenda(TAXA_VENDA,VALOR_COTACAO_VENDA) {
+    return TAXA_VENDA;
+}
 
 function CarregaEstabelecimento(data) {
 
-    var km = calculo(data.LATITUDE, data.LONGITUDE);
+    var km = calculoDistancia(data.LATITUDE, data.LONGITUDE);
+    var compra = calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO);
+    var venda = calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO_VENDA)
 
     var html =
     "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
@@ -105,8 +131,8 @@ function CarregaEstabelecimento(data) {
     "<div class='one-half'>" +
     "<label class='contact-text'> " + data.FONE + "</label>" +
     "<label class='contact-text'>Compra: </label>" +
-    "<label class='contact-text'>R$ " + data.TAXA_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
-     "<label class='contact-text'> " + data.DATA_COTACAO + "</label>" +
+    "<label class='contact-text'>R$ " + compra + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
+     //"<label class='contact-text'> " + venda + "</label>" +
     "</div>" +
     "<div class='two-half last-column'>" +
      "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button-acquainverso'><i class='fa fa-square'></i></a>" +
@@ -160,16 +186,16 @@ function check(obj) {
     var ID_USUARIO = data.ID_USUARIO;
     var ID_ESTABELECIMENTO = id[0];
     var SIMBOLO = id[1];
-    var COUNT = ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
+    var COUNT = ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
 
     if (COUNT == 0) {
         if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
             jQuery(obj).html('<i class="fa fa-check-square"></i>');
-            InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
+            InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
         }
         else {
             jQuery(obj).html('<i class="fa fa-square"></i>');
-            ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, null);
+            ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
         }
     }
     else {

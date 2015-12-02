@@ -3,10 +3,10 @@
 function BuscarEstabelecimento() {
 
     var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
-    var data = jQuery.parseJSON(RetornaFavoritosUsuario(usu.ID_USUARIO, null, null));
+    var data = jQuery.parseJSON(RetornaFavoritosUsuario(usu.ID_USUARIO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
-            var dt = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(this.ID_ESTABELECIMENTO, this.SIMBOLO, null, null));
+            var dt = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(this.ID_ESTABELECIMENTO, this.SIMBOLO, null, ERROCONEXAO));
             jQuery.each(dt, function () {
                 jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
             });

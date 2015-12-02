@@ -1,5 +1,5 @@
 ﻿function PreencheSelect() {
-    var data = jQuery.parseJSON(ListaMoeda(null, null));
+    var data = jQuery.parseJSON(ListaMoeda(null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
             MontaSelect(this.CODIGO, this.NOME);
@@ -42,7 +42,7 @@ function BuscaValores() {
 
 function BuscaUltimoValorVO(moeda) {
 
-    var data = jQuery.parseJSON(UtlimoValorVO(moeda, null, null));
+    var data = jQuery.parseJSON(UtlimoValorVO(moeda, null, ERROCONEXAO));
     CarregaUltimoVaorVO(data);
 }
 

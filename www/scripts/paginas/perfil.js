@@ -12,7 +12,7 @@ function GravaUsuario() {
         var val = jQuery.parseJSON(ValidaUsuario(EMAIL));
 
         if (val == null) {
-            var usu = InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADASTRO, EMAIL, ATIVO, successFunc, errorFunc);
+            var usu = InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, DATA_CADASTRO, EMAIL, ATIVO, successFunc, ERROCONEXAO);
         }
         //var usu = InsereUsuario(SENHA, NOME, LOGIN, EMAIL, null, null)
 
@@ -56,20 +56,6 @@ function Voltar() {
     window.location.assign("login.html")
 }
 
-function ExibeMensagem(texto) {
-
-
-    navigator.notification.alert(
-    texto,                  // message
-    alertDismissed,         // callback
-    'Alerta',            // title
-    'Ok'                  // buttonName
-);
-
-    //jQuery('#mensagem').css('display', 'block');
-    //jQuery('#txtmsg').text(texto);
-    //navigator.notifivation.alert("texto");
-}
 
 function CarregaUSUARIO(data) {
 
