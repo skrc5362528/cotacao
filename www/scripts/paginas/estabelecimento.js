@@ -8,7 +8,7 @@ var ord_nome = false;
 var ord_tx_venda = false;
 var ord_tx_compra = false;
 
-function BuscarEstabelecimento(campo,ordena) {
+function BuscarEstabelecimento(campo, ordena) {
     BloqueiaTela("Carregando...");
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').html('');
@@ -51,14 +51,13 @@ function CarregaDados(data) {
 
 }
 
-function OrdenaBusca(obj,campo,ordena) {
+function OrdenaBusca(obj, campo, ordena) {
 
     FiltraBusca(campo, ordena);
 
-    if (ordena == true)
-    {
+    if (ordena == true) {
         if (obj.id == 'ordenatxvenda') {
-             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
             ord_tx_venda = false;
 
         }
@@ -72,11 +71,11 @@ function OrdenaBusca(obj,campo,ordena) {
         }
     }
     else {
-        
+
         if (obj.id == 'ordenatxvenda') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_tx_venda = true;
-       
+
         }
         if (obj.id == 'ordenatxcompra') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
@@ -88,7 +87,7 @@ function OrdenaBusca(obj,campo,ordena) {
         }
     }
 
-   
+
 }
 
 function OrdenaResultados(prop, asc, obj) {
@@ -108,12 +107,12 @@ function calculoDistancia(latPara, longPara) {
     var km = d = GeoCodeCalc.CalcDistance(lat, long, latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
     return (km).toString().substring(0, 4);
 }
-function calculoCompra(TAXA_COMPRA, VALOR_COTACAO)
-{
+
+function calculoCompra(TAXA_COMPRA, VALOR_COTACAO) {
     return TAXA_COMPRA;
 }
 
-function calculoVenda(TAXA_VENDA,VALOR_COTACAO_VENDA) {
+function calculoVenda(TAXA_VENDA, VALOR_COTACAO_VENDA) {
     return TAXA_VENDA;
 }
 
@@ -135,19 +134,22 @@ function CarregaEstabelecimento(data) {
      //"<label class='contact-text'> " + venda + "</label>" +
     "</div>" +
     "<div class='two-half last-column'>" +
-     "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button-acquainverso'><i class='fa fa-square'></i></a>" +
-    //"<span class='span-stars'>" +
-    //"<i class='fa fa-star'></i>" +
-    //"<i class='fa fa-star'></i>" +
-    //"<i class='fa fa-star'></i>" +
-    //"<i class='fa fa-star'></i>" +
-    //"<i class='fa fa-star-o'></i>" +
-    //"</span>" +
+    "<span class='span-stars'>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star-o'></i>" +
+    "</span>" +
      "<label class='contact-text'>Venda: </label>" +
     "<label class='contact-text'>R$ " + data.TAXA_VENDA + "</label>" +
     "<label class='contact-text'>Km " + km + "</label>" +
     "</div>" +
+      "<div class='one-half'>" +
+      "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO+"' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
+      "</div>" +
      "<div class='two-half last-column'>" +
+       "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
     "</div>" +
     "</div>";
 
@@ -156,15 +158,13 @@ function CarregaEstabelecimento(data) {
 
 }
 
-function carregadetalhes(ID_ESTABELECIMENTO) {
+function MostraMapa(obj) {
+   
+    localStorage.setItem('VIEWMAP', obj.id);
 
-    var html = "</br><div class='one-half'><div class='big-notification static-notification-white'>" +
-                             "<h4 class='uppercase'>Notification Title</h4>" +
-                             "<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>"
-    "</div>" +
-    "</div>";
-    jQuery('#' + ID_ESTABELECIMENTO + '').append(html);
+    CarregaMenu('mapa.html');
 }
+
 
 function estrelas(numeroestrelas) {
     html = '';
@@ -189,12 +189,12 @@ function check(obj) {
     var COUNT = ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
 
     if (COUNT == 0) {
-        if (jQuery(obj).html() == '<i class="fa fa-square"></i>') {
-            jQuery(obj).html('<i class="fa fa-check-square"></i>');
+        if (jQuery(obj).html() == "<i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i>") {
+            jQuery(obj).html("<i class='fa fa-star' style='font-size:18px; color:#0489B1;></i>");
             InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
         }
         else {
-            jQuery(obj).html('<i class="fa fa-square"></i>');
+            jQuery(obj).html("<i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i>");
             ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
         }
     }

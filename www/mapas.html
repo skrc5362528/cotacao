@@ -38,25 +38,34 @@
     </div>
 
     <script>
-        BloqueiaTela("Carregando mapa...")
-        var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
-        navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-        var rota = '';
 
+
+            var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+            navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+            var rota = '';
+            var map = '';
+            CarregaMapaCompleto();
+      
+       
+       
         //==============================================================================================================================//
-        //var map = L.map('map').setView([localStorage.getItem('latitude'), localStorage.getItem('longitude')], 16);
-        var map = L.map('map');
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 18,
-            attribution: '&copy; BUNKER07',
-            id: 'vitorcastro.cigoy6vp700eyusm1aljj8ifi',
-            accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
-        }).addTo(map);
+        function CarregaMapaCompleto() {
+            BloqueiaTela("Carregando mapa...");
 
-        map.on('locationfound', onLocationFound);
-        map.on('locationerror', onLocationError);
-        map.locate({ setView: true, maxZoom: 16 });
-        map.on('popupopen', onMapClick);
+            map = L.map('map');
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                maxZoom: 18,
+                attribution: '&copy; BUNKER07',
+                id: 'vitorcastro.cigoy6vp700eyusm1aljj8ifi',
+                accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
+            }).addTo(map);
+
+            map.on('locationfound', onLocationFound);
+            map.on('locationerror', onLocationError);
+            map.locate({ setView: true, maxZoom: 16 });
+            map.on('popupopen', onMapClick);
+            DesbloqueiaTela();
+        }
 
         //=============================================================================================================================//
 
@@ -72,13 +81,31 @@
         };
 
         function onLocationFound(e) {
-            // var ID_ESTABELECIMENTO = 'TESTE DE QUERYSTRING';
             var radius = 10;// e.accuracy / 2;
-            L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
-            CarregaEstabelecimentos();
-            map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+           
+           
 
-            DesbloqueiaTela();
+            if (localStorage.getItem('VIEWMAP') == undefined) {
+                CarregaEstabelecimentos();
+                L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
+                map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+            }
+            else
+            {
+                var ID_ESTABELECIMENTO = localStorage.getItem('VIEWMAP');
+                var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
+                if (data.length > 0) {
+                    jQuery.each(data, function () {
+                        if (this.LATITUDE != null && this.LONGITUDE != null) {
+                           // MontaMapa(this);
+                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "' class='' height='300'  weight='200' frameBorder='0'></iframe>").openPopup();
+                            map.panTo(new L.LatLng(this.LATITUDE, this.LONGITUDE));
+
+                        }
+                    });
+                }
+                localStorage.removeItem('VIEWMAP');
+            }
         }
 
         function onLocationError(e) {
@@ -89,15 +116,15 @@
 
             var data = '';
 
-            if(localStorage.getItem('ESTABELECIMENTOS') == undefined)
-            {
+            if (localStorage.getItem('ESTABELECIMENTOS') == undefined) {
                 data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
-                localStorage.setItem('ESTABELECIMENTOS', JSON.stringify(data));}
-           else {
+                localStorage.setItem('ESTABELECIMENTOS', JSON.stringify(data));
+            }
+            else {
                 data = jQuery.parseJSON(localStorage.getItem('ESTABELECIMENTOS'));
             }
-       
-    
+
+
             if (data.length > 0) {
                 jQuery.each(data, function () {
                     if (this.LATITUDE != null && this.LONGITUDE != null) {
@@ -105,11 +132,10 @@
                     }
                 });
             }
-              
-            
+
+
 
         }
-        
 
         function MontaMapa(data) {
             //L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");

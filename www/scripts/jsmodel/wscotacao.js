@@ -603,7 +603,7 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO,successFunc,errorFunc)
                 successFunc(data);
             }
         },
-        error:function(){
+        error:function(data){
             if(errorFunc!=null)
 				errorFunc();
         }
@@ -960,7 +960,7 @@ function RetornaListaMoedasUtilizadas(successFunc, errorFunc) {
         url: "http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaListaMoedasUtilizadas",
         contentType: "application/json; charset=utf-8",
         async: false,
-        cache: false,
+        cache: true,
         dataType: 'json',
         data: "",
         success: function (data) {

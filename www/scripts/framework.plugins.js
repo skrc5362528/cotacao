@@ -712,11 +712,13 @@ var BloqueiaTela = function BloqueiaTela(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "<img src='img/LOGO_eXCHANGE_BRANCO.png' width='128' height='70' /><br/> <strong>" + mensagem + "</strong>",
+        message: "<img src='img/LOGO_eXCHANGE_BRANCO.png' width='128' height='70' /><br/> <label style='font-size:16px; color:white;'>" + mensagem + "</label>",
     });
 }
 
 var ExibeMensagem = function ExibeMensagem(mensagem) {
+
+    DesbloqueiaTela();
 
     jQuery.blockUI({
 
@@ -729,7 +731,7 @@ var ExibeMensagem = function ExibeMensagem(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "<h3>" + mensagem + "</h3>",
+        message: "<label style='font-size:16px; color:white;'>" + mensagem + "</label>",
     });
 
     DesbloqueiaTelaDelay(2000);
