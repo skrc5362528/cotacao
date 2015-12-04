@@ -19,7 +19,6 @@ function PreencheSelectMoeda() {
 }
 
 function MontaSelect(OBJETO, SIMBOLO, NOME, PAIS) {
-
     jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
 }
 
@@ -29,7 +28,6 @@ function MontaSelectEstabelecimento(OBJETO, CODIGO, NOME) {
 }
 
 function CarregaEstabelecimento(data) {
-
     var html =
     "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
     "<strong><label class='busca-text'>" + data.NOME + "</label></strong> " +
@@ -58,7 +56,6 @@ function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
 }
 
 function AdicionaMoeda(ID_ESTABELECIMENTO) {
-
     var ID_MOEDA = '';
     var SIMBOLO = '';
     var NOME = '';
@@ -101,7 +98,6 @@ function CarregaMoedaTrabalhada(ID_ESTABELECIMENTO, SIMBOLO) {
 }
 
 function PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO) {
-
     var html = '';
     var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, null, ERROCONEXAO));
     if (data.length > 0) {
@@ -113,7 +109,11 @@ function PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO) {
 }
 
 function MontaMoedasTrabalhadas(data) {
-    var status = verificaAtivo(data.STATUS) ;
+
+    var status = verificaAtivo(data.ATIVO);
+
+
+
     var html =
    "<div id='" + data.ID_COTACAO + "' class='big-notification static-notification-white'>" +
     "<div>" +
@@ -135,7 +135,7 @@ function MontaMoedasTrabalhadas(data) {
     "<input type='number' name='VALOR_COTACAO' value='" + data.VALOR_COTACAO + "' class='contactField' id='VALOR_COTACAO_" + data.ID_COTACAO + "' placeholder='Percentual de valoração' required readonly />" +
     "<fieldset>" +
     "</div>" +
-    "<div class='two-half last-column'>" +
+    "<div class='one-half last-column'>" +
     "<fieldset>" +
     "<label class='contact-text'>Status:" + status + "</label>" +
     "<label class='contact-text'>Perc. Compra: </label>" +
@@ -144,30 +144,28 @@ function MontaMoedasTrabalhadas(data) {
     "</div>" +
     "</div>";
 
+
     return html;
+
+
 }
 
 jQuery(document).ready(function () {
-
     CarregaSelectEstabelecimentos();
     PreencheSelectMoeda();
 });
 
 function verificaAtivo(ATIVO) {
-
     var ret = '';
-
     if (ATIVO == true)
         ret = 'ATIVO';
     else
         ret = 'DESATIVADO';
 
     return ret;
-
 }
 
 function AlteraCotacao(obj) {
-
     var ob = obj.id.split("_");
     var ACAO = ob[0];
     var ID = ob[1];
@@ -189,54 +187,4 @@ function AlteraCotacao(obj) {
     {
 
     }
-
-  //  jQuery('"#ALTERA_"' + obj.id+"'");
-  //  jQuery('"#CANCELA_"' + obj.id+"'");
-  //  jQuery('"#GRAVA_"' + obj.id+"'");
-  //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
- 
-}
-
-function CancelaCotacao(obj) {
-
-    var ob = obj.id.split();
-    var ACAO = ob[0];
-    var ID = ob[1];
-    if (ACAO == "ALTERA") {
-        jQuery('"#ALTERA_"' + obj.id + "'").css('visibility', 'hidden');
-        jQuery('"#CANCELA_"' + obj.id + "'").css('visibility', 'block');
-    }
-    if (ACAO == "CANCELA") {
-    }
-    if (ACAO == "GRAVA") {
-    }
-
-    //  jQuery('"#ALTERA_"' + obj.id+"'");
-    //  jQuery('"#CANCELA_"' + obj.id+"'");
-    //  jQuery('"#GRAVA_"' + obj.id+"'");
-    //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
-    jQuery("#VALOR_COTACAO_" + obj.id).attr("readonly", false);
-    jQuery("#VALOR_COTACAO_COMPRA_" + obj.id).attr("readonly", false);
-}
-
-function GravaCotacao(obj) {
-
-    var ob = obj.id.split();
-    var ACAO = ob[0];
-    var ID = ob[1];
-    if (ACAO == "ALTERA") {
-        jQuery('"#ALTERA_"' + obj.id + "'").css('visibility', 'hidden');
-        jQuery('"#CANCELA_"' + obj.id + "'").css('visibility', 'block');
-    }
-    if (ACAO == "CANCELA") {
-    }
-    if (ACAO == "GRAVA") {
-    }
-
-    //  jQuery('"#ALTERA_"' + obj.id+"'");
-    //  jQuery('"#CANCELA_"' + obj.id+"'");
-    //  jQuery('"#GRAVA_"' + obj.id+"'");
-    //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
-    jQuery("#VALOR_COTACAO_" + obj.id).attr("readonly", false);
-    jQuery("#VALOR_COTACAO_COMPRA_" + obj.id).attr("readonly", false);
 }
