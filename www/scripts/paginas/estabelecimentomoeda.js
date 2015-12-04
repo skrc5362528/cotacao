@@ -113,19 +113,21 @@ function PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO) {
 }
 
 function MontaMoedasTrabalhadas(data) {
-
+    var status = verificaAtivo(data.STATUS) ;
     var html =
    "<div id='" + data.ID_COTACAO + "' class='big-notification static-notification-white'>" +
     "<div>" +
     "<strong><label class='contact-text'>" + data.NOME_MOEDA + "</label></strong> " +
     "</div>" +
-   "<div class='one-half'>" +
-    "<a  onclick='AlteraCotacao(this);' id='ALTERA_" + data.ID_COTACAO + "'   class='button button-white'><i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //"<a  onclick='CancelaCotacao(this);' id='CANCELA_" + data.ID_COTACAO + "'  class='button button-white' style='visibility:hidden'><i class='fa fa-times' style='font-size:18px; color:#0489B1;'></i></a>" +
+    "<div class='one-third center-text'>" +
+     "<a  onclick='AlteraCotacao(this);' id='ALTERA_" + data.ID_COTACAO + "'   class='button button-white'><i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i></a>" +
    "</div>" +
-   "<div class='two-half last-column'>" +
-   "<a  onclick='GravaCotacao(this);' id='GRAVA_"+ data.ID_COTACAO + "' class='button button-white'><i class='fa fa-floppy-o' style='font-size:18px; color:#0489B1;'></i></a>" +
-   "</div>"+
+   "<div class='one-third center-text'>" +
+     "<a  onclick='AlteraCotacao(this);' id='CANCELA_" + data.ID_COTACAO + "'  class='button button-white'><i class='fa fa-times' style='font-size:18px; color:#0489B1;'></i></a>" +
+  "</div>" +
+   "<div class='one-third last-column center-text'>" +
+   "<a  onclick='AlteraCotacao(this);' id='GRAVA_" + data.ID_COTACAO + "' class='button button-white'><i class='fa fa-floppy-o' style='font-size:18px; color:#0489B1;'></i></a>" +
+   "</div>" +
    "<div class='one-half'>" +
    "<fieldset>" +
    "<label class='contact-text'> Cod.:" + data.SIMBOLO + "</label>" +
@@ -135,7 +137,7 @@ function MontaMoedasTrabalhadas(data) {
     "</div>" +
     "<div class='two-half last-column'>" +
     "<fieldset>" +
-    "<label class='contact-text'>Status:" + data.STATUS + "</label>" +
+    "<label class='contact-text'>Status:" + status + "</label>" +
     "<label class='contact-text'>Perc. Compra: </label>" +
     "<input type='number' name='VALOR_COTACAO_COMPRA' value='" + data.VALOR_COTACAO_COMPRA + "' class='contactField' id='VALOR_COTACAO_COMPRA_" + data.ID_COTACAO + "' placeholder='Percentual de valoração' required readonly />" +
     "<fieldset>" +
@@ -166,27 +168,33 @@ function verificaAtivo(ATIVO) {
 
 function AlteraCotacao(obj) {
 
-    var ob = obj.id.split();
+    var ob = obj.id.split("_");
     var ACAO = ob[0];
     var ID = ob[1];
+
+    alert(ACAO);
+    alert(ID);
+
     if (ACAO == "ALTERA")
     {
-        jQuery('"#ALTERA_"' + obj.id + "'").css('visibility', 'hidden');
-        jQuery('"#CANCELA_"' + obj.id + "'").css('visibility', 'block');
+        jQuery('#VALOR_COTACAO_' + ID + '').attr("readonly", false);
+        jQuery('#VALOR_COTACAO_COMPRA_' + ID + '').attr("readonly", false);
     }
     if (ACAO == "CANCELA")
     {
+        jQuery('#VALOR_COTACAO_' + ID + '').attr("readonly", true);
+        jQuery('#VALOR_COTACAO_COMPRA_' + ID + '').attr("readonly", true);
     }
     if (ACAO == "GRAVA")
     {
+
     }
 
   //  jQuery('"#ALTERA_"' + obj.id+"'");
   //  jQuery('"#CANCELA_"' + obj.id+"'");
   //  jQuery('"#GRAVA_"' + obj.id+"'");
   //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
-  jQuery("#VALOR_COTACAO_" + obj.id).attr("readonly", false);
-  jQuery("#VALOR_COTACAO_COMPRA_" + obj.id).attr("readonly", false);
+ 
 }
 
 function CancelaCotacao(obj) {

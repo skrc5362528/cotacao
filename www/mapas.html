@@ -74,12 +74,12 @@
             var crd = pos.coords;
             localStorage.setItem('latitude', crd.latitude);
             localStorage.setItem('longitude', crd.longitude);
-            DesbloqueiaTela();
+            DesbloqueiaTelaDelay(2000);
         };
 
         function error(err) {
             BloqueiaTela('Localização desabilitada, favor habilitar a localização');
-            DesbloqueiaTelaDelay();
+            DesbloqueiaTelaDelay(2000);
         };
 
         function onLocationFound(e) {
