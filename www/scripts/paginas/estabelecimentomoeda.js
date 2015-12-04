@@ -1,9 +1,9 @@
 ﻿function CarregaSelectEstabelecimentos() {
-    jQuery('#ESTABELECIMENTO').append('<option value="" selected> Que estabelecimento você procura? </option>');
+    jQuery('#ESTABELECIMENTO_').append('<option value="" selected> Que estabelecimento você procura? </option>');
     var data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
-            MontaSelectEstabelecimento('ESTABELECIMENTO', this.ID_ESTABELECIMENTO, this.NOME);
+            MontaSelectEstabelecimento('ESTABELECIMENTO_', this.ID_ESTABELECIMENTO, this.NOME);
         });
     }
 }
@@ -24,6 +24,7 @@ function MontaSelect(OBJETO, SIMBOLO, NOME, PAIS) {
 }
 
 function MontaSelectEstabelecimento(OBJETO, CODIGO, NOME) {
+
     jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + ' </option>');
 }
 
@@ -109,18 +110,21 @@ function PreencheMoedasTrabalhadas(ID_ESTABELECIMENTO) {
         });
     }
     jQuery('#DIVESTABELECIMENTO').html(html);
-
 }
 
 function MontaMoedasTrabalhadas(data) {
 
     var html =
    "<div id='" + data.ID_COTACAO + "' class='big-notification static-notification-white'>" +
+    "<div>" +
+    "<strong><label class='contact-text'>" + data.NOME_MOEDA + "</label></strong> " +
+    "</div>" +
    "<div class='one-half'>" +
-   "<strong><label class='busca-text'>Moeda:" + data.NOME_MOEDA + "</label></strong> "+
+    "<a  onclick='AlteraCotacao(this);' id='ALTERA_" + data.ID_COTACAO + "'   class='button button-white'><i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i></a>" +
+    //"<a  onclick='CancelaCotacao(this);' id='CANCELA_" + data.ID_COTACAO + "'  class='button button-white' style='visibility:hidden'><i class='fa fa-times' style='font-size:18px; color:#0489B1;'></i></a>" +
    "</div>" +
-    "<div class='two-half last-column'>" +
-   "<a onclick='AdicionaMoeda();' class='button button-acqua'></a>" +
+   "<div class='two-half last-column'>" +
+   "<a  onclick='GravaCotacao(this);' id='GRAVA_"+ data.ID_COTACAO + "' class='button button-white'><i class='fa fa-floppy-o' style='font-size:18px; color:#0489B1;'></i></a>" +
    "</div>"+
    "<div class='one-half'>" +
    "<fieldset>" +
@@ -128,7 +132,6 @@ function MontaMoedasTrabalhadas(data) {
    "<label class='contact-text'>Perc. Venda:</label>" +
     "<input type='number' name='VALOR_COTACAO' value='" + data.VALOR_COTACAO + "' class='contactField' id='VALOR_COTACAO_" + data.ID_COTACAO + "' placeholder='Percentual de valoração' required readonly />" +
     "<fieldset>" +
-    
     "</div>" +
     "<div class='two-half last-column'>" +
     "<fieldset>" +
@@ -146,8 +149,6 @@ jQuery(document).ready(function () {
 
     CarregaSelectEstabelecimentos();
     PreencheSelectMoeda();
-
-
 });
 
 function verificaAtivo(ATIVO) {
@@ -161,4 +162,73 @@ function verificaAtivo(ATIVO) {
 
     return ret;
 
+}
+
+function AlteraCotacao(obj) {
+
+    var ob = obj.id.split();
+    var ACAO = ob[0];
+    var ID = ob[1];
+    if (ACAO == "ALTERA")
+    {
+        jQuery('"#ALTERA_"' + obj.id + "'").css('visibility', 'hidden');
+        jQuery('"#CANCELA_"' + obj.id + "'").css('visibility', 'block');
+    }
+    if (ACAO == "CANCELA")
+    {
+    }
+    if (ACAO == "GRAVA")
+    {
+    }
+
+  //  jQuery('"#ALTERA_"' + obj.id+"'");
+  //  jQuery('"#CANCELA_"' + obj.id+"'");
+  //  jQuery('"#GRAVA_"' + obj.id+"'");
+  //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
+  jQuery("#VALOR_COTACAO_" + obj.id).attr("readonly", false);
+  jQuery("#VALOR_COTACAO_COMPRA_" + obj.id).attr("readonly", false);
+}
+
+function CancelaCotacao(obj) {
+
+    var ob = obj.id.split();
+    var ACAO = ob[0];
+    var ID = ob[1];
+    if (ACAO == "ALTERA") {
+        jQuery('"#ALTERA_"' + obj.id + "'").css('visibility', 'hidden');
+        jQuery('"#CANCELA_"' + obj.id + "'").css('visibility', 'block');
+    }
+    if (ACAO == "CANCELA") {
+    }
+    if (ACAO == "GRAVA") {
+    }
+
+    //  jQuery('"#ALTERA_"' + obj.id+"'");
+    //  jQuery('"#CANCELA_"' + obj.id+"'");
+    //  jQuery('"#GRAVA_"' + obj.id+"'");
+    //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
+    jQuery("#VALOR_COTACAO_" + obj.id).attr("readonly", false);
+    jQuery("#VALOR_COTACAO_COMPRA_" + obj.id).attr("readonly", false);
+}
+
+function GravaCotacao(obj) {
+
+    var ob = obj.id.split();
+    var ACAO = ob[0];
+    var ID = ob[1];
+    if (ACAO == "ALTERA") {
+        jQuery('"#ALTERA_"' + obj.id + "'").css('visibility', 'hidden');
+        jQuery('"#CANCELA_"' + obj.id + "'").css('visibility', 'block');
+    }
+    if (ACAO == "CANCELA") {
+    }
+    if (ACAO == "GRAVA") {
+    }
+
+    //  jQuery('"#ALTERA_"' + obj.id+"'");
+    //  jQuery('"#CANCELA_"' + obj.id+"'");
+    //  jQuery('"#GRAVA_"' + obj.id+"'");
+    //jQuery("#"+obj.id).html("<i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i>");
+    jQuery("#VALOR_COTACAO_" + obj.id).attr("readonly", false);
+    jQuery("#VALOR_COTACAO_COMPRA_" + obj.id).attr("readonly", false);
 }

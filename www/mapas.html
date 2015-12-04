@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Leaflet mobile example</title>
+    <title></title>
     <script type="text/javascript" src="cordova.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!--CSS DE ESTILOS-->
@@ -39,18 +39,19 @@
 
     <script>
 
-
+        BloqueiaTela("Carregando mapa...");
             var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
             navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
             var rota = '';
             var map = '';
-            CarregaMapaCompleto();
-      
+         
+            CarregaMapa();
+
        
        
         //==============================================================================================================================//
-        function CarregaMapaCompleto() {
-            BloqueiaTela("Carregando mapa...");
+        function CarregaMapa() {
+          
 
             map = L.map('map');
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -64,7 +65,7 @@
             map.on('locationerror', onLocationError);
             map.locate({ setView: true, maxZoom: 16 });
             map.on('popupopen', onMapClick);
-            DesbloqueiaTela();
+           
         }
 
         //=============================================================================================================================//
@@ -73,6 +74,7 @@
             var crd = pos.coords;
             localStorage.setItem('latitude', crd.latitude);
             localStorage.setItem('longitude', crd.longitude);
+            DesbloqueiaTela();
         };
 
         function error(err) {
@@ -82,8 +84,6 @@
 
         function onLocationFound(e) {
             var radius = 10;// e.accuracy / 2;
-           
-           
 
             if (localStorage.getItem('VIEWMAP') == undefined) {
                 CarregaEstabelecimentos();
@@ -97,14 +97,14 @@
                 if (data.length > 0) {
                     jQuery.each(data, function () {
                         if (this.LATITUDE != null && this.LONGITUDE != null) {
-                           // MontaMapa(this);
-                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "' class='' height='300'  weight='200' frameBorder='0'></iframe>").openPopup();
+                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "' class='' height='300'  weight='200' frameBorder='0'></iframe>").openPopup().fire('onMapClick');
                             map.panTo(new L.LatLng(this.LATITUDE, this.LONGITUDE));
 
                         }
                     });
                 }
                 localStorage.removeItem('VIEWMAP');
+                DesbloqueiaTela();
             }
         }
 

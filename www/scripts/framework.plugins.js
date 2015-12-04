@@ -718,7 +718,6 @@ var BloqueiaTela = function BloqueiaTela(mensagem) {
 
 var ExibeMensagem = function ExibeMensagem(mensagem) {
 
-    DesbloqueiaTela();
 
     jQuery.blockUI({
 

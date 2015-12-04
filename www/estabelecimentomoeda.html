@@ -14,21 +14,22 @@
         <div class="header">
             <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
             <a class="header-logo">eXCHANGE</a>
-            <a onclick="AdicionaMoeda(jQuery('#ESTABELECIMENTO').val());"><i class="fa fa-check"></i></a>
+            <a onclick="AdicionaMoeda(jQuery('#ESTABELECIMENTO_').val());"><i class="fa fa-check"></i></a>
         </div>
         <div class="header-clear-small"></div>
         <div class="content" id="MOEDAS">
             <div class="container no-bottom">
                 <div class="no-bottom">
-                    <div >
+                    <div>
                         <fieldset>
                             <label class="input-label">Configurações</label>
-                            <select name="" class="contactField" id="ESTABELECIMENTO" onchange="PreencheMoedasTrabalhadas(jQuery('#ESTABELECIMENTO').val())"></select>
+                            <select name="ESTABELECIMENTO_" class="contactField" id="ESTABELECIMENTO_" onchange="PreencheMoedasTrabalhadas(jQuery('#ESTABELECIMENTO_').val())"></select>
                             <!--<label class="input-label">Moedas trabalhadas</label>-->
-                            <select name="" class="contactField" id="MOEDA" ></select>
+                           
+                            <select name="MOEDA" class="contactField" id="MOEDA"></select>
                             <!--<label class="input-label">Percentual de valoração</label>-->
                             <input type="number" name="VALOR_COTACAO" value="" class="contactField" id="VALOR_COTACAO" placeholder="Perc. serviço de venda" required />
-                            <input type="number" name="VALOR_COTACAO_COMPRA" value="" class="contactField" id="VALOR_COTACAO_COMPRA" placeholder="Perc. serviço de Compra" required/>
+                            <input type="number" name="VALOR_COTACAO_COMPRA" value="" class="contactField" id="VALOR_COTACAO_COMPRA" placeholder="Perc. serviço de Compra" required />
                             <!--<label class="input-label">Status</label>-->
                             <select name="STATUS" class="contactField" id="STATUS">
                                 <option selected="selected">Status</option>
@@ -46,17 +47,17 @@
         <div class="content">
             <div class="container no-bottom">
                 <div class="no-bottom">
-                    <div >
+                    <div>
                         <fieldset>
                             <div id="DIVESTABELECIMENTO">
                             </div>
                         </fieldset>
                     </div>
+                </div>
             </div>
+            <script src="scripts/paginas/estabelecimentomoeda.js"></script>
         </div>
-        <script src="scripts/paginas/estabelecimentomoeda.js"></script>
     </div>
-        </div>
 </body>
 
 </html>
