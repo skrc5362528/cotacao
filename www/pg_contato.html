@@ -28,15 +28,16 @@
                 jQuery.each(data, function () {
                     MontaSelect('MOEDA', this.SIMBOLO, this.NOME_MOEDA, this.PAIS);
                 });
-
             }
+
+            return data.length;
         }
 
         function MontaSelect(OBJETO, SIMBOLO, NOME_MOEDA, PAIS) {
             jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME_MOEDA + '</option>');
         }
 
-        function BuscaUltimoValorVO() {
+        function BuscaCotacaoEstabelecimento() {
 
             var ID_ESTABELECIMENTO = DATA.ID_ESTABELECIMENTO;
             var SIMBOLO = jQuery('#MOEDA').val();
@@ -47,7 +48,6 @@
         function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
 
         }
-
 
         function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
             var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
@@ -76,27 +76,55 @@
 
         jQuery(document).ready(function () {
             DATA = getUrlVars();
-            if (!DATA.hasOwnProperty('ID_MOEDA')) {
-                jQuery('#DIVCOTACAO').css('display', 'none');
-                PreencheSelect(DATA.ID_ESTABELECIMENTO);
+            if (!DATA.hasOwnProperty('SIMBOLO')) {
+                
                 RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
+
+                var count = PreencheSelect(DATA.ID_ESTABELECIMENTO);
+                if (count > 0)
+                {
+                    jQuery('#DIVBUSCACOTACAO').css('display', 'block');
+                }
+                else {
+                    jQuery('#DIVMSG').css('display', 'block');
+                }
             }
             else {
-                CarregaCotacaoEstabelecimento(DATA.ID_ESTABELECIMENTO, DATA.ID_MOEDA);
-                jQuery('#DIVBUSCACOTACAO').css('display', 'none');
+                RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
+                var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(DATA.ID_ESTABELECIMENTO, DATA.SIMBOLO, null, ERROCONEXAO));
+                if (data.length > 0) {
+                    jQuery.each(data, function () {
+                        jQuery('#DIVCOTACAO').html(CarregaDivCotacao(this));
+                    });
+                }
+                jQuery('#DIVCOTACAO').css('display', 'block');
             }
         });
 
         function MontaMapa(data) {
 
             var html = "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
-               "<a class='contact-call' href='#'>Tel :" + data.FONE + "</a>" +
+               "<a class='contact-text' href='#'>Tel :" + data.FONE + "</a>" +
                //"<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
                "<a class='contact-text' href='#'>Endereço :" + data.ENDERECO + "," + data.NUMERO + "</a>" +
-               "<a class='contact-text' href='#'>" + data.COMPLEMENTO + " " + data.BAIRRO + "</a>" +
+               "<a class='contact-text' href='#'>" + data.COMPLEMENTO + " - " + data.BAIRRO + "</a>" +
                "<a class='contact-text' href='#'>" + data.CIDADE + "," + data.UF + "</a>";
 
             jQuery('#DIVINFO').html(html);
+        }
+
+        function CarregaDivInfo() {
+
+        }
+        function CarregaDivCotacao(data) {
+
+            var html = "<a class='contact-text' href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
+                        "<a class='contact-text' href='#'>Compra :R$ " + data.TAXA_COMPRA + "</a>" +
+                        "<a class='contact-text' href='#'>Venda :R$ " + data.TAXA_VENDA + "</a>";
+            return html;
+        }
+        function CarregaDivBuscaCotacao() {
+
         }
     </script>
 </head>
@@ -104,9 +132,9 @@
     <div id="DIVINFO">
 
     </div>
-    <div id="DIVBUSCACOTACAO">
+    <div id="DIVBUSCACOTACAO" style="display:none;">
         <div class="contact-text">Moeda:</div>
-        <select name="" class="contact-text" id="MOEDA" onchange="BuscaUltimoValorVO();"></select>
+        <select name="" class="contact-text" id="MOEDA" onchange="BuscaCotacaoEstabelecimento();"></select>
         <span>
             <label class="contact-text">Compra :</label>
             <label class="contact-text" id="VALOR_COMPRA"></label>
@@ -116,15 +144,22 @@
             <label class="contact-text" id="VALOR_VENDA"></label>
         </span>
     </div>
-    <div id="DIVCOTACAO">
+
+    <div id="DIVCOTACAO" style="display:none;">
+        <div class="contact-text">Moeda:</div>
+        <label class="contact-text" id="NOME_MOEDA_INFO"></label>
         <span>
             <label class="contact-text">Compra :</label>
-            <label class="contact-text" id="LBLVALOR_COMPRA"></label>
+            <label class="contact-text" id="VALOR_COMPRA_INFO"></label>
         </span>
         <span>
             <label class="contact-text">Venda :</label>
-            <label class="contact-text" id="LBLVALOR_VENDA"></label>
+            <label class="contact-text" id="VALOR_VENDA_INFO"></label>
         </span>
+    </div>
+    <div id="DIVMSG" style="display:none;">
+        <br />
+        <div class="contact-text" >Estabelecimento sem cotação disponível</div>
     </div>
 </body>
 </html>

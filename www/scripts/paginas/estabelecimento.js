@@ -146,7 +146,7 @@ function CarregaEstabelecimento(data) {
     "<label class='contact-text'>Km " + km + "</label>" +
     "</div>" +
       "<div class='one-half'>" +
-      "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO+"' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
+      "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
       "</div>" +
      "<div class='two-half last-column'>" +
        "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
@@ -155,13 +155,11 @@ function CarregaEstabelecimento(data) {
 
     return html;
 
-
 }
 
 function MostraMapa(obj) {
-   
-    localStorage.setItem('VIEWMAP', obj.id);
 
+ sessionStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
 }
 

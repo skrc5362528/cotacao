@@ -9,7 +9,7 @@ function GravaUsuario() {
 
         var val = jQuery.parseJSON(ValidaUsuario(EMAIL, null, null));
         if (val == null) {
-            var usu = InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO)
+            InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO);
         }
         if (usu != '') {
             CarregaUSUARIO(usu);
@@ -67,20 +67,3 @@ function CarregaUSUARIO(data) {
         localStorage.setItem("USUARIO", JSON.stringify(data));
     }
 }
-
-
-//function PreencheSelectSuaMoeda() {
-//    var data = MOEDA;
-//    if (data.length > 0) {
-//        jQuery.each(data, function () {
-//            jQuery('#SUA_MOEDA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
-//        });
-//    }
-//    jQuery('#SUA_MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
-//}
-
-//jQuery(document).ready(function () {
-
-//    PreencheSelectSuaMoeda();
-
-//});
