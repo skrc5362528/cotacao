@@ -12,6 +12,42 @@
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
     <!--SCRIPTS BASICOS-->
+
+</head>
+<body style="background-color:white;">
+    <div id="DIVINFO">
+
+    </div>
+    <div id="DIVBUSCACOTACAO" style="display:none;">
+        <div class="contact-text">Moeda:</div>
+        <select name="" class="contact-text" id="MOEDA" onchange="BuscaCotacaoEstabelecimento();"></select>
+        <span>
+            <label class="contact-text">Compra :</label>
+            <label class="contact-text" id="VALOR_COMPRA"></label>
+        </span>
+        <span>
+            <label class="contact-text">Venda :</label>
+            <label class="contact-text" id="VALOR_VENDA"></label>
+        </span>
+    </div>
+
+    <div id="DIVCOTACAO" style="display:none;">
+        <div class="contact-text">Moeda:</div>
+        <label class="contact-text" id="NOME_MOEDA_INFO"></label>
+        <span>
+            <label class="contact-text">Compra :</label>
+            <label class="contact-text" id="VALOR_COMPRA_INFO"></label>
+        </span>
+        <span>
+            <label class="contact-text">Venda :</label>
+            <label class="contact-text" id="VALOR_VENDA_INFO"></label>
+        </span>
+    </div>
+    <div id="DIVMSG" style="display:none;">
+        <br />
+        <div class="contact-text" >Estabelecimento sem cotação disponível</div>
+    </div>
+
     <script src="scripts/jquery-2.1.4.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
@@ -77,12 +113,11 @@
         jQuery(document).ready(function () {
             DATA = getUrlVars();
             if (!DATA.hasOwnProperty('SIMBOLO')) {
-                
+
                 RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
 
                 var count = PreencheSelect(DATA.ID_ESTABELECIMENTO);
-                if (count > 0)
-                {
+                if (count > 0) {
                     jQuery('#DIVBUSCACOTACAO').css('display', 'block');
                 }
                 else {
@@ -127,39 +162,6 @@
 
         }
     </script>
-</head>
-<body style="background-color:white;">
-    <div id="DIVINFO">
 
-    </div>
-    <div id="DIVBUSCACOTACAO" style="display:none;">
-        <div class="contact-text">Moeda:</div>
-        <select name="" class="contact-text" id="MOEDA" onchange="BuscaCotacaoEstabelecimento();"></select>
-        <span>
-            <label class="contact-text">Compra :</label>
-            <label class="contact-text" id="VALOR_COMPRA"></label>
-        </span>
-        <span>
-            <label class="contact-text">Venda :</label>
-            <label class="contact-text" id="VALOR_VENDA"></label>
-        </span>
-    </div>
-
-    <div id="DIVCOTACAO" style="display:none;">
-        <div class="contact-text">Moeda:</div>
-        <label class="contact-text" id="NOME_MOEDA_INFO"></label>
-        <span>
-            <label class="contact-text">Compra :</label>
-            <label class="contact-text" id="VALOR_COMPRA_INFO"></label>
-        </span>
-        <span>
-            <label class="contact-text">Venda :</label>
-            <label class="contact-text" id="VALOR_VENDA_INFO"></label>
-        </span>
-    </div>
-    <div id="DIVMSG" style="display:none;">
-        <br />
-        <div class="contact-text" >Estabelecimento sem cotação disponível</div>
-    </div>
 </body>
 </html>
