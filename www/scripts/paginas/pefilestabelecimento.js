@@ -23,7 +23,7 @@ jQuery(document).ready(function () {
     PreencheSelect();
 
     var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
-
+    EqualizaTamanhoTela();
     //jQuery('#ESTABELECIMENTO').val(ID_ESTABELECIMENTO);
     //RetornaEstabelecimento(ID_ESTABELECIMENTO);
 

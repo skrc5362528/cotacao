@@ -1717,10 +1717,11 @@ table tr:hover td{
 }
 
 .contactTextarea{
-	background-color:rgba(255,255,255,0.4);
-	font-size:12px;
+	background-color:rgba(255,255,255,1);
+	font-size:15px;
 	border:solid 1px #cacaca;
 	color: #666;
+     border-radius: 10px;
 }
 
 .contactSubmitButton{

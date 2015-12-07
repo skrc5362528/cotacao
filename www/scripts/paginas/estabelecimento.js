@@ -1,10 +1,10 @@
 ﻿
 var data = '';
 var ordem = '';
-var cpo_tx_venda = 'TAXA_VENDA';
-var cpo_tx_compra = 'TAXA_COMPRA';
-var cpo_nome = 'NOME';
-var ord_nome = false;
+var cpo_tx_venda = 'VALOR_COTACAO';
+var cpo_tx_compra = 'VALOR_COTACAO_COMPRA';
+var cpo_distancia = 'DISTANCIA';
+var ord_distancia = false;
 var ord_tx_venda = false;
 var ord_tx_compra = false;
 
@@ -13,10 +13,20 @@ function BuscarEstabelecimento(campo, ordena) {
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').html('');
     CarregaFiltros();
-    data = OrdenaResultados('NOME', ordena, jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO)));
-    CarregaDados(data);
 
-    DesbloqueiaTela();
+     data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
+            this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
+            this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
+        });
+    }
+
+
+    data = OrdenaResultados('DISTANCIA', ordena, data);
+    CarregaDados(data);
+    DesbloqueiaTela();//ordenadistancia
 }
 
 function CarregaFiltros() {
@@ -28,7 +38,7 @@ function CarregaFiltros() {
                             "<a onclick='OrdenaBusca(this,cpo_tx_compra,ord_tx_compra);' id='ordenatxcompra'><label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "<div class='one-third last-column center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_nome,ord_nome);' id='ordenanome'><label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "</div></p>");
 }
@@ -65,9 +75,9 @@ function OrdenaBusca(obj, campo, ordena) {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
             ord_tx_compra = false;
         }
-        if (obj.id == 'ordenanome') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-            ord_nome = false;
+        if (obj.id == 'ordenadistancia') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+            ord_distancia = false;
         }
     }
     else {
@@ -75,28 +85,18 @@ function OrdenaBusca(obj, campo, ordena) {
         if (obj.id == 'ordenatxvenda') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_tx_venda = true;
-
         }
         if (obj.id == 'ordenatxcompra') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_tx_compra = true;
         }
-        if (obj.id == 'ordenanome') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Nome </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-            ord_nome = true;
+        if (obj.id == 'ordenadistancia') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+            ord_distancia = true;
         }
     }
 
 
-}
-
-function OrdenaResultados(prop, asc, obj) {
-    obj = obj.sort(function (a, b) {
-        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-    });
-
-    return obj;
 }
 
 function calculoDistancia(latPara, longPara) {
@@ -108,19 +108,27 @@ function calculoDistancia(latPara, longPara) {
     return (km).toString().substring(0, 4);
 }
 
-function calculoCompra(TAXA_COMPRA, VALOR_COTACAO) {
-    return TAXA_COMPRA;
+function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA) {
+
+    var taxa = parseFloat(TAXA_COMPRA.replace(',','.'))
+    var valorCot = parseFloat(VALOR_COTACAO_COMPRA);
+    var percent = parseFloat((valorCot / 100));
+    var valor = parseFloat((taxa * percent));
+    return parseFloat(taxa + valor);
 }
 
-function calculoVenda(TAXA_VENDA, VALOR_COTACAO_VENDA) {
-    return TAXA_VENDA;
+function calculoVenda(TAXA_VENDA, VALOR_COTACAO) {
+    if (VALOR_COTACAO == undefined)
+    { VALOR_COTACAO = 0 }
+    var taxa = parseFloat(TAXA_VENDA.replace(',', '.'))
+    var valorCot = parseFloat(VALOR_COTACAO);
+    var percent = parseFloat((valorCot / 100));
+    var valor = parseFloat((taxa * percent));
+    return parseFloat(taxa + valor);
 }
 
 function CarregaEstabelecimento(data) {
 
-    var km = calculoDistancia(data.LATITUDE, data.LONGITUDE);
-    var compra = calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO);
-    var venda = calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO_VENDA)
 
     var html =
     "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
@@ -130,7 +138,7 @@ function CarregaEstabelecimento(data) {
     "<div class='one-half'>" +
     "<label class='contact-text'> " + data.FONE + "</label>" +
     "<label class='contact-text'>Compra: </label>" +
-    "<label class='contact-text'>R$ " + compra + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
+    "<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
      //"<label class='contact-text'> " + venda + "</label>" +
     "</div>" +
     "<div class='two-half last-column'>" +
@@ -142,8 +150,8 @@ function CarregaEstabelecimento(data) {
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
      "<label class='contact-text'>Venda: </label>" +
-    "<label class='contact-text'>R$ " + data.TAXA_VENDA + "</label>" +
-    "<label class='contact-text'>Km " + km + "</label>" +
+    "<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
+    "<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
     "</div>" +
       "<div class='one-half'>" +
       "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
@@ -162,7 +170,6 @@ function MostraMapa(obj) {
  sessionStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
 }
-
 
 function estrelas(numeroestrelas) {
     html = '';
@@ -217,34 +224,9 @@ function PreencheSelectSuaMoeda() {
 
 }
 
-function PreencheSelectMoedaProcura() {
-    jQuery('#MOEDA_PROCURA').append('<option value="" selected> Que moeda você procura? </option>');
-    var data = MOEDA;
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            MontaSelect('MOEDA_PROCURA', this.SIMBOLO, this.NOME_MOEDA);
-        });
-    }
-}
-
-var GeoCodeCalc = {};
-
-GeoCodeCalc.EarthRadiusInKilometers = 6367.0;
-
-GeoCodeCalc.ToRadian = function (v)
-{ return v * (Math.PI / 180); };
-
-GeoCodeCalc.DiffRadian = function (v1, v2) {
-    return GeoCodeCalc.ToRadian(v2) - GeoCodeCalc.ToRadian(v1);
-};
-
-GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
-    return radius * 2 * Math.asin(Math.min(1, Math.sqrt((Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lat1, lat2)) / 2.0), 2.0) + Math.cos(GeoCodeCalc.ToRadian(lat1)) * Math.cos(GeoCodeCalc.ToRadian(lat2)) * Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lng1, lng2)) / 2.0), 2.0)))));
-};
-
-// Calculate distance in Kilometersvar 
 
 jQuery(document).ready(function () {
-
     PreencheSelectSuaMoeda();
+    EqualizaTamanhoTela();
 });
+

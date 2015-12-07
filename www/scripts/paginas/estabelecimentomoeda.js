@@ -112,21 +112,19 @@ function MontaMoedasTrabalhadas(data) {
 
     var status = verificaAtivo(data.ATIVO);
 
-
-
     var html =
    "<div id='" + data.ID_COTACAO + "' class='big-notification static-notification-white'>" +
     "<div>" +
     "<strong><label class='contact-text'>" + data.NOME_MOEDA + "</label></strong> " +
     "</div>" +
     "<div class='one-third center-text'>" +
-     "<a  onclick='AlteraCotacao(this);' id='ALTERA_" + data.ID_COTACAO + "'   class='button button-white'><i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i></a>" +
+     "<a  onclick='AlteraCotacao(this);' id='ALTERA_" + data.ID_COTACAO + "_" + data.ID_MOEDA + "'   class='button button-white'><i class='fa fa-pencil' style='font-size:18px; color:#0489B1;'></i></a>" +
    "</div>" +
    "<div class='one-third center-text'>" +
-     "<a  onclick='AlteraCotacao(this);' id='CANCELA_" + data.ID_COTACAO + "'  class='button button-white'><i class='fa fa-times' style='font-size:18px; color:#0489B1;'></i></a>" +
+     "<a  onclick='AlteraCotacao(this);' id='CANCELA_" + data.ID_COTACAO + "_" + data.ID_MOEDA + "'  class='button button-white'><i class='fa fa-times' style='font-size:18px; color:#0489B1;'></i></a>" +
   "</div>" +
    "<div class='one-third last-column center-text'>" +
-   "<a  onclick='AlteraCotacao(this);' id='GRAVA_" + data.ID_COTACAO + "' class='button button-white'><i class='fa fa-floppy-o' style='font-size:18px; color:#0489B1;'></i></a>" +
+   "<a  onclick='AlteraCotacao(this);' id='GRAVA_" + data.ID_COTACAO + "_" + data.ID_MOEDA + "'  class='button button-white'><i class='fa fa-floppy-o' style='font-size:18px; color:#0489B1;'></i></a>" +
    "</div>" +
    "<div class='one-half'>" +
    "<fieldset>" +
@@ -153,6 +151,7 @@ function MontaMoedasTrabalhadas(data) {
 jQuery(document).ready(function () {
     CarregaSelectEstabelecimentos();
     PreencheSelectMoeda();
+    EqualizaTamanhoTela();
 });
 
 function verificaAtivo(ATIVO) {
@@ -168,23 +167,31 @@ function verificaAtivo(ATIVO) {
 function AlteraCotacao(obj) {
     var ob = obj.id.split("_");
     var ACAO = ob[0];
-    var ID = ob[1];
+    var ID_COTACAO = ob[1];
+    var ID_MOEDA = ob[2];
 
-    alert(ACAO);
-    alert(ID);
 
     if (ACAO == "ALTERA")
     {
-        jQuery('#VALOR_COTACAO_' + ID + '').attr("readonly", false);
-        jQuery('#VALOR_COTACAO_COMPRA_' + ID + '').attr("readonly", false);
+        jQuery('#VALOR_COTACAO_' + ID_COTACAO + '').attr("readonly", false);
+        jQuery('#VALOR_COTACAO_COMPRA_' + ID_COTACAO + '').attr("readonly", false);
     }
     if (ACAO == "CANCELA")
     {
-        jQuery('#VALOR_COTACAO_' + ID + '').attr("readonly", true);
-        jQuery('#VALOR_COTACAO_COMPRA_' + ID + '').attr("readonly", true);
+        jQuery('#VALOR_COTACAO_' + ID_COTACAO + '').attr("readonly", true);
+        jQuery('#VALOR_COTACAO_COMPRA_' + ID_COTACAO + '').attr("readonly", true);
     }
     if (ACAO == "GRAVA")
     {
+        var dt = new Date();
+        var VALOR_COTACAO = jQuery('#VALOR_COTACAO_' + ID_COTACAO + '').val();
+        var VALOR_COTACAO_COMPRA = jQuery('#VALOR_COTACAO_COMPRA_' + ID_COTACAO + '').val();
+        var ID_ESTABELECIMENTO = jQuery('#ESTABELECIMENTO_').val();
+        var ID_MOEDA = ID_MOEDA;
+        var DIA= dt.getDate();//, ,,
+        var MES =(dt.getMonth() + 1);
+        var ANO =  dt.getFullYear();
 
+        AlteraCotacaoEstabelecimento(ID_COTACAO, VALOR_COTACAO, VALOR_COTACAO_COMPRA, ID_ESTABELECIMENTO, ID_MOEDA, DIA, MES, ANO, null, ERROCONEXAO)
     }
 }

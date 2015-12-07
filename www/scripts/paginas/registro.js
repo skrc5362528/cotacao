@@ -27,27 +27,31 @@ function ValidaEntrada() {
 
     var res = '';
     if (jQuery('#NOME').val() == '') {
-        res = 'NOME OBRIGATÓRIO';
+        res = 'Nome obrigatório';
         return res;
     }
     if (jQuery('#LOGIN').val() == '') {
-        res = 'LOGIN OBRIGATÓRIO';
+        res = 'Login obrigatório';
         return res;
     }
     if (jQuery('#EMAIL').val() == '') {
-        res = 'EMAIL OBRIGATÓRIO';
+        res = 'Email obrigatório';
         return res;
     }
     if (jQuery('#SENHA').val() == '') {
-        res = 'SENHA OBRIGATÓRIO';
+        res = 'Senha obrigatória';
         return res;
     }
     if (jQuery('#CONFIRMA_SENHA').val() == '') {
-        res = 'CONFIRMAÇÃO OBRIGATÓRIA';
+        res = 'Confirmação obrigatória';
         return res;
     }
     if (jQuery('#CONFIRMA_SENHA').val() != jQuery('#SENHA').val()) {
-        res = 'SENHA DIFERENTE DA CONFIRMAÇÃO';
+        res = 'Senha diferente da confirmação';
+        return res;
+    }
+    if (!IsEmail(jQuery('#EMAIL').val())) {
+        res = 'Formato de email inválido';
         return res;
     }
     return res;
