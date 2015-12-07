@@ -153,6 +153,7 @@ function MontaMoedasTrabalhadas(data) {
 jQuery(document).ready(function () {
     CarregaSelectEstabelecimentos();
     PreencheSelectMoeda();
+    EqualizaTamanhoTela();
 });
 
 function verificaAtivo(ATIVO) {

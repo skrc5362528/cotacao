@@ -18,9 +18,9 @@
             margin: 0;
         }
 
-        html, body, #map {
+        /*html, body, #map {
             height: 100%;
-        }
+        }*/
     </style>
 </head>
 <body>
@@ -169,6 +169,15 @@
             jQuery(".leaflet-control").hide();
         }
 
+    </script>
+
+    <script>
+    jQuery(document).ready(function () {
+        var tam = localStorage.getItem('height');
+        jQuery("#map").height(tam);
+        jQuery("#body").height(tam);
+        jQuery("#html").height(tam);
+    });
     </script>
 
 </body>

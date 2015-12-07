@@ -80,7 +80,7 @@ function PreencheSelectSuaMoeda() {
 jQuery(document).ready(function () {
 
     CarregaPerfil();
-    //PreencheSelectSuaMoeda();
+    EqualizaTamanhoTela();
 
 });
 
@@ -97,3 +97,4 @@ function CarregaPerfil() {
 
     return usu;
 }
+

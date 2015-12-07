@@ -15,7 +15,6 @@ function PreparaSistema(pagina) {
     CarregaMenu(pagina);
     CarregaTela();
     MenuAdmin();
-    jQuery("#dialog-message").show();
 }
 
 function success(pos) {

@@ -761,3 +761,9 @@ var ERROCONEXAO = function ERROCONEXAO(data) {
     return status;
    
 }
+
+
+var EqualizaTamanhoTela= function EqualizaTamanhoTela() {
+    var tam =jQuery("#sidebar").height();
+    jQuery("#content").css('min-height', (tam));
+}

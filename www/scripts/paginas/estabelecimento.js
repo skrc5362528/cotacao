@@ -15,7 +15,6 @@ function BuscarEstabelecimento(campo, ordena) {
     CarregaFiltros();
     data = OrdenaResultados('NOME', ordena, jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO)));
     CarregaDados(data);
-
     DesbloqueiaTela();
 }
 
@@ -163,7 +162,6 @@ function MostraMapa(obj) {
     CarregaMenu('mapa.html');
 }
 
-
 function estrelas(numeroestrelas) {
     html = '';
     for (var i = 0; i <= numeroestrelas; i++) {
@@ -217,16 +215,6 @@ function PreencheSelectSuaMoeda() {
 
 }
 
-function PreencheSelectMoedaProcura() {
-    jQuery('#MOEDA_PROCURA').append('<option value="" selected> Que moeda você procura? </option>');
-    var data = MOEDA;
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            MontaSelect('MOEDA_PROCURA', this.SIMBOLO, this.NOME_MOEDA);
-        });
-    }
-}
-
 var GeoCodeCalc = {};
 
 GeoCodeCalc.EarthRadiusInKilometers = 6367.0;
@@ -242,9 +230,10 @@ GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
     return radius * 2 * Math.asin(Math.min(1, Math.sqrt((Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lat1, lat2)) / 2.0), 2.0) + Math.cos(GeoCodeCalc.ToRadian(lat1)) * Math.cos(GeoCodeCalc.ToRadian(lat2)) * Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lng1, lng2)) / 2.0), 2.0)))));
 };
 
-// Calculate distance in Kilometersvar 
+
 
 jQuery(document).ready(function () {
-
     PreencheSelectSuaMoeda();
+    EqualizaTamanhoTela();
 });
+

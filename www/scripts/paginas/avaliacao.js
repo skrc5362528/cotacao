@@ -92,4 +92,6 @@ function check(obj) {
 jQuery(document).ready(function () {
 
     BuscarEstabelecimento();
+    EqualizaTamanhoTela();
 });
+
