@@ -13,7 +13,7 @@ function CarregaTela() {
 
 function PreparaSistema(pagina) {
     CarregaMenu(pagina);
-    CarregaTela();
+   // CarregaTela();
     MenuAdmin();
 }
 

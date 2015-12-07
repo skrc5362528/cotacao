@@ -44,6 +44,7 @@ function BuscaUltimoValorVO(moeda) {
 
     var data = jQuery.parseJSON(UtlimoValorVO(moeda, null, ERROCONEXAO));
     CarregaUltimoVaorVO(data);
+    EqualizaTamanhoTela();
 }
 
 function CarregaUltimoVaorVO(data) {

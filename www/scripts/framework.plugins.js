@@ -736,7 +736,7 @@ var ExibeMensagem = function ExibeMensagem(mensagem) {
     DesbloqueiaTelaDelay(2000);
 }
 
-var DesbloqueiaTelaDelay = function DesbloqueiaTelaDelay(milissegundos) {
+ function DesbloqueiaTelaDelay(milissegundos) {
     setTimeout(jQuery.unblockUI, milissegundos);
 }
 

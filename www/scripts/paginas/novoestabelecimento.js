@@ -86,4 +86,7 @@ function Grava() {
     }
 }
 
+jQuery(document).ready(function myfunction() {
 
+    EqualizaTamanhoTela();
+});

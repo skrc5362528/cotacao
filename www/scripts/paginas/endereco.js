@@ -89,5 +89,5 @@ function PreencheSelectSuaMoeda() {
 jQuery(document).ready(function () {
 
     PreencheSelectSuaMoeda();
-
+    EqualizaTamanhoTela();
 });
