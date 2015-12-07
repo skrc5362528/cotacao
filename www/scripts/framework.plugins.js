@@ -736,7 +736,7 @@ var ExibeMensagem = function ExibeMensagem(mensagem) {
     DesbloqueiaTelaDelay(2000);
 }
 
-function DesbloqueiaTelaDelay(milissegundos) {
+ function DesbloqueiaTelaDelay(milissegundos) {
     setTimeout(jQuery.unblockUI, milissegundos);
 }
 
@@ -747,7 +747,7 @@ var DesbloqueiaTela = function DesbloqueiaTela() {
 var ERROCONEXAO = function ERROCONEXAO(data) {
 
     var status = data.status;
-
+        
     switch (status) {
         case 0:
             ExibeMensagem("Dispositivo desconectado!!");
@@ -759,43 +759,11 @@ var ERROCONEXAO = function ERROCONEXAO(data) {
     }
 
     return status;
-
+   
 }
 
-var EqualizaTamanhoTela = function EqualizaTamanhoTela() {
-    var tam = jQuery("#sidebar").height();
+
+var EqualizaTamanhoTela= function EqualizaTamanhoTela() {
+    var tam =jQuery("#sidebar").height();
     jQuery("#content").css('min-height', (tam));
-}
-
-var IsEmail =function IsEmail(email) {
-    var exclude = /[^@\-\.\w]|^[_@\.\-]|[\._\-]{2}|[@\.]{2}|(@)[^@]*\1/;
-    var check = /@[\w\-]+\./;
-    var checkend = /\.[a-zA-Z]{2,3}$/;
-    if (((email.search(exclude) != -1) || (email.search(check)) == -1) || (email.search(checkend) == -1)) { return false; }
-    else { return true; }
-}
-
-var GeoCodeCalc = {};
-
-GeoCodeCalc.EarthRadiusInKilometers = 6367.0;
-
-GeoCodeCalc.ToRadian = function (v)
-{ return v * (Math.PI / 180); };
-
-GeoCodeCalc.DiffRadian = function (v1, v2) {
-    return GeoCodeCalc.ToRadian(v2) - GeoCodeCalc.ToRadian(v1);
-};
-
-GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
-    return radius * 2 * Math.asin(Math.min(1, Math.sqrt((Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lat1, lat2)) / 2.0), 2.0) + Math.cos(GeoCodeCalc.ToRadian(lat1)) * Math.cos(GeoCodeCalc.ToRadian(lat2)) * Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lng1, lng2)) / 2.0), 2.0)))));
-};
-
-
-var OrdenaResultados = function OrdenaResultados(prop, asc, obj) {
-    obj = obj.sort(function (a, b) {
-        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-    });
-
-    return obj;
 }
