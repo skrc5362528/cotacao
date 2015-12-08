@@ -60,12 +60,18 @@ function AdicionaMoeda(ID_ESTABELECIMENTO) {
     var SIMBOLO = '';
     var NOME = '';
     var CODIGO = '';
+    var MOEDA = jQuery.parseJSON(ListaMoeda(null, ERROCONEXAO));
     jQuery.each(MOEDA, function () {
         if (this.SIMBOLO == jQuery('#MOEDA').val()) {
-            ID_MOEDA = this.ID_MOEDA;
+            ID_MOEDA = this.COD_MOEDA;
             SIMBOLO = this.SIMBOLO;
             NOME = this.NOME;
-            CODIGO = this.CODIGO;
+            CODIGO = this.COD_MOEDA;
+
+            alert(ID_MOEDA);
+            alert(SIMBOLO);
+            alert(NOME);
+            alert(CODIGO);
         }
     });
     var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
