@@ -108,24 +108,7 @@ function calculoDistancia(latPara, longPara) {
     return (km).toString().substring(0, 4);
 }
 
-function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA) {
 
-    var taxa = parseFloat(TAXA_COMPRA.replace(',','.'))
-    var valorCot = parseFloat(VALOR_COTACAO_COMPRA);
-    var percent = parseFloat((valorCot / 100));
-    var valor = parseFloat((taxa * percent));
-    return parseFloat(taxa + valor);
-}
-
-function calculoVenda(TAXA_VENDA, VALOR_COTACAO) {
-    if (VALOR_COTACAO == undefined)
-    { VALOR_COTACAO = 0 }
-    var taxa = parseFloat(TAXA_VENDA.replace(',', '.'))
-    var valorCot = parseFloat(VALOR_COTACAO);
-    var percent = parseFloat((valorCot / 100));
-    var valor = parseFloat((taxa * percent));
-    return parseFloat(taxa + valor);
-}
 
 function CarregaEstabelecimento(data) {
 
