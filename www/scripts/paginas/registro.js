@@ -9,7 +9,7 @@ function GravaUsuario() {
 
         var val = jQuery.parseJSON(ValidaUsuario(EMAIL, null, null));
         if (val == null) {
-            var usu = InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO)
+            InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO);
         }
         if (usu != '') {
             CarregaUSUARIO(usu);
@@ -27,27 +27,31 @@ function ValidaEntrada() {
 
     var res = '';
     if (jQuery('#NOME').val() == '') {
-        res = 'NOME OBRIGATÓRIO';
+        res = 'Nome obrigatório';
         return res;
     }
     if (jQuery('#LOGIN').val() == '') {
-        res = 'LOGIN OBRIGATÓRIO';
+        res = 'Login obrigatório';
         return res;
     }
     if (jQuery('#EMAIL').val() == '') {
-        res = 'EMAIL OBRIGATÓRIO';
+        res = 'Email obrigatório';
         return res;
     }
     if (jQuery('#SENHA').val() == '') {
-        res = 'SENHA OBRIGATÓRIO';
+        res = 'Senha obrigatória';
         return res;
     }
     if (jQuery('#CONFIRMA_SENHA').val() == '') {
-        res = 'CONFIRMAÇÃO OBRIGATÓRIA';
+        res = 'Confirmação obrigatória';
         return res;
     }
     if (jQuery('#CONFIRMA_SENHA').val() != jQuery('#SENHA').val()) {
-        res = 'SENHA DIFERENTE DA CONFIRMAÇÃO';
+        res = 'Senha diferente da confirmação';
+        return res;
+    }
+    if (!IsEmail(jQuery('#EMAIL').val())) {
+        res = 'Formato de email inválido';
         return res;
     }
     return res;
@@ -67,20 +71,3 @@ function CarregaUSUARIO(data) {
         localStorage.setItem("USUARIO", JSON.stringify(data));
     }
 }
-
-
-//function PreencheSelectSuaMoeda() {
-//    var data = MOEDA;
-//    if (data.length > 0) {
-//        jQuery.each(data, function () {
-//            jQuery('#SUA_MOEDA').append('<option value=' + this[0] + '>' + this[1] + '</option>');
-//        });
-//    }
-//    jQuery('#SUA_MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
-//}
-
-//jQuery(document).ready(function () {
-
-//    PreencheSelectSuaMoeda();
-
-//});

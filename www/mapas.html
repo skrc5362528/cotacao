@@ -2,18 +2,10 @@
 <html>
 <head>
     <title></title>
-    <script type="text/javascript" src="cordova.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!--CSS DE ESTILOS-->
     <!--SCRIPTS BASICOS-->
-    <script src="scripts/jquery-2.1.4.js"></script>
-    <script src="leaflet/leaflet.js"></script>
-
-    <script src="leaflet-routing-machine/leaflet-routing-machine.js"></script>
-
-    <script src="scripts/jqueryui.js"></script>
-    <script src="scripts/jsmodel/wscotacao.js"></script>
-    <script src="scripts/framework.plugins.js"></script>
 
     <link href="leaflet/leaflet.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
@@ -26,9 +18,9 @@
             margin: 0;
         }
 
-        html, body, #map {
+        /*html, body, #map {
             height: 100%;
-        }
+        }*/
     </style>
 </head>
 <body>
@@ -36,6 +28,15 @@
     <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim" tabindex="0" style="position: relative;">
 
     </div>
+
+    <script src="scripts/jquery-2.1.4.js"></script>
+    <script src="leaflet/leaflet.js"></script>
+
+    <script src="leaflet-routing-machine/leaflet-routing-machine.js"></script>
+
+    <script src="scripts/jqueryui.js"></script>
+    <script src="scripts/jsmodel/wscotacao.js"></script>
+    <script src="scripts/framework.plugins.js"></script>
 
     <script>
 
@@ -85,25 +86,32 @@
         function onLocationFound(e) {
             var radius = 10;// e.accuracy / 2;
 
-            if (localStorage.getItem('VIEWMAP') == undefined) {
+            if ( sessionStorage.getItem('VIEWMAP') == undefined) {
                 CarregaEstabelecimentos();
                 L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
                 map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
             }
             else
             {
-                var ID_ESTABELECIMENTO = localStorage.getItem('VIEWMAP');
+                var obj = sessionStorage.getItem('VIEWMAP');
+
+               
+                var id = obj.split("_");
+                var ID_ESTABELECIMENTO = id[0];
+                var SIMBOLO = id[1];
+                
+
                 var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
                 if (data.length > 0) {
                     jQuery.each(data, function () {
                         if (this.LATITUDE != null && this.LONGITUDE != null) {
-                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "' class='' height='300'  weight='200' frameBorder='0'></iframe>").openPopup().fire('onMapClick');
+                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "&SIMBOLO=" + SIMBOLO + "' class='' height='250'  weight='200' frameBorder='0'></iframe>").openPopup().fire('onMapClick');
                             map.panTo(new L.LatLng(this.LATITUDE, this.LONGITUDE));
 
                         }
                     });
                 }
-                localStorage.removeItem('VIEWMAP');
+                sessionStorage.removeItem('VIEWMAP');
                 DesbloqueiaTela();
             }
         }
@@ -161,6 +169,15 @@
             jQuery(".leaflet-control").hide();
         }
 
+    </script>
+
+    <script>
+    jQuery(document).ready(function () {
+        var tam = localStorage.getItem('height');
+        jQuery("#map").height(tam);
+        jQuery("#body").height(tam);
+        jQuery("#html").height(tam);
+    });
     </script>
 
 </body>

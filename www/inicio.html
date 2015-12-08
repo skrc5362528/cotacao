@@ -16,7 +16,7 @@
     <title>COTACAO</title>
     <!--CSS DE ESTILOS-->
 
-    <script type="text/javascript" src="cordova.js"></script>
+
 
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <link href="styles/framework.css" rel="stylesheet" type="text/css">
@@ -26,20 +26,10 @@
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
-    <!--SCRIPTS BASICOS-->
-    <script src="scripts/jquery-2.1.4.js"></script>
-
-    <script type="text/javascript" src="scripts/jqueryui.js"></script>
-    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
-    <script type="text/javascript" src="scripts/custom.js"></script>
-    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
-
-    <!--SCRIPTS DE PÁGINAS-->
-    <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
 
 </head>
-<body onload="PreparaSistema('mapa.html');">
+<body onload="PreparaSistema('estabelecimento.html');">
     <!--class="snapjs-left"-->
     <div id="preloader">
         <div id="status">
@@ -47,7 +37,7 @@
     </div>
     <div class="all-elements">
         <div id="sidebar" class="page-sidebar">
-            <div id="page_sidebar" class="page-sidebar-scroll">
+            <div id="page_sidebar" class="page-sidebar">
                 <div class="sidebar-shortcuts">
                     <!--<a onclick="CarregaMenu('mensagem.html')"><i class="fa  fa-envelope-o"></i></a>
                     <a onclick="CarregaMenu('favoritas.html')"><i class="fa  fa-star-o"></i></a>
@@ -56,7 +46,9 @@
                     <!--<a class="close-nav" href="#"><i class="fa  fa-times"></i></a>-->
                 </div>
                 <div class="sidebar-logo">
+                    <a onclick="CarregaMenu('estabelecimento.html')">  
                     <img src="img/LOGO_eXCHANGE_BRANCO.png" width="128" height="70" />
+                    </a>
                 </div>
                 <!--<div class="navigation-item">
                     <a onclick="ClickBlock();" class="nav-item">
@@ -97,18 +89,18 @@
                     </a>
                 </div>-->
                 <!--<div class="sidebar-decoration"></div>-->
-                <div class="navigation-item">
+                <!--<div class="navigation-item">
                     <a onclick="CarregaMenu('historico.html')" class="nav-item">
                         <i class="fa  fa-clock-o"></i>
                         Histórico
                         <i class="fa"></i>
                     </a>
-                </div>
+                </div>-->
                 <!--<div class="sidebar-decoration"></div>-->
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('avaliacao.html')" class="close-nav nav-item">
                         <i class="fa  fa-area-chart"></i>
-                        Avaliações
+                        Favoritos
                         <i class="fa"></i>
                     </a>
                 </div>
@@ -153,22 +145,15 @@
                         </a>
                     </div>
                 </div>
-
-                <div class="sidebar-breadcrumb">
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                </div>
-                <div class="navigation-item">
+                <!--<div class="navigation-item">
                     <a href="#" class="nav-item">
                         <i class="fa  fa-cog"></i>
                         Opções
                         <i class="fa"></i>
                     </a>
-                </div>
+                </div>-->
                 <div class="navigation-item">
-                    <a href="#" class="nav-item">
+                    <a onclick="CarregaMenu('contato.html')" class="nav-item">
                         <i class="fa  fa-envelope"></i>
                         Fale Conosco
                         <i class="fa"></i>
@@ -187,6 +172,18 @@
 
         </div>
     </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <!--SCRIPTS BASICOS-->
+    <script src="scripts/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
+
+    <!--SCRIPTS DE PÁGINAS-->
+    <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
+
+   
 </body>
 </html>
 
