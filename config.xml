@@ -67,11 +67,6 @@
   </platform>
 
   <platform name="android">
-<<<<<<< HEAD
-=======
-    <icon src="icon.png" gap:platform="android" gap:density="ldpi" />
-    <splash src="icon.png" gap:platform="android" gap:qualifier="lhdpi" />
->>>>>>> 534aa396d7d260eb55b52ca17835a51d2262e7c6
     <preference name="phonegap-version" value="4.1.1" />
     <preference name="orientation" value="portrait" />
     <allow-intent href="market:*"/>
