@@ -21,7 +21,7 @@
 
   <platform name="ios|winphone|wp8|android" />
   
-  <icon src="www/img/LOGO_eXCHANGE_AZUL.png"/>
+  <icon src="LOGO_eXCHANGE_AZUL.png"/>
   <icon src="www/img/LOGO_eXCHANGE_AZUL.png" gap:platform="android" gap:qualifier="ldpi"/>
   <icon src="www/img/LOGO_eXCHANGE_AZUL.png" gap:platform="android" gap:qualifier="mdpi"/>
   <icon src="www/img/LOGO_eXCHANGE_AZUL.png" gap:platform="android" gap:qualifier="hdpi"/>
