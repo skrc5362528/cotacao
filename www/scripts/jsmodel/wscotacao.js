@@ -1214,3 +1214,37 @@ function ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, success
     });
     return $res;
 }
+
+
+
+function EnviaEmail(MENSAGEM, ASSUNTO, successFunc, errorFunc) {
+    var $res = '';
+    jQuery.ajax({
+        type: "POST",
+        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/EnviaEmail",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{MENSAGEM:" + JSON.stringify(MENSAGEM) + ",ASSUNTO:" + JSON.stringify(ASSUNTO) +"}",
+        success: function (data) {
+            if (data.hasOwnProperty("d")) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}
