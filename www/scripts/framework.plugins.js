@@ -3759,6 +3759,7 @@ var OrdenaResultados = function OrdenaResultados(prop, asc, obj) {
     return obj;
 }
 
+<<<<<<< HEAD
 var calculoCompra = function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA, TIPO_COTACAO) {
 
     if (TIPO_COTACAO == 'P') {
@@ -3812,3 +3813,23 @@ var getUrlVars = function getUrlVars() {
     return vars;
 }
 
+=======
+var calculoCompra = function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA) {
+
+    var taxa = parseFloat(TAXA_COMPRA.replace(',', '.'))
+    var valorCot = parseFloat(VALOR_COTACAO_COMPRA);
+    var percent = parseFloat((valorCot / 100));
+    var valor = parseFloat((taxa * percent));
+    return parseFloat(taxa + valor);
+}
+
+var calculoVenda = function calculoVenda(TAXA_VENDA, VALOR_COTACAO) {
+    if (VALOR_COTACAO == undefined)
+    { VALOR_COTACAO = 0 }
+    var taxa = parseFloat(TAXA_VENDA.replace(',', '.'))
+    var valorCot = parseFloat(VALOR_COTACAO);
+    var percent = parseFloat((valorCot / 100));
+    var valor = parseFloat((taxa * percent));
+    return parseFloat(taxa + valor);
+}
+>>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
