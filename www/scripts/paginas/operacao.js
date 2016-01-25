@@ -65,7 +65,12 @@ function Confirmar(PASSO) {
 
 function ConfirmarCompra()
 {
-    GravaPedidoCompra();
+    var ret = GravaPedidoCompra();
+    if (ret.length > 0)
+    {
+        ExibeMensagem("Operação relaizada com sucesso!");
+        CarregaMenu("historico.html");
+    }
 }
 
 function CarregaDivOperacao() {
@@ -84,7 +89,7 @@ function CarregaDivOperacao() {
             " <h4><label>Dados da Transação :</label></h4>  " +
             " <strong><label class='contact-text' >Estabelecimento : " + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong> " +
             " <strong><label class='contact-text' >Moeda : " + jQuery('#NOME_MOEDA').val() + "</label></strong>  " +
-            " <strong><label class='contact-text' >Valor desejado ("+ jQuery('#NOME_MOEDA').val() + ") : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
+            " <strong><label class='contact-text' >Valor desejado (" + jQuery('#NOME_MOEDA').val() + ") : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
             " <h4><label>Endereço de entrega:</label></h4>  " +
@@ -95,6 +100,9 @@ function CarregaDivOperacao() {
             " <strong><label class='contact-text' >Bairro : " + jQuery('#BAIRRO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Cidade : " + jQuery('#CIDADE').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Estado : " + jQuery('#UF').val() + "</label></strong>   " +
+            "                  <div class='static-notification-green' id='38_XCD' style='border-radius: 10px;' onclick='ConfirmarCompra()'>                                                  " +
+           "                      <p class='center-text uppercase' style='color: white; font-size: 15px;'>Finalizar Compra</p>                                                                  " +
+           "                  </div> "+
             "</div>" +
             "</fieldset>" +   
             "</div>" +
@@ -130,8 +138,9 @@ function GravaPedidoCompra() {
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
     var DESCRICAO_DETALHADA = jQuery('#DIVDADOSOPERACAO').html();
-    alert(ID_USUARIO);
-    InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2 , null, ERROCONEXAO);
+
+
+    return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2, null, ERROCONEXAO);
 }
 
 function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
