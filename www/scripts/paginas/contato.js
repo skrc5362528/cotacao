@@ -12,11 +12,6 @@ function MontaTela() {
 
 function EnviaMensagem() {
 
-<<<<<<< HEAD
-=======
-  
-
->>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
     BloqueiaTela("Enviando a sua mensagem...");
 
     var NOME = jQuery("#NOME").val();

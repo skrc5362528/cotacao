@@ -100,20 +100,6 @@ function OrdenaBusca(obj, campo, ordena) {
 
 }
 
-<<<<<<< HEAD
-=======
-function calculoDistancia(latPara, longPara) {
-
-    var lat = localStorage.getItem('latitude');
-    var long = localStorage.getItem('longitude');
-
-    var km = d = GeoCodeCalc.CalcDistance(lat, long, latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
-    return (km).toString().substring(0, 4);
-}
-
-
-
->>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
 function CarregaEstabelecimento(data) {
 
 

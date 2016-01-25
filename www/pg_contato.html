@@ -95,17 +95,8 @@
         }
 
         function CarregaUltimaCotacao(data) {
-<<<<<<< HEAD
             var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO, data[0].TIPO_COTACAO).toFixed(2);
             var VALOR_COMPRA = calculoCompra(data[0].TAXA_COMPRA, data[0].VALOR_COTACAO_COMPRA, data[0].TIPO_COTACAO).toFixed(2);
-=======
-            var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO).toFixed(2);
-            var VALOR_COMPRA = calculoCompra(data[0].TAXA_COMPRA, data[0].VALOR_COTACAO_COMPRA).toFixed(2);
-
-            jQuery('#VALOR_COMPRA').text('R$ ' + VALOR_COMPRA);
-            jQuery('#VALOR_VENDA').text('R$ ' + VALOR_VENDA);
-        }
->>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
 
             jQuery('#VALOR_COMPRA').text('R$ ' + VALOR_COMPRA);
             jQuery('#VALOR_VENDA').text('R$ ' + VALOR_VENDA);
@@ -156,21 +147,12 @@
         //}
         //function CarregaDivCotacao(data) {
 
-<<<<<<< HEAD
         //    var html = "<a class='contact-text' href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
         //                "<a class='contact-text' href='#'>Compra :R$ "+calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2)+"</a>" +
         //                "<a class='contact-text' href='#'>Venda :R$ "+calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO).toFixed(2)+"</a>";
         //    return html;
         //}
         //function CarregaDivBuscaCotacao() {
-=======
-            var html = "<a class='contact-text' href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
-                        "<a class='contact-text' href='#'>Compra :R$ "+calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2)+"</a>" +
-                        "<a class='contact-text' href='#'>Venda :R$ "+calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO).toFixed(2)+"</a>";
-            return html;
-        }
-        function CarregaDivBuscaCotacao() {
->>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
 
         //}
     </script>

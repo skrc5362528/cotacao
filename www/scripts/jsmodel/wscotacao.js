@@ -1195,7 +1195,6 @@ function AlteraOperacao(ID_USUARIO, ID_PRODUTO, ID_VENDA, ID_ESTABELECIMENTO, ID
     return $res;
 }
 
-<<<<<<< HEAD
 // -- RetornaOperacaoPorEstabelecimento
 function RetornaOperacaoPorEstabelecimento(ID_ESTABELECIMENTO, ID_TIPO_VENDA, ID_STATUS_VENDA, successFunc, errorFunc) {
     /// <summary></summary>
@@ -1258,22 +1257,6 @@ function RetornaOperacaoPorUsuario(ID_USUARIO, ID_TIPO_VENDA, ID_STATUS_VENDA, s
         data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",ID_TIPO_VENDA:" + JSON.stringify(ID_TIPO_VENDA) + ",ID_STATUS_VENDA:" + JSON.stringify(ID_STATUS_VENDA) + "}",
         success: function (data) {
             if (data.hasOwnProperty('d')) {
-=======
-
-
-function EnviaEmail(MENSAGEM, ASSUNTO, successFunc, errorFunc) {
-    var $res = '';
-    jQuery.ajax({
-        type: "POST",
-        url: "http://www.visional.com.br/wscotacao/cotacao.asmx/EnviaEmail",
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: "{MENSAGEM:" + JSON.stringify(MENSAGEM) + ",ASSUNTO:" + JSON.stringify(ASSUNTO) +"}",
-        success: function (data) {
-            if (data.hasOwnProperty("d")) {
->>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
                 $res = data.d;
                 if (successFunc != null)
                     successFunc(data.d);
@@ -1292,7 +1275,6 @@ function EnviaEmail(MENSAGEM, ASSUNTO, successFunc, errorFunc) {
 
     });
     return $res;
-<<<<<<< HEAD
 }
 
 // -- InsereEnderecoUsuario
@@ -1466,6 +1448,3 @@ function RetornaEnderecoUsuario(ID_USUARIO, successFunc, errorFunc) {
     return $res;
 }
 
-=======
-}
->>>>>>> e51f103b6ab89a992813a70f05f990c116556dcc
