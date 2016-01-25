@@ -4,7 +4,7 @@ var ID_ENDERECO_ENTREGA = '';
 var SIMBOLO = '';
 var DATA_COTACAO = '';
 var DATA_USU = '';
-
+var V_PASSO = 0;
 function BuscaCotacaoEstabelecimento() {
     DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
     CarregaUltimaCotacao(DATA_COTACAO);
@@ -34,42 +34,77 @@ function CalculaCotacao(VALOR, VALOR_COTACAO) {
     jQuery('#VALOR_CONVERTIDO').val(VALOR);
 }
 
+
+function formataDinheiroInverso(valor) {
+    valor.value = parseFloat(valor.value).toFixed(2);
+    CalculaCotacaoInversa(valor.value, jQuery('#VALOR_COTACAO').val())
+}
+
+function MontaConversaoInversa(valorconvertido, valorcotacao) {
+    formataDinheiroInverso(valorconvertido);
+    CalculaCotacaoInversa(jQuery('#VALOR_CONVERTIDO').val(), jQuery('#VALOR_COTACAO').val());
+}
+
+function CalculaCotacaoInversa(VALOR, VALOR_COTACAO) {
+    var VALOR = (parseFloat(parseFloat(VALOR) / parseFloat(VALOR_COTACAO)).toFixed(2));
+    jQuery('#VALOR_DESEJADO').val(VALOR);
+}
+
 function Confirmar(PASSO) {
-    switch (PASSO) {
-        case '1':
-            jQuery('#DIVDADOSVALORES').hide();
-            jQuery('#DIVDADOSENDERECO').show();
-            jQuery('#DIVDADOSUSUARIO').hide();
-            jQuery('#DIVDADOSOPERACAO').hide();
 
-            break;
-        case '2':
-            jQuery('#DIVDADOSVALORES').hide();
-            jQuery('#DIVDADOSENDERECO').hide();
-            jQuery('#DIVDADOSUSUARIO').show();
-            jQuery('#DIVDADOSOPERACAO').hide();
+    if (PASSO >= 0) {
+        switch (PASSO) {
+            case 0:
+                jQuery('#DIVDADOSVALORES').show();
+                jQuery('#DIVDADOSENDERECO').hide();
+                jQuery('#DIVDADOSOPERACAO').hide();
+                jQuery('#DIVDADOSUSUARIO').hide();
+                V_PASSO = PASSO;
 
+                break;
+            case 1:
+                jQuery('#DIVDADOSVALORES').hide();
+                jQuery('#DIVDADOSENDERECO').show();
+                jQuery('#DIVDADOSUSUARIO').hide();
+                jQuery('#DIVDADOSOPERACAO').hide();
+                V_PASSO = PASSO;
 
-            break;
-        case '3':
-            jQuery('#DIVDADOSVALORES').hide();
-            jQuery('#DIVDADOSENDERECO').hide();
-            jQuery('#DIVDADOSUSUARIO').hide();
-            jQuery('#DIVDADOSOPERACAO').show();
+                break;
+            case 2:
+                jQuery('#DIVDADOSVALORES').hide();
+                jQuery('#DIVDADOSENDERECO').hide();
+                jQuery('#DIVDADOSUSUARIO').show();
+                jQuery('#DIVDADOSOPERACAO').hide();
+                V_PASSO = PASSO;
 
-            CarregaDivOperacao();
+                break;
+            case 3:
+                jQuery('#DIVDADOSVALORES').hide();
+                jQuery('#DIVDADOSENDERECO').hide();
+                jQuery('#DIVDADOSUSUARIO').hide();
+                jQuery('#DIVDADOSOPERACAO').show();
 
-            break;
+                CarregaDivOperacao();
+                V_PASSO = PASSO;
+                break;
+        }
     }
 }
 
 function ConfirmarCompra()
 {
+    //BloqueiaTela('Processando operação...')
     var ret = GravaPedidoCompra();
     if (ret.length > 0)
     {
-        ExibeMensagem("Operação relaizada com sucesso!");
+        DesbloqueiaTela();
+        ExibeMensagem('Operação realizada com sucesso!');
         CarregaMenu("historico.html");
+    }
+    else {
+        DesbloqueiaTela();
+        ExibeMensagem('Operação não realizada!');
+        CarregaMenu("estabelecimento.html");
     }
 }
 
@@ -164,8 +199,8 @@ function CarregaUltimaCotacao(data) {
            "                  <label class='input-label'>Valor desejado (" + data[0].NOME_MOEDA + ")</label>                                                                                                      " +
            "                  <input type='number' name='VALOR_DESEJADO'  class='contactField'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />    " +
            "                  <label class='input-label'>Valor convertido (REAL)</label>                                                                                                        " +
-           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactField' id='VALOR_CONVERTIDO'  />                                                                " +
-           "                  <div class='static-notification-green' id='38_XCD' style='border-radius: 10px;' onclick='Confirmar(\"" + 1 + "\")'>                                                  " +
+           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactField' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />                                                                " +
+           "                  <div class='static-notification-green' id='38_XCD' style='border-radius: 10px;' onclick='Confirmar(1)'>                                                  " +
            "                      <p class='center-text uppercase' style='color: white; font-size: 15px;'>confirmar</p>                                                                  " +
            "                  </div>                                                                                                                                                     " +
            "              </fieldset>                                                                                                                                                    " +
@@ -176,6 +211,11 @@ function CarregaUltimaCotacao(data) {
     jQuery('#DIVDADOSVALORES').html(html);
 }
 
+function VoltarEtapa()
+{
+    var PASSO = (V_PASSO - 1);
+    Confirmar(PASSO)
+}
 
 jQuery(document).ready(function () {
 

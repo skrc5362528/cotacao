@@ -1126,7 +1126,7 @@ function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COM
             if (data.hasOwnProperty('d')) {
                 $res = data.d;
                 if (successFunc != null)
-                    successFunc(data.d);
+                    successFunc(data);
             }
             else {
                 $res = data;

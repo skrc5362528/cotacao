@@ -6,7 +6,7 @@ var cpo_tx_compra = 'VALOR_COTACAO_COMPRA';
 var cpo_distancia = 'DISTANCIA';
 var ord_distancia = false;
 var ord_tx_venda = false;
-var ord_tx_compra = false;
+//var ord_tx_compra = false;
 
 function BuscarEstabelecimento(campo, ordena) {
     BloqueiaTela("Carregando...");
@@ -36,7 +36,7 @@ function CarregaFiltros() {
                             "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "<div class='one-third center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_tx_compra,ord_tx_compra);' id='ordenatxcompra'><label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                           // "<a onclick='OrdenaBusca(this,cpo_tx_compra,ord_tx_compra);' id='ordenatxcompra'><label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "<div class='one-third last-column center-text'>" +
                             "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
@@ -72,10 +72,10 @@ function OrdenaBusca(obj, campo, ordena) {
             ord_tx_venda = false;
 
         }
-        if (obj.id == 'ordenatxcompra') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-            ord_tx_compra = false;
-        }
+        //if (obj.id == 'ordenatxcompra') {
+        //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+        //    ord_tx_compra = false;
+        //}
         if (obj.id == 'ordenadistancia') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
             ord_distancia = false;
@@ -87,10 +87,10 @@ function OrdenaBusca(obj, campo, ordena) {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_tx_venda = true;
         }
-        if (obj.id == 'ordenatxcompra') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-            ord_tx_compra = true;
-        }
+        //if (obj.id == 'ordenatxcompra') {
+        //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+        //    ord_tx_compra = true;
+        //}
         if (obj.id == 'ordenadistancia') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_distancia = true;
@@ -109,8 +109,9 @@ function CarregaEstabelecimento(data) {
     "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
     "</div>" +
     "<div class='one-half'>" +
-    "<label class='contact-text'> Tel : " + data.FONE + "</label>" +
-    "<label class='contact-text'>Compra : R$ " + data.VALOR_COTACAO_COMPRA + " </label>" +
+    //"<label class='contact-text'> Tel : " + data.FONE + "</label>" +
+    "<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
+    //"<label class='contact-text'>Compra : R$ " + data.VALOR_COTACAO_COMPRA + " </label>" +
     //"<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
      //"<label class='contact-text'> " + venda + "</label>" +
     "</div>" +
@@ -122,7 +123,7 @@ function CarregaEstabelecimento(data) {
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
-     "<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
+     //"<label class='contact-text'></label>" +
     //"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
     "<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
     "</div>" +
