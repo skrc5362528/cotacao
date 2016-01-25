@@ -8,25 +8,29 @@ var ord_distancia = false;
 var ord_tx_venda = false;
 var ord_tx_compra = false;
 
+
+
 function BuscarEstabelecimento(campo, ordena) {
     BloqueiaTela("Carregando...");
-    var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').html('');
     CarregaFiltros();
-
-     data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
+    var dt = '';
+    var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+    data = jQuery.parseJSON(RetornaFavoritosUsuario(usu.ID_USUARIO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
-
-            this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
-            this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
-            this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
+            dt = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(this.SIMBOLO, null, ERROCONEXAO));
+            if (dt.length > 0) {
+                jQuery.each(dt, function () {
+                    this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
+                    this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
+                    this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
+                });
+            }
         });
     }
-
-
-    data = OrdenaResultados('DISTANCIA', ordena, data);
-    CarregaDados(data);
+    dt = OrdenaResultados(campo, ordena, dt);
+    CarregaDados(dt);
     DesbloqueiaTela();//ordenadistancia
 }
 
@@ -100,6 +104,17 @@ function OrdenaBusca(obj, campo, ordena) {
 
 }
 
+function calculoDistancia(latPara, longPara) {
+
+    var lat = localStorage.getItem('latitude');
+    var long = localStorage.getItem('longitude');
+
+    var km = d = GeoCodeCalc.CalcDistance(lat, long, latPara, longPara, GeoCodeCalc.EarthRadiusInKilometers);
+    return (km).toString().substring(0, 4);
+}
+
+
+
 function CarregaEstabelecimento(data) {
 
 
@@ -109,9 +124,9 @@ function CarregaEstabelecimento(data) {
     "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
     "</div>" +
     "<div class='one-half'>" +
-    "<label class='contact-text'> Tel : " + data.FONE + "</label>" +
-    "<label class='contact-text'>Compra : R$ " + data.VALOR_COTACAO_COMPRA + " </label>" +
-    //"<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
+    "<label class='contact-text'> " + data.FONE + "</label>" +
+    "<label class='contact-text'>Compra: </label>" +
+    "<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
      //"<label class='contact-text'> " + venda + "</label>" +
     "</div>" +
     "<div class='two-half last-column'>" +
@@ -122,19 +137,16 @@ function CarregaEstabelecimento(data) {
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
-     "<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
-    //"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
+     "<label class='contact-text'>Venda: </label>" +
+    "<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
     "<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
     "</div>" +
-    //  "<div class='one-half'>" +
-    //  "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //  "</div>" +
-    // "<div class='two-half last-column'>" +
-    //   "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //"</div>" +
-    "<div class='static-notification-green' style='border-radius:10px;'  onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
-    "<p class='center-text uppercase' style='font-size:15px; color:white;'>comprar</p>" +
-    "</div>"+
+      "<div class='one-half'>" +
+      "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
+      "</div>" +
+     "<div class='two-half last-column'>" +
+       "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i></a>" +
+    "</div>" +
     "</div>";
 
     return html;
@@ -145,12 +157,6 @@ function MostraMapa(obj) {
 
  sessionStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
-}
-
-function MostraReserva(obj)
-{
-    sessionStorage.setItem('VIEWRESERVA', obj.id)
-    CarregaMenu('operacao.html');
 }
 
 function estrelas(numeroestrelas) {
@@ -173,42 +179,15 @@ function check(obj) {
     var ID_USUARIO = data.ID_USUARIO;
     var ID_ESTABELECIMENTO = id[0];
     var SIMBOLO = id[1];
-    var COUNT = ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
-
-    if (COUNT == 0) {
-        if (jQuery(obj).html() == "<i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i>") {
-            jQuery(obj).html("<i class='fa fa-star' style='font-size:18px; color:#0489B1;></i>");
-            InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
-        }
-        else {
-            jQuery(obj).html("<i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i>");
-            ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
-        }
-    }
-    else {
-        ExibeMensagem("Moeda e corretora já cadastrados em seus favoritos !")
-    }
+   
+     ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);  
+     ExibeMensagem("Favorito excluído com sucesso !")
+     BuscarEstabelecimento("DISTANCIA", true);
 }
-
-function MontaSelect(OBJETO, SIMBOLO, NOME) {
-    jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
-}
-
-function PreencheSelectSuaMoeda() {
-
-    jQuery('#SUA_MOEDA').append('<option value="" selected> Que moeda você procura? </option>');
-    var data = jQuery.parseJSON(RetornaListaMoedasUtilizadas())
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            MontaSelect('SUA_MOEDA', this.SIMBOLO, this.NOME_MOEDA);
-        });
-    }
-
-}
-
 
 jQuery(document).ready(function () {
-    PreencheSelectSuaMoeda();
+ 
     EqualizaTamanhoTela();
+    BuscarEstabelecimento("DISTANCIA", true);
 });
 

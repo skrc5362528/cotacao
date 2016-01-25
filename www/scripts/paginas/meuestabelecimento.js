@@ -1,6 +1,5 @@
 ﻿
-var APP_KEY = 'YFK7SPhPwnZ2KCHvDvLBFAGVzO4bi8FC';
-var POST = 'http://open.mapquestapi.com/geocoding/v1/address?key=YFK7SPhPwnZ2KCHvDvLBFAGVzO4bi8FC&location=Alcides+Lima+103,freguesia,rio+de+janeiro,RJ&callback=retornoGeocode';
+//var APP_KEY = 'YFK7SPhPwnZ2KCHvDvLBFAGVzO4bi8FC';
 
 
 function PreencheSelect() {
@@ -19,16 +18,16 @@ function MontaSelect(OBJETO, CODIGO, NOME) {
 }
 
 jQuery(document).ready(function () {
-    PreencheSelect();
-    var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
     EqualizaTamanhoTela();
-    //jQuery('#ESTABELECIMENTO').val(ID_ESTABELECIMENTO);
-    RetornaEstabelecimento(ID_ESTABELECIMENTO);
+    //PreencheSelect();
+    var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+
+    RetornaEstabelecimento(data.ID_USUARIO);
 
 });
 
-function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
-    var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, ERROCONEXAO));
+function RetornaEstabelecimento(ID_USUARIO) {
+    var data = jQuery.parseJSON(RetornaEstabelecimentoPorIdUsuario(ID_USUARIO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
             MontaTela(this);
