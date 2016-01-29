@@ -135,9 +135,9 @@ function CarregaDivOperacao() {
             " <strong><label class='contact-text' >Bairro : " + jQuery('#BAIRRO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Cidade : " + jQuery('#CIDADE').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Estado : " + jQuery('#UF').val() + "</label></strong>   " +
-            "                  <div class='static-notification-green' id='38_XCD' style='border-radius: 10px;' onclick='ConfirmarCompra()'>                                                  " +
-           "                      <p class='center-text uppercase' style='color: white; font-size: 15px;'>Finalizar Compra</p>                                                                  " +
-           "                  </div> "+
+            "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
+           "<p class='center-text' style='color: white;'>Finalizar Compra</p>" +
+           "</div>" +
             "</div>" +
             "</fieldset>" +   
             "</div>" +
@@ -186,28 +186,30 @@ function CarregaUltimaCotacao(data) {
 
     var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO).toFixed(2);
 
-    var html = "  <div class='container no-bottom'>																																			" +
-           "      <div class='no-bottom'>                                                                                                                                                " +
-           "          <div>                                                                                                                                                              " +
-           "              <fieldset>                                                                                                                                                     " +
-           "                  <label class='input-label'>Casa de Câmbio</label>                                                                                                          " +
-           "                  <input type='text' name='NOME_ESTABELECIMENTO' class='contactField' value='" + data[0].NOME + "' id='NOME_ESTABELECIMENTO' readonly />                                                  " +
-           "                  <label class='input-label'>Moeda</label>                                                                                                                   " +
-           "                  <input type='text' name='NOME_MOEDA' class='contactField' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />                                                                      " +
-           "                  <label class='input-label'>Valor da cotação (REAL)</label>                                                                                                 " +
-           "                  <input type='number' name='VALOR_COTACAO' class='contactField' value='" + VALOR_VENDA + "' id='VALOR_COTACAO' readonly />                                                              " +
-           "                  <label class='input-label'>Valor desejado (" + data[0].NOME_MOEDA + ")</label>                                                                                                      " +
-           "                  <input type='number' name='VALOR_DESEJADO'  class='contactField'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />    " +
-           "                  <label class='input-label'>Valor convertido (REAL)</label>                                                                                                        " +
-           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactField' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />                                                                " +
-           "                  <div class='static-notification-green' id='38_XCD' style='border-radius: 10px;' onclick='Confirmar(1)'>                                                  " +
-           "                      <p class='center-text uppercase' style='color: white; font-size: 15px;'>confirmar</p>                                                                  " +
-           "                  </div>                                                                                                                                                     " +
-           "              </fieldset>                                                                                                                                                    " +
-           "          </div>                                                                                                                                                             " +
-           "      </div>                                                                                                                                                                 " +
-           "  </div>                                                                                                                                                                     ";
-    
+    var html = "  <div class='container no-bottom'>" +
+           "      <div class='no-bottom'>" +
+           "          <div>" +
+           "              <fieldset>" +
+           "                  <label class='label-exchange'>Casa de Câmbio</label>" +
+           "                  <input type='text' name='NOME_ESTABELECIMENTO' class='contactField' value='" + data[0].NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
+           "                  <label class='label-exchange'>Moeda</label>" +
+           "                  <input type='text' name='NOME_MOEDA' class='contactField' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
+           "                  <label class='label-exchange'>Valor da cotação (REAL)</label>" +
+           "                  <input type='number' name='VALOR_COTACAO' class='contactField' value='" + VALOR_VENDA + "' id='VALOR_COTACAO' readonly />" +
+           "                  <label class='label-exchange'>Valor desejado (" + data[0].NOME_MOEDA + ")</label>" +
+           "                  <input type='number' name='VALOR_DESEJADO'  class='contactField'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />" +
+           "                  <label class='label-exchange'>Valor convertido (REAL)</label>" +
+           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactField' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
+           "                   <div class='static-notification-exchange-login'  onclick='Confirmar(1)'>" +
+           "                   <p class='center-text'>Confirmar</p>" +
+           "                   </div>" +
+           "              </fieldset>" +
+           "          </div>" +
+           "      </div>" +
+           "  </div>";
+   
+   
+   
     jQuery('#DIVDADOSVALORES').html(html);
 }
 
