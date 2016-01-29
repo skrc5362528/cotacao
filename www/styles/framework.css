@@ -1345,7 +1345,7 @@ table tr:hover td{
 	overflow:hidden;
 	background-color:#27ae60;
 	color:#FFFFFF;
-	margin-bottom:30px;
+	/*margin-bottom:30px;*/
 }
 
 .static-notification-green p{

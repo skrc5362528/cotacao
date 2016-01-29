@@ -37,7 +37,7 @@
             <div class=" header">
                 <a onclick="Voltar();"><i class="fa  fa-arrow-left"></i></a>
                 <a class="header-logo">eXCHANGE</a>
-                <a onclick="GravaUsuario();"><i class="fa fa-check"></i></a>
+                <a><i></i></a>
             </div>
         </div>
         <div class="header-clear"></div>
@@ -52,8 +52,9 @@
                             <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
                             <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
                             <input type="password" name="contactNameField" value="" class="contactField" id="CONFIRMA_SENHA" placeholder="Confirme sua senha" required />
-                            <!--<label class="input-label">Moeda base</label>
-                            <select name="" class="contactField" id="SUA_MOEDA"></select>-->
+                            <div class='static-notification-green' style='border-radius: 10px;' onclick='GravaUsuario();'>
+                                <p class='center-text uppercase' style='color: white; font-size: 15px;'>Cadastrar</p>
+                            </div>    
                         </fieldset>
                     </div>
                 </div>
