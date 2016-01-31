@@ -137,7 +137,7 @@ function CarregaEstabelecimento(data) {
     "<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
     "</div>" +
     "<div>" +
-    MontaInfo('S','S','S')//"<label class='contact-text'>" + data.NOME + "</label>" +
+    MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
     "</div>" +
     "</div>";
 
@@ -213,15 +213,15 @@ function PreencheSelectSuaMoeda() {
 function MontaInfo(RETIRADA, DELIVERY, RECARGA)
 {
     var ret='';
-    if (RETIRADA == 'S')
+    if (RETIRADA == 'RET')
     {
         ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
     }
-    if (DELIVERY == 'S')
+    if (DELIVERY == 'DEL')
     {
         ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
     }
-    if (RECARGA == 'S')
+    if (RECARGA == 'REC')
     {
         ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
     }

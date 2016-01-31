@@ -4,10 +4,17 @@ var ID_ENDERECO_ENTREGA = '';
 var SIMBOLO = '';
 var DATA_COTACAO = '';
 var DATA_USU = '';
+var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
 function BuscaCotacaoEstabelecimento() {
     DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
     CarregaUltimaCotacao(DATA_COTACAO);
+}
+
+function MostraMapa(obj) {
+
+    sessionStorage.setItem('VIEWMAP', obj.id)
+    CarregaMenu('mapa.html');
 }
 
 function RecebeValores() {
@@ -23,7 +30,6 @@ function formataDinheiro(valor) {
     CalculaCotacao(valor.value, jQuery('#VALOR_COTACAO').val())
 }
 
-
 function MontaConversao(valordesejado, valorcotacao) {
     formataDinheiro(valordesejado);
     CalculaCotacao(jQuery('#VALOR_DESEJADO').val(), jQuery('#VALOR_COTACAO').val());
@@ -33,7 +39,6 @@ function CalculaCotacao(VALOR, VALOR_COTACAO) {
     var VALOR = parseFloat(parseFloat(VALOR) * parseFloat(VALOR_COTACAO)).toFixed(2);
     jQuery('#VALOR_CONVERTIDO').val(VALOR);
 }
-
 
 function formataDinheiroInverso(valor) {
     valor.value = parseFloat(valor.value).toFixed(2);
@@ -52,6 +57,8 @@ function CalculaCotacaoInversa(VALOR, VALOR_COTACAO) {
 
 function Confirmar(PASSO) {
 
+
+
     if (PASSO >= 0) {
         switch (PASSO) {
             case 0:
@@ -59,15 +66,29 @@ function Confirmar(PASSO) {
                 jQuery('#DIVDADOSENDERECO').hide();
                 jQuery('#DIVDADOSOPERACAO').hide();
                 jQuery('#DIVDADOSUSUARIO').hide();
+                jQuery('#DIVDADOSCONFIRMACAO').hide();
                 V_PASSO = PASSO;
 
                 break;
             case 1:
-                jQuery('#DIVDADOSVALORES').hide();
-                jQuery('#DIVDADOSENDERECO').show();
-                jQuery('#DIVDADOSUSUARIO').hide();
-                jQuery('#DIVDADOSOPERACAO').hide();
-                V_PASSO = PASSO;
+                if (PASSO == 1 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+                    jQuery('#DIVDADOSVALORES').hide();
+                    jQuery('#DIVDADOSENDERECO').show();
+                    jQuery('#DIVDADOSUSUARIO').hide();
+                    jQuery('#DIVDADOSOPERACAO').hide();
+                    jQuery('#DIVDADOSCONFIRMACAO').hide();
+                    V_PASSO = PASSO;
+                }
+                else
+                {
+                    jQuery('#DIVDADOSVALORES').hide();
+                    jQuery('#DIVDADOSENDERECO').hide();
+                    jQuery('#DIVDADOSUSUARIO').show();
+                    jQuery('#DIVDADOSOPERACAO').hide();
+                    jQuery('#DIVDADOSCONFIRMACAO').hide();
+                    jQuery('#DIVDADOSCONFIRMACAO').hide();
+                    V_PASSO = PASSO + 1;
+                }
 
                 break;
             case 2:
@@ -75,6 +96,7 @@ function Confirmar(PASSO) {
                 jQuery('#DIVDADOSENDERECO').hide();
                 jQuery('#DIVDADOSUSUARIO').show();
                 jQuery('#DIVDADOSOPERACAO').hide();
+                jQuery('#DIVDADOSCONFIRMACAO').hide();
                 V_PASSO = PASSO;
 
                 break;
@@ -83,6 +105,7 @@ function Confirmar(PASSO) {
                 jQuery('#DIVDADOSENDERECO').hide();
                 jQuery('#DIVDADOSUSUARIO').hide();
                 jQuery('#DIVDADOSOPERACAO').show();
+                jQuery('#DIVDADOSCONFIRMACAO').hide();
 
                 CarregaDivOperacao();
                 V_PASSO = PASSO;
@@ -93,13 +116,18 @@ function Confirmar(PASSO) {
 
 function ConfirmarCompra()
 {
-    //BloqueiaTela('Processando operação...')
+    BloqueiaTela('Processando operação...')
     var ret = GravaPedidoCompra();
     if (ret.length > 0)
     {
         DesbloqueiaTela();
         ExibeMensagem('Operação realizada com sucesso!');
-        CarregaMenu("historico.html");
+                CarregaDivConfirmacao(DATA_COTACAO[0]);
+        jQuery('#DIVDADOSVALORES').hide();
+        jQuery('#DIVDADOSENDERECO').hide();
+        jQuery('#DIVDADOSUSUARIO').hide();
+        jQuery('#DIVDADOSOPERACAO').hide();
+        jQuery('#DIVDADOSCONFIRMACAO').show();
     }
     else {
         DesbloqueiaTela();
@@ -108,35 +136,46 @@ function ConfirmarCompra()
     }
 }
 
-function CarregaDivOperacao() {
+function CalculaValorTotal(IOF, TAXA, VALOR_CONVERTIDO, ENTREGA)
+{
 
+    var valIOF = parseFloat(IOF).toFixed(2);
+    //alert(valIOF.toString());
+    var valTAXA = parseFloat(TAXA).toFixed(2);
+    //alert(valTAXA);
+    var valCONVER = parseFloat(VALOR_CONVERTIDO).toFixed(2);
+    //alert(valCONVER);
+    var valEntrega = parseFloat(ENTREGA).toFixed(2);
+    //alert(valEntrega);
+    var valorTotalIof = (parseFloat(((valIOF/100) * valCONVER)).toFixed(2));
+    //alert(valEntrega);
+    var valortot = '';
+    return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valTAXA) + parseFloat(valEntrega) + parseFloat(valorTotalIof)).toFixed(2);
+}
+
+function CarregaDivOperacao() {
     var html = "<div class='container no-bottom'>" +
             "<div class='no-bottom'>   " +
             "<div>  " +
             "<fieldset>" +
             " <div class='big-notification static-notification-white' id='38'> " +
-            " <h4><label>Dados do comprador :</label></h4>  " +
-            " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label></strong> " +
-            " <strong><label class='contact-text' >Tel. Contato : " + jQuery('#FONE').val() + "</label></strong>  " +
-            " <strong><label class='contact-text' >Data de nascimento : " + jQuery('#DATA_NASCIMENTO').val() + "</label></strong>  " +
-            " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Rg : " + jQuery('#RG').val() + "</label></strong>   " +
-            " <h4><label>Dados da Transação :</label></h4>  " +
-            " <strong><label class='contact-text' >Estabelecimento : " + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong> " +
+            "<strong><h2>Resumo da compra</h2></strong>" +
+            "<strong><label class='contact-text' >" + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong></br>" +
             " <strong><label class='contact-text' >Moeda : " + jQuery('#NOME_MOEDA').val() + "</label></strong>  " +
-            " <strong><label class='contact-text' >Valor desejado (" + jQuery('#NOME_MOEDA').val() + ") : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
+            " <strong><label class='contact-text' >Valor desejado : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
-            " <h4><label>Endereço de entrega:</label></h4>  " +
-            " <strong><label class='contact-text' >Cep : " + jQuery('#CEP').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Endereço : " + jQuery('#ENDERECO').val() + "</label></strong> " +
-            " <strong><label class='contact-text' >Complemento : " + jQuery('#COMPLEMENTO').val() + "</label></strong>  " +
-            " <strong><label class='contact-text' >Numero : " + jQuery('#NUMERO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Bairro : " + jQuery('#BAIRRO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Cidade : " + jQuery('#CIDADE').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Estado : " + jQuery('#UF').val() + "</label></strong>   " +
+            " <strong><label class='contact-text' >IOF % : " + jQuery('#IOF').val() + "</label></strong>   " +
+            "<strong><label class='contact-text' >Serviço eXchange R$ : " + jQuery('#TAXA_SERVICO').val() + "</label></strong>   " +
+            "<strong><label class='contact-text' >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   " +
+            " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
+            MontaInforRetirada(jQuery('#SELECIONA_RETIRADA').val())+
+            "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>  " +
+            " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label> " +
+            " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label>  " +
+            " <strong><label class='contact-text' >Rg : " + jQuery('#RG').val() + "</label>   " +
             "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
-           "<p class='center-text' style='color: white;'>Finalizar Compra</p>" +
+           "<p class='center-text' style='color: white;'><strong>Finalizar Compra</strong></p>" +
            "</div>" +
             "</div>" +
             "</fieldset>" +   
@@ -145,14 +184,37 @@ function CarregaDivOperacao() {
             "</div>";
 
     jQuery('#DIVDADOSOPERACAO').html(html);
-
-    
-  
-
 }
 
+function CarregaDivConfirmacao()
+{
+    var html = "<div class='container no-bottom'>" +
+        "<div class='no-bottom'>   " +
+        "<div>  " +
+        "<fieldset>" +
+        " <div class='big-notification static-notification-white' id='38'> " +
+        CarregaEstabelecimento(DATA_COTACAO[0])+
+        "<div class='static-notification-exchange'  id='" + ID_ESTABELECIMENTO + "_" + SIMBOLO + "' onclick='MostraMapa(this);'>" +
+        "<p class='center-text' style='color: white;'><strong>Ver no mapa</strong></p>" +
+        "</div>" +
+        "<strong><h2 style='color:black;'>Compra Finalizada</h2></strong>  " +
+        "<i class='fa fa-check' style='font-size: 64px; color:#0489B1;'></i>" +
+        "<strong><h4 style='color:black;'>Dados bancários para depósito</h4></strong>  " +
+        " <strong><label class='contact-text' >Banco : " + DATA_ESTABELECIMENTO[0].BANCO + "</label></strong>  " +
+        " <strong><label class='contact-text' >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA+ "</label></strong>   " +
+        " <strong><label class='contact-text' >Conta corrente : " + DATA_ESTABELECIMENTO[0].CONTA + "</label></strong>   " +
+        " <strong><label class='contact-text' >CNPJ : " + DATA_ESTABELECIMENTO[0].CNPJ + "</label></strong>   " +
+        "</div>" +
+        "</fieldset>" +
+        "</div>" +
+        "</div>" +
+        "</div>";
+    jQuery('#DIVDADOSCONFIRMACAO').html(html);
+}
 
 function GravaPedidoCompra() {
+
+
     var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
@@ -174,12 +236,17 @@ function GravaPedidoCompra() {
     var OBS_COMPRA = '';
     var DESCRICAO_DETALHADA = jQuery('#DIVDADOSOPERACAO').html();
 
+    if (ID_ENDERECO_ENTREGA == '')
+    {
+        InsereEndereco();
+    }
+
 
     return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2, null, ERROCONEXAO);
 }
 
 function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
-    var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
+   return jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
 }
 
 function CarregaUltimaCotacao(data) {
@@ -190,21 +257,26 @@ function CarregaUltimaCotacao(data) {
            "      <div class='no-bottom'>" +
            "          <div>" +
            "              <fieldset>" +
-           "                  <label class='label-exchange'>Casa de Câmbio</label>" +
-           "                  <input type='text' name='NOME_ESTABELECIMENTO' class='contactField' value='" + data[0].NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
-           "                  <label class='label-exchange'>Moeda</label>" +
-           "                  <input type='text' name='NOME_MOEDA' class='contactField' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
-           "                  <label class='label-exchange'>Valor da cotação (REAL)</label>" +
-           "                  <input type='number' name='VALOR_COTACAO' class='contactField' value='" + VALOR_VENDA + "' id='VALOR_COTACAO' readonly />" +
-           "                  <label class='label-exchange'>Valor desejado (" + data[0].NOME_MOEDA + ")</label>" +
-           "                  <input type='number' name='VALOR_DESEJADO'  class='contactField'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />" +
-           "                  <label class='label-exchange'>Valor convertido (REAL)</label>" +
-           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactField' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
-           "                   <div class='static-notification-exchange-login'  onclick='Confirmar(1)'>" +
-           "                   <p class='center-text'>Confirmar</p>" +
+           "                  <div class='big-notification static-notification-white' id='38'> " +
+                                CarregaEstabelecimento(data[0])+
+           "                  <label class='contact-text'>Moeda Escolhida :" + data[0].NOME_MOEDA + "</label>" +
+           "                  <input type='hidden' name='NOME_MOEDA' class='contactFieldExchange' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
+           "                  <label class='contact-text'>Cotação :" + VALOR_VENDA + "</label>" +
+           "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO' readonly />" +
+           "                  <label class='contact-text'>Valor em " + data[0].NOME_MOEDA + "</label>" +
+           "                  <input type='number' name='VALOR_DESEJADO'  class='contactFieldExchange'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />" +
+           "                  <label class='contact-text'>Valor em REAL</label>" +
+           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
+           "                  <label class='contact-text'>Forma de recebimento</label>" +
+                               CarregaFormaRecebimento(data[0]) +
+           "                  <label class='contact-text'>Forma de recebimento</label>" +
+                               CarregaFormaPagamento()+
+           "                   <div class='static-notification-exchange'  onclick='Confirmar(1)' >" +
+           "                   <p class='center-text' style='font-size:15px; color:white;'>Prosseguir</p>" +
            "                   </div>" +
            "              </fieldset>" +
            "          </div>" +
+           "      </div>" +
            "      </div>" +
            "  </div>";
    
@@ -215,7 +287,17 @@ function CarregaUltimaCotacao(data) {
 
 function VoltarEtapa()
 {
-    var PASSO = (V_PASSO - 1);
+    var PASSO = '';
+
+    if (V_PASSO == 2 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+
+        V_PASSO = PASSO -1;
+    }
+    else {
+
+        V_PASSO = PASSO + 1;
+    }
+     PASSO = (V_PASSO - 1);
     Confirmar(PASSO)
 }
 
@@ -223,31 +305,73 @@ jQuery(document).ready(function () {
 
     EqualizaTamanhoTela();
     RecebeValores();
+    DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
     BuscaCotacaoEstabelecimento();
-    
+
     CarregaPerfil();
     CarregaEndereco(ID_USUARIO);
-
+    PreencheSelectBancos();
 
     jQuery('#DIVDADOSVALORES').show();
     jQuery('#DIVDADOSENDERECO').hide();
     jQuery('#DIVDADOSOPERACAO').hide();
     jQuery('#DIVDADOSUSUARIO').hide();
 }
+
 );
+
+function CarregaFormaRecebimento(data)
+{
+    var html = "<select class='contactFieldExchange' id='FORMA_ENTREGA' >";
+  
+    if(data.RETIRADA = 'RET')
+    {
+        html+=  "<option value='RET'>Retirada na Agência</option>" ;
+     }
+    if(data.DELIVERY = 'DEL'){
+       html+= "<option value='DEL'>Delivery</option>" ;
+    }
+    if (data.RECARGA = 'REC') {
+        html+= "<option value='REC'>Recarga de Cartão</option>"
+    }
+   html+= "</select>";
+    return html;
+}
+
+function CarregaFormaPagamento() {
+    var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
+        html += "<option value='DEP'> Depósito em C/C </option>";
+        html += "<option value='DEL'> Transferência </option>";
+    html += "</select>";
+    return html;
+}
+
+ function MontaInforRetirada(FORMA_RETIRADA) {
+        var ret = '';
+        if (FORMA_RETIRADA == 'RET') {
+            ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
+        }
+        if (FORMA_RETIRADA == 'DEL') {
+            ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
+        }
+        if (FORMA_RETIRADA == 'REC') {
+            ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
+        }
+        ret += "";
+        return ret;
+    }
 
 function MontaMapa(data) {
 
     var html = "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
        "<a class='contact-text' href='#'>Tel :" + data.FONE + "</a>" +
-       //"<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
+       "<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
        "<a class='contact-text' href='#'>Endereço :" + data.ENDERECO + "," + data.NUMERO + "</a>" +
        "<a class='contact-text' href='#'>" + data.COMPLEMENTO + " - " + data.BAIRRO + "</a>" +
        "<a class='contact-text' href='#'>" + data.CIDADE + "," + data.UF + "</a>";
 
     jQuery('#DIVINFO').html(html);
 }
-
 
 function CarregaDivCotacao(data) {
 
@@ -256,10 +380,6 @@ function CarregaDivCotacao(data) {
      "<a class='contact-text' href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO).toFixed(2) + "</a>";
     return html;
 }
-
-
-
-
 
 function CarregaPerfil() {
 
@@ -292,11 +412,11 @@ function CarregaEndereco(ID_USUARIO) {
 
 function InsereEndereco() {
 
-    var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO"))[0].ID_USUARIO;
+    var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO")).ID_USUARIO;
     var ENDERECO_ENTREGA = jQuery('#ENDERECO').val();
     var COMPLEMENTO_ENTREGA = jQuery('#COMPLEMENTO').val();
     var BAIRRO_ENTREGA = jQuery('#BAIRRO').val();
-    var CEP_ENTREGA = jQuery('#CEP').val();
+    var CEP_ENTREGA = jQuery('#CEP').val().replace('-', '');
     var UF_ENTREGA = jQuery('#UF').val();
     var CIDADE_ENTREGA = jQuery('#CIDADE').val();
     var FONE_ENTREGA = jQuery('#FONE').val();
@@ -314,7 +434,7 @@ function AlteraEndereco() {
     var ENDERECO_ENTREGA = jQuery('#ENDERECO').val();
     var COMPLEMENTO_ENTREGA = jQuery('#COMPLEMENTO').val();
     var BAIRRO_ENTREGA = jQuery('#BAIRRO').val();
-    var CEP_ENTREGA = jQuery('#CEP').val();
+    var CEP_ENTREGA = jQuery('#CEP').val().replace('-', '');
     var UF_ENTREGA = jQuery('#UF').val();
     var CIDADE_ENTREGA = jQuery('#CIDADE').val();
     var FONE_ENTREGA = jQuery('#FONE').val();
@@ -327,16 +447,70 @@ function AlteraEndereco() {
 }
 
 function CarregaEnderecoPorCep(obj) {
-    var data = jQuery.parseJSON(RetornaEnderecoPorCep(obj.value, null, ERROCONEXAO));
 
-    if (data.length > 0) {
-        jQuery.each(data, function () {
-            jQuery('#CEP').val(this.CEP);
-            jQuery('#ENDERECO').val(this.LOGRADOURO1);
-            jQuery('#BAIRRO').val(this.BAIRRO1);
-            jQuery('#CIDADE').val(this.CIDADE1);
-            jQuery('#UF').val(this.UF1);
-        });
+  if(ID_ENDERECO_ENTREGA != '')
+    {
+        var data = jQuery.parseJSON(RetornaEnderecoPorCep(obj.value, null, ERROCONEXAO));
+
+        if (data.length > 0) {
+            jQuery.each(data, function () {
+                jQuery('#CEP').val(this.CEP);
+                jQuery('#ENDERECO').val(this.LOGRADOURO1);
+                jQuery('#BAIRRO').val(this.BAIRRO1);
+                jQuery('#CIDADE').val(this.CIDADE1);
+                jQuery('#UF').val(this.UF1);
+            });
+        }
     }
 
 }
+
+function PreencheSelectBancos() {
+    jQuery('#BANCOS').append('<option value="" selected> Escolha seu banco</option>');
+    var data = BANCOS;
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            MontaSelect('BANCOS', this.CODIGO, this.BANCO);
+        });
+    }
+}
+
+
+function MontaSelect(OBJETO, CODIGO, NOME) {
+    jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
+}
+
+function CarregaEstabelecimento(dados) {
+    
+    //if (DATA_ESTABELECIMENTO.length == 0) {
+    //    DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
+    //}
+    var DISTANCIA = parseFloat(calculoDistancia(DATA_ESTABELECIMENTO[0].LATITUDE, DATA_ESTABELECIMENTO[0].LONGITUDE));
+
+    var html =
+    "<div id='" + dados.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white-header'>" +
+    "<div>" +
+    "<strong><label class='contact-text'>" + dados.NOME + "</label></strong> " +
+    "<input type='hidden' name='NOME_ESTABELECIMENTO' value='" + dados.NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
+    "</div>" +
+    "<div class='one-half'>" +
+    "<label class='contact-text'>Venda : R$ " + parseFloat(dados.VALOR_COTACAO).toFixed(2) + " </label>" +
+    "</div>" +
+    "<div class='two-half last-column'>" +
+    "<span class='span-stars'>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star'></i>" +
+    "<i class='fa fa-star-o'></i>" +
+    "</span>" +
+    "<label class='contact-text'>Km " + DISTANCIA + "</label>" +
+    "</div>" +
+    "<div>" +
+    "</div>" +
+    "</div>";
+
+    return html;
+
+}
+

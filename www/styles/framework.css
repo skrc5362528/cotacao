@@ -1412,13 +1412,21 @@ table tr:hover td{
     
 }
 
+.static-notification-white-header{
+	overflow:hidden;
+	background-color: white;
+	color:black;
+	border-radius:10px;
+}
+
+
 
 .static-notification-white{
 	overflow:hidden;
 	background-color: white;
 	color:black;
     border-radius:10px;
-	margin-bottom:30px;
+	/*margin-bottom:30px;*/
    
 }
 
@@ -1813,6 +1821,31 @@ table tr:hover td{
 	box-sizing:border-box;
 }
 
+
+.contactField{
+	height:40px;
+    max-width:100px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-bottom:10px;
+}
+
+.contactFieldExchange{
+	height:40px;
+    max-width:100px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-bottom:10px;
+    background-color:#0489B1;
+}
+.contactFieldExchange{
+	min-width:100%;	
+	display:block;
+	box-sizing:border-box;
+    border-radius:10px;
+    color:white;
+}
+
 .contactTextarea{
 	min-width:100%;
 	display:block;
@@ -1838,14 +1871,6 @@ table tr:hover td{
 	display:block!important;
 	padding-left:0px!important;
 	text-align:center!important;
-}
-
-.contactField{
-	height:40px;
-    max-width:100px;
-	padding-left:10px;
-	padding-right:10px;
-	margin-bottom:10px;
 }
 
 .contactTextarea{
