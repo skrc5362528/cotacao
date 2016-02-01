@@ -197,8 +197,8 @@ function CarregaDivConfirmacao()
         "<div class='static-notification-exchange'  id='" + ID_ESTABELECIMENTO + "_" + SIMBOLO + "' onclick='MostraMapa(this);'>" +
         "<p class='center-text' style='color: white;'><strong>Ver no mapa</strong></p>" +
         "</div>" +
-        "<strong><h2 style='color:black;'>Compra Finalizada</h2></strong>  " +
-        "<i class='fa fa-check' style='font-size: 64px; color:#0489B1;'></i>" +
+        "<h2 style='color:black;'><p class='center-text' style='font-size:22px;'><strong>Compra Finalizada</strong></p></h2>" +
+        "<p class='center-text' ><strong><i class='fa fa-check' style='font-size: 128px; color:#0489B1;'></i></strong></p>" +
         "<strong><h4 style='color:black;'>Dados bancários para depósito</h4></strong>  " +
         " <strong><label class='contact-text' >Banco : " + DATA_ESTABELECIMENTO[0].BANCO + "</label></strong>  " +
         " <strong><label class='contact-text' >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA+ "</label></strong>   " +
@@ -269,7 +269,7 @@ function CarregaUltimaCotacao(data) {
            "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
            "                  <label class='contact-text'>Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
-           "                  <label class='contact-text'>Forma de recebimento</label>" +
+           "                  <label class='contact-text'>Forma de pagamento</label>" +
                                CarregaFormaPagamento()+
            "                   <div class='static-notification-exchange'  onclick='Confirmar(1)' >" +
            "                   <p class='center-text' style='font-size:15px; color:white;'>Prosseguir</p>" +

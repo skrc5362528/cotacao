@@ -38,13 +38,13 @@
                                     <input type="text" name="CIDADE" value="" class="contactFieldExchange" id="CIDADE" placeholder="Cidade" required />
                                     <label class="contact-text">UF</label>
                                     <input type="text" name="UF" value="" class="contactFieldExchange" id="UF" placeholder="UF" required />
-                                    <div class="static-notification-exchange-login" onclick="Confirmar(2)">
+                                    <div class="static-notification-exchange" onclick="Confirmar(2)">
                                         <p class="center-text" style="color:white">
                                             Prosseguir
                                         </p>
                                     </div>
-                                    </div>
-</fieldset>
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
                 </div>
@@ -65,10 +65,12 @@
                                     <input type="text" name="CPF" value="" class="contactFieldExchange" id="CPF" placeholder="CPF" required />
                                     <label class="contact-text">RG</label>
                                     <input type="text" name="RG" value="" class="contactFieldExchange" id="RG" placeholder="RG" required />
-                                    <p>Para podermos identificar o depósito, por favor informmar a conta corrente de origem od pagamento.
-                                    O pagamento deve ser realizado exclusivamente pela conta do comprador</p>
+                                    <p>
+                                        Para podermos identificar o depósito, por favor informmar a conta corrente de origem od pagamento.
+                                        O pagamento deve ser realizado exclusivamente pela conta do comprador
+                                    </p>
                                     <label class="contact-text">Banco</label>
-                                    <select name="" class="contactFieldExchange" id="BANCOS" ></select>
+                                    <select name="" class="contactFieldExchange" id="BANCOS"></select>
                                     <label class="contact-text">Agência</label>
                                     <input type="text" name="AGENCIA" value="" class="contactFieldExchange" id="AGENCIA" placeholder="Agência" required />
                                     <label class="contact-text">Conta</label>
@@ -84,12 +86,9 @@
                     </div>
                 </div>
             </div>
-
             <div class="content" id="DIVDADOSOPERACAO">
-
             </div>
             <div class="content" id="DIVDADOSCONFIRMACAO">
-
             </div>
         </div>
     </div>
@@ -102,10 +101,10 @@
     <script src="scripts/jsmodel/Bancos.js"></script>
     <script type="text/javascript">
 
-    jQuery('#DATA_NASCIMENTO').inputmask("99/99/9999");
-    jQuery('#CPF').inputmask("999.999.999-99");
-    jQuery('#CEP').inputmask("99999-999");
-    jQuery('#FONE').inputmask("(999) 99999-9999");
+        jQuery('#DATA_NASCIMENTO').inputmask("99/99/9999");
+        jQuery('#CPF').inputmask("999.999.999-99");
+        jQuery('#CEP').inputmask("99999-999");
+        jQuery('#FONE').inputmask("(999) 99999-9999");
 
     </script>
 
