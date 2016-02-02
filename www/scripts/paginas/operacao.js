@@ -57,8 +57,6 @@ function CalculaCotacaoInversa(VALOR, VALOR_COTACAO) {
 
 function Confirmar(PASSO) {
 
-
-
     if (PASSO >= 0) {
         switch (PASSO) {
             case 0:
@@ -116,7 +114,7 @@ function Confirmar(PASSO) {
 
 function ConfirmarCompra()
 {
-    BloqueiaTela('Processando operação...')
+    //BloqueiaTela('Processando operação...')
     var ret = GravaPedidoCompra();
     if (ret.length > 0)
     {
@@ -229,20 +227,71 @@ function GravaPedidoCompra() {
     //=========================================================
     var NOME = jQuery('#NOME').val();
     var DATA_NASCIMENTO = jQuery('#DATA_NASCIMENTO').val();
-    var CPF = jQuery('#CPF').val();
-    var RG = jQuery('#RG').val();
+    //=========================================================
     var STATUS_VENDA = '1';
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
     var DESCRICAO_DETALHADA = jQuery('#DIVDADOSOPERACAO').html();
+    //=========================================================
+    var BANCOS = jQuery('#BANCOS').val();
+    var AGENCIA = jQuery('#AGENCIA').val();
+    var CONTA = jQuery('#CONTA').val();
+    var CPF = jQuery('#CPF').val();
+    var RG = jQuery('#RG').val();
 
-    if (ID_ENDERECO_ENTREGA == '')
+    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == 'DEL')
     {
-        InsereEndereco();
+        var ret = ValidaDadosOperacao(BANCOS,AGENCIA,CONTA,CPF,RG);
+        ret = ValidaEndereco(CEP, ENDERECO, NUMERO, COMPLEMENTO, BAIRRO, CIDADE, UF);
+
+        if (ret = '') {
+            AlteraDadosUsuario();
+            InsereEndereco();
+            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2, null, ERROCONEXAO);
+        } else {
+            ExibeMensagem(ret);
+            return false;
+        }
+    }
+    else {
+        AlteraDadosUsuario();
+        ID_ENDERECO_ENTREGA = null;
+        return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2, null, ERROCONEXAO);
     }
 
+}
 
-    return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2, null, ERROCONEXAO);
+function ValidaDadosOperacao(BANCOS,
+                             AGENCIA, 
+                             CONTA, 
+                             CPF,
+                             RG)
+    {
+    var msg = ''
+    if (BANCOS==''||AGENCIA==''||CONTA=='') {
+
+        msg = 'Dados bancário incompletos'
+    }
+    if (CPF == '' || RG== '' ) {
+
+        msg = 'Documentos incompletos'
+    }
+        return msg;
+    }
+function ValidaEndereco(CEP,
+                        ENDERECO ,
+                        NUMERO,
+                        COMPLEMENTO,
+                        BAIRRO ,
+                        CIDADE ,
+                        UF)
+   {
+    var msg = ''
+    if (CEP == '' || ENDERECO === '' || NUMERO == '' || BAIRRO == '' || CIDADE == '' || UF == '')
+    {
+        msg='Endereço incompleto'
+    }
+   return msg;
 }
 
 function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
@@ -424,7 +473,7 @@ function InsereEndereco() {
     var SOBRENOME_ENTREGA = '';
     var NUMERO_ENTREGA = jQuery('#NUMERO').val();
     //InsereEnderecoUsuario(ID_USUARIO,ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA, BAIRRO_ENTREGA, CEP_ENTREGA, UF_ENTREGA, CIDADE_ENTREGA, FONE_ENTREGA, NOME_ENTREGA, SOBRENOME_ENTREGA, NUMERO_ENTREGA, successFunc, ERROCONEXAO);
-    var endusu = InsereEnderecoUsuario(ID_USUARIO, ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA, BAIRRO_ENTREGA, CEP_ENTREGA, UF_ENTREGA, CIDADE_ENTREGA, FONE_ENTREGA, NOME_ENTREGA, SOBRENOME_ENTREGA, NUMERO_ENTREGA, null, ERROCONEXAO);
+   return  InsereEnderecoUsuario(ID_USUARIO, ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA, BAIRRO_ENTREGA, CEP_ENTREGA, UF_ENTREGA, CIDADE_ENTREGA, FONE_ENTREGA, NOME_ENTREGA, SOBRENOME_ENTREGA, NUMERO_ENTREGA, null, ERROCONEXAO);
 
 }
 
@@ -475,9 +524,8 @@ function PreencheSelectBancos() {
     }
 }
 
-
 function MontaSelect(OBJETO, CODIGO, NOME) {
-    jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME + '</option>');
+    jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + '</option>');
 }
 
 function CarregaEstabelecimento(dados) {
@@ -514,3 +562,18 @@ function CarregaEstabelecimento(dados) {
 
 }
 
+function AlteraDadosUsuario() {
+    var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO")).ID_USUARIO;
+    var NOME =  jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME
+    var LOGIN = jQuery.parseJSON(localStorage.getItem("USUARIO")).LOGIN;/// jQuery('#LOGIN').val();
+    var EMAIL = jQuery.parseJSON(localStorage.getItem("USUARIO")).EMAIL;
+    var SENHA = jQuery.parseJSON(localStorage.getItem("USUARIO")).SENHA;
+    var CPF = jQuery('#CPF').val();
+    var RG = jQuery('#RG').val();
+    var BANCO = jQuery('#BANCOS').val();
+    var CONTA = jQuery('#CONTA').val();
+    var AGENCIA = jQuery('#AGENCIA').val();
+    var DATA_NASCIMENTO = jQuery('#DATA_NASCIMENTO').val();
+    var ID_TP_USUARIO = 1;
+    var usu = AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO,CONTA,AGENCIA,null, ERROCONEXAO);
+}

@@ -344,7 +344,7 @@ function ValidaUsuario(email, successFunc, errorFunc) {
 }
 
 // -- AlteraUsuario
-function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, successFunc, errorFunc) {
+function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO, CONTA, AGENCIA,successFunc, errorFunc) {
     /// <summary></summary>
     /// <param name="ID_USUARIO" type="int">ID_USUARIO</param>
     /// <param name="LOGIN" type="string">LOGIN</param>
@@ -367,7 +367,7 @@ function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",LOGIN:" + JSON.stringify(LOGIN) + ",NOME:" + JSON.stringify(NOME) + ",SENHA:" + JSON.stringify(SENHA) + ",ID_TP_USUARIO:" + JSON.stringify(ID_TP_USUARIO) + ",EMAIL:" + JSON.stringify(EMAIL) + ",CPF:" + JSON.stringify(CPF) + ",RG:" + JSON.stringify(RG) + ",DATA_NASCIMENTO:" + JSON.stringify(DATA_NASCIMENTO) + "}",
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",LOGIN:" + JSON.stringify(LOGIN) + ",NOME:" + JSON.stringify(NOME) + ",SENHA:" + JSON.stringify(SENHA) + ",ID_TP_USUARIO:" + JSON.stringify(ID_TP_USUARIO) + ",EMAIL:" + JSON.stringify(EMAIL) + ",CPF:" + JSON.stringify(CPF) + ",RG:" + JSON.stringify(RG) + ",DATA_NASCIMENTO:" + JSON.stringify(DATA_NASCIMENTO) + ",BANCO:" + JSON.stringify(BANCO) + ",CONTA:" + JSON.stringify(CONTA) + ",AGENCIA:" + JSON.stringify(AGENCIA) + "}",
         success: function (data) {
             if (data.hasOwnProperty('d')) {
                 $res = data.d;
