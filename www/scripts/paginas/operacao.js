@@ -69,58 +69,78 @@ function Confirmar(PASSO) {
 
                 break;
             case 1:
+
                 if (PASSO == 1 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
-                    jQuery('#DIVDADOSVALORES').hide();
-                    jQuery('#DIVDADOSENDERECO').show();
-                    jQuery('#DIVDADOSUSUARIO').hide();
-                    jQuery('#DIVDADOSOPERACAO').hide();
-                    jQuery('#DIVDADOSCONFIRMACAO').hide();
-                    V_PASSO = PASSO;
+                    var ret = ValidaDadosOperacao();
+                    if (ret == '') {
+                        jQuery('#DIVDADOSVALORES').hide();
+                        jQuery('#DIVDADOSENDERECO').show();
+                        jQuery('#DIVDADOSUSUARIO').hide();
+                        jQuery('#DIVDADOSOPERACAO').hide();
+                        jQuery('#DIVDADOSCONFIRMACAO').hide();
+                        V_PASSO = PASSO;
+                    } else {
+                        ExibeMensagem(ret);
+                    }
                 }
-                else
-                {
-                    jQuery('#DIVDADOSVALORES').hide();
-                    jQuery('#DIVDADOSENDERECO').hide();
-                    jQuery('#DIVDADOSUSUARIO').show();
-                    jQuery('#DIVDADOSOPERACAO').hide();
-                    jQuery('#DIVDADOSCONFIRMACAO').hide();
-                    jQuery('#DIVDADOSCONFIRMACAO').hide();
-                    V_PASSO = PASSO + 1;
+                else {
+                    var ret = ValidaDadosOperacao();
+                    if (ret == '') {
+                        jQuery('#DIVDADOSVALORES').hide();
+                        jQuery('#DIVDADOSENDERECO').hide();
+                        jQuery('#DIVDADOSUSUARIO').show();
+                        jQuery('#DIVDADOSOPERACAO').hide();
+                        jQuery('#DIVDADOSCONFIRMACAO').hide();
+                        jQuery('#DIVDADOSCONFIRMACAO').hide();
+                        V_PASSO = PASSO + 1;
+                    } else {
+                        ExibeMensagem(ret);
+                    }
                 }
 
                 break;
             case 2:
+
+                var ret = ValidaEndereco();
+                
+                if (ret == '') {
                 jQuery('#DIVDADOSVALORES').hide();
                 jQuery('#DIVDADOSENDERECO').hide();
                 jQuery('#DIVDADOSUSUARIO').show();
                 jQuery('#DIVDADOSOPERACAO').hide();
                 jQuery('#DIVDADOSCONFIRMACAO').hide();
                 V_PASSO = PASSO;
-
+                } else {
+                    ExibeMensagem(ret);
+                }
                 break;
             case 3:
-                jQuery('#DIVDADOSVALORES').hide();
-                jQuery('#DIVDADOSENDERECO').hide();
-                jQuery('#DIVDADOSUSUARIO').hide();
-                jQuery('#DIVDADOSOPERACAO').show();
-                jQuery('#DIVDADOSCONFIRMACAO').hide();
+                var ret = ValidaDadosBancarios();
+                
+                if (ret == '') {
+                    jQuery('#DIVDADOSVALORES').hide();
+                    jQuery('#DIVDADOSENDERECO').hide();
+                    jQuery('#DIVDADOSUSUARIO').hide();
+                    jQuery('#DIVDADOSOPERACAO').show();
+                    jQuery('#DIVDADOSCONFIRMACAO').hide();
 
-                CarregaDivOperacao();
-                V_PASSO = PASSO;
+                    CarregaDivOperacao();
+                    V_PASSO = PASSO;
+                } else {
+                    ExibeMensagem(ret);
+                }
                 break;
         }
     }
 }
 
-function ConfirmarCompra()
-{
-    //BloqueiaTela('Processando operação...')
+function ConfirmarCompra() {
+    BloqueiaTela('Processando operação...')
     var ret = GravaPedidoCompra();
-    if (ret.length > 0)
-    {
+    if (ret.length > 0) {
         DesbloqueiaTela();
         ExibeMensagem('Operação realizada com sucesso!');
-                CarregaDivConfirmacao(DATA_COTACAO[0]);
+        CarregaDivConfirmacao(DATA_COTACAO[0]);
         jQuery('#DIVDADOSVALORES').hide();
         jQuery('#DIVDADOSENDERECO').hide();
         jQuery('#DIVDADOSUSUARIO').hide();
@@ -132,10 +152,10 @@ function ConfirmarCompra()
         ExibeMensagem('Operação não realizada!');
         CarregaMenu("estabelecimento.html");
     }
+    DesbloqueiaTela();
 }
 
-function CalculaValorTotal(IOF, TAXA, VALOR_CONVERTIDO, ENTREGA)
-{
+function CalculaValorTotal(IOF, TAXA, VALOR_CONVERTIDO, ENTREGA) {
 
     var valIOF = parseFloat(IOF).toFixed(2);
     //alert(valIOF.toString());
@@ -145,7 +165,7 @@ function CalculaValorTotal(IOF, TAXA, VALOR_CONVERTIDO, ENTREGA)
     //alert(valCONVER);
     var valEntrega = parseFloat(ENTREGA).toFixed(2);
     //alert(valEntrega);
-    var valorTotalIof = (parseFloat(((valIOF/100) * valCONVER)).toFixed(2));
+    var valorTotalIof = (parseFloat(((valIOF / 100) * valCONVER)).toFixed(2));
     //alert(valEntrega);
     var valortot = '';
     return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valTAXA) + parseFloat(valEntrega) + parseFloat(valorTotalIof)).toFixed(2);
@@ -167,7 +187,7 @@ function CarregaDivOperacao() {
             "<strong><label class='contact-text' >Serviço eXchange R$ : " + jQuery('#TAXA_SERVICO').val() + "</label></strong>   " +
             "<strong><label class='contact-text' >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
-            MontaInforRetirada(jQuery('#SELECIONA_RETIRADA').val())+
+            MontaInforRetirada(jQuery('#SELECIONA_RETIRADA').val()) +
             "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>  " +
             " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label> " +
             " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label>  " +
@@ -176,7 +196,7 @@ function CarregaDivOperacao() {
            "<p class='center-text' style='color: white;'><strong>Finalizar Compra</strong></p>" +
            "</div>" +
             "</div>" +
-            "</fieldset>" +   
+            "</fieldset>" +
             "</div>" +
             "</div>" +
             "</div>";
@@ -184,14 +204,13 @@ function CarregaDivOperacao() {
     jQuery('#DIVDADOSOPERACAO').html(html);
 }
 
-function CarregaDivConfirmacao()
-{
+function CarregaDivConfirmacao() {
     var html = "<div class='container no-bottom'>" +
         "<div class='no-bottom'>   " +
         "<div>  " +
         "<fieldset>" +
         " <div class='big-notification static-notification-white' id='38'> " +
-        CarregaEstabelecimento(DATA_COTACAO[0])+
+        CarregaEstabelecimento(DATA_COTACAO[0]) +
         "<div class='static-notification-exchange'  id='" + ID_ESTABELECIMENTO + "_" + SIMBOLO + "' onclick='MostraMapa(this);'>" +
         "<p class='center-text' style='color: white;'><strong>Ver no mapa</strong></p>" +
         "</div>" +
@@ -199,7 +218,7 @@ function CarregaDivConfirmacao()
         "<p class='center-text' ><strong><i class='fa fa-check' style='font-size: 128px; color:#0489B1;'></i></strong></p>" +
         "<strong><h4 style='color:black;'>Dados bancários para depósito</h4></strong>  " +
         " <strong><label class='contact-text' >Banco : " + DATA_ESTABELECIMENTO[0].BANCO + "</label></strong>  " +
-        " <strong><label class='contact-text' >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA+ "</label></strong>   " +
+        " <strong><label class='contact-text' >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA + "</label></strong>   " +
         " <strong><label class='contact-text' >Conta corrente : " + DATA_ESTABELECIMENTO[0].CONTA + "</label></strong>   " +
         " <strong><label class='contact-text' >CNPJ : " + DATA_ESTABELECIMENTO[0].CNPJ + "</label></strong>   " +
         "</div>" +
@@ -239,19 +258,11 @@ function GravaPedidoCompra() {
     var CPF = jQuery('#CPF').val();
     var RG = jQuery('#RG').val();
 
-    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == 'DEL')
-    {
-        var ret = ValidaDadosOperacao(BANCOS,AGENCIA,CONTA,CPF,RG);
-        ret = ValidaEndereco(CEP, ENDERECO, NUMERO, COMPLEMENTO, BAIRRO, CIDADE, UF);
-
-        if (ret = '') {
+    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+      
             AlteraDadosUsuario();
             InsereEndereco();
             return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2, null, ERROCONEXAO);
-        } else {
-            ExibeMensagem(ret);
-            return false;
-        }
     }
     else {
         AlteraDadosUsuario();
@@ -261,41 +272,65 @@ function GravaPedidoCompra() {
 
 }
 
-function ValidaDadosOperacao(BANCOS,
-                             AGENCIA, 
-                             CONTA, 
-                             CPF,
-                             RG)
-    {
-    var msg = ''
-    if (BANCOS==''||AGENCIA==''||CONTA=='') {
+function ValidaDadosOperacao() {
 
-        msg = 'Dados bancário incompletos'
-    }
-    if (CPF == '' || RG== '' ) {
+    var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
+    var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
+    var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
 
-        msg = 'Documentos incompletos'
-    }
-        return msg;
-    }
-function ValidaEndereco(CEP,
-                        ENDERECO ,
-                        NUMERO,
-                        COMPLEMENTO,
-                        BAIRRO ,
-                        CIDADE ,
-                        UF)
-   {
     var msg = ''
-    if (CEP == '' || ENDERECO === '' || NUMERO == '' || BAIRRO == '' || CIDADE == '' || UF == '')
-    {
-        msg='Endereço incompleto'
+    if (BANCOS == '' || AGENCIA == '' || CONTA == '') {
+        msg = 'Dados bancário incompletos';
     }
-   return msg;
+    if (CPF == '' || RG == '') {
+        msg = 'Documentos incompletos';
+    }
+    if (VALOR_COTACAO == '' || VALOR_DESEJADO == '' || VALOR_CONVERTIDO == '') {
+        msg = 'Dados da transação incompletos'
+    }
+    return msg;
+}
+
+function ValidaDadosBancarios()
+{
+
+    var BANCOS = jQuery('#BANCOS').val();
+    var AGENCIA = jQuery('#AGENCIA').val();
+    var CONTA = jQuery('#CONTA').val();
+    var CPF = jQuery('#CPF').val();
+    var RG = jQuery('#RG').val();
+
+    var msg = ''
+    if (BANCOS == '' || AGENCIA == '' || CONTA == '') {
+        msg = 'Dados bancário incompletos';
+    }
+    if (CPF == '' || RG == '') {
+        msg = 'Documentos incompletos';
+    }
+   
+    return msg;
+
+}
+
+function ValidaEndereco() {
+
+    var CEP = jQuery('#CEP').val();
+    var ENDERECO = jQuery('#ENDERECO').val();
+    var NUMERO = jQuery('#NUMERO').val();
+    var COMPLEMENTO = jQuery('#COMPLEMENTO').val();
+    var BAIRRO = jQuery('#BAIRRO').val();
+    var CIDADE = jQuery('#CIDADE').val();
+    var UF = jQuery('#UF').val();
+
+    var msg = ''
+    if (CEP == '' || ENDERECO === '' || NUMERO == '' || BAIRRO == '' || CIDADE == '' || UF == '') {
+        msg = 'Endereço incompleto'
+    }
+    return msg;
 }
 
 function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
-   return jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
+    return jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
 }
 
 function CarregaUltimaCotacao(data) {
@@ -307,7 +342,7 @@ function CarregaUltimaCotacao(data) {
            "          <div>" +
            "              <fieldset>" +
            "                  <div class='big-notification static-notification-white' id='38'> " +
-                                CarregaEstabelecimento(data[0])+
+                                CarregaEstabelecimento(data[0]) +
            "                  <label class='contact-text'>Moeda Escolhida :" + data[0].NOME_MOEDA + "</label>" +
            "                  <input type='hidden' name='NOME_MOEDA' class='contactFieldExchange' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
            "                  <label class='contact-text'>Cotação :" + VALOR_VENDA + "</label>" +
@@ -319,7 +354,7 @@ function CarregaUltimaCotacao(data) {
            "                  <label class='contact-text'>Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
            "                  <label class='contact-text'>Forma de pagamento</label>" +
-                               CarregaFormaPagamento()+
+                               CarregaFormaPagamento() +
            "                   <div class='static-notification-exchange'  onclick='Confirmar(1)' >" +
            "                   <p class='center-text' style='font-size:15px; color:white;'>Prosseguir</p>" +
            "                   </div>" +
@@ -328,25 +363,24 @@ function CarregaUltimaCotacao(data) {
            "      </div>" +
            "      </div>" +
            "  </div>";
-   
-   
-   
+
+
+
     jQuery('#DIVDADOSVALORES').html(html);
 }
 
-function VoltarEtapa()
-{
+function VoltarEtapa() {
     var PASSO = '';
 
     if (V_PASSO == 2 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
 
-        V_PASSO = PASSO -1;
+        V_PASSO = PASSO - 1;
     }
     else {
 
         V_PASSO = PASSO + 1;
     }
-     PASSO = (V_PASSO - 1);
+    PASSO = (V_PASSO - 1);
     Confirmar(PASSO)
 }
 
@@ -369,46 +403,44 @@ jQuery(document).ready(function () {
 
 );
 
-function CarregaFormaRecebimento(data)
-{
+function CarregaFormaRecebimento(data) {
     var html = "<select class='contactFieldExchange' id='FORMA_ENTREGA' >";
-  
-    if(data.RETIRADA = 'RET')
-    {
-        html+=  "<option value='RET'>Retirada na Agência</option>" ;
-     }
-    if(data.DELIVERY = 'DEL'){
-       html+= "<option value='DEL'>Delivery</option>" ;
+
+    if (data.RETIRADA = 'RET') {
+        html += "<option value='RET'>Retirada na Agência</option>";
+    }
+    if (data.DELIVERY = 'DEL') {
+        html += "<option value='DEL'>Delivery</option>";
     }
     if (data.RECARGA = 'REC') {
-        html+= "<option value='REC'>Recarga de Cartão</option>"
+        html += "<option value='REC'>Recarga de Cartão</option>"
     }
-   html+= "</select>";
+    html += "</select>";
     return html;
 }
 
 function CarregaFormaPagamento() {
     var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
-        html += "<option value='DEP'> Depósito em C/C </option>";
-        html += "<option value='DEL'> Transferência </option>";
+    html += "<option value='DEP'> Depósito em C/C </option>";
+    html += "<option value='DEL'> Transferência </option>";
     html += "</select>";
     return html;
 }
 
- function MontaInforRetirada(FORMA_RETIRADA) {
-        var ret = '';
-        if (FORMA_RETIRADA == 'RET') {
-            ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
-        }
-        if (FORMA_RETIRADA == 'DEL') {
-            ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
-        }
-        if (FORMA_RETIRADA == 'REC') {
-            ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
-        }
-        ret += "";
-        return ret;
+function MontaInforRetirada(FORMA_RETIRADA) {
+    var ret = '';
+    if (FORMA_RETIRADA == 'RET') {
+        ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
     }
+    if (FORMA_RETIRADA == 'DEL') {
+        ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
+    }
+    if (FORMA_RETIRADA == 'REC') {
+        ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
+    }
+    ret += "";
+    return ret;
+}
 
 function MontaMapa(data) {
 
@@ -434,11 +466,11 @@ function CarregaPerfil() {
 
     var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
 
- 
-            jQuery('#NOME').val(data.NOME);
-            jQuery('#DATA_NASCIMENTO').val(data.DATA_NASCIMENTO);
-            jQuery('#CPF').val(data.CPF);
-            jQuery('#RG').val(data.RG);
+
+    jQuery('#NOME').val(data.NOME);
+    jQuery('#DATA_NASCIMENTO').val(data.DATA_NASCIMENTO);
+    jQuery('#CPF').val(data.CPF);
+    jQuery('#RG').val(data.RG);
 }
 
 function CarregaEndereco(ID_USUARIO) {
@@ -473,7 +505,7 @@ function InsereEndereco() {
     var SOBRENOME_ENTREGA = '';
     var NUMERO_ENTREGA = jQuery('#NUMERO').val();
     //InsereEnderecoUsuario(ID_USUARIO,ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA, BAIRRO_ENTREGA, CEP_ENTREGA, UF_ENTREGA, CIDADE_ENTREGA, FONE_ENTREGA, NOME_ENTREGA, SOBRENOME_ENTREGA, NUMERO_ENTREGA, successFunc, ERROCONEXAO);
-   return  InsereEnderecoUsuario(ID_USUARIO, ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA, BAIRRO_ENTREGA, CEP_ENTREGA, UF_ENTREGA, CIDADE_ENTREGA, FONE_ENTREGA, NOME_ENTREGA, SOBRENOME_ENTREGA, NUMERO_ENTREGA, null, ERROCONEXAO);
+    return InsereEnderecoUsuario(ID_USUARIO, ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA, BAIRRO_ENTREGA, CEP_ENTREGA, UF_ENTREGA, CIDADE_ENTREGA, FONE_ENTREGA, NOME_ENTREGA, SOBRENOME_ENTREGA, NUMERO_ENTREGA, null, ERROCONEXAO);
 
 }
 
@@ -497,8 +529,7 @@ function AlteraEndereco() {
 
 function CarregaEnderecoPorCep(obj) {
 
-  if(ID_ENDERECO_ENTREGA != '')
-    {
+    if (ID_ENDERECO_ENTREGA != '') {
         var data = jQuery.parseJSON(RetornaEnderecoPorCep(obj.value, null, ERROCONEXAO));
 
         if (data.length > 0) {
@@ -529,7 +560,7 @@ function MontaSelect(OBJETO, CODIGO, NOME) {
 }
 
 function CarregaEstabelecimento(dados) {
-    
+
     //if (DATA_ESTABELECIMENTO.length == 0) {
     //    DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
     //}
@@ -564,7 +595,7 @@ function CarregaEstabelecimento(dados) {
 
 function AlteraDadosUsuario() {
     var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO")).ID_USUARIO;
-    var NOME =  jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME
+    var NOME = jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME
     var LOGIN = jQuery.parseJSON(localStorage.getItem("USUARIO")).LOGIN;/// jQuery('#LOGIN').val();
     var EMAIL = jQuery.parseJSON(localStorage.getItem("USUARIO")).EMAIL;
     var SENHA = jQuery.parseJSON(localStorage.getItem("USUARIO")).SENHA;
@@ -575,5 +606,5 @@ function AlteraDadosUsuario() {
     var AGENCIA = jQuery('#AGENCIA').val();
     var DATA_NASCIMENTO = jQuery('#DATA_NASCIMENTO').val();
     var ID_TP_USUARIO = 1;
-    var usu = AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO,CONTA,AGENCIA,null, ERROCONEXAO);
+    var usu = AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO, CONTA, AGENCIA, null, ERROCONEXAO);
 }
