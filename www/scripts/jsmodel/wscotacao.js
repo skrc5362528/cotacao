@@ -344,7 +344,7 @@ function ValidaUsuario(email, successFunc, errorFunc) {
 }
 
 // -- AlteraUsuario
-function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, successFunc, errorFunc) {
+function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO, CONTA, AGENCIA,successFunc, errorFunc) {
     /// <summary></summary>
     /// <param name="ID_USUARIO" type="int">ID_USUARIO</param>
     /// <param name="LOGIN" type="string">LOGIN</param>
@@ -367,7 +367,7 @@ function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",LOGIN:" + JSON.stringify(LOGIN) + ",NOME:" + JSON.stringify(NOME) + ",SENHA:" + JSON.stringify(SENHA) + ",ID_TP_USUARIO:" + JSON.stringify(ID_TP_USUARIO) + ",EMAIL:" + JSON.stringify(EMAIL) + ",CPF:" + JSON.stringify(CPF) + ",RG:" + JSON.stringify(RG) + ",DATA_NASCIMENTO:" + JSON.stringify(DATA_NASCIMENTO) + "}",
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",LOGIN:" + JSON.stringify(LOGIN) + ",NOME:" + JSON.stringify(NOME) + ",SENHA:" + JSON.stringify(SENHA) + ",ID_TP_USUARIO:" + JSON.stringify(ID_TP_USUARIO) + ",EMAIL:" + JSON.stringify(EMAIL) + ",CPF:" + JSON.stringify(CPF) + ",RG:" + JSON.stringify(RG) + ",DATA_NASCIMENTO:" + JSON.stringify(DATA_NASCIMENTO) + ",BANCO:" + JSON.stringify(BANCO) + ",CONTA:" + JSON.stringify(CONTA) + ",AGENCIA:" + JSON.stringify(AGENCIA) + "}",
         success: function (data) {
             if (data.hasOwnProperty('d')) {
                 $res = data.d;
@@ -1096,7 +1096,7 @@ function RetornaEstabelecimentoPorIdUsuario(ID_USUARIO, successFunc, errorFunc) 
 }
 
 // -- InsereOperacao
-function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, QUANTIDADE, VALOR_PRODUTO, ID_TIPO_VENDA, successFunc, errorFunc) {
+function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, QUANTIDADE, VALOR_PRODUTO, ID_TIPO_VENDA,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, successFunc, errorFunc) {
     /// <summary></summary>
     /// <param name="ID_USUARIO" type="int">ID_USUARIO</param>
     /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
@@ -1109,7 +1109,7 @@ function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COM
     /// <param name="QUANTIDADE" type="int">QUANTIDADE</param>
     /// <param name="VALOR_PRODUTO" type="int">VALOR_PRODUTO</param>
     /// <param name="ID_TIPO_VENDA" type="int">ID_TIPO_VENDA</param>
-
+    ///VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO
     /// <param name='successFunc' type='function'>Success Function</param>
     /// <param name='errorFunc' type='function'>Error Function</param>
     /// <returns type='string'>InsereOperacaoResult as string</returns>
@@ -1121,7 +1121,7 @@ function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COM
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_STATUS_VENDA:" + JSON.stringify(ID_STATUS_VENDA) + ",OBS_COMPRA:" + JSON.stringify(OBS_COMPRA) + ",SITUACAO_COMPRA:" + JSON.stringify(SITUACAO_COMPRA) + ",ID_ENDERECO_ENTREGA:" + JSON.stringify(ID_ENDERECO_ENTREGA) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + ",DESCRICAO_DETALHADA:" + JSON.stringify(DESCRICAO_DETALHADA) + ",QUANTIDADE:" + JSON.stringify(QUANTIDADE) + ",VALOR_PRODUTO:" + JSON.stringify(VALOR_PRODUTO) + ",ID_TIPO_VENDA:" + JSON.stringify(ID_TIPO_VENDA) + "}",
+        data: "{ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",ID_ESTABELECIMENTO:" + JSON.stringify(ID_ESTABELECIMENTO) + ",ID_STATUS_VENDA:" + JSON.stringify(ID_STATUS_VENDA) + ",OBS_COMPRA:" + JSON.stringify(OBS_COMPRA) + ",SITUACAO_COMPRA:" + JSON.stringify(SITUACAO_COMPRA) + ",ID_ENDERECO_ENTREGA:" + JSON.stringify(ID_ENDERECO_ENTREGA) + ",SIMBOLO:" + JSON.stringify(SIMBOLO) + ",DESCRICAO_DETALHADA:" + JSON.stringify(DESCRICAO_DETALHADA) + ",QUANTIDADE:" + JSON.stringify(QUANTIDADE) + ",VALOR_PRODUTO:" + JSON.stringify(VALOR_PRODUTO) + ",ID_TIPO_VENDA:" + JSON.stringify(ID_TIPO_VENDA) +",VALOR_TOTAL_OPERACAO:" + JSON.stringify(VALOR_TOTAL_OPERACAO) +",VARLOR_PERC_ESTABELEC:" + JSON.stringify(VARLOR_PERC_ESTABELEC) +",VALOR_DESEJADO:" + JSON.stringify(VALOR_DESEJADO) +",VALOR_COTACAO:" + JSON.stringify(VALOR_COTACAO) +"}",
         success: function (data) {
             if (data.hasOwnProperty('d')) {
                 $res = data.d;

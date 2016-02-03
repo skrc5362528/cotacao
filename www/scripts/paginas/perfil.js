@@ -97,12 +97,11 @@ function CarregaEndereco(ID_USUARIO) {
 }
 
 function InsereEndereco() {
-
     var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO")).ID_USUARIO;
     var ENDERECO_ENTREGA = jQuery('#ENDERECO').val();
     var COMPLEMENTO_ENTREGA = jQuery('#COMPLEMENTO').val();
     var BAIRRO_ENTREGA = jQuery('#BAIRRO').val();
-    var CEP_ENTREGA = jQuery('#CEP').val();
+    var CEP_ENTREGA = jQuery('#CEP').val().replace('-','');
     var UF_ENTREGA = jQuery('#UF').val();
     var CIDADE_ENTREGA = jQuery('#CIDADE').val();
     var FONE_ENTREGA = jQuery('#FONE').val();

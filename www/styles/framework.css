@@ -68,7 +68,7 @@ input select{
 }
 
 p {
-	line-height: 30px;
+	/*line-height: 30px;*/
 	margin-bottom: 30px;
 	font-size:13px;
 	letter-spacing:0px;
@@ -106,6 +106,8 @@ a:hover {
 h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a {
 	display: inline;
 }
+
+
 
 table {
 	border-collapse: separate;
@@ -330,6 +332,9 @@ a{
 	clear:both;
 }
 
+.hide-exchange{
+	display:none;
+}
 /*//////////////*/
 /*Data Preloader*/
 /*//////////////*/
@@ -1287,7 +1292,7 @@ table tr:hover td{
 }
 
 .big-notification{
-	margin-bottom:30px;
+	margin-bottom:20px;
 	padding:8px;
 }
 
@@ -1341,6 +1346,37 @@ table tr:hover td{
 	font-weight:500;
 }
 
+.static-notification-exchange{
+	overflow:hidden;
+	background-color:#0489B1;
+	color: #0489B1;
+	border-radius:10px;
+	margin-bottom: 10px;
+}
+
+.static-notification-exchange p{
+	margin-top:5px;
+	margin-bottom:5px;
+	font-weight:500;
+    line-height: 30px;
+   
+}
+
+.static-notification-exchange-login{
+	overflow:hidden;
+	background-color:white;
+	color:#0489B1;
+    border-radius:10px;
+	margin-bottom: 10px;
+}
+
+.static-notification-exchange-login p{
+	margin-top:5px;
+	margin-bottom:5px;
+	font-weight:500;
+    line-height: 30px;
+}
+
 .static-notification-green{
 	overflow:hidden;
 	background-color:#27ae60;
@@ -1381,19 +1417,27 @@ table tr:hover td{
     
 }
 
+.static-notification-white-header{
+	overflow:hidden;
+	background-color: white;
+	color:black;
+	border-radius:10px;
+}
+
+
 
 .static-notification-white{
 	overflow:hidden;
 	background-color: white;
 	color:black;
     border-radius:10px;
-	margin-bottom:30px;
+	/*margin-bottom:30px;*/
    
 }
 
 .static-notification-white p{
-	margin-top:10px;
-	margin-bottom:10px;
+	margin-top:5px;
+	margin-bottom:5px;
 	font-weight:500;
    color:black;
     
@@ -1782,6 +1826,31 @@ table tr:hover td{
 	box-sizing:border-box;
 }
 
+
+.contactField{
+	height:40px;
+    max-width:100px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-bottom:10px;
+}
+
+.contactFieldExchange{
+	height:40px;
+    max-width:100px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-bottom:10px;
+    background-color:#0489B1;
+}
+.contactFieldExchange{
+	min-width:100%;	
+	display:block;
+	box-sizing:border-box;
+    border-radius:10px;
+    color:white;
+}
+
 .contactTextarea{
 	min-width:100%;
 	display:block;
@@ -1809,14 +1878,6 @@ table tr:hover td{
 	text-align:center!important;
 }
 
-.contactField{
-	height:40px;
-    max-width:100px;
-	padding-left:10px;
-	padding-right:10px;
-	margin-bottom:10px;
-}
-
 .contactTextarea{
 	margin-bottom: 20px;
 	padding-left: 12px;
@@ -1838,6 +1899,20 @@ table tr:hover td{
 	}
 }
 
+
+.label-exchange{
+	opacity:1.0;
+	background-position:20px 15px;
+	background-size:25px 25px;
+	background-repeat:no-repeat;
+	color:#FFFFFF;
+	font-size:15px;
+	/*padding-left:30px;*/
+	line-height: 20px;	
+	font-weight:300;
+	letter-spacing:1px;
+}
+
 .contact-call{
      font-size:15px;
 	color:#666;
@@ -1857,6 +1932,13 @@ table tr:hover td{
 	height:25px;
 	display:block;
 }
+.base-text{
+    font-size:10px;
+	color:#666;
+	height:25px;
+	display:block;
+}
+
 .busca-text{
     font-size:14px;
 	color:#666;
@@ -2013,7 +2095,6 @@ table tr:hover td{
 	font-style:normal;	
 	color:#666;
 }
-
 
 
 

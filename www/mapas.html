@@ -57,7 +57,7 @@
             map = L.map('map');
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                 maxZoom: 18,
-                attribution: '&copy; BUNKER07',
+                attribution: '&copy; eXchangeapp',
                 id: 'vitorcastro.cigoy6vp700eyusm1aljj8ifi',
                 accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
             }).addTo(map);
@@ -105,7 +105,7 @@
                 if (data.length > 0) {
                     jQuery.each(data, function () {
                         if (this.LATITUDE != null && this.LONGITUDE != null) {
-                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "&SIMBOLO=" + SIMBOLO + "' class='' height='250'  weight='200' frameBorder='0'></iframe>").openPopup().fire('onMapClick');
+                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "&SIMBOLO=" + SIMBOLO + "' class='' height='180'  weight='180' frameBorder='0'></iframe>").openPopup().fire('onMapClick');
                             map.panTo(new L.LatLng(this.LATITUDE, this.LONGITUDE));
 
                         }
@@ -161,7 +161,7 @@
             rota = L.Routing.control(
                 {
                     waypoints: [L.latLng(lat, lng), L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)],
-                    routeWhileDragging: false,
+                    routeWhileDragging: true,
                     autoRoute: true
                 }
                 ).addTo(map);

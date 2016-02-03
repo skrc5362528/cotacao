@@ -13,7 +13,7 @@ var ord_tx_compra = false;
 function BuscarEstabelecimento(campo, ordena) {
     BloqueiaTela("Carregando...");
     jQuery('#DIVESTABELECIMENTO').html('');
-    CarregaFiltros();
+    //CarregaFiltros();
     var dt = '';
     var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
     data = jQuery.parseJSON(RetornaFavoritosUsuario(usu.ID_USUARIO, null, ERROCONEXAO));
@@ -52,7 +52,7 @@ function FiltraBusca(campo, ordena) {
 
     data = OrdenaResultados(campo, ordena, data);
     jQuery('#DIVESTABELECIMENTO').html('');
-    CarregaFiltros();
+  //  CarregaFiltros();
     CarregaDados(data);
 }
 

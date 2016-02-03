@@ -133,9 +133,12 @@ function CarregaEstabelecimento(data) {
     // "<div class='two-half last-column'>" +
     //   "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
     //"</div>" +
-    "<div class='static-notification-green' style='border-radius:10px;'  onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
-    "<p class='center-text uppercase' style='font-size:15px; color:white;'>comprar</p>" +
-    "</div>"+
+    "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
+    "<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
+    "</div>" +
+    "<div>" +
+    MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
+    "</div>" +
     "</div>";
 
     return html;
@@ -207,6 +210,24 @@ function PreencheSelectSuaMoeda() {
 
 }
 
+function MontaInfo(RETIRADA, DELIVERY, RECARGA)
+{
+    var ret='';
+    if (RETIRADA == 'RET')
+    {
+        ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
+    }
+    if (DELIVERY == 'DEL')
+    {
+        ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
+    }
+    if (RECARGA == 'REC')
+    {
+        ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
+    }
+    ret += "";
+    return ret;
+}
 
 jQuery(document).ready(function () {
     PreencheSelectSuaMoeda();

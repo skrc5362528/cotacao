@@ -402,6 +402,7 @@ if (typeof module !== undefined) module.exports = polyline;
 	L.extend(L.Routing, require('./L.Routing.Line'));
 	L.extend(L.Routing, require('./L.Routing.Plan'));
 	L.extend(L.Routing, require('./L.Routing.OSRM'));
+	L.extend(L.Routing, require('./L.Routing.ErrorControl'));
 
 	L.Routing.Control = L.Routing.Itinerary.extend({
 		options: {
@@ -637,6 +638,8 @@ if (typeof module !== undefined) module.exports = polyline;
 		_updateLineCallback: function(err, routes) {
 			if (!err) {
 				this._updateLines({route: routes[0], alternatives: routes.slice(1) });
+			} else {
+				this._clearLines();
 			}
 		},
 
@@ -702,7 +705,68 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Itinerary":7,"./L.Routing.Line":9,"./L.Routing.OSRM":11,"./L.Routing.Plan":12}],5:[function(require,module,exports){
+},{"./L.Routing.ErrorControl":5,"./L.Routing.Itinerary":8,"./L.Routing.Line":10,"./L.Routing.OSRM":12,"./L.Routing.Plan":13}],5:[function(require,module,exports){
+(function() {
+	'use strict';
+
+	L.Routing = L.Routing || {};
+
+	L.Routing.ErrorControl = L.Control.extend({
+		options: {
+			header: 'Routing error',
+			formatMessage: function(error) {
+				if (error.status < 0) {
+					return 'Calculating the route caused an error. Technical description follows: <code><pre>' +
+						error.message + '</pre></code';
+				} else {
+					return 'The route could not be calculated. ' +
+						error.message;
+				}
+			}
+		},
+
+		initialize: function(routingControl, options) {
+			L.Control.prototype.initialize.call(this, options);
+			routingControl
+				.on('routingerror', L.bind(function(e) {
+					if (this._element) {
+						this._element.children[1].innerHTML = this.options.formatMessage(e.error);
+						this._element.style.visibility = 'visible';
+					}
+				}, this))
+				.on('routingstart', L.bind(function() {
+					if (this._element) {
+						this._element.style.visibility = 'hidden';
+					}
+				}, this));
+		},
+
+		onAdd: function() {
+			var header,
+				message;
+
+			this._element = L.DomUtil.create('div', 'leaflet-bar leaflet-routing-error');
+			this._element.style.visibility = 'hidden';
+
+			header = L.DomUtil.create('h3', null, this._element);
+			message = L.DomUtil.create('span', null, this._element);
+
+			header.innerHTML = this.options.header;
+
+			return this._element;
+		},
+
+		onRemove: function() {
+			delete this._element;
+		}
+	});
+
+	L.Routing.errorControl = function(routingControl, options) {
+		return new L.Routing.ErrorControl(routingControl, options);
+	};
+})();
+
+},{}],6:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -850,7 +914,7 @@ if (typeof module !== undefined) module.exports = polyline;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Localization":10}],6:[function(require,module,exports){
+},{"./L.Routing.Localization":11}],7:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1006,7 +1070,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Autocomplete":3}],7:[function(require,module,exports){
+},{"./L.Routing.Autocomplete":3}],8:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1243,7 +1307,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Formatter":5,"./L.Routing.ItineraryBuilder":8}],8:[function(require,module,exports){
+},{"./L.Routing.Formatter":6,"./L.Routing.ItineraryBuilder":9}],9:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1294,7 +1358,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1440,7 +1504,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function() {
 	'use strict';
 	L.Routing = L.Routing || {};
@@ -1834,12 +1898,109 @@ if (typeof module !== undefined) module.exports = polyline;
 				endPlaceholder: 'Destino'
 			}
 		},
+		'sk': {
+			directions: {
+				N: 'sever',
+				NE: 'serverovýchod',
+				E: 'východ',
+				SE: 'juhovýchod',
+				S: 'juh',
+				SW: 'juhozápad',
+				W: 'západ',
+				NW: 'serverozápad'
+			},
+			instructions: {
+				// instruction, postfix if the road is named
+				'Head':
+					['Mierte na {dir}', ' na {road}'],
+				'Continue':
+					['Pokračujte na {dir}', ' na {road}'],
+				'SlightRight':
+					['Mierne doprava', ' na {road}'],
+				'Right':
+					['Doprava', ' na {road}'],
+				'SharpRight':
+					['Prudko doprava', ' na {road}'],
+				'TurnAround':
+					['Otočte sa'],
+				'SharpLeft':
+					['Prudko doľava', ' na {road}'],
+				'Left':
+					['Doľava', ' na {road}'],
+				'SlightLeft':
+					['Mierne doľava', ' na {road}'],
+				'WaypointReached':
+					['Ste v prejazdovom bode.'],
+				'Roundabout':
+					['Odbočte na {exitStr} výjazde', ' na {road}'],
+				'DestinationReached':
+					['Prišli ste do cieľa.'],
+			},
+			formatOrder: function(n) {
+				var i = n % 10 - 1,
+				suffix = ['.', '.', '.'];
+
+				return suffix[i] ? n + suffix[i] : n + '.';
+			},
+			ui: {
+				startPlaceholder: 'Začiatok',
+				viaPlaceholder: 'Cez {viaNumber}',
+				endPlaceholder: 'Koniec'
+			}
+		},
+		'el': {
+			directions: {
+				N: 'βόρεια',
+				NE: 'βορειοανατολικά',
+				E: 'ανατολικά',
+				SE: 'νοτιοανατολικά',
+				S: 'νότια',
+				SW: 'νοτιοδυτικά',
+				W: 'δυτικά',
+				NW: 'βορειοδυτικά'
+			},
+			instructions: {
+				// instruction, postfix if the road is named
+				'Head':
+					['Κατευθυνθείτε {dir}', ' στην {road}'],
+				'Continue':
+					['Συνεχίστε {dir}', ' στην {road}'],
+				'SlightRight':
+					['Ελαφρώς δεξιά', ' στην {road}'],
+				'Right':
+					['Δεξιά', ' στην {road}'],
+				'SharpRight':
+					['Απότομη δεξιά στροφή', ' στην {road}'],
+				'TurnAround':
+					['Κάντε αναστροφή'],
+				'SharpLeft':
+					['Απότομη αριστερή στροφή', ' στην {road}'],
+				'Left':
+					['Αριστερά', ' στην {road}'],
+				'SlightLeft':
+					['Ελαφρώς αριστερά', ' στην {road}'],
+				'WaypointReached':
+					['Φτάσατε στο σημείο αναφοράς'],
+				'Roundabout':
+					['Ακολουθήστε την {exitStr} έξοδο στο κυκλικό κόμβο', ' στην {road}'],
+				'DestinationReached':
+					['Φτάσατε στον προορισμό σας'],
+			},
+			formatOrder: function(n) {
+				return n + 'º';
+			},
+			ui: {
+				startPlaceholder: 'Αφετηρία',
+				viaPlaceholder: 'μέσω {viaNumber}',
+				endPlaceholder: 'Προορισμός'
+			}
+		}
 	};
 
 	module.exports = L.Routing;
 })();
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1857,9 +2018,10 @@ if (typeof module !== undefined) module.exports = polyline;
 
 	L.Routing.OSRM = L.Class.extend({
 		options: {
-			serviceUrl: 'http://router.project-osrm.org/viaroute',
+			serviceUrl: 'https://router.project-osrm.org/viaroute',
 			timeout: 30 * 1000,
-			routingOptions: {}
+			routingOptions: {},
+			polylinePrecision: 6
 		},
 
 		initialize: function(options) {
@@ -1896,19 +2058,34 @@ if (typeof module !== undefined) module.exports = polyline;
 			}
 
 			corslite(url, L.bind(function(err, resp) {
-				var data;
+				var data,
+					errorMessage,
+					statusCode;
 
 				clearTimeout(timer);
 				if (!timedOut) {
+					errorMessage = 'HTTP request failed: ' + err;
+					statusCode = -1;
+
 					if (!err) {
-						data = JSON.parse(resp.responseText);
-						this._routeDone(data, wps, callback, context);
-					} else {
-						callback.call(context || callback, {
-							status: -1,
-							message: 'HTTP request failed: ' + err
-						});
+						try {
+							data = JSON.parse(resp.responseText);
+							try {
+								return this._routeDone(data, wps, callback, context);
+							} catch (ex) {
+								statusCode = -3;
+								errorMessage = ex.toString();
+							}
+						} catch (ex) {
+							statusCode = -2;
+							errorMessage = 'Error parsing OSRM response: ' + ex.toString();
+						}
 					}
+
+					callback.call(context || callback, {
+						status: statusCode,
+						message: errorMessage
+					});
 				}
 			}, this));
 
@@ -1922,7 +2099,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			    i;
 
 			context = context || callback;
-			if (response.status !== 0) {
+			if (response.status !== 0 && response.status !== 200) {
 				callback.call(context, {
 					status: response.status,
 					message: response.status_message
@@ -1970,7 +2147,7 @@ if (typeof module !== undefined) module.exports = polyline;
 		},
 
 		_decodePolyline: function(routeGeometry) {
-			var cs = polyline.decode(routeGeometry, 6),
+			var cs = polyline.decode(routeGeometry, this.options.polylinePrecision),
 				result = new Array(cs.length),
 				i;
 			for (i = cs.length - 1; i >= 0; i--) {
@@ -2146,7 +2323,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Waypoint":13,"corslite":1,"polyline":2}],12:[function(require,module,exports){
+},{"./L.Routing.Waypoint":14,"corslite":1,"polyline":2}],13:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -2498,7 +2675,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.GeocoderElement":6,"./L.Routing.Waypoint":13}],13:[function(require,module,exports){
+},{"./L.Routing.GeocoderElement":7,"./L.Routing.Waypoint":14}],14:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';

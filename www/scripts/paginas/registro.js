@@ -1,6 +1,7 @@
 ﻿
 function GravaUsuario() {
     var res = ValidaEntrada();
+    var usu = '';
     if (res == '') {
         var NOME = jQuery('#NOME').val();
         var LOGIN = jQuery('#LOGIN').val();
@@ -8,15 +9,17 @@ function GravaUsuario() {
         var SENHA = jQuery('#SENHA').val();
 
         var val = jQuery.parseJSON(ValidaUsuario(EMAIL, null, null));
-        if (val == null) {
-            InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO);
-        }
-        if (usu != '') {
-            CarregaUSUARIO(usu);
+        if (val != null) {
+            ExibeMensagem("E-mail já cadastrado");
+
         }
         else {
-            ExibeMensagem("Erro no Resgistro do usuário");
+            usu = InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO);
+            if (usu == '') {
+                ExibeMensagem("Erro no Resgistro do usuário");
+            }
         }
+
     }
     else {
         ExibeMensagem(res);
