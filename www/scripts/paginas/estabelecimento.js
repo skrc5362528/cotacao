@@ -213,15 +213,15 @@ function PreencheSelectSuaMoeda() {
 function MontaInfo(RETIRADA, DELIVERY, RECARGA)
 {
     var ret='';
-    if (RETIRADA == 'RET')
+    if (RETIRADA == 'S')
     {
         ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
     }
-    if (DELIVERY == 'DEL')
+    if (DELIVERY == 'S')
     {
         ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
     }
-    if (RECARGA == 'REC')
+    if (RECARGA == 'S')
     {
         ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
     }

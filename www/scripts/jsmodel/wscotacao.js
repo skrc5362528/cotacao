@@ -49,6 +49,46 @@ function ListaMoeda(successFunc, errorFunc) {
     return $res;
 }
 
+
+// -- ListaMoeda
+function ListaBanco(successFunc, errorFunc) {
+    /// <summary></summary>
+
+    /// <param name='successFunc' type='function'>Success Function</param>
+    /// <param name='errorFunc' type='function'>Error Function</param>
+    /// <returns type='string'>ListaMoedaResult as string</returns>
+    var $res = '';
+    jQuery.ajax({
+        type: 'POST',
+        url: 'http://www.visional.com.br/wscotacao/cotacao.asmx/ListaBanco',
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: '',
+        success: function (data) {
+            if (data.hasOwnProperty('d')) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}
+
+
 // -- EnviaEmail
 function EnviaEmail(MENSAGEM, ASSUNTO, successFunc, errorFunc) {
     /// <summary></summary>

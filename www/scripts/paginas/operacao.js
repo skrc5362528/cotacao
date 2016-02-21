@@ -272,7 +272,7 @@ function GravaPedidoCompra() {
     var STATUS_VENDA = '1';
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
-    var DESCRICAO_DETALHADA = jQuery('#DIVDADOSOPERACAO').html();
+    var DESCRICAO_DETALHADA = '';
     //=========================================================
     var BANCOS = jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
@@ -569,10 +569,10 @@ function CarregaEnderecoPorCep(obj) {
 
 function PreencheSelectBancos() {
     jQuery('#BANCOS').append('<option value="" selected> Escolha seu banco</option>');
-    var data = BANCOS;
+    var data = jQuery.parseJSON(ListaBanco(null,null));
     if (data.length > 0) {
         jQuery.each(data, function () {
-            MontaSelect('BANCOS', this.CODIGO, this.BANCO);
+            MontaSelect('BANCOS', this.CODIGO, this.BANCO1);
         });
     }
 }
