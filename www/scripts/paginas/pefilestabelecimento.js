@@ -53,12 +53,12 @@ function MontaTela(data) {
     jQuery('#NUMERO').val(data.NUMERO);
     jQuery('#COMPLEMENTO').val(data.COMPLEMENTO);
 
-    sessionStorage.setItem("ESTABELECIMENTO", JSON.stringify(data));
+    localStorage.setItem("ESTABELECIMENTO", JSON.stringify(data));
 }
 
 function Grava() {
 
-    var data = jQuery.parseJSON(sessionStorage.getItem('ESTABELECIMENTO'));
+    var data = jQuery.parseJSON(localStorage.getItem('ESTABELECIMENTO'));
     var LATITUDE = jQuery('#LATITUDE').val();
     var LONGITUDE = jQuery('#LONGITUDE').val();
     var NOME = jQuery('#NOME').val();

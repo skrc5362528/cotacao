@@ -86,14 +86,14 @@
         function onLocationFound(e) {
             var radius = 10;// e.accuracy / 2;
 
-            if ( sessionStorage.getItem('VIEWMAP') == undefined) {
+            if ( localStorage.getItem('VIEWMAP') == undefined) {
                 CarregaEstabelecimentos();
                 L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
                 map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
             }
             else
             {
-                var obj = sessionStorage.getItem('VIEWMAP');
+                var obj = localStorage.getItem('VIEWMAP');
 
                
                 var id = obj.split("_");
@@ -111,7 +111,7 @@
                         }
                     });
                 }
-                sessionStorage.removeItem('VIEWMAP');
+                localStorage.removeItem('VIEWMAP');
                 DesbloqueiaTela();
             }
         }

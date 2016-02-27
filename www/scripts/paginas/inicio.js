@@ -7,7 +7,7 @@ function CarregaMenu(pagina) {
 }
 
 function CarregaTela() {
-    var usu = sessionStorage.getItem("Usuario");
+    var usu = localStorage.getItem("Usuario");
     jQuery("#infousu").text(usu);
 }
 

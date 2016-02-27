@@ -200,24 +200,31 @@ function CarregaEstabelecimento(data) {
 
 
 function MontaInfo(RETIRADA, DELIVERY, RECARGA) {
-    var ret = '';
-  //  if (RETIRADA == 'S') {
-        ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
-  //  }
+   
+    var retirada = '';
+    var delivery = '';
+    var recrarga = '';
+    if (RETIRADA == 'S') {
+        retirada = '<i class="fa fa-university"></i> Retirada ';
+   }
     if (DELIVERY == 'S') {
-        ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
+        delivery = '<i class="fa fa-motorcycle"></i> Delivery ';
     }
     if (RECARGA == 'S') {
-        ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
+        recrarga = '<i class="fa fa-credit-card"></i> Recarga ';
     }
-    ret += "";
+    var ret = '<a class="base-text one-third">' + retirada + '</a>' +
+              '<a class="base-text one-third">'+delivery+'</a>'+
+              '<a class="base-text one-third last-column">'+recrarga+'</a>';
+
+           
     return ret;
 }
 
 
 function MostraMapa(obj) {
 
-    sessionStorage.setItem('VIEWMAP', obj.id)
+    localStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
 }
 

@@ -11,7 +11,7 @@
         <div class="header">
             <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
             <a class="header-logo">eXCHANGE</a>
-            <a class="" onclick="VoltarEtapa()"><i class="fa fa-arrow-left"></i></a>
+            <a class=""><i></i></a>
         </div>
         <div class="header-clear-small"></div>
         <div id="DIVOPERACAO">
@@ -23,7 +23,7 @@
                         <div>
                             <fieldset>
                                 <div class="big-notification static-notification-white" id="38">
-                                    <div>Dados de Entrega</div>
+                                    <div>Confirmação de Depósito</div>
                                     <label class="contact-text">CEP</label>
                                     <input type="text" name="contactFieldExchange" class="contactFieldExchange" id="CEP" placeholder="CEP" onblur="CarregaEnderecoPorCep(this);" required />
                                     <label class="contact-text">Endereço</label>
@@ -56,15 +56,7 @@
                         <div>
                             <fieldset>
                                 <div class="big-notification static-notification-white" id="38">
-                                    <div>Dados Pessoais e Bancários </div>
-                                    <label class="contact-text">Nome Completo</label>
-                                    <input type="text" name="NOME" value="" class="contactFieldExchange" id="NOME" placeholder="Nome" required />
-                                    <label class="contact-text">Data de Nascimento</label>
-                                    <input type="text" name="DATA_NASCIMENTO" value="" class="contactFieldExchange" id="DATA_NASCIMENTO" placeholder="Data de nascimento" required />
-                                    <label class="contact-text">CPF</label>
-                                    <input type="text" name="CPF" value="" class="contactFieldExchange" id="CPF" placeholder="CPF" required />
-                                    <label class="contact-text">RG</label>
-                                    <input type="text" name="RG" value="" class="contactFieldExchange" id="RG" placeholder="RG" required />
+                                    <div> Dados do Depóstio/Transferência </div>
                                     <p>
                                         Para podermos identificar o depósito, por favor informar a conta corrente de origem do pagamento.
                                     </p>
@@ -77,9 +69,13 @@
                                     <input type="text" name="AGENCIA" value="" class="contactFieldExchange" id="AGENCIA" placeholder="Agência" required />
                                     <label class="contact-text">Conta</label>
                                     <input type="text" name="CONTA" value="" class="contactFieldExchange" id="CONTA" placeholder="C/C" required />
-                                    <div class="static-notification-exchange" onclick="Confirmar(3)">
+                                    <label class="contact-text">Data nº da transação</label>
+                                    <input type="text" name="DATA" value="" class="contactFieldExchange" id="DATA" placeholder="Data da transação" required />
+                                    <label class="contact-text">Nº da transação</label>
+                                    <input type="text" name="NUM_DOC" value="" class="contactFieldExchange" id="NUM_DOC" placeholder="Nº da transação" required />
+                                    <div class="static-notification-exchange" onclick="ClkConfirmarDeposito()">
                                         <p class="center-text" style="color:white">
-                                            Prosseguir
+                                            Confrmar
                                         </p>
                                     </div>
                                 </div>
@@ -99,10 +95,10 @@
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
-    <script type="text/javascript" src="scripts/paginas/operacao.js"></script>
+    <script type="text/javascript" src="scripts/paginas/deposito.js"></script>
     <script type="text/javascript">
 
-        jQuery('#DATA_NASCIMENTO').inputmask("99/99/9999");
+        jQuery('#DATA').inputmask("99/99/9999");
         jQuery('#CPF').inputmask("999.999.999-99");
         jQuery('#CEP').inputmask("99999-999");
         jQuery('#FONE').inputmask("(999) 99999-9999");

@@ -147,13 +147,13 @@ function CarregaEstabelecimento(data) {
 
 function MostraMapa(obj) {
 
- sessionStorage.setItem('VIEWMAP', obj.id)
+ localStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
 }
 
 function MostraReserva(obj)
 {
-    sessionStorage.setItem('VIEWRESERVA', obj.id)
+    localStorage.setItem('VIEWRESERVA', obj.id)
     CarregaMenu('operacao.html');
 }
 
