@@ -77,7 +77,7 @@ function Grava() {
         var resp = jQuery.parseJSON(InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF, BAIRRO, CEP, CIDADE, CNPJ, EMAIL, ENDERECO, NUMERO, COMPLEMENTO, USUARIO, ERROCONEXAO));
         if (resp.ID_ESTABELECIMENTO != '')
         {
-            sessionStorage.setItem("ESTABELECIMENTO", JSON.stringify(resp));
+            localStorage.setItem("ESTABELECIMENTO", JSON.stringify(resp));
             alert("Estabelecimnento incluído com sucesso!");
         }
     }

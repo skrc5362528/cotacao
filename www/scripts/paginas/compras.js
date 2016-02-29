@@ -34,12 +34,13 @@ function CarregaDivOperacao(data) {
     "<div>" +
     "<strong><label class='contact-text'>Status:" + data.DESCRICAO + "</label></strong> " +
     "</div>" +
-    //"<div class='one-half'>" +
-    //"<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //"</div>" +
-   //"<div class='two-half last-column'>" +
-    //"<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //"</div>" +
+    "<div class='one-half'>" +
+    "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
+      "</div>" +
+   "<div class='two-half last-column'>" +
+       "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
+    "</div>" +
+        MontaConfirmaDeposito(data.ID_STATUS_VENDA, data.COD_VENDA) +
     "</div>";
 
     return  html;
@@ -56,21 +57,21 @@ function MostraMapa(obj) {
     CarregaMenu('mapa.html');
 }
 
-//function MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA)
-//{
-//    var html = '';
-//    if (ID_STATUS_VENDA == '5') {
-//       html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaDeposito(this)' id='" + COD_VENDA + "' >" +
-//                  "<p class='center-text' style='font-size:15px; color:white;'>Confirmar Deposito</p>" +
-//                  "</div>";
-//    }
-//    return  html;
-//}
+function MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA)
+{
+    var html = '';
+    if (ID_STATUS_VENDA == '5') {
+       html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaDeposito(this)' id='" + COD_VENDA + "' >" +
+                  "<p class='center-text' style='font-size:15px; color:white;'>Confirmar Deposito</p>" +
+                  "</div>";
+    }
+    return  html;
+}
 
-//function ConfirmaDeposito(COD_VENDA) {
-//    localStorage.setItem('VIEWCODVENDA', COD_VENDA.id)
-//    CarregaMenu('deposito.html');
-//}
+function ConfirmaDeposito(COD_VENDA) {
+    localStorage.setItem('VIEWCODVENDA', COD_VENDA.id)
+    CarregaMenu('deposito.html');
+}
 
 function CarregaDados(data) {
 

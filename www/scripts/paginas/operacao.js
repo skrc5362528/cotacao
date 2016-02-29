@@ -26,13 +26,12 @@ function BuscaCotacaoEstabelecimento() {
 
 
 function MostraMapa(obj) {
-
-    sessionStorage.setItem('VIEWMAP', obj.id)
+    localStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
 }
 
 function RecebeValores() {
-    var obj = sessionStorage.getItem('VIEWRESERVA');
+    var obj = localStorage.getItem('VIEWRESERVA');
     var id = obj.split("_");
     ID_ESTABELECIMENTO = id[0];
     SIMBOLO = id[1];
@@ -199,9 +198,8 @@ function CarregaDivOperacao() {
             " <strong><label class='contact-text' >Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >IOF % : " + jQuery('#IOF').val() + "</label></strong>   " +
             "<strong><label class='contact-text' >Serviço eXchange R$ : " + jQuery('#TAXA_SERVICO').val() + "</label></strong>   " +
-            "<strong><label class='contact-text' >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   " +
+            MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
             " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
-            MontaInforRetirada(jQuery('#SELECIONA_RETIRADA').val()) +
             "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>  " +
             " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label> " +
             " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label>  " +
@@ -231,7 +229,7 @@ function CarregaDivConfirmacao() {
         "<h2 style='color:black;'><p class='center-text' style='font-size:22px;'><strong>Compra Finalizada</strong></p></h2>" +
         "<p class='center-text' ><strong><i class='fa fa-check' style='font-size: 128px; color:#0489B1;'></i></strong></p>" +
         "<strong><h4 style='color:black;'>Dados bancários para depósito</h4></strong>  " +
-        " <strong><label class='contact-text' >Banco : " + DATA_ESTABELECIMENTO[0].BANCO + "</label></strong>  " +
+        " <strong><label class='contact-text' >Banco : " + DATA_ESTABELECIMENTO[0].BANCO1 + "</label></strong>  " +
         " <strong><label class='contact-text' >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA + "</label></strong>   " +
         " <strong><label class='contact-text' >Conta corrente : " + DATA_ESTABELECIMENTO[0].CONTA + "</label></strong>   " +
         " <strong><label class='contact-text' >CNPJ : " + DATA_ESTABELECIMENTO[0].CNPJ + "</label></strong>   " +
@@ -272,7 +270,7 @@ function GravaPedidoCompra() {
     var STATUS_VENDA = '1';
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
-    var DESCRICAO_DETALHADA = jQuery('#DIVDADOSOPERACAO').html();
+    var DESCRICAO_DETALHADA = '';
     //=========================================================
     var BANCOS = jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
@@ -286,9 +284,9 @@ function GravaPedidoCompra() {
             return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
     }
     else {
-        AlteraDadosUsuario();
-        ID_ENDERECO_ENTREGA = null;
-        return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
+            AlteraDadosUsuario();
+            ID_ENDERECO_ENTREGA = null;
+            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
     }
 
 }
@@ -413,6 +411,7 @@ jQuery(document).ready(function () {
     BuscaCotacaoEstabelecimento();
 
     CarregaPerfil();
+    CarregaPerfilEstabelecimento();
     CarregaEndereco(ID_USUARIO);
     PreencheSelectBancos();
 
@@ -424,16 +423,28 @@ jQuery(document).ready(function () {
 
 );
 
+function CarregaPerfilEstabelecimento()
+{
+    if (DATA_ESTABELECIMENTO[0].VALOR_DELIVERY == null || DATA_ESTABELECIMENTO[0].VALOR_DELIVERY == '') {
+        jQuery('#TAXA_ENTREGA').val(parseFloat('0').toFixed(2));
+    }
+    else {
+        jQuery('#TAXA_ENTREGA').val(parseFloat(DATA_ESTABELECIMENTO[0].VALOR_DELIVERY).toFixed(2)); 
+    }
+
+
+}
+
 function CarregaFormaRecebimento(data) {
     var html = "<select class='contactFieldExchange' id='FORMA_ENTREGA' >";
 
-    if (data.RETIRADA = 'RET') {
+    if (data.RETIRADA == 'S') {
         html += "<option value='RET'>Retirada na Agência</option>";
     }
-    if (data.DELIVERY = 'DEL') {
+    if (data.DELIVERY == 'S') {
         html += "<option value='DEL'>Delivery</option>";
     }
-    if (data.RECARGA = 'REC') {
+    if (data.RECARGA == 'S') {
         html += "<option value='REC'>Recarga de Cartão</option>"
     }
     html += "</select>";
@@ -451,13 +462,13 @@ function CarregaFormaPagamento() {
 function MontaInforRetirada(FORMA_RETIRADA) {
     var ret = '';
     if (FORMA_RETIRADA == 'RET') {
-        ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
+        jQuery('#TAXA_ENTREGA').val(0);
     }
     if (FORMA_RETIRADA == 'DEL') {
-        ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
+        ret = "<strong><label class='contact-text' >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   ";
     }
     if (FORMA_RETIRADA == 'REC') {
-        ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
+        jQuery('#TAXA_ENTREGA').val(0);
     }
     ret += "";
     return ret;
@@ -569,10 +580,10 @@ function CarregaEnderecoPorCep(obj) {
 
 function PreencheSelectBancos() {
     jQuery('#BANCOS').append('<option value="" selected> Escolha seu banco</option>');
-    var data = BANCOS;
+    var data = jQuery.parseJSON(ListaBanco(null,null));
     if (data.length > 0) {
         jQuery.each(data, function () {
-            MontaSelect('BANCOS', this.CODIGO, this.BANCO);
+            MontaSelect('BANCOS', this.ID, this.BANCO1);
         });
     }
 }
