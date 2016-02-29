@@ -1,16 +1,10 @@
-﻿var ID_ESTABELECIMENTO = '';
-var ID_USUARIO = '';
-var ID_ENDERECO_ENTREGA = '';
-var SIMBOLO = '';
-var DATA_COTACAO = '';
-var DATA_USU = '';
-var DATA_ESTABELECIMENTO = '';
-var V_PASSO = 0;
+﻿var OPERACAO = '';
+
 
 
 jQuery(document).ready(function () {
     EqualizaTamanhoTela();
-    RetornaOperacaoPorCodigo(RecebeValores());
+    BuscaOperacaoUsuario(RecebeValores());
 });
  
 function RecebeValores()
@@ -18,18 +12,31 @@ function RecebeValores()
  return  localStorage.getItem('VIEWCODVENDA');
 }
 
-function BuscaOperacaoEstabelecimento() {
-    DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
-    CarregaUltimaCotacao(DATA_COTACAO);
+function BuscaOperacaoUsuario(COD_VENDA) {
+    OPERACAO = jQuery.parseJSON(RetornaOperacaoPorCodigo(COD_VENDA, null, null));
+    CarregaOperacao(OPERACAO);
+}
+
+function CarregaOperacao(OPERACAO)
+{
+    jQuery('#NOME').val(OPERACAO[0].NOME);
+    jQuery('#BANCO').val(OPERACAO[0].BANCO1);
+    jQuery('#AGENCIA').val(OPERACAO[0].AGENCIA);
+    jQuery('#CONTA').val(OPERACAO[0].CONTA);
+    jQuery('#CPF').val(OPERACAO[0].BANCO1);
+    jQuery('#VALOR').val(OPERACAO[0].VALOR_TOTAL_OPERACAO);
+    
+    jQuery('#DATA').val();
+    jQuery('#NUM_DOC').val();
 }
 
 function ValidaDadosBancarios()
 {
 
-    var BANCOS = jQuery('#BANCOS').val();
+    var BANCOS =  jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
-    var CONTA = jQuery('#CONTA').val();
-    var DATA = jQuery('#DATA').val();
+    var CONTA =   jQuery('#CONTA').val();
+    var DATA =    jQuery('#DATA').val();
     var NUM_DOC = jQuery('#NUM_DOC').val();
 
     var msg = ''
@@ -44,13 +51,13 @@ function ValidaDadosBancarios()
 
 }
 
-function CarregaFormaPagamento() {
-    var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
-    html += "<option value='DEP'> Depósito em C/C </option>";
-    html += "<option value='DEL'> Transferência </option>";
-    html += "</select>";
-    return html;
-}
+//function CarregaFormaPagamento() {
+//    var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
+//    html += "<option value='DEP'> Depósito em C/C </option>";
+//    html += "<option value='DEL'> Transferência </option>";
+//    html += "</select>";
+//    return html;
+//}
 
 function ClkConfirmarDeposito()
 { }

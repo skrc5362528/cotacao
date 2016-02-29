@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+
+
+</head>
+<body>
+    <div id="content" class="page-content">
+        <div class="header">
+            <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
+            <a class="header-logo">eXCHANGE</a>
+            <a onclick="AdicionaMoeda(jQuery('#ESTABELECIMENTO_').val());"><i class="fa fa-check"></i></a>
+        </div>
+        <div class="header-clear-small"></div>
+        <div class="content" id="MOEDAS">
+            <div class="container no-bottom">
+                <div class="no-bottom">
+                    <div>
+                        <fieldset>
+                            <label class="input-label">Configurações</label>
+                            <select name="ESTABELECIMENTO_" class="contactField" id="ESTABELECIMENTO_" onchange="PreencheMoedasTrabalhadas(jQuery('#ESTABELECIMENTO_').val())"></select>
+                            <!--<label class="input-label">Moedas trabalhadas</label>-->
+                           
+                            <select name="MOEDA" class="contactField" id="MOEDA"></select>
+                            <!--<label class="input-label">Percentual de valoração</label>-->
+                            <input type="number" name="VALOR_COTACAO" value="" class="contactField" id="VALOR_COTACAO" placeholder="Perc. serviço de venda" required />
+                            <input type="number" name="VALOR_COTACAO_COMPRA" value="" class="contactField" id="VALOR_COTACAO_COMPRA" placeholder="Perc. serviço de Compra" required />
+                            <!--<label class="input-label">Status</label>-->
+                            <select name="STATUS" class="contactField" id="STATUS">
+                                <option selected="selected">Status</option>
+                                <option>Ativo</option>
+                                <option>Desativado</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                </div>
+                <!--<a onclick="AdicionaMoeda();" class="button button-white">
+                    <img src="images/Location_Navigation_Money_Finance_Bank_Cash_Dollar_Pin-512.png" width="24px" height="24px" />
+                </a>-->
+            </div>
+        </div>
+        <div class="content">
+            <div class="container no-bottom">
+                <div class="no-bottom">
+                    <div>
+                        <fieldset>
+                            <div id="DIVESTABELECIMENTO">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+            <script type="text/javascript" src="scripts/custom.js"></script>
+            <script src="scripts/paginas/estabelecimentomoeda.js"></script>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

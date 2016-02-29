@@ -39,9 +39,9 @@ function ListaMoeda(successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -77,9 +77,9 @@ function ListaBanco(successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -117,9 +117,9 @@ function EnviaEmailContato(MENSAGEM, ASSUNTO, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -157,9 +157,9 @@ function EnviaEmailOperacao(NUM_PEDIDO, ID_TIPO_OPERACAO, successFunc, errorFunc
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -200,9 +200,9 @@ function InsereUsuario(LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, successFunc, er
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -252,9 +252,9 @@ function InsereEstabelecimento(NOME, FONE, LATITUDE, LONGITUDE, RAZAO_SOCIAL, UF
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -290,9 +290,9 @@ function RetornaListaEstabelecimentos(successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -332,9 +332,9 @@ function RetornaListaEstabelecimentoEcotacao(SIMBOLO, dia, mes, ano, successFunc
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -372,9 +372,9 @@ function Login(email, senha, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -411,9 +411,9 @@ function ValidaUsuario(email, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -461,9 +461,9 @@ function AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -523,9 +523,9 @@ function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITU
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -568,9 +568,9 @@ function AlteraDepositoOperacao(ID_VENDA, ID_STATUS_VENDA, NUM_DEPOSITO, DATA_DE
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -607,9 +607,9 @@ function RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, successFunc, errorFunc)
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -653,9 +653,9 @@ function InsereMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, CODIGO, NOME, 
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -696,9 +696,9 @@ function AlteraMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, ATIVO, VALOR_M
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -736,9 +736,9 @@ function RetornaMoedaEstabelecimento(ID_ESTABELECIMENTO, ID_MOEDA, successFunc, 
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -775,9 +775,9 @@ function RetornaListaMoedaEstabelecimento(ID_ESTABELECIMENTO, successFunc, error
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -822,9 +822,9 @@ function InsereCotacaoEstabelecimento(ID_ESTABELECIMENTO, VALOR_COTACAO, VALOR_C
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -868,9 +868,9 @@ function AlteraCotacaoEstabelecimento(ID_COTACAO, VALOR_COTACAO, VALOR_COTACAO_C
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -907,9 +907,9 @@ function RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, successFunc
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -947,9 +947,9 @@ function RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, succ
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -986,9 +986,9 @@ function RetornaListaEstabelecimentoPorMoeda(SIMBOLO, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1024,9 +1024,9 @@ function RetornaListaMoedasUtilizadas(successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1065,9 +1065,9 @@ function ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, success
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1106,9 +1106,9 @@ function InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, success
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1145,9 +1145,9 @@ function RetornaFavoritosUsuario(ID_USUARIO, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1186,9 +1186,9 @@ function ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, successFunc, er
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1225,9 +1225,9 @@ function RetornaEstabelecimentoPorIdUsuario(ID_USUARIO, successFunc, errorFunc) 
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1278,9 +1278,9 @@ function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COM
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1319,9 +1319,9 @@ function RetornaOperacaoPorEstabelecimento(ID_ESTABELECIMENTO, ID_TIPO_VENDA, ID
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1360,12 +1360,10 @@ function RetornaOperacaoPorUsuario(ID_USUARIO, ID_TIPO_VENDA, ID_STATUS_VENDA, s
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
-
-
     });
     return $res;
 }
@@ -1409,9 +1407,9 @@ function InsereEnderecoUsuario(ID_USUARIO, ENDERECO_ENTREGA, COMPLEMENTO_ENTREGA
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1448,9 +1446,9 @@ function RetornaEnderecoPorCep(CEP, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1498,9 +1496,9 @@ function AlteraEnderecoUsuario(ID_ENDERECO_ENTREGA, ID_USUARIO, ENDERECO_ENTREGA
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1537,9 +1535,9 @@ function RetornaEnderecoUsuario(ID_USUARIO, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1575,9 +1573,9 @@ function RetornaTipoVenda(successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1615,9 +1613,9 @@ function RetornaOperacaoPorEstabelecimentoCodigo(ID_ESTABELECIMENTO, COD_VENDA, 
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1655,9 +1653,9 @@ function AlteraStatusOperacao(COD_VENDA, COD_STATUS_VENDA, successFunc, errorFun
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1693,9 +1691,9 @@ function RetronaStatusVenda(successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
@@ -1732,9 +1730,9 @@ function RetornaOperacaoPorCodigo(COD_VENDA, successFunc, errorFunc) {
                     successFunc(data);
             }
         },
-        error: function () {
+        error: function (data) {
             if (errorFunc != null)
-                errorFunc();
+                errorFunc(data);
         }
 
 
