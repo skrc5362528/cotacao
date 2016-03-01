@@ -87,6 +87,45 @@ function ListaBanco(successFunc, errorFunc) {
     return $res;
 }
 
+
+// -- ListaBanco
+function ListaDeposito(successFunc, errorFunc) {
+    /// <summary></summary>
+
+    /// <param name='successFunc' type='function'>Success Function</param>
+    /// <param name='errorFunc' type='function'>Error Function</param>
+    /// <returns type=''>ListaBancoResult as </returns>
+    var $res = '';
+    jQuery.ajax({
+        type: 'POST',
+        url: 'http://www.visional.com.br/wscotacao/cotacao.asmx/ListaDeposito',
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: '',
+        success: function (data) {
+            if (data.hasOwnProperty('d')) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}
+
 // -- EnviaEmailContato
 function EnviaEmailContato(MENSAGEM, ASSUNTO, successFunc, errorFunc) {
     /// <summary></summary>
@@ -534,7 +573,7 @@ function AlteraEstabelecimento(ID_ESTABELECIMENTO, NOME, FONE, LATITUDE, LONGITU
 }
 
 // -- AlteraDepositoOperacao
-function AlteraDepositoOperacao(ID_VENDA, ID_STATUS_VENDA, NUM_DEPOSITO, DATA_DEPOSITO, ID_TIPO_DEPOSITO, VALOR_PRODUTO, ID_TIPO_VENDA, successFunc, errorFunc) {
+function AlteraDepositoOperacao(ID_VENDA,COD_VENDA, ID_STATUS_VENDA, NUM_DEPOSITO, DATA_DEPOSITO, ID_TIPO_DEPOSITO, VALOR_PRODUTO, ID_TIPO_VENDA, successFunc, errorFunc) {
     /// <summary></summary>
     /// <param name="ID_VENDA" type="int">ID_VENDA</param>
     /// <param name="ID_STATUS_VENDA" type="int">ID_STATUS_VENDA</param>
@@ -555,7 +594,7 @@ function AlteraDepositoOperacao(ID_VENDA, ID_STATUS_VENDA, NUM_DEPOSITO, DATA_DE
         async: false,
         cache: false,
         dataType: 'json',
-        data: "{ID_VENDA:" + JSON.stringify(ID_VENDA) + ",ID_STATUS_VENDA:" + JSON.stringify(ID_STATUS_VENDA) + ",NUM_DEPOSITO:" + JSON.stringify(NUM_DEPOSITO) + ",DATA_DEPOSITO:" + JSON.stringify(DATA_DEPOSITO) + ",ID_TIPO_DEPOSITO:" + JSON.stringify(ID_TIPO_DEPOSITO) + ",VALOR_PRODUTO:" + JSON.stringify(VALOR_PRODUTO) + ",ID_TIPO_VENDA:" + JSON.stringify(ID_TIPO_VENDA) + "}",
+        data: "{ID_VENDA:" + JSON.stringify(ID_VENDA) + ",COD_VENDA:" + JSON.stringify(COD_VENDA) + ",ID_STATUS_VENDA:" + JSON.stringify(ID_STATUS_VENDA) + ",NUM_DEPOSITO:" + JSON.stringify(NUM_DEPOSITO) + ",DATA_DEPOSITO:" + JSON.stringify(DATA_DEPOSITO) + ",ID_TIPO_DEPOSITO:" + JSON.stringify(ID_TIPO_DEPOSITO) + ",VALOR_PRODUTO:" + JSON.stringify(VALOR_PRODUTO) + ",ID_TIPO_VENDA:" + JSON.stringify(ID_TIPO_VENDA) + "}",
         success: function (data) {
             if (data.hasOwnProperty('d')) {
                 $res = data.d;

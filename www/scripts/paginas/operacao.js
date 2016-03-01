@@ -251,6 +251,7 @@ function GravaPedidoCompra() {
     var VALOR_IOF = jQuery('#IOF').val();
     var TAXA_ENTREGA = jQuery('#TAXA_ENTREGA').val();
 
+    //=========================================================
     var VALOR_VENDA = calculoVenda(DATA_COTACAO[0].TAXA_VENDA, DATA_COTACAO[0].VALOR_COTACAO).toFixed(2);
     var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
@@ -271,12 +272,14 @@ function GravaPedidoCompra() {
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
     var DESCRICAO_DETALHADA = '';
+    
     //=========================================================
     var BANCOS = jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
     var CONTA = jQuery('#CONTA').val();
     var CPF = jQuery('#CPF').val();
     var RG = jQuery('#RG').val();
+    var ID_TIPO_DEPOSITO = jQuery('#FORMA_PAGAMENTO').val();
 
     if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
             AlteraDadosUsuario();
@@ -372,7 +375,7 @@ function CarregaUltimaCotacao(data) {
            "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
            "                  <label class='contact-text'>Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
-           "                  <label class='contact-text'>Forma de pagamento</label>" +
+           "                  <label class='contact-text'>Forma de transação</label>" +
                                CarregaFormaPagamento() +
            "                   <div class='static-notification-exchange'  onclick='Confirmar(1)' >" +
            "                   <p class='center-text' style='font-size:15px; color:white;'>Prosseguir</p>" +
@@ -452,9 +455,12 @@ function CarregaFormaRecebimento(data) {
 }
 
 function CarregaFormaPagamento() {
+
     var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
-    html += "<option value='DEP'> Depósito em C/C </option>";
-    html += "<option value='DEL'> Transferência </option>";
+    var ret =   jQuery.parseJSON(ListaDeposito(null,ERROCONEXAO));
+    for (var i = 0; i < ret.length; i++) {
+        html += "<option value='" + ret[i].ID_TIPO_DEPOSITO + "'>" + ret[i].DESCRICAO + "</option>";
+    }
     html += "</select>";
     return html;
 }
