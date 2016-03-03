@@ -1277,25 +1277,7 @@ function RetornaEstabelecimentoPorIdUsuario(ID_USUARIO, successFunc, errorFunc) 
 // -- InsereOperacao
 function InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, ID_STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, QUANTIDADE, VALOR_PRODUTO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, successFunc, errorFunc) {
     /// <summary></summary>
-    /// <param name="ID_USUARIO" type="int">ID_USUARIO</param>
-    /// <param name="ID_ESTABELECIMENTO" type="int">ID_ESTABELECIMENTO</param>
-    /// <param name="ID_STATUS_VENDA" type="int">ID_STATUS_VENDA</param>
-    /// <param name="OBS_COMPRA" type="string">OBS_COMPRA</param>
-    /// <param name="SITUACAO_COMPRA" type="string">SITUACAO_COMPRA</param>
-    /// <param name="ID_ENDERECO_ENTREGA" type="int">ID_ENDERECO_ENTREGA</param>
-    /// <param name="SIMBOLO" type="string">SIMBOLO</param>
-    /// <param name="DESCRICAO_DETALHADA" type="string">DESCRICAO_DETALHADA</param>
-    /// <param name="QUANTIDADE" type="decimal">QUANTIDADE</param>
-    /// <param name="VALOR_PRODUTO" type="decimal">VALOR_PRODUTO</param>
-    /// <param name="ID_TIPO_VENDA" type="int">ID_TIPO_VENDA</param>
-    /// <param name="VALOR_TOTAL_OPERACAO" type="decimal">VALOR_TOTAL_OPERACAO</param>
-    /// <param name="VARLOR_PERC_ESTABELEC" type="decimal">VARLOR_PERC_ESTABELEC</param>
-    /// <param name="VALOR_DESEJADO" type="decimal">VALOR_DESEJADO</param>
-    /// <param name="VALOR_COTACAO" type="decimal">VALOR_COTACAO</param>
 
-    /// <param name='successFunc' type='function'>Success Function</param>
-    /// <param name='errorFunc' type='function'>Error Function</param>
-    /// <returns type=''>InsereOperacaoResult as </returns>
     var $res = '';
     jQuery.ajax({
         type: 'POST',
@@ -1779,3 +1761,41 @@ function RetornaOperacaoPorCodigo(COD_VENDA, successFunc, errorFunc) {
     return $res;
 }
 
+// -- RetornaEnderecoUsuario
+function RetornaConfiguracaoSistema(successFunc, errorFunc) {
+    /// <summary></summary>
+    /// <param name="ID_USUARIO" type="int">ID_USUARIO</param>
+
+    /// <param name='successFunc' type='function'>Success Function</param>
+    /// <param name='errorFunc' type='function'>Error Function</param>
+    /// <returns type='string'>RetornaEnderecoUsuarioResult as string</returns>
+    var $res = '';
+    jQuery.ajax({
+        type: 'POST',
+        url: 'http://www.visional.com.br/wscotacao/cotacao.asmx/RetornaConfiguracaoSistema',
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: "{}",
+        success: function (data) {
+            if (data.hasOwnProperty('d')) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}

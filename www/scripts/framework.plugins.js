@@ -3802,3 +3802,20 @@ var getUrlVars = function getUrlVars() {
     return vars;
 }
 
+function CalculaValorTotal(IOF, VALOR_EXCHANGE, VALOR_CONVERTIDO, ENTREGA) {
+
+    var valIOF = parseFloat(IOF).toFixed(2);
+    //alert(valIOF.toString());
+    //var valTAXA = parseFloat(VALOR_EXCHANGE).toFixed(2);
+    //alert(valTAXA);
+    var valCONVER = parseFloat(VALOR_CONVERTIDO).toFixed(2);
+    //alert(valCONVER);
+    var valEntrega = parseFloat(ENTREGA).toFixed(2);
+    //
+    var valorExchange = parseFloat(VALOR_EXCHANGE).toFixed(2);
+    //alert(valEntrega);
+    var valorTotalIof = (parseFloat(((valIOF / 100) * valCONVER)).toFixed(2));
+    //alert(valEntrega);
+    var valortot = '';
+    return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valEntrega) + parseFloat(valorTotalIof) + parseFloat(valorExchange)).toFixed(2);
+}

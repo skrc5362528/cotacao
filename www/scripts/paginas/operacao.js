@@ -6,6 +6,7 @@ var DATA_COTACAO = '';
 var DATA_USU = '';
 var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
+var SYSCONFIG = '';
 
 
 
@@ -196,10 +197,10 @@ function CarregaDivOperacao() {
             " <strong><label class='contact-text' >Valor desejado : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >IOF % : " + jQuery('#IOF').val() + "</label></strong>   " +
-            "<strong><label class='contact-text' >Serviço eXchange R$ : " + jQuery('#TAXA_SERVICO').val() + "</label></strong>   " +
+            " <strong><label class='contact-text' >IOF % : " + parseFloat(SYSCONFIG[0].IOF).toFixed(2) + "</label></strong>   " +
+            "<strong><label class='contact-text' >Serviço eXchange R$ : " + parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2) + "</label></strong>   " +
             MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
-            " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
+            " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
             "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>  " +
             " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label> " +
             " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label>  " +
@@ -245,7 +246,7 @@ function GravaPedidoCompra() {
     var VALOR_COTACAO = DATA_COTACAO[0].TAXA_VENDA;
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
-    var VALOR_TOTAL_OPERACAO = CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val());
+    var VALOR_TOTAL_OPERACAO = CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
     var VARLOR_PERC_ESTABELEC = DATA_COTACAO[0].VALOR_COTACAO;
     var VALOR_EXCHANGE=   jQuery('#TAXA_SERVICO').val();
     var VALOR_IOF = jQuery('#IOF').val();
@@ -410,6 +411,7 @@ jQuery(document).ready(function () {
 
     EqualizaTamanhoTela();
     RecebeValores();
+    SYSCONFIG = jQuery.parseJSON(localStorage.getItem("SYSCONFIG"));
     DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
     BuscaCotacaoEstabelecimento();
 

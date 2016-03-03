@@ -40,13 +40,14 @@ function ValidaDadosBancarios()
     var CONTA =   jQuery('#CONTA').val();
     var DATA =    jQuery('#DATA').val();
     var NUM_DOC = jQuery('#NUM_DOC').val();
+    var DEPOSITO = jQuery('#DEPOSITO').val();
 
     var msg = ''
     if (BANCOS == '' || AGENCIA == '' || CONTA == '') {
         msg = 'Dados bancário incompletos';
     }
-    if (DATA == '' || NUM_DOC == '') {
-        msg = 'Documentos incompletos';
+    if (DATA == '' || NUM_DOC == '' || DEPOSITO=='') {
+        msg = 'Dados da transação incompletos';
     }
    
     return msg;

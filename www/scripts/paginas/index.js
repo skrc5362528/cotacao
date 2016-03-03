@@ -55,8 +55,14 @@ function Registrar() {
 
 jQuery(document).ready(function myfunction() {
     CarregaLogin();
+    CarregaSisConfig();
+
     //CarregaTelaTeste();
 });
+
+function CarregaSisConfig() {
+    localStorage.setItem("SYSCONFIG", RetornaConfiguracaoSistema(null, ERROCONEXAO));
+}
 
 
 function onDeviceReady() {
