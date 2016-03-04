@@ -1,5 +1,6 @@
 ﻿
 function GravaUsuario() {
+    BloqueiaTela("Aguarde...")
     var res = ValidaEntrada();
     var usu = '';
     if (res == '') {
@@ -15,8 +16,13 @@ function GravaUsuario() {
         }
         else {
             usu = InsereUsuario(EMAIL, NOME, SENHA, 1, EMAIL, null, ERROCONEXAO);
+            DesbloqueiaTela();
             if (usu == '') {
                 ExibeMensagem("Erro no Resgistro do usuário");
+            }
+            else {
+                ExibeMensagem("Usuário Cadastrado com sucesso");
+                Voltar();
             }
         }
 
@@ -64,13 +70,3 @@ function Voltar() {
     window.location.assign("index.html")
 }
 
-
-function CarregaUSUARIO(data) {
-
-    if (data.ID_USUARIO == '') {
-        return false;
-    }
-    else {
-        localStorage.setItem("USUARIO", JSON.stringify(data));
-    }
-}

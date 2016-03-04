@@ -11,7 +11,7 @@ var ord_tx_venda = false;
 function BuscarEstabelecimento(campo, ordena) {
     BloqueiaTela("Carregando...");
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
-    jQuery('#DIVESTABELECIMENTO').html('');
+    jQuery('#DIVESTABELECIMENTO').empty();
     CarregaFiltros();
 
      data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
