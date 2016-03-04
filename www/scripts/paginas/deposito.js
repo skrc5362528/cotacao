@@ -1,10 +1,12 @@
 ﻿var OPERACAO = '';
-
-
-
+var COD_VENDA = '';
 jQuery(document).ready(function () {
+
+    COD_VENDA = RecebeValores();
     EqualizaTamanhoTela();
-    BuscaOperacaoUsuario(RecebeValores());
+    PreencheSelectBancos();
+    PreencheSelectDeposito();
+    BuscaOperacaoUsuario(COD_VENDA);
 });
  
 function RecebeValores()
@@ -23,7 +25,7 @@ function CarregaOperacao(OPERACAO)
     jQuery('#BANCO').val(OPERACAO[0].BANCO1);
     jQuery('#AGENCIA').val(OPERACAO[0].AGENCIA);
     jQuery('#CONTA').val(OPERACAO[0].CONTA);
-    jQuery('#CPF').val(OPERACAO[0].BANCO1);
+    jQuery('#CPF').val(OPERACAO[0].CPF);
     jQuery('#VALOR').val(OPERACAO[0].VALOR_TOTAL_OPERACAO);
     
     jQuery('#DATA').val();
@@ -38,13 +40,14 @@ function ValidaDadosBancarios()
     var CONTA =   jQuery('#CONTA').val();
     var DATA =    jQuery('#DATA').val();
     var NUM_DOC = jQuery('#NUM_DOC').val();
+    var DEPOSITO = jQuery('#DEPOSITO').val();
 
     var msg = ''
     if (BANCOS == '' || AGENCIA == '' || CONTA == '') {
         msg = 'Dados bancário incompletos';
     }
-    if (DATA == '' || NUM_DOC == '') {
-        msg = 'Documentos incompletos';
+    if (DATA == '' || NUM_DOC == '' || DEPOSITO=='') {
+        msg = 'Dados da transação incompletos';
     }
    
     return msg;
@@ -60,8 +63,37 @@ function ValidaDadosBancarios()
 //}
 
 function ClkConfirmarDeposito()
-{ }
+{
+    ConfirmaDeposito();
+}
 
+function ConfirmaDeposito() {
+
+    var msg = ValidaDadosBancarios();
+
+    if (msg == '') {
+        var BANCOS = jQuery('#BANCOS').val();
+        var AGENCIA = jQuery('#AGENCIA').val();
+        var CONTA = jQuery('#CONTA').val();
+        var DATA = jQuery('#DATA').val();
+        var NUM_DOC = jQuery('#NUM_DOC').val();
+        var VALOR_PRODUTO = OPERACAO[0].VALOR_TOTAL_OPERACAO;
+        var ID_VENDA = OPERACAO[0].ID_VENDA;
+        var ID_STATUS_VENDA = 6;
+        var ID_TIPO_DEPOSITO = jQuery('#DEPOSITO').val();
+        var ID_TIPO_VENDA = OPERACAO[0].ID_TIPO_VENDA;
+
+        var ret = AlteraDepositoOperacao(ID_VENDA,COD_VENDA, ID_STATUS_VENDA, NUM_DOC, DATA, ID_TIPO_DEPOSITO, VALOR_PRODUTO, ID_TIPO_VENDA, null, ERROCONEXAO);
+        if (ret > 0) {
+            
+            ExibeMensagem('Depósito informado com sucesso');
+        }
+    }
+    else {
+
+        ExibeMensagem(msg);
+    }
+}
 
 function PreencheSelectBancos() {
     jQuery('#BANCOS').append('<option value="" selected> Escolha seu banco</option>');
@@ -76,3 +108,14 @@ function PreencheSelectBancos() {
 function MontaSelect(OBJETO, CODIGO, NOME) {
     jQuery('#' + OBJETO + '').append('<option value=' + CODIGO + '>' + NOME + '</option>');
 }
+
+function PreencheSelectDeposito() {
+    jQuery('#DEPOSITO').append('<option value="" selected> Escolha seu tipo de depósito</option>');
+    var data = jQuery.parseJSON(ListaDeposito(null, null));
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+            MontaSelect('DEPOSITO', this.ID_TIPO_DEPOSITO, this.DESCRICAO);
+        });
+    }
+}
+

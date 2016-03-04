@@ -13,24 +13,19 @@ var ord_tx_compra = false;
 function BuscarEstabelecimento(campo, ordena) {
     BloqueiaTela("Carregando...");
     jQuery('#DIVESTABELECIMENTO').html('');
-    //CarregaFiltros();
-    var dt = '';
+
     var usu = jQuery.parseJSON(localStorage.getItem("USUARIO"));
     data = jQuery.parseJSON(RetornaFavoritosUsuario(usu.ID_USUARIO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
-            dt = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(this.SIMBOLO, null, ERROCONEXAO));
-            if (dt.length > 0) {
-                jQuery.each(dt, function () {
                     this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
                     this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
                     this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
-                });
-            }
         });
     }
+    
   ///  dt = OrdenaResultados(campo, ordena, dt);
-    CarregaDados(dt);
+    CarregaDados(data);
     DesbloqueiaTela();//ordenadistancia
 }
 
@@ -113,111 +108,93 @@ function calculoDistancia(latPara, longPara) {
     return (km).toString().substring(0, 4);
 }
 
-
-
 function CarregaEstabelecimento(data) {
 
+    //var html =
+    //"<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
+    //"<div>" +
+    //"<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
+    //"</div>" +
+    //"<div class='one-half'>" +
+    ////"<label class='contact-text'> " + data.FONE + "</label>" +
+    //"<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
+    //"<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
+    //"</div>" +
+    //"<div class='two-half last-column'>" +
+    //"<span class='span-stars'>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star-o'></i>" +
+    //"</span>" +
+    //// "<label class='contact-text'>Venda: </label>" +
+    ////"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
+    //"<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
+    //  "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i></a>" +
+    //"</div>" +
+    // "<div>" +
+    //MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA)+//"<label class='contact-text'>" + data.NOME + "</label>" +
+    //"</div>" +
+    //"</div>";
+
+    //return html;
 
     var html =
-    "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
-    "<div>" +
-    "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
-    "</div>" +
-    "<div class='one-half'>" +
-    "<label class='contact-text'> " + data.FONE + "</label>" +
-    "<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
-    "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
-    "</div>" +
-    "<div class='two-half last-column'>" +
-    "<span class='span-stars'>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star'></i>" +
-    "<i class='fa fa-star-o'></i>" +
-    "</span>" +
-    // "<label class='contact-text'>Venda: </label>" +
-    //"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
-    "<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
-      "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i></a>" +
-    "</div>" +
-     "<div>" +
-    MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA)+//"<label class='contact-text'>" + data.NOME + "</label>" +
+ "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
+ "<div>" +
+ "<strong><label>" + data.NOME + "</label></strong> " +
+ "</div>" +
+ "<div class='one-half'>" +
+ "<label>Moeda : " + data.SIMBOLO + "</label>" +
+ "<label>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
+ //"<label class='contact-text'>Compra : R$ " + data.VALOR_COTACAO_COMPRA + " </label>" +
+ //"<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
+  //"<label class='contact-text'> " + venda + "</label>" +
+ "</div>" +
+ "<div class='two-half last-column'>" +
+ "<span class='span-stars'>" +
+ "<i class='fa fa-star'></i>" +
+ "<i class='fa fa-star'></i>" +
+ "<i class='fa fa-star'></i>" +
+ "<i class='fa fa-star'></i>" +
+ "<i class='fa fa-star-o'></i>" +
+ "</span>" +
+  //"<label class='contact-text'></label>" +
+ //"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
+ "<label>Km " + data.DISTANCIA + "</label>" +
+ "</div>" +
+   "<div class='one-half'>" +
+   "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
+   "</div>" +
+  "<div class='two-half last-column'>" +
+    "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
+ "</div>" +
+ "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
+ "<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
+ "</div>" +
+ "<div>" +
+ MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
     "</div>" +
     "</div>";
 
-
-
-
-//    var html =
-//"<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
-//"<div>" +
-//"<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
-//"</div>" +
-//"<div class='one-half'>" +
-////"<label class='contact-text'> Tel : " + data.FONE + "</label>" +
-//"<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
-////"<label class='contact-text'>Compra : R$ " + data.VALOR_COTACAO_COMPRA + " </label>" +
-////"<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
-// //"<label class='contact-text'> " + venda + "</label>" +
-//"</div>" +
-//"<div class='two-half last-column'>" +
-//"<span class='span-stars'>" +
-//"<i class='fa fa-star'></i>" +
-//"<i class='fa fa-star'></i>" +
-//"<i class='fa fa-star'></i>" +
-//"<i class='fa fa-star'></i>" +
-//"<i class='fa fa-star-o'></i>" +
-//"</span>" +
-// //"<label class='contact-text'></label>" +
-////"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
-//"<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
-//"</div>" +
-////  "<div class='one-half'>" +
-////  "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
-////  "</div>" +
-//// "<div class='two-half last-column'>" +
-////   "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
-////"</div>" +
-//"<div class='static-notification-exchange' style='border-radius: 10px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
-//"<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
-//"</div>" +
-//"<div>" +
-//MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
-//    "<div class='one-half'>" +
-//     "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
-//     "</div>" +
-//    "<div class='two-half last-column'>" +
-//      "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i></a>" +
-//   "</div>" +
-//    "</div>" +
-  //  "</div>";
-
-//    return html;
     return html;
 
 }
 
 
 function MontaInfo(RETIRADA, DELIVERY, RECARGA) {
-   
-    var retirada = '';
-    var delivery = '';
-    var recrarga = '';
+    var ret = '';
     if (RETIRADA == 'S') {
-        retirada = '<i class="fa fa-university"></i> Retirada ';
-   }
+        ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
+    }
     if (DELIVERY == 'S') {
-        delivery = '<i class="fa fa-motorcycle"></i> Delivery ';
+        ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
     }
     if (RECARGA == 'S') {
-        recrarga = '<i class="fa fa-credit-card"></i> Recarga ';
+        ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
     }
-    var ret = '<a class="base-text one-third">' + retirada + '</a>' +
-              '<a class="base-text one-third">'+delivery+'</a>'+
-              '<a class="base-text one-third last-column">'+recrarga+'</a>';
-
-           
+    ret += "";
     return ret;
 }
 
@@ -253,6 +230,7 @@ function check(obj) {
     ExibeMensagem("Favorito excluído com sucesso !")
     BuscarEstabelecimento("DISTANCIA", true);
 }
+
 
 jQuery(document).ready(function () {
 

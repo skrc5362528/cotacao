@@ -1,12 +1,9 @@
 ﻿var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO")).ID_USUARIO;
-var data = '';
-var ordem = '';
-
 
 function BuscarEstabelecimento() {
  //   BloqueiaTela("Carregando...");
     var html = '';    
-    data = jQuery.parseJSON(RetornaOperacaoPorUsuario(ID_USUARIO,0,0,null,ERROCONEXAO));
+    var data = jQuery.parseJSON(RetornaOperacaoPorUsuario(ID_USUARIO,0,0,null,ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
             html+= CarregaDivOperacao(this);
@@ -56,21 +53,6 @@ function MostraMapa(obj) {
     CarregaMenu('mapa.html');
 }
 
-//function MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA)
-//{
-//    var html = '';
-//    if (ID_STATUS_VENDA == '5') {
-//       html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaDeposito(this)' id='" + COD_VENDA + "' >" +
-//                  "<p class='center-text' style='font-size:15px; color:white;'>Confirmar Deposito</p>" +
-//                  "</div>";
-//    }
-//    return  html;
-//}
-
-//function ConfirmaDeposito(COD_VENDA) {
-//    localStorage.setItem('VIEWCODVENDA', COD_VENDA.id)
-//    CarregaMenu('deposito.html');
-//}
 
 function CarregaDados(data) {
 

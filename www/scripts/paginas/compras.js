@@ -38,7 +38,7 @@ function CarregaDivOperacao(data) {
     "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
       "</div>" +
    "<div class='two-half last-column'>" +
-       "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
+       "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "_' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
     "</div>" +
         MontaConfirmaDeposito(data.ID_STATUS_VENDA, data.COD_VENDA) +
     "</div>";
@@ -81,4 +81,29 @@ function CarregaDados(data) {
         });
     }
 
+}
+
+
+function check(obj) {
+    //alert(ID_USUARIO);
+    //var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+    var id = obj.id.split("_");
+
+    //var ID_USUARIO = data.ID_USUARIO;
+    var ID_ESTABELECIMENTO = id[0];
+    var SIMBOLO = id[1];
+    var COUNT = ValidaFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
+    //alert(COUNT);
+    if (COUNT == '0') {
+        jQuery(obj).html("<i class='fa fa-star' style='font-size:18px; color:#0489B1;'></i>");
+        InsereFavoritosUsuario(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
+    }
+    else {
+        jQuery(obj).html("<i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i>");
+        ExcluiFavorito(ID_USUARIO, ID_ESTABELECIMENTO, SIMBOLO, null, ERROCONEXAO);
+    }
+    //}
+    //else {
+    //    ExibeMensagem("Moeda e corretora já cadastrados em seus favoritos !")
+    //}
 }

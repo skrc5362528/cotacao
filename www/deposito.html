@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <script type="text/javascript" src="scripts/paginas/deposito.js"></script>
 </head>
 <body>
     <div id="content" class="page-content">
@@ -26,17 +27,19 @@
                                         O pagamento deverá ser realizado exclusivamente pela conta do comprador
                                     </p>
                                     <label class="contact-text">Nome</label>
-                                    <input type="text" name="NOME" value="" class="contactFieldExchange" id="NOME" placeholder="Nome" required />
+                                    <input type="text" name="NOME" value="" class="contactFieldExchange" id="NOME" placeholder="Nome" disabled/>
                                     <label class="contact-text">CPF</label>
-                                    <input type="text" name="CPF" value="" class="contactFieldExchange" id="CPF" placeholder="CPF" required />
+                                    <input type="text" name="CPF" value="" class="contactFieldExchange" id="CPF" placeholder="CPF" disabled />
                                     <label class="contact-text">Banco</label>
-                                    <input type="text" name="BANCO" value="" class="contactFieldExchange" id="BANCO" placeholder="Banco" required />
+                                    <input type="text" name="BANCO" value="" class="contactFieldExchange" id="BANCO" placeholder="Banco" disabled />
                                     <label class="contact-text">Agência</label>
-                                    <input type="text" name="AGENCIA" value="" class="contactFieldExchange" id="AGENCIA" placeholder="Agência" required />
+                                    <input type="text" name="AGENCIA" value="" class="contactFieldExchange" id="AGENCIA" placeholder="Agência" disabled />
                                     <label class="contact-text">Conta</label>
-                                    <input type="text" name="CONTA" value="" class="contactFieldExchange" id="CONTA" placeholder="Conta" required />
+                                    <input type="text" name="CONTA" value="" class="contactFieldExchange" id="CONTA" placeholder="Conta" disabled />
+                                    <label class="contact-text">Tipo da transação</label>
+                                    <select name="DEPOSITO" class="contactFieldExchange" id="DEPOSITO" ></select>
                                     <label class="contact-text">Valor da transação</label>
-                                    <input type="text" name="VALOR" value="" class="contactFieldExchange" id="VALOR" placeholder="Valor" required />
+                                    <input type="text" name="VALOR" value="" class="contactFieldExchange" id="VALOR" placeholder="Valor" disabled />
                                     <label class="contact-text">Data nº da transação</label>
                                     <input type="text" name="DATA" value="" class="contactFieldExchange" id="DATA" placeholder="Data da transação" required />
                                     <label class="contact-text">Nº da transação</label>
@@ -54,12 +57,13 @@
             </div>
         </div>
     </div>
-    <!---->
-    <script src="scripts/jquery-2.1.4.js"></script>
+    <!--<script src="scripts/jquery-2.1.4.js"></script>-->
+    <script src="scripts/jquery-2.1.4min.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
-    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script src="scripts/framework.plugins.min.js"></script>
+    <!--<script type="text/javascript" src="scripts/framework.plugins.js"></script>-->
     <script type="text/javascript" src="scripts/custom.js"></script>
-    <script type="text/javascript" src="scripts/paginas/deposito.js"></script>
+
     <script type="text/javascript">
 
         jQuery('#DATA').inputmask("99/99/9999");

@@ -6,6 +6,7 @@ var DATA_COTACAO = '';
 var DATA_USU = '';
 var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
+var SYSCONFIG = '';
 
 
 
@@ -83,7 +84,7 @@ function Confirmar(PASSO) {
                 break;
             case 1:
 
-                if (PASSO == 1 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+                if (PASSO == 1 && jQuery('#FORMA_ENTREGA').val() == '3') {
                     var ret = ValidaDadosOperacao();
                     if (ret == '') {
                         jQuery('#DIVDADOSVALORES').hide();
@@ -196,10 +197,10 @@ function CarregaDivOperacao() {
             " <strong><label class='contact-text' >Valor desejado : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
             " <strong><label class='contact-text' >Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >IOF % : " + jQuery('#IOF').val() + "</label></strong>   " +
-            "<strong><label class='contact-text' >Serviço eXchange R$ : " + jQuery('#TAXA_SERVICO').val() + "</label></strong>   " +
+            " <strong><label class='contact-text' >IOF % : " + parseFloat(SYSCONFIG[0].IOF).toFixed(2) + "</label></strong>   " +
+            "<strong><label class='contact-text' >Serviço eXchange R$ : " + parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2) + "</label></strong>   " +
             MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
-            " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
+            " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
             "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>  " +
             " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label> " +
             " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label>  " +
@@ -245,12 +246,13 @@ function GravaPedidoCompra() {
     var VALOR_COTACAO = DATA_COTACAO[0].TAXA_VENDA;
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
-    var VALOR_TOTAL_OPERACAO = CalculaValorTotal(jQuery('#IOF').val(), jQuery('#TAXA_SERVICO').val(), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val());
+    var VALOR_TOTAL_OPERACAO = CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
     var VARLOR_PERC_ESTABELEC = DATA_COTACAO[0].VALOR_COTACAO;
     var VALOR_EXCHANGE=   jQuery('#TAXA_SERVICO').val();
     var VALOR_IOF = jQuery('#IOF').val();
     var TAXA_ENTREGA = jQuery('#TAXA_ENTREGA').val();
 
+    //=========================================================
     var VALOR_VENDA = calculoVenda(DATA_COTACAO[0].TAXA_VENDA, DATA_COTACAO[0].VALOR_COTACAO).toFixed(2);
     var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
@@ -271,22 +273,25 @@ function GravaPedidoCompra() {
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
     var DESCRICAO_DETALHADA = '';
+    var ID_TIPO_VENDA = jQuery('#FORMA_ENTREGA').val();
     //=========================================================
     var BANCOS = jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
     var CONTA = jQuery('#CONTA').val();
     var CPF = jQuery('#CPF').val();
     var RG = jQuery('#RG').val();
+    var ID_TIPO_DEPOSITO = jQuery('#FORMA_PAGAMENTO').val();
+    
 
-    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == '3') {
             AlteraDadosUsuario();
             InsereEndereco();
-            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
+            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
     }
     else {
             AlteraDadosUsuario();
             ID_ENDERECO_ENTREGA = null;
-            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
+            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
     }
 
 }
@@ -372,7 +377,7 @@ function CarregaUltimaCotacao(data) {
            "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
            "                  <label class='contact-text'>Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
-           "                  <label class='contact-text'>Forma de pagamento</label>" +
+           "                  <label class='contact-text'>Forma de transação</label>" +
                                CarregaFormaPagamento() +
            "                   <div class='static-notification-exchange'  onclick='Confirmar(1)' >" +
            "                   <p class='center-text' style='font-size:15px; color:white;'>Prosseguir</p>" +
@@ -407,6 +412,7 @@ jQuery(document).ready(function () {
 
     EqualizaTamanhoTela();
     RecebeValores();
+    SYSCONFIG = jQuery.parseJSON(localStorage.getItem("SYSCONFIG"));
     DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
     BuscaCotacaoEstabelecimento();
 
@@ -439,22 +445,25 @@ function CarregaFormaRecebimento(data) {
     var html = "<select class='contactFieldExchange' id='FORMA_ENTREGA' >";
 
     if (data.RETIRADA == 'S') {
-        html += "<option value='RET'>Retirada na Agência</option>";
+        html += "<option value='1'>Retirada na Agência</option>";
     }
     if (data.DELIVERY == 'S') {
-        html += "<option value='DEL'>Delivery</option>";
+        html += "<option value='3'>Delivery</option>";
     }
     if (data.RECARGA == 'S') {
-        html += "<option value='REC'>Recarga de Cartão</option>"
+        html += "<option value='2'>Recarga de Cartão</option>"
     }
     html += "</select>";
     return html;
 }
 
 function CarregaFormaPagamento() {
+
     var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
-    html += "<option value='DEP'> Depósito em C/C </option>";
-    html += "<option value='DEL'> Transferência </option>";
+    var ret =   jQuery.parseJSON(ListaDeposito(null,ERROCONEXAO));
+    for (var i = 0; i < ret.length; i++) {
+        html += "<option value='" + ret[i].ID_TIPO_DEPOSITO + "'>" + ret[i].DESCRICAO + "</option>";
+    }
     html += "</select>";
     return html;
 }
