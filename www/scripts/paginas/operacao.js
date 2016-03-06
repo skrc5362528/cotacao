@@ -84,7 +84,7 @@ function Confirmar(PASSO) {
                 break;
             case 1:
 
-                if (PASSO == 1 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+                if (PASSO == 1 && jQuery('#FORMA_ENTREGA').val() == '3') {
                     var ret = ValidaDadosOperacao();
                     if (ret == '') {
                         jQuery('#DIVDADOSVALORES').hide();
@@ -273,7 +273,7 @@ function GravaPedidoCompra() {
     var SITUACAO_COMPRA = 'EM ANÁLISE'
     var OBS_COMPRA = '';
     var DESCRICAO_DETALHADA = '';
-    
+    var ID_TIPO_VENDA = jQuery('#FORMA_ENTREGA').val();
     //=========================================================
     var BANCOS = jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
@@ -281,16 +281,17 @@ function GravaPedidoCompra() {
     var CPF = jQuery('#CPF').val();
     var RG = jQuery('#RG').val();
     var ID_TIPO_DEPOSITO = jQuery('#FORMA_PAGAMENTO').val();
+    
 
-    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+    if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == '3') {
             AlteraDadosUsuario();
             InsereEndereco();
-            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
+            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
     }
     else {
             AlteraDadosUsuario();
             ID_ENDERECO_ENTREGA = null;
-            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, 2,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
+            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
     }
 
 }
@@ -369,11 +370,11 @@ function CarregaUltimaCotacao(data) {
            "                  <label class='contact-text'>Moeda Escolhida :" + data[0].NOME_MOEDA + "</label>" +
            "                  <input type='hidden' name='NOME_MOEDA' class='contactFieldExchange' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
            "                  <label class='contact-text'>Cotação :" + VALOR_VENDA + "</label>" +
-           "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO' readonly />" +
+           "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO'   />" +
            "                  <label class='contact-text'>Valor em " + data[0].NOME_MOEDA + "</label>" +
-           "                  <input type='number' name='VALOR_DESEJADO'  class='contactFieldExchange'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />" +
+           "                  <input type='number' name='VALOR_DESEJADO'  class='contactFieldExchange'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO' placeholder='Digite o valor desejado' readonly   />" +
            "                  <label class='contact-text'>Valor em REAL</label>" +
-           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
+           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO' readonly   />" +
            "                  <label class='contact-text'>Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
            "                  <label class='contact-text'>Forma de transação</label>" +
@@ -444,13 +445,13 @@ function CarregaFormaRecebimento(data) {
     var html = "<select class='contactFieldExchange' id='FORMA_ENTREGA' >";
 
     if (data.RETIRADA == 'S') {
-        html += "<option value='RET'>Retirada na Agência</option>";
+        html += "<option value='1'>Retirada na Agência</option>";
     }
     if (data.DELIVERY == 'S') {
-        html += "<option value='DEL'>Delivery</option>";
+        html += "<option value='3'>Delivery</option>";
     }
     if (data.RECARGA == 'S') {
-        html += "<option value='REC'>Recarga de Cartão</option>"
+        html += "<option value='2'>Recarga de Cartão</option>"
     }
     html += "</select>";
     return html;
@@ -613,6 +614,8 @@ function CarregaEstabelecimento(dados) {
     "<strong><label class='contact-text'>" + dados.NOME + "</label></strong> " +
     "<input type='hidden' name='NOME_ESTABELECIMENTO' value='" + dados.NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
     "</div>" +
+   
+    "<div>" +
     "<div class='one-half'>" +
     "<label class='contact-text'>Km " + DISTANCIA + "</label>" +
     "</div>" +
@@ -624,9 +627,16 @@ function CarregaEstabelecimento(dados) {
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
-   
     "</div>" +
+    "</div>" +
+
     "<div>" +
+    "<div class='one-half'>" +
+    "Valor máximo : " + formataValores(dados.VALOR_MAXIMO, '') +
+    "</div>"+
+    "<div class='two-half last-column'>" +
+    "Valor mínimo : " + formataValores(dados.VALOR_MINIMO, '') +
+    "</div>" +
     "</div>" +
     "</div>";
 

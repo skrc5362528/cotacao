@@ -1420,7 +1420,7 @@ table tr:hover td{
 .static-notification-white-header{
 	overflow:hidden;
 	background-color: white;
-	color:black;
+	color:#666;
 	border-radius:10px;
 }
 
@@ -1429,7 +1429,7 @@ table tr:hover td{
 .static-notification-white{
 	overflow:hidden;
 	background-color: white;
-	color:black;
+	color:#666;
     border-radius:10px;
 	/*margin-bottom:30px;*/
    
@@ -1439,7 +1439,7 @@ table tr:hover td{
 	margin-top:5px;
 	margin-bottom:5px;
 	font-weight:500;
-   color:black;
+    color:#666;
     
 }
    

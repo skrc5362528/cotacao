@@ -3819,3 +3819,8 @@ function CalculaValorTotal(IOF, VALOR_EXCHANGE, VALOR_CONVERTIDO, ENTREGA) {
     var valortot = '';
     return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valEntrega) + parseFloat(valorTotalIof) + parseFloat(valorExchange)).toFixed(2);
 }
+
+
+function formataValores(VALOR, SIMBOLO) {
+    return accounting.formatMoney(VALOR, SIMBOLO + " ", 2, ".", ",");
+}
