@@ -108,11 +108,11 @@ function CarregaEstabelecimento(data) {
     var html =
     "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
     "<div>" +
-    "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
+    "<strong>" + data.NOME + "</strong> " +
     "</div>" +
     "<div>" +
     "<div class='one-half'>" +
-    "<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
+    "Venda : R$ " + data.VALOR_COTACAO +
     "</div>" +
     "<div class='two-half last-column'>" +
     "<span class='span-stars'>" +
@@ -130,7 +130,7 @@ function CarregaEstabelecimento(data) {
     "IOF 0,38% já incluso " +
     "</div>" +
     "<div class='two-half last-column'>" +
-  "<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
+  "Km " + data.DISTANCIA +
     "</div>" +
 
    "<div class='one-half'>" +

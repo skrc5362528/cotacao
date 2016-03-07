@@ -23,21 +23,21 @@
                     <div class="no-bottom">
                         <div>
                             <fieldset>
-                                <div class="big-notification static-notification-white" id="38">
-                                    <div>Dados de Entrega</div>
-                                    <label class="contact-text">CEP</label>
+                                <div class="big-notification static-notification-white">
+                                    <strong><h3 style="color:black;">Dados de Entrega</h3></strong>
+                                    <label >CEP</label>
                                     <input type="text" name="contactFieldExchange" class="contactFieldExchange" id="CEP" placeholder="CEP" onblur="CarregaEnderecoPorCep(this);" required />
-                                    <label class="contact-text">Endereço</label>
+                                    <label >Endereço</label>
                                     <input type="text" name="ENDERECO" value="" class="contactFieldExchange" id="ENDERECO" placeholder="Logradouro" required />
-                                    <label class="contact-text">Número</label>
+                                    <label >Número</label>
                                     <input type="number" name="NUMERO" value="" class="contactFieldExchange" id="NUMERO" placeholder="Número" required />
-                                    <label class="contact-text">Complemento</label>
+                                    <label >Complemento</label>
                                     <input type="text" name="COMPLEMENTO" value="" class="contactFieldExchange" id="COMPLEMENTO" placeholder="Complemento" required />
-                                    <label class="contact-text">Bairro</label>
+                                    <label >Bairro</label>
                                     <input type="text" name="BAIRRO" value="" class="contactFieldExchange" id="BAIRRO" placeholder="Bairro" required />
-                                    <label class="contact-text">Cidade</label>
+                                    <label >Cidade</label>
                                     <input type="text" name="CIDADE" value="" class="contactFieldExchange" id="CIDADE" placeholder="Cidade" required />
-                                    <label class="contact-text">UF</label>
+                                    <label >UF</label>
                                     <input type="text" name="UF" value="" class="contactFieldExchange" id="UF" placeholder="UF" required />
                                     <div class="static-notification-exchange" onclick="Confirmar(2)">
                                         <p class="center-text" style="color:white">
@@ -56,15 +56,15 @@
                     <div class="no-bottom">
                         <div>
                             <fieldset>
-                                <div class="big-notification static-notification-white" id="38">
-                                    <div>Dados Pessoais e Bancários </div>
-                                    <label class="contact-text">Nome Completo</label>
+                                <div class="big-notification static-notification-white" >
+                                    <strong><h3 style="color:black;">Dados Pessoais e Bancários</h3></strong>
+                                    <label >Nome Completo</label>
                                     <input type="text" name="NOME" value="" class="contactFieldExchange" id="NOME" placeholder="Nome" required />
-                                    <label class="contact-text">Data de Nascimento</label>
+                                    <label >Data de Nascimento</label>
                                     <input type="text" name="DATA_NASCIMENTO" value="" class="contactFieldExchange" id="DATA_NASCIMENTO" placeholder="Data de nascimento" required />
-                                    <label class="contact-text">CPF</label>
+                                    <label >CPF</label>
                                     <input type="text" name="CPF" value="" class="contactFieldExchange" id="CPF" placeholder="CPF" required />
-                                    <label class="contact-text">RG</label>
+                                    <label >RG</label>
                                     <input type="text" name="RG" value="" class="contactFieldExchange" id="RG" placeholder="RG" required />
                                     <p>
                                         Para podermos identificar o depósito, por favor informar a conta corrente de origem do pagamento.
@@ -72,11 +72,11 @@
                                     <p>
                                         O pagamento deverá ser realizado exclusivamente pela conta do comprador
                                     </p>
-                                    <label class="contact-text">Banco</label>
+                                    <label >Banco</label>
                                     <select name="" class="contactFieldExchange" id="BANCOS"></select>
-                                    <label class="contact-text">Agência</label>
+                                    <label >Agência</label>
                                     <input type="text" name="AGENCIA" value="" class="contactFieldExchange" id="AGENCIA" placeholder="Agência" required />
-                                    <label class="contact-text">Conta</label>
+                                    <label >Conta</label>
                                     <input type="text" name="CONTA" value="" class="contactFieldExchange" id="CONTA" placeholder="C/C" required />
                                     <div class="static-notification-exchange" onclick="Confirmar(3)">
                                         <p class="center-text" style="color:white">
@@ -100,6 +100,7 @@
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script src="scripts/framework.plugins.min.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
+
     <script type="text/javascript">
 
         jQuery('#DATA_NASCIMENTO').inputmask("99/99/9999");
@@ -107,6 +108,7 @@
         jQuery('#CEP').inputmask("99999-999");
         jQuery('#FONE').inputmask("(999) 99999-9999");
 
+     
     </script>
 
 

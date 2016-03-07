@@ -48,22 +48,18 @@
 	position:fixed;
 }
 
-
 .input-label{
 	opacity:1.0;
 	background-position:20px 15px;
 	background-size:25px 25px;
-    
 	background-repeat:no-repeat;
 	color:#FFFFFF;
 	font-size:18px;
-	/*padding-left:30px;*/
-   
-	line-height:40px;
+	/* padding-left:30px; */
+	/* line-height:40px; */
 	font-weight:300;
 	letter-spacing:1px;
 }
-
 
 
 .input-label-header{

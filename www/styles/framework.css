@@ -17,7 +17,7 @@
 
 * {
 	appearance:normal;
-	-webkit-appearance: none;
+	/*-webkit-appearance: none;*/
 	-moz-appearance: none;
 	margin: 0;
 	padding: 0;
@@ -1292,20 +1292,22 @@ table tr:hover td{
 }
 
 .big-notification{
-	margin-bottom:20px;
+	margin-bottom:5px;
 	padding:8px;
 }
+
 
 .big-notification h3{
 	font-family:'Dosis', sans-serif;
 	font-weight:400;
 	color:#FFFFFF;
 	margin-bottom:5px;
-	margin:10px;
-	padding-bottom:10px;
-	padding-top:5px;
+	/* margin:10px; */
+	/* padding-bottom:10px; */
+	/* padding-top:5px; */
 	border-bottom:solid 1px rgba(255,255,255,0.2);
 }
+
 
 .big-notification h4{
 	font-family:'Dosis', sans-serif;
@@ -1328,9 +1330,9 @@ table tr:hover td{
 }
 
 .big-notification p{
-	padding:10px;	
-	padding-top:0px;
-	margin-bottom:0px;
+	/* padding:10px; */
+	/* padding-top: 5px; */
+	/*margin-bottom: 5px;*/
 }
 
 .static-notification-red{
@@ -1346,13 +1348,22 @@ table tr:hover td{
 	font-weight:500;
 }
 
-.static-notification-exchange{
+/*.static-notification-exchange{
 	overflow:hidden;
 	background-color:#0489B1;
 	color: #0489B1;
 	border-radius:10px;
 	margin-bottom: 10px;
+}*/
+.static-notification-exchange{
+	overflow:hidden;
+	background-color:#0489B1;
+	color: #0489B1;
+	border-radius:10px;
+    margin-top:5px;
+	/* margin-bottom: 10px; */
 }
+
 
 .static-notification-exchange p{
 	margin-top:5px;
@@ -1834,22 +1845,21 @@ table tr:hover td{
 	padding-right:10px;
 	margin-bottom:10px;
 }
-
 .contactFieldExchange{
 	height:40px;
-    max-width:100px;
+	max-width:100px;
 	padding-left:10px;
 	padding-right:10px;
-	margin-bottom:10px;
-    background-color:#0489B1;
-}
-.contactFieldExchange{
-	min-width:100%;	
+	/*margin-bottom:10px;*/
+	background-color:#0489B1;
+	min-width:100%;
 	display:block;
 	box-sizing:border-box;
-    border-radius:10px;
-    color:white;
+	border-radius:10px;
+	color:white;
+   
 }
+
 
 .contactTextarea{
 	min-width:100%;
@@ -1926,17 +1936,26 @@ table tr:hover td{
 	margin-right:20px;	
 }
 
+
+
+
 .contact-text{
     font-size:13px;
 	color:#666;
-	height:25px;
+	/*height:25px;*/
 	display:block;
 }
-.base-text{
+/*.base-text{
     font-size:10px;
 	color:#666;
 	height:25px;
 	display:block;
+}*/
+.base-text{
+    /* font-size:10px; */
+    color:#666;
+    /* height:25px; */
+    display:block;
 }
 
 .busca-text{

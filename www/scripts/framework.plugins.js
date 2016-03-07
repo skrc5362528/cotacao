@@ -3760,7 +3760,6 @@ var OrdenaResultados = function OrdenaResultados(prop, asc, obj) {
 }
 
 var calculoCompra = function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA, TIPO_COTACAO) {
-
    
         var taxa = parseFloat(TAXA_COMPRA.replace(',', '.'))
         var valorCot = parseFloat(VALOR_COTACAO_COMPRA);
@@ -3823,4 +3822,13 @@ function CalculaValorTotal(IOF, VALOR_EXCHANGE, VALOR_CONVERTIDO, ENTREGA) {
 
 function formataValores(VALOR, SIMBOLO) {
     return accounting.formatMoney(VALOR, SIMBOLO + " ", 2, ".", ",");
+}
+
+
+function ValidaValoresNumericos(valor) {
+    if (valor == '')
+    { return 0; }
+    else {
+        return valor.toString().replace('.', '').replace(',', '.');
+    }
 }
