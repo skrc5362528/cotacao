@@ -77,7 +77,7 @@
                                     <label >Agência</label>
                                     <input type="text" name="AGENCIA" value="" class="contactFieldExchange" id="AGENCIA" placeholder="Agência" required />
                                     <label >Conta</label>
-                                    <input type="text" name="CONTA" value="" class="contactFieldExchange" id="CONTA" placeholder="C/C" required />
+                                    <input type="text" name="CONTA" value="" class="contactFieldExchange" id="CONTA"  placeholder="C/C" required />
                                     <div class="static-notification-exchange" onclick="Confirmar(3)">
                                         <p class="center-text" style="color:white">
                                             Prosseguir
@@ -98,8 +98,9 @@
     <!---->
     <script src="scripts/jquery-2.1.4min.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
-    <script src="scripts/framework.plugins.min.js"></script>
+    <script src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/jquery.price_format.2.0.min.js"></script>
 
     <script type="text/javascript">
 
@@ -107,7 +108,8 @@
         jQuery('#CPF').inputmask("999.999.999-99");
         jQuery('#CEP').inputmask("99999-999");
         jQuery('#FONE').inputmask("(999) 99999-9999");
-
+        //jQuery('#VALOR_CONVERTIDO').priceFormat({ prefix: '', centsSeparator: ',', thousandsSeparator: '.' });
+        jQuery('#VALOR_DESEJADO').priceFormat({ prefix: '', centsSeparator: ',', thousandsSeparator: '.' });
      
     </script>
 

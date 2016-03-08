@@ -7,7 +7,7 @@ var DATA_USU = '';
 var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
 var SYSCONFIG = '';
-
+var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 
 function BuscaCotacaoEstabelecimento() {
@@ -30,34 +30,40 @@ function RecebeValores() {
 }
 
 function formataDinheiro(valor) {
-    valor.value = parseFloat(valor.value).toFixed(2);
+    valor.value = ValidaValoresNumericos(valor.value);
     CalculaCotacao(valor.value, jQuery('#VALOR_COTACAO').val())
 }
 
 function MontaConversao(valordesejado, valorcotacao, valorMaximo, valorMinimo) {
+    
+    var val1 = ValidaValoresNumericos( jQuery('#VALOR_DESEJADO').val());
+    var val2 =  ValidaValoresNumericos(valorMaximo);
+    var val3 = ValidaValoresNumericos(valorMinimo);
 
-    var val1 = parseFloat(jQuery('#VALOR_DESEJADO').val()).toFixed(2).trim();
-    var val2 = parseFloat(valorMaximo).toFixed(2).trim();
-    var val3 = parseFloat(valorMinimo).toFixed(2).trim();
 
-
-    //if (val1 > val2) {
-
-    //    ExibeMensagem("Valor desejado maior que o máximo");
-    //}
-    //else if (val1 < val3) {
-    //    ExibeMensagem("Valor desejado menor que o mínimo");
-    //}
-    //else {
+    if (parseFloat(val1) > parseFloat(val2)) {
+        ExibeMensagem("Valor desejado maior que o máximo");
+        jQuery('#VALOR_DESEJADO').val('');
+        jQuery('#VALOR_CONVERTIDO').val('');
+        return;
+    }
+    if (parseFloat(val1) < parseFloat(val3)) {
+        ExibeMensagem("Valor desejado menor que o mínimo");
+        jQuery('#VALOR_DESEJADO').val('');
+        jQuery('#VALOR_CONVERTIDO').val('');
+        return;
+    }
+    else {
         formataDinheiro(valordesejado);
         CalculaCotacao(jQuery('#VALOR_DESEJADO').val(), jQuery('#VALOR_COTACAO').val());
-    //}
+    }
 
 }
 
 function CalculaCotacao(VALOR, VALOR_COTACAO) {
+
     var VALOR = parseFloat(parseFloat(VALOR) * parseFloat(VALOR_COTACAO)).toFixed(2);
-    jQuery('#VALOR_CONVERTIDO').val(VALOR);
+    jQuery('#VALOR_CONVERTIDO').val(formataValores(VALOR,''));
 }
 
 function formataDinheiroInverso(valor) {
@@ -182,23 +188,32 @@ function ConfirmarCompra() {
     DesbloqueiaTela();
 }
 
-function CalculaValorTotal(IOF, TAXA, VALOR_CONVERTIDO, ENTREGA) {
+function RetornaValoresCompra() {
+    var valTAXA = parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2);
 
-    var valIOF = parseFloat(IOF).toFixed(2);
-    //alert(valIOF.toString());
-    var valTAXA = parseFloat(TAXA).toFixed(2);
-    //alert(valTAXA);
-    var valCONVER = parseFloat(VALOR_CONVERTIDO).toFixed(2);
-    //alert(valCONVER);
-    var valEntrega = parseFloat(ENTREGA).toFixed(2);
-    //alert(valEntrega);
-    var valorTotalIof = (parseFloat(((valIOF / 100) * valCONVER)).toFixed(2));
-    //alert(valEntrega);
-    var valortot = '';
-    return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valTAXA) + parseFloat(valEntrega) + parseFloat(valorTotalIof)).toFixed(2);
+    var valCONVER = ValidaValoresNumericos(jQuery('#VALOR_CONVERTIDO').val());
+
+    var valEntrega = parseFloat(jQuery('#TAXA_ENTREGA').val()).toFixed(2);
+
+    var total = parseFloat(parseFloat(valCONVER) + parseFloat(valTAXA) + parseFloat(valEntrega))
+
+    return formataValores(parseFloat(total).toFixed(2), '');
 }
 
+
+
 function CarregaDivOperacao() {
+  //  debugger;
+
+    //var valTAXA = parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2);
+
+    //var valCONVER = ValidaValoresNumericos(jQuery('#VALOR_CONVERTIDO').val());
+
+    //var valEntrega = parseFloat(jQuery('#TAXA_ENTREGA').val()).toFixed(2);
+
+    //var valortot = formataValores(parseFloat(valCONVER + valTAXA + valEntrega).toFixed(2), '');
+
+
     var html = "<div class='container no-bottom'>" +
             "<div class='no-bottom'>   " +
             "<div>  " +
@@ -207,13 +222,13 @@ function CarregaDivOperacao() {
             "<strong><h3 style='color:black;'>Resumo da compra</h3></strong>" +
             "<strong><label>" + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong></br>" +
             " <strong><label>Moeda : " + jQuery('#NOME_MOEDA').val() + "</label></strong>  " +
-            " <strong><label>Valor desejado : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
+            " <strong><label>Valor desejado : " + formataValores(parseFloat(jQuery('#VALOR_DESEJADO').val()), '') + "</label></strong>   " +
             " <strong><label>Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
             " <strong><label>Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
-            " <strong><label>IOF % : " + parseFloat(SYSCONFIG[0].IOF).toFixed(2) + "</label></strong>   " +
-            "<strong><label>Serviço eXchange R$ : " + parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2) + "</label></strong>   " +
+            " <strong><label>IOF % : " + SYSCONFIG[0].IOF + "</label></strong>   " +
+            "<strong><label>Serviço eXchange R$ : " + formataValores(parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), '') + "</label></strong>   " +
             MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
-            " <strong><label >Total R$ : " + CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
+            " <strong><label >Total R$ : " + RetornaValoresCompra() + "</label></strong>   " +
             "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>" + //"<label><strong></strong></label>" +
             " <strong><label  >Nome : " + jQuery('#NOME').val() + "</label> " +
             " <strong><label  >Cpf : " + jQuery('#CPF').val() + "</label>  " +
@@ -256,17 +271,26 @@ function CarregaDivConfirmacao() {
 }
 
 function GravaPedidoCompra() {
+
+    //debugger;
+
+    var valTAXA = parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2);
+    var valCONVER = ValidaValoresNumericos(jQuery('#VALOR_CONVERTIDO').val());
+    var valEntrega = parseFloat(jQuery('#TAXA_ENTREGA').val()).toFixed(2);
+    var valortot = formataValores(parseFloat(valCONVER + valTAXA + valEntrega).toFixed(2), '');
+
+
     var VALOR_COTACAO = DATA_COTACAO[0].TAXA_VENDA;
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
-    var VALOR_TOTAL_OPERACAO = CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
+    var VALOR_TOTAL_OPERACAO =ValidaValoresNumericos(RetornaValoresCompra());//CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
     var VARLOR_PERC_ESTABELEC = DATA_COTACAO[0].VALOR_COTACAO;
     var VALOR_EXCHANGE = jQuery('#TAXA_SERVICO').val();
     var VALOR_IOF = jQuery('#IOF').val();
     var TAXA_ENTREGA = jQuery('#TAXA_ENTREGA').val();
 
     //=========================================================
-    var VALOR_VENDA = calculoVenda(DATA_COTACAO[0].TAXA_VENDA, DATA_COTACAO[0].VALOR_COTACAO).toFixed(2);
+    var VALOR_VENDA = valCONVER;
     var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
@@ -371,7 +395,7 @@ function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
 
 function CarregaUltimaCotacao(data) {
 
-    var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO).toFixed(2);
+    var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO, IOF).toFixed(2);
 
     var html = "  <div class='container no-bottom'>" +
            "      <div class='no-bottom'>" +
@@ -384,9 +408,10 @@ function CarregaUltimaCotacao(data) {
            "                  <label >Cotação :" + VALOR_VENDA + "</label>" +
            "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO'/>" +
            "                  <label >Valor em " + data[0].NOME_MOEDA + "</label>" +
-           "                  <input type='number' name='VALOR_DESEJADO'  class='contactFieldExchange'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'   id='VALOR_DESEJADO' placeholder='Digite o valor desejado' />" +
+           "                  <input type='text' name='VALOR_DESEJADO'  class='contactFieldExchange'  onblur='MontaConversao(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'   id='VALOR_DESEJADO' placeholder='Digite o valor desejado' />" +
            "                  <label >Valor em REAL</label>" +
-           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'  id='VALOR_CONVERTIDO' readonly   />" +
+           //"                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'  id='VALOR_CONVERTIDO' readonly   />" +
+           "                  <input type='text' name='VALOR_CONVERTIDO' class='contactFieldExchange' id='VALOR_CONVERTIDO' readonly   />" +
            "                  <label >Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
            "                  <label >Forma de transação</label>" +
@@ -485,15 +510,14 @@ function CarregaFormaPagamento() {
 }
 
 function MontaInforRetirada(FORMA_RETIRADA) {
+    //debugger;
+
     var ret = '';
-    if (FORMA_RETIRADA == 'RET') {
-        jQuery('#TAXA_ENTREGA').val(0);
-    }
-    if (FORMA_RETIRADA == 'DEL') {
+    if (FORMA_RETIRADA == '3') {
         ret = "<strong><label  >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   ";
     }
-    if (FORMA_RETIRADA == 'REC') {
-        jQuery('#TAXA_ENTREGA').val(0);
+    else {
+        jQuery('#TAXA_ENTREGA').val('0');
     }
     ret += "";
     return ret;
@@ -515,7 +539,7 @@ function CarregaDivCotacao(data) {
 
     var html = "<a  href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
      "<a  href='#'>Compra :R$ " + calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2) + "</a>" +
-     "<a  href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO).toFixed(2) + "</a>";
+     "<a  href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO,IOF).toFixed(2) + "</a>";
     return html;
 }
 
