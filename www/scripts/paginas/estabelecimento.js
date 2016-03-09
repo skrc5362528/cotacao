@@ -5,15 +5,16 @@ var cpo_tx_venda = 'VALOR_COTACAO';
 var cpo_tx_compra = 'VALOR_COTACAO_COMPRA';
 var cpo_distancia = 'DISTANCIA';
 var ord_distancia = false;
+var ord_tx_delivery = false;
 var ord_tx_venda = false;
+var flagdelivery = false;
 var IOF =  jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 function BuscarEstabelecimento(campo, ordena) {
-    BloqueiaTela("Carregando...");
+
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').empty();
     CarregaFiltros();
-
      data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
@@ -23,11 +24,43 @@ function BuscarEstabelecimento(campo, ordena) {
             this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
         });
     }
-
-
     data = OrdenaResultados('DISTANCIA', ordena, data);
     CarregaDados(data);
-    DesbloqueiaTela();//ordenadistancia
+    DesbloqueiaTela();
+}
+
+function Buscar(campo, ordena)
+{
+    debugger;
+    if (flagdelivery == false) {
+        BuscarEstabelecimento(campo, ordena);
+    }
+    else {
+        BuscarEstabelecimentoDelivery(campo, ordena);
+    }
+}
+
+function BuscarEstabelecimentoDelivery(campo, ordena) {
+
+    var ARRAY = [];
+    var SIMBOLO = jQuery('#SUA_MOEDA').val();
+    jQuery('#DIVESTABELECIMENTO').empty();
+    CarregaFiltros();
+    data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+
+            if (this.DELIVERY == 'S') {
+                this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO, IOF).toFixed(2);
+                this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
+                ARRAY.push(this);
+            }
+           
+        });
+    }
+    data = OrdenaResultados('DISTANCIA', ordena, ARRAY);
+    CarregaDados(ARRAY);
+    DesbloqueiaTela();
 }
 
 function CarregaFiltros() {
@@ -36,10 +69,10 @@ function CarregaFiltros() {
                             "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "<div class='one-third center-text'>" +
-                           // "<a onclick='OrdenaBusca(this,cpo_tx_compra,ord_tx_compra);' id='ordenatxcompra'><label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "<div class='one-third last-column center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_delivery);Buscar(cpo_distancia, true);' id='ordenadelivery'><label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-square-o' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "</div>");
 }
@@ -64,21 +97,22 @@ function CarregaDados(data) {
 
 function OrdenaBusca(obj, campo, ordena) {
 
+
     FiltraBusca(campo, ordena);
 
     if (ordena == true) {
         if (obj.id == 'ordenatxvenda') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
             ord_tx_venda = false;
-
         }
-        //if (obj.id == 'ordenatxcompra') {
-        //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-        //    ord_tx_compra = false;
-        //}
         if (obj.id == 'ordenadistancia') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
             ord_distancia = false;
+        }
+        if (obj.id == 'ordenadelivery') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-square-o' style='font-size:18px; color:white;'></i>";
+            ord_tx_delivery = false;
+            flagdelivery = false;
         }
     }
     else {
@@ -87,13 +121,14 @@ function OrdenaBusca(obj, campo, ordena) {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_tx_venda = true;
         }
-        //if (obj.id == 'ordenatxcompra') {
-        //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-        //    ord_tx_compra = true;
-        //}
         if (obj.id == 'ordenadistancia') {
             document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
             ord_distancia = true;
+        }
+        if (obj.id == 'ordenadelivery') {
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-check-square-o' style='font-size:18px; color:white;'></i>";
+            ord_tx_delivery = true;
+            flagdelivery = true;
         }
     }
 
