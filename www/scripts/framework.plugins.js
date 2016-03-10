@@ -3660,6 +3660,7 @@
 
 var BloqueiaTela = function BloqueiaTela(mensagem) {
 
+    //debugger;
     jQuery.blockUI({
 
         css: {

@@ -31,7 +31,7 @@ function BuscarEstabelecimento(campo, ordena) {
 
 function Buscar(campo, ordena)
 {
-    debugger;
+    //debugger;
     if (flagdelivery == false) {
         BuscarEstabelecimento(campo, ordena);
     }
@@ -62,7 +62,6 @@ function BuscarEstabelecimentoDelivery(campo, ordena) {
     CarregaDados(ARRAY);
     DesbloqueiaTela();
 }
-
 function CarregaFiltros() {
     jQuery('#DIVESTABELECIMENTO').append("<div>"+
                             "<div class='one-third center-text' >" +
@@ -72,7 +71,7 @@ function CarregaFiltros() {
                             "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "<div class='one-third last-column center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_delivery);Buscar(cpo_distancia, true);' id='ordenadelivery'><label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-square-o' style='font-size:18px; color:white;'></i></a>" +
+                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_delivery);Buscar(cpo_distancia, true);' id='ordenadelivery'><label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "</div>");
 }
@@ -110,7 +109,7 @@ function OrdenaBusca(obj, campo, ordena) {
             ord_distancia = false;
         }
         if (obj.id == 'ordenadelivery') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-square-o' style='font-size:18px; color:white;'></i>";
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
             ord_tx_delivery = false;
             flagdelivery = false;
         }
@@ -126,7 +125,7 @@ function OrdenaBusca(obj, campo, ordena) {
             ord_distancia = true;
         }
         if (obj.id == 'ordenadelivery') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-check-square-o' style='font-size:18px; color:white;'></i>";
+            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
             ord_tx_delivery = true;
             flagdelivery = true;
         }
@@ -278,5 +277,6 @@ function MontaInfo(RETIRADA, DELIVERY, RECARGA)
 jQuery(document).ready(function () {
     PreencheSelectSuaMoeda();
     EqualizaTamanhoTela();
+    jQuery(document).ajaxStart(ExibeMensagem("Carregando...")).ajaxStop(DesbloqueiaTela());
 });
 

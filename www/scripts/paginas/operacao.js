@@ -452,6 +452,7 @@ function VoltarEtapa() {
 
 jQuery(document).ready(function () {
 
+    jQuery(document).ajaxStart(BloqueiaTela("Carregando...")).ajaxStop(DesbloqueiaTela());
     EqualizaTamanhoTela();
     RecebeValores();
     SYSCONFIG = jQuery.parseJSON(localStorage.getItem("SYSCONFIG"));
