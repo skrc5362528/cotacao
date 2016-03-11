@@ -47,6 +47,3 @@ function MenuAdmin() {
     }
    
 }
-//jQuery(document).ready(function () {
-//    jQuery(document).ajaxStart(BloqueiaTela("Carregando...")).ajaxStop(DesbloqueiaTela());
-//});

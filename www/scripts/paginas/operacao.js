@@ -111,7 +111,7 @@ function Confirmar(PASSO) {
                         jQuery('#DIVDADOSUSUARIO').hide();
                         jQuery('#DIVDADOSOPERACAO').hide();
                         jQuery('#DIVDADOSCONFIRMACAO').hide();
-                        V_PASSO = PASSO;
+                        V_PASSO = PASSO+1;
                     } else {
                         ExibeMensagem(ret);
                     }
@@ -431,10 +431,10 @@ function CarregaUltimaCotacao(data) {
 }
 
 function VoltarEtapa() {
-    var PASSO = '';
-
+    var PASSO = 0;
+    PASSO = V_PASSO;
     if (V_PASSO != 0) {
-        if (V_PASSO == 2 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+        if (V_PASSO == 2 && jQuery('#FORMA_ENTREGA').val() == '3') {
 
             V_PASSO = PASSO - 1;
         }
@@ -452,7 +452,7 @@ function VoltarEtapa() {
 
 jQuery(document).ready(function () {
 
-    jQuery(document).ajaxStart(BloqueiaTela("Carregando...")).ajaxStop(DesbloqueiaTela());
+    //jQuery(document).ajaxStart(BloqueiaTela("Carregando...")).ajaxStop(DesbloqueiaTela());
     EqualizaTamanhoTela();
     RecebeValores();
     SYSCONFIG = jQuery.parseJSON(localStorage.getItem("SYSCONFIG"));

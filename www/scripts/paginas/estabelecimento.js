@@ -62,8 +62,9 @@ function BuscarEstabelecimentoDelivery(campo, ordena) {
     CarregaDados(ARRAY);
     DesbloqueiaTela();
 }
+
 function CarregaFiltros() {
-    jQuery('#DIVESTABELECIMENTO').append("<div>"+
+    jQuery('#DIVFILTROS').append("<div>" +
                             "<div class='one-third center-text' >" +
                             "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
@@ -277,6 +278,11 @@ function MontaInfo(RETIRADA, DELIVERY, RECARGA)
 jQuery(document).ready(function () {
     PreencheSelectSuaMoeda();
     EqualizaTamanhoTela();
-    jQuery(document).ajaxStart(ExibeMensagem("Carregando...")).ajaxStop(DesbloqueiaTela());
+  //  jQuery(document).ajaxStart(ExibeMensagem("Carregando...")).ajaxStop(DesbloqueiaTela());
 });
 
+jQuery('#myModal').on('hidden.bs.modal', function (e) {
+    
+    //colocar aqui a busca a ser realizada com os filtros 
+
+})

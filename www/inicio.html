@@ -17,7 +17,7 @@
     <!--CSS DE ESTILOS-->
 
 
-
+    <link href="styles/bootstrap.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <link href="styles/framework.css" rel="stylesheet" type="text/css">
     <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
@@ -57,7 +57,7 @@
                         <i class="fa"></i>
                     </a>
                 </div>
-                <!--<div class="sidebar-decoration"></div>-->
+
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('perfil.html')" class="nav-item">
                         <i class="fa fa-user"></i>
@@ -72,7 +72,7 @@
                         <i class="fa"></i>
                     </a>
                 </div>
-                <!--<div class="sidebar-decoration"></div>-->
+
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('favoritos.html')" class="nav-item">
                         <i class="fa fa-clock-o"></i>
@@ -80,7 +80,6 @@
                         <i class="fa"></i>
                     </a>
                 </div>
-  
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('contato.html')" class="nav-item">
                         <i class="fa fa-envelope"></i>
@@ -100,7 +99,67 @@
         <div id="maincontent">
 
         </div>
-        <div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='demo_wait.gif' width="64" height="64" /><br>Loading..</div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content-exchange">
+                    <div class="modal-header">
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <h4 class="modal-title" id="myModalLabel">Filtrar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="navigation-item">
+                            <a class="nav-item-modal">
+                                <i class="fa fa-search"></i>
+                                <input type="checkbox" checked /> Delivery
+                                <!--<i class="fa"></i>-->
+                            </a>
+                        </div>
+
+                        <div class="navigation-item">
+                            <a class="nav-item-modal">
+                                <i class="fa fa-user"></i>
+                                Meus Dados
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <div class="navigation-item">
+                            <a  class="nav-item-modal">
+                                <i class="fa fa-money"></i>
+                                Minhas compras
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+
+                        <div class="navigation-item">
+                            <a class="nav-item-modal">
+                                <i class="fa fa-clock-o"></i>
+                                Favoritos
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <div class="navigation-item">
+                            <a  class="nav-item-modal">
+                                <i class="fa fa-envelope"></i>
+                                Fale Conosco
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                        <div class="navigation-item">
+                            <a href="index.html" class="nav-item-modal">
+                                <i class="fa  fa-sign-out"></i>
+                                Sair
+                                <i class="fa"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+      
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <!--SCRIPTS BASICOS-->
@@ -111,6 +170,7 @@
     <script type="text/javascript" src="scripts/my.accounting.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.price_format.2.0.min.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/modal.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
 
     <!--SCRIPTS DE PÁGINAS-->

@@ -1,6 +1,9 @@
 ﻿var ID_ENDERECO_ENTREGA = '';
 function GravaUsuario() {
-    var ID_USUARIO = jQuery.parseJSON(localStorage.getItem("USUARIO")).ID_USUARIO;
+    //debugger
+    var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
+
+    var ID_USUARIO = data.ID_USUARIO;
     var NOME = jQuery('#NOME').val();
     var LOGIN = jQuery.parseJSON(localStorage.getItem("USUARIO")).LOGIN;/// jQuery('#LOGIN').val();
     var EMAIL = jQuery('#EMAIL').val();
@@ -9,7 +12,10 @@ function GravaUsuario() {
     var RG = jQuery('#RG').val();
     var DATA_NASCIMENTO = jQuery('#DATA_NASCIMENTO').val();
     var ID_TP_USUARIO = 1;
-    var usu =  AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, null, ERROCONEXAO)
+    var BANCO = data.BANCO;
+    var CONTA = data.CONTA;
+    var AGENCIA = data.AGENCIA;
+    var usu =  AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO,  CONTA,  AGENCIA, null, ERROCONEXAO)
 
     if (ID_ENDERECO_ENTREGA == '')
         InsereEndereco();
@@ -62,8 +68,8 @@ jQuery(document).ready(function () {
 });
 
 function CarregaPerfil() {
-
-
+ 
+    //debugger
     var data = jQuery.parseJSON(localStorage.getItem("USUARIO"));
 
             jQuery('#NOME').val(data.NOME);
