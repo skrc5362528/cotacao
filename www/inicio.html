@@ -46,8 +46,8 @@
                     <!--<a class="close-nav" href="#"><i class="fa  fa-times"></i></a>-->
                 </div>
                 <div class="sidebar-logo">
-                    <a onclick="CarregaMenu('estabelecimento.html')">  
-                    <img src="img/ICONE_eXCHANGE_BRANCO_GRANDE.png" width="128" height="128" />
+                    <a onclick="CarregaMenu('estabelecimento.html')">
+                        <img src="img/ICONE_eXCHANGE_BRANCO_GRANDE.png" width="128" height="128" />
                     </a>
                 </div>
                 <div class="navigation-item">
@@ -104,53 +104,59 @@
                 <div class="modal-content-exchange">
                     <div class="modal-header">
                         <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                        <h4 class="modal-title" id="myModalLabel">Filtrar</h4>
+                        <h4 class="modal-title nav-item-modal" id="myModalLabel">Filtrar</h4>
                     </div>
-                    <div class="modal-body">
-                        <div class="navigation-item">
-                            <a class="nav-item-modal">
-                                <i class="fa fa-search"></i>
-                                <input type="checkbox" checked /> Delivery
-                                <!--<i class="fa"></i>-->
-                            </a>
-                        </div>
-
-                        <div class="navigation-item">
-                            <a class="nav-item-modal">
-                                <i class="fa fa-user"></i>
-                                Meus Dados
-                                <i class="fa"></i>
-                            </a>
-                        </div>
-                        <div class="navigation-item">
-                            <a  class="nav-item-modal">
-                                <i class="fa fa-money"></i>
-                                Minhas compras
-                                <i class="fa"></i>
-                            </a>
-                        </div>
-
-                        <div class="navigation-item">
-                            <a class="nav-item-modal">
-                                <i class="fa fa-clock-o"></i>
-                                Favoritos
-                                <i class="fa"></i>
-                            </a>
-                        </div>
-                        <div class="navigation-item">
-                            <a  class="nav-item-modal">
-                                <i class="fa fa-envelope"></i>
-                                Fale Conosco
-                                <i class="fa"></i>
-                            </a>
-                        </div>
-                        <div class="navigation-item">
-                            <a href="index.html" class="nav-item-modal">
-                                <i class="fa  fa-sign-out"></i>
-                                Sair
-                                <i class="fa"></i>
-                            </a>
-                        </div>
+                    <td class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKDELIVERY" checked>
+                                        <label class="onoffswitch-label" for="CHKDELIVERY">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="nav-item-modal">Delivery</td>
+                            </tr>
+                                <tr>
+                                    <td>
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKABERTO" checked>
+                                            <label class="onoffswitch-label" for="CHKABERTO">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="nav-item-modal">Aberto/Fechado</td>
+                                </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKVALOR" checked>
+                                                <label class="onoffswitch-label" for="CHKVALOR">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="nav-item-modal">Menor Valor</td>
+                                    </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKDISTANCIA" checked>
+                                                    <label class="onoffswitch-label" for="CHKDISTANCIA">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td class="nav-item-modal">Menor distância</td>
+                                        </tr>
+                                        </table>
                     </div>
                     <!--<div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -159,7 +165,7 @@
                 </div>
             </div>
         </div>
-      
+
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <!--SCRIPTS BASICOS-->
@@ -176,8 +182,8 @@
     <!--SCRIPTS DE PÁGINAS-->
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
- 
-   
+
+
 </body>
 </html>
 
