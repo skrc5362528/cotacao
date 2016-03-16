@@ -1,10 +1,10 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.exchangeapp" version="1.0.0">
-  <name>eXCHANGE</name>
+  <name>eXCHANGEAPP</name>
   <description>Hello World sample application that responds to the deviceready event.</description>
   <author href="http://phonegap.com" email="support@phonegap.com">Bunker07</author>
   <content src="index.html"/>
 
-
+  <preference name="permissions" value="none"/>
   <preference name="orientation" value="default"/>
   <preference name="target-device" value="universal"/>
   <preference name="fullscreen" value="false"/>
@@ -54,18 +54,24 @@
   <gap:plugin name="cordova-plugin-device" />
   <gap:plugin name="cordova-plugin-geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
-  <gap:plugin name="cordova-plugin-dialogs"/>
-  <gap:plugin name="cordova-plugin-camera" />
-  <gap:plugin name="cordova-plugin-file-transfer" />
-  
+  <gap:plugin name="cordova-plugin-camera"/>
+  <gap:plugin name="cordova-plugin-file-transfer"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
+
+  <feature name="Geolocation">
+    <param name="android-package" value="cordova-plugin-geolocation" />
+    <param name="onload" value="true" />
+  </feature>
+
+  <feature name="Camera">
+    <param name="android-package" value="cordova-plugin-camera" />
+    <param name="onload" value="true" />
+  </feature>
   
+
     <feature name="http://api.phonegap.com/1.0/geolocation"/>
     <feature name="http://api.phonegap.com/1.0/network"/>
     <feature name="http://api.phonegap.com/1.0/notification"/>
-    <feature name="http://api.phonegap.com/1.0/camera"/>
-    <feature name="http://api.phonegap.com/1.0/file"/>
-    <feature name="http://api.phonegap.com/1.0/media"/>
 
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *"/>
