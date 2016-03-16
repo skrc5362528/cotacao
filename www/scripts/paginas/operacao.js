@@ -1,30 +1,32 @@
-﻿var ID_ESTABELECIMENTO = '';
+﻿
+var ID_ESTABELECIMENTO = '';
 var ID_USUARIO = '';
 var ID_ENDERECO_ENTREGA = '';
 var SIMBOLO = '';
 var DATA_COTACAO = '';
+var ID_VENDA = '';
 var DATA_USU = '';
 var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
 var SYSCONFIG = '';
+var IMAGEM_BASE64_CPF = '';
+var IMAGEM_BASE64_RG = '';
+var IMAGEM_BASE64_COMPROVANTE = '';
+var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
+var pictureSource;   // picture source
+var destinationType; // sets the format of returned value
 
+document.addEventListener("deviceready", onDeviceReady, false);
 
+function onDeviceReady() {
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
+}
 
 function BuscaCotacaoEstabelecimento() {
     DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
     CarregaUltimaCotacao(DATA_COTACAO);
 }
-
-//data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
-//if (data.length > 0) {
-//    jQuery.each(data, function () {
-
-//        this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
-//        this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
-//        this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
-//    });
-//}
-
 
 function MostraMapa(obj) {
     localStorage.setItem('VIEWMAP', obj.id)
@@ -40,33 +42,40 @@ function RecebeValores() {
 }
 
 function formataDinheiro(valor) {
-    valor.value = parseFloat(valor.value).toFixed(2);
+    valor.value = ValidaValoresNumericos(valor.value);
     CalculaCotacao(valor.value, jQuery('#VALOR_COTACAO').val())
 }
 
-function MontaConversao(valordesejado, valorcotacao) {
-    formataDinheiro(valordesejado);
-    CalculaCotacao(jQuery('#VALOR_DESEJADO').val(), jQuery('#VALOR_COTACAO').val());
+function MontaConversao(valordesejado, valorcotacao, valorMaximo, valorMinimo) {
+    
+    var val1 = ValidaValoresNumericos( jQuery('#VALOR_DESEJADO').val());
+    var val2 =  ValidaValoresNumericos(valorMaximo);
+    var val3 = ValidaValoresNumericos(valorMinimo);
+
+
+    if (parseFloat(val1) > parseFloat(val2)) {
+        ExibeMensagem("Valor desejado maior que o máximo");
+        jQuery('#VALOR_DESEJADO').val('');
+        jQuery('#VALOR_CONVERTIDO').val('');
+        return;
+    }
+    if (parseFloat(val1) < parseFloat(val3)) {
+        ExibeMensagem("Valor desejado menor que o mínimo");
+        jQuery('#VALOR_DESEJADO').val('');
+        jQuery('#VALOR_CONVERTIDO').val('');
+        return;
+    }
+    else {
+        formataDinheiro(valordesejado);
+        CalculaCotacao(jQuery('#VALOR_DESEJADO').val(), jQuery('#VALOR_COTACAO').val());
+    }
+
 }
 
 function CalculaCotacao(VALOR, VALOR_COTACAO) {
+
     var VALOR = parseFloat(parseFloat(VALOR) * parseFloat(VALOR_COTACAO)).toFixed(2);
-    jQuery('#VALOR_CONVERTIDO').val(VALOR);
-}
-
-function formataDinheiroInverso(valor) {
-    valor.value = parseFloat(valor.value).toFixed(2);
-    CalculaCotacaoInversa(valor.value, jQuery('#VALOR_COTACAO').val())
-}
-
-function MontaConversaoInversa(valorconvertido, valorcotacao) {
-    formataDinheiroInverso(valorconvertido);
-    CalculaCotacaoInversa(jQuery('#VALOR_CONVERTIDO').val(), jQuery('#VALOR_COTACAO').val());
-}
-
-function CalculaCotacaoInversa(VALOR, VALOR_COTACAO) {
-    var VALOR = (parseFloat(parseFloat(VALOR) / parseFloat(VALOR_COTACAO)).toFixed(2));
-    jQuery('#VALOR_DESEJADO').val(VALOR);
+    jQuery('#VALOR_CONVERTIDO').val(formataValores(VALOR,''));
 }
 
 function Confirmar(PASSO) {
@@ -92,7 +101,7 @@ function Confirmar(PASSO) {
                         jQuery('#DIVDADOSUSUARIO').hide();
                         jQuery('#DIVDADOSOPERACAO').hide();
                         jQuery('#DIVDADOSCONFIRMACAO').hide();
-                        V_PASSO = PASSO;
+                        V_PASSO = PASSO+1;
                     } else {
                         ExibeMensagem(ret);
                     }
@@ -116,21 +125,21 @@ function Confirmar(PASSO) {
             case 2:
 
                 var ret = ValidaEndereco();
-                
+
                 if (ret == '') {
-                jQuery('#DIVDADOSVALORES').hide();
-                jQuery('#DIVDADOSENDERECO').hide();
-                jQuery('#DIVDADOSUSUARIO').show();
-                jQuery('#DIVDADOSOPERACAO').hide();
-                jQuery('#DIVDADOSCONFIRMACAO').hide();
-                V_PASSO = PASSO;
+                    jQuery('#DIVDADOSVALORES').hide();
+                    jQuery('#DIVDADOSENDERECO').hide();
+                    jQuery('#DIVDADOSUSUARIO').show();
+                    jQuery('#DIVDADOSOPERACAO').hide();
+                    jQuery('#DIVDADOSCONFIRMACAO').hide();
+                    V_PASSO = PASSO;
                 } else {
                     ExibeMensagem(ret);
                 }
                 break;
             case 3:
                 var ret = ValidaDadosBancarios();
-                
+
                 if (ret == '') {
                     jQuery('#DIVDADOSVALORES').hide();
                     jQuery('#DIVDADOSENDERECO').hide();
@@ -149,10 +158,9 @@ function Confirmar(PASSO) {
 }
 
 function ConfirmarCompra() {
-    BloqueiaTela('Processando operação...')
+    ExibeMensagem('Processando operação...');
     var ret = GravaPedidoCompra();
     if (ret.length > 0) {
-        DesbloqueiaTela();
         ExibeMensagem('Operação realizada com sucesso!');
         CarregaDivConfirmacao(DATA_COTACAO[0]);
         jQuery('#DIVDADOSVALORES').hide();
@@ -162,52 +170,86 @@ function ConfirmarCompra() {
         jQuery('#DIVDADOSCONFIRMACAO').show();
     }
     else {
-        DesbloqueiaTela();
         ExibeMensagem('Operação não realizada!');
         CarregaMenu("estabelecimento.html");
     }
-    DesbloqueiaTela();
 }
 
-function CalculaValorTotal(IOF, TAXA, VALOR_CONVERTIDO, ENTREGA) {
+function RetornaValoresCompra() {
+    var valTAXA = parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2);
 
-    var valIOF = parseFloat(IOF).toFixed(2);
-    //alert(valIOF.toString());
-    var valTAXA = parseFloat(TAXA).toFixed(2);
-    //alert(valTAXA);
-    var valCONVER = parseFloat(VALOR_CONVERTIDO).toFixed(2);
-    //alert(valCONVER);
-    var valEntrega = parseFloat(ENTREGA).toFixed(2);
-    //alert(valEntrega);
-    var valorTotalIof = (parseFloat(((valIOF / 100) * valCONVER)).toFixed(2));
-    //alert(valEntrega);
-    var valortot = '';
-    return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valTAXA) + parseFloat(valEntrega) + parseFloat(valorTotalIof)).toFixed(2);
+    var valCONVER = ValidaValoresNumericos(jQuery('#VALOR_CONVERTIDO').val());
+
+    var valEntrega = parseFloat(jQuery('#TAXA_ENTREGA').val()).toFixed(2);
+
+    var total = parseFloat(parseFloat(valCONVER) + parseFloat(valTAXA) + parseFloat(valEntrega))
+
+    return formataValores(parseFloat(total).toFixed(2), '');
 }
 
 function CarregaDivOperacao() {
+  //  debugger;
+
+
+
     var html = "<div class='container no-bottom'>" +
             "<div class='no-bottom'>   " +
             "<div>  " +
             "<fieldset>" +
-            " <div class='big-notification static-notification-white' id='38'> " +
-            "<strong><h2>Resumo da compra</h2></strong>" +
-            "<strong><label class='contact-text' >" + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong></br>" +
-            " <strong><label class='contact-text' >Moeda : " + jQuery('#NOME_MOEDA').val() + "</label></strong>  " +
-            " <strong><label class='contact-text' >Valor desejado : " + jQuery('#VALOR_DESEJADO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
-            " <strong><label class='contact-text' >IOF % : " + parseFloat(SYSCONFIG[0].IOF).toFixed(2) + "</label></strong>   " +
-            "<strong><label class='contact-text' >Serviço eXchange R$ : " + parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2) + "</label></strong>   " +
+            " <div class='big-notification static-notification-white'> " +
+            "<strong><h3 style='color:black;'>Resumo da compra</h3></strong>" +
+            "<strong><label>" + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong></br>" +
+            " <strong><label>Moeda : " + jQuery('#NOME_MOEDA').val() + "</label></strong>  " +
+            " <strong><label>Valor desejado : " + formataValores(parseFloat(jQuery('#VALOR_DESEJADO').val()), '') + "</label></strong>   " +
+            " <strong><label>Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
+            " <strong><label>Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
+            " <strong><label>IOF % : " + SYSCONFIG[0].IOF + "</label></strong>   " +
+            "<strong><label>Serviço eXchange R$ : " + formataValores(parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), '') + "</label></strong>   " +
             MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
-            " <strong><label class='contact-text' >Total R$ : " + CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val()) + "</label></strong>   " +
-            "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>  " +
-            " <strong><label class='contact-text' >Nome : " + jQuery('#NOME').val() + "</label> " +
-            " <strong><label class='contact-text' >Cpf : " + jQuery('#CPF').val() + "</label>  " +
-            " <strong><label class='contact-text' >Rg : " + jQuery('#RG').val() + "</label>   " +
-            "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
+            " <strong><label >Total R$ : " + RetornaValoresCompra() + "</label></strong>   " +
+            "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>" + //"<label><strong></strong></label>" +
+            " <strong><label  >Nome : " + jQuery('#NOME').val() + "</label></strong> " +
+            " <strong><label  >Cpf : " + jQuery('#CPF').val() + "</label></strong>" +
+            " <strong><label  >Rg : " + jQuery('#RG').val() + "</label></strong>" +
+           //==========================================
+           "<div>"+
+           "<div class='one-half-exchange' >" +
+           "<div class='btn' onclick='FotoDocumentoRG()'>" +
+           "<i class='fa fa-camera'></i><strong> Identidade</strong>" +
+           "</div>" +
+           "</div>"+
+           "<div class='two-half last-column' >" +
+           "<div class='icon-selector-exchange icon-red-exchange' id='iconeRG'><i id='iconeTimesRG' class='fa fa-times'></i></div>" +
+           "</div>" +
+           "</div>" +
+            //==========================================
+            "<div>" +
+           "<div class='one-half-exchange' >" +
+           "<div class='btn'  onclick='FotoDocumentoCPF()'>" +
+           "<i class='fa fa-camera'></i><strong> C.P.F</strong>" +
+           "</div>" +
+           "</div>"+
+           "<div class='two-half last-column' >" +
+           "<div class='icon-selector-exchange icon-red-exchange' id='iconeCPF'><i id='iconeTimesCPF' class='fa fa-times'></i></div>" +
+           "</div>" +
+           "</div>" +
+            //==========================================
+            "<div>" +
+           "<div class='one-half-exchange' >" +
+           "<div class='btn'  onclick='FotoDocumentoComprovante()'>" +
+           "<i class='fa fa-camera'></i><strong> Comp. Residência</strong>" +
+           "</div>" +
+           "</div>"+
+           "<div class='two-half last-column' >" +
+           "<div class='icon-selector-exchange icon-red-exchange' id='iconeComprovante'><i id='iconeTimesComprovante' class='fa fa-times'></i></div>" +
+           "</div>"+
+           "</div>" +
+           "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
            "<p class='center-text' style='color: white;'><strong>Finalizar Compra</strong></p>" +
            "</div>" +
+    
+           //==========================================
+
             "</div>" +
             "</fieldset>" +
             "</div>" +
@@ -222,7 +264,7 @@ function CarregaDivConfirmacao() {
         "<div class='no-bottom'>   " +
         "<div>  " +
         "<fieldset>" +
-        " <div class='big-notification static-notification-white' id='38'> " +
+        " <div class='big-notification static-notification-white'> " +
         CarregaEstabelecimento(DATA_COTACAO[0]) +
         "<div class='static-notification-exchange'  id='" + ID_ESTABELECIMENTO + "_" + SIMBOLO + "' onclick='MostraMapa(this);'>" +
         "<p class='center-text' style='color: white;'><strong>Ver no mapa</strong></p>" +
@@ -230,10 +272,10 @@ function CarregaDivConfirmacao() {
         "<h2 style='color:black;'><p class='center-text' style='font-size:22px;'><strong>Compra Finalizada</strong></p></h2>" +
         "<p class='center-text' ><strong><i class='fa fa-check' style='font-size: 128px; color:#0489B1;'></i></strong></p>" +
         "<strong><h4 style='color:black;'>Dados bancários para depósito</h4></strong>  " +
-        " <strong><label class='contact-text' >Banco : " + DATA_ESTABELECIMENTO[0].BANCO1 + "</label></strong>  " +
-        " <strong><label class='contact-text' >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA + "</label></strong>   " +
-        " <strong><label class='contact-text' >Conta corrente : " + DATA_ESTABELECIMENTO[0].CONTA + "</label></strong>   " +
-        " <strong><label class='contact-text' >CNPJ : " + DATA_ESTABELECIMENTO[0].CNPJ + "</label></strong>   " +
+        " <strong><label  >Banco : " + DATA_ESTABELECIMENTO[0].BANCO1 + "</label></strong>  " +
+        " <strong><label  >Agência : " + DATA_ESTABELECIMENTO[0].AGENCIA + "</label></strong>   " +
+        " <strong><label  >Conta corrente : " + DATA_ESTABELECIMENTO[0].CONTA + "</label></strong>   " +
+        " <strong><label  >CNPJ : " + DATA_ESTABELECIMENTO[0].CNPJ + "</label></strong>   " +
         "</div>" +
         "</fieldset>" +
         "</div>" +
@@ -243,17 +285,26 @@ function CarregaDivConfirmacao() {
 }
 
 function GravaPedidoCompra() {
+
+    //debugger;
+
+    var valTAXA = parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2);
+    var valCONVER = ValidaValoresNumericos(jQuery('#VALOR_CONVERTIDO').val());
+    var valEntrega = parseFloat(jQuery('#TAXA_ENTREGA').val()).toFixed(2);
+    var valortot = formataValores(parseFloat(valCONVER + valTAXA + valEntrega).toFixed(2), '');
+
+
     var VALOR_COTACAO = DATA_COTACAO[0].TAXA_VENDA;
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
-    var VALOR_TOTAL_OPERACAO = CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
+    var VALOR_TOTAL_OPERACAO =ValidaValoresNumericos(RetornaValoresCompra());//CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
     var VARLOR_PERC_ESTABELEC = DATA_COTACAO[0].VALOR_COTACAO;
-    var VALOR_EXCHANGE=   jQuery('#TAXA_SERVICO').val();
+    var VALOR_EXCHANGE = jQuery('#TAXA_SERVICO').val();
     var VALOR_IOF = jQuery('#IOF').val();
     var TAXA_ENTREGA = jQuery('#TAXA_ENTREGA').val();
 
     //=========================================================
-    var VALOR_VENDA = calculoVenda(DATA_COTACAO[0].TAXA_VENDA, DATA_COTACAO[0].VALOR_COTACAO).toFixed(2);
+    var VALOR_VENDA = valCONVER;
     var VALOR_COTACAO = jQuery('#VALOR_COTACAO').val();
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
@@ -281,19 +332,33 @@ function GravaPedidoCompra() {
     var CPF = jQuery('#CPF').val();
     var RG = jQuery('#RG').val();
     var ID_TIPO_DEPOSITO = jQuery('#FORMA_PAGAMENTO').val();
-    
+    var COD_VENDA = '';
 
     if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == '3') {
-            AlteraDadosUsuario();
-            InsereEndereco();
-            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA,  VALOR_TOTAL_OPERACAO,VARLOR_PERC_ESTABELEC,VALOR_DESEJADO,VALOR_COTACAO, null, ERROCONEXAO);
+        AlteraDadosUsuario();
+        InsereEndereco();
+        COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        InsereImagens(ID_USUARIO, COD_VENDA);
+        return COD_VENDA;
     }
     else {
-            AlteraDadosUsuario();
-            ID_ENDERECO_ENTREGA = null;
-            return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        AlteraDadosUsuario();
+        ID_ENDERECO_ENTREGA = null;
+        COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        InsereImagens(ID_USUARIO, COD_VENDA);
+        return COD_VENDA;
     }
 
+}
+
+function InsereImagens(ID_USUARIO, COD_VENDA, NOME_USUARIO)
+{
+    var DESCRICAO = 'Imagem do cpf de :'+NOME_USUARIO;
+    InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_CPF, null, ERROCONEXAO);
+    DESCRICAO = 'Imagem do RG de :' + NOME_USUARIO;
+    InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_RG, null, ERROCONEXAO);
+    DESCRICAO = 'Imagem do comprovante de residência de :' + NOME_USUARIO;
+    InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_COMPROVANTE, null, ERROCONEXAO);
 }
 
 function ValidaDadosOperacao() {
@@ -315,8 +380,7 @@ function ValidaDadosOperacao() {
     return msg;
 }
 
-function ValidaDadosBancarios()
-{
+function ValidaDadosBancarios() {
 
     var BANCOS = jQuery('#BANCOS').val();
     var AGENCIA = jQuery('#AGENCIA').val();
@@ -331,7 +395,7 @@ function ValidaDadosBancarios()
     if (CPF == '' || RG == '') {
         msg = 'Documentos incompletos';
     }
-   
+
     return msg;
 
 }
@@ -359,25 +423,26 @@ function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
 
 function CarregaUltimaCotacao(data) {
 
-    var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO).toFixed(2);
+    var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO, IOF).toFixed(2);
 
     var html = "  <div class='container no-bottom'>" +
            "      <div class='no-bottom'>" +
            "          <div>" +
            "              <fieldset>" +
-           "                  <div class='big-notification static-notification-white' id='38'> " +
+           "                  <div class='big-notification static-notification-white'> " +
                                 CarregaEstabelecimento(data[0]) +
-           "                  <label class='contact-text'>Moeda Escolhida :" + data[0].NOME_MOEDA + "</label>" +
+           "                  <label >Moeda Escolhida :" + data[0].NOME_MOEDA + "</label>" +
            "                  <input type='hidden' name='NOME_MOEDA' class='contactFieldExchange' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
-           "                  <label class='contact-text'>Cotação :" + VALOR_VENDA + "</label>" +
-           "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO' readonly />" +
-           "                  <label class='contact-text'>Valor em " + data[0].NOME_MOEDA + "</label>" +
-           "                  <input type='number' name='VALOR_DESEJADO'  class='contactFieldExchange'  onchange='MontaConversao(this,\"" + VALOR_VENDA + "\" );'   id='VALOR_DESEJADO'   />" +
-           "                  <label class='contact-text'>Valor em REAL</label>" +
-           "                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\" );' id='VALOR_CONVERTIDO'  />" +
-           "                  <label class='contact-text'>Forma de recebimento</label>" +
+           "                  <label >Cotação :" + VALOR_VENDA + "</label>" +
+           "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO'/>" +
+           "                  <label >Valor em " + data[0].NOME_MOEDA + "</label>" +
+           "                  <input type='text' name='VALOR_DESEJADO'  class='contactFieldExchange'  onblur='MontaConversao(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'   id='VALOR_DESEJADO' placeholder='Digite o valor desejado' />" +
+           "                  <label >Valor em REAL</label>" +
+           //"                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'  id='VALOR_CONVERTIDO' readonly   />" +
+           "                  <input type='text' name='VALOR_CONVERTIDO' class='contactFieldExchange' id='VALOR_CONVERTIDO' readonly   />" +
+           "                  <label >Forma de recebimento</label>" +
                                CarregaFormaRecebimento(data[0]) +
-           "                  <label class='contact-text'>Forma de transação</label>" +
+           "                  <label >Forma de transação</label>" +
                                CarregaFormaPagamento() +
            "                   <div class='static-notification-exchange'  onclick='Confirmar(1)' >" +
            "                   <p class='center-text' style='font-size:15px; color:white;'>Prosseguir</p>" +
@@ -394,22 +459,28 @@ function CarregaUltimaCotacao(data) {
 }
 
 function VoltarEtapa() {
-    var PASSO = '';
+    var PASSO = 0;
+    PASSO = V_PASSO;
+    if (V_PASSO != 0) {
+        if (V_PASSO == 2 && jQuery('#FORMA_ENTREGA').val() == '3') {
 
-    if (V_PASSO == 2 && jQuery('#FORMA_ENTREGA').val() == 'DEL') {
+            V_PASSO = PASSO - 1;
+        }
+        else {
 
-        V_PASSO = PASSO - 1;
+            V_PASSO = PASSO + 1;
+        }
+        PASSO = (V_PASSO - 1);
+        Confirmar(PASSO)
     }
     else {
-
-        V_PASSO = PASSO + 1;
+        CarregaMenu('estabelecimento.html');
     }
-    PASSO = (V_PASSO - 1);
-    Confirmar(PASSO)
 }
 
 jQuery(document).ready(function () {
 
+    //jQuery(document).ajaxStart(BloqueiaTela("Carregando...")).ajaxStop(DesbloqueiaTela());
     EqualizaTamanhoTela();
     RecebeValores();
     SYSCONFIG = jQuery.parseJSON(localStorage.getItem("SYSCONFIG"));
@@ -425,20 +496,15 @@ jQuery(document).ready(function () {
     jQuery('#DIVDADOSENDERECO').hide();
     jQuery('#DIVDADOSOPERACAO').hide();
     jQuery('#DIVDADOSUSUARIO').hide();
-}
+});
 
-);
-
-function CarregaPerfilEstabelecimento()
-{
+function CarregaPerfilEstabelecimento() {
     if (DATA_ESTABELECIMENTO[0].VALOR_DELIVERY == null || DATA_ESTABELECIMENTO[0].VALOR_DELIVERY == '') {
         jQuery('#TAXA_ENTREGA').val(parseFloat('0').toFixed(2));
     }
     else {
-        jQuery('#TAXA_ENTREGA').val(parseFloat(DATA_ESTABELECIMENTO[0].VALOR_DELIVERY).toFixed(2)); 
+        jQuery('#TAXA_ENTREGA').val(parseFloat(DATA_ESTABELECIMENTO[0].VALOR_DELIVERY).toFixed(2));
     }
-
-
 }
 
 function CarregaFormaRecebimento(data) {
@@ -460,7 +526,7 @@ function CarregaFormaRecebimento(data) {
 function CarregaFormaPagamento() {
 
     var html = "<select class='contactFieldExchange' id='FORMA_PAGAMENTO' >";
-    var ret =   jQuery.parseJSON(ListaDeposito(null,ERROCONEXAO));
+    var ret = jQuery.parseJSON(ListaDeposito(null, ERROCONEXAO));
     for (var i = 0; i < ret.length; i++) {
         html += "<option value='" + ret[i].ID_TIPO_DEPOSITO + "'>" + ret[i].DESCRICAO + "</option>";
     }
@@ -469,15 +535,14 @@ function CarregaFormaPagamento() {
 }
 
 function MontaInforRetirada(FORMA_RETIRADA) {
+    //debugger;
+
     var ret = '';
-    if (FORMA_RETIRADA == 'RET') {
-        jQuery('#TAXA_ENTREGA').val(0);
+    if (FORMA_RETIRADA == '3') {
+        ret = "<strong><label  >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   ";
     }
-    if (FORMA_RETIRADA == 'DEL') {
-        ret = "<strong><label class='contact-text' >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   ";
-    }
-    if (FORMA_RETIRADA == 'REC') {
-        jQuery('#TAXA_ENTREGA').val(0);
+    else {
+        jQuery('#TAXA_ENTREGA').val('0');
     }
     ret += "";
     return ret;
@@ -485,21 +550,21 @@ function MontaInforRetirada(FORMA_RETIRADA) {
 
 function MontaMapa(data) {
 
-    var html = "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
-       "<a class='contact-text' href='#'>Tel :" + data.FONE + "</a>" +
+    var html = "<strong >" + data.NOME + "</strong><br>" +
+       "<a  href='#'>Tel :" + data.FONE + "</a>" +
        "<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
-       "<a class='contact-text' href='#'>Endereço :" + data.ENDERECO + "," + data.NUMERO + "</a>" +
-       "<a class='contact-text' href='#'>" + data.COMPLEMENTO + " - " + data.BAIRRO + "</a>" +
-       "<a class='contact-text' href='#'>" + data.CIDADE + "," + data.UF + "</a>";
+       "<a  href='#'>Endereço :" + data.ENDERECO + "," + data.NUMERO + "</a>" +
+       "<a  href='#'>" + data.COMPLEMENTO + " - " + data.BAIRRO + "</a>" +
+       "<a  href='#'>" + data.CIDADE + "," + data.UF + "</a>";
 
     jQuery('#DIVINFO').html(html);
 }
 
 function CarregaDivCotacao(data) {
 
-    var html = "<a class='contact-text' href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
-     "<a class='contact-text' href='#'>Compra :R$ " + calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2) + "</a>" +
-     "<a class='contact-text' href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO).toFixed(2) + "</a>";
+    var html = "<a  href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
+     "<a  href='#'>Compra :R$ " + calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2) + "</a>" +
+     "<a  href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO,IOF).toFixed(2) + "</a>";
     return html;
 }
 
@@ -583,13 +648,14 @@ function CarregaEnderecoPorCep(obj) {
                 jQuery('#CIDADE').val(this.CIDADE1);
                 jQuery('#UF').val(this.UF1);
             });
-        }}
+        }
+    }
 
 }
 
 function PreencheSelectBancos() {
     jQuery('#BANCOS').append('<option value="" selected> Escolha seu banco</option>');
-    var data = jQuery.parseJSON(ListaBanco(null,null));
+    var data = jQuery.parseJSON(ListaBanco(null, null));
     if (data.length > 0) {
         jQuery.each(data, function () {
             MontaSelect('BANCOS', this.ID, this.BANCO1);
@@ -603,19 +669,18 @@ function MontaSelect(OBJETO, CODIGO, NOME) {
 
 function CarregaEstabelecimento(dados) {
 
-    //if (DATA_ESTABELECIMENTO.length == 0) {
-    //    DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
-    //}
     var DISTANCIA = parseFloat(calculoDistancia(DATA_ESTABELECIMENTO[0].LATITUDE, DATA_ESTABELECIMENTO[0].LONGITUDE));
 
     var html =
-    "<div id='" + dados.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white-header'>" +
+    "<div id='" + dados.ID_ESTABELECIMENTO + "'>" +
     "<div>" +
-    "<strong><label class='contact-text'>" + dados.NOME + "</label></strong> " +
+    "<strong><label>" + dados.NOME + "</label></strong> " +
     "<input type='hidden' name='NOME_ESTABELECIMENTO' value='" + dados.NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
     "</div>" +
+
+    "<div>" +
     "<div class='one-half'>" +
-    "<label class='contact-text'>Km " + DISTANCIA + "</label>" +
+    "Km " + DISTANCIA +
     "</div>" +
     "<div class='two-half last-column'>" +
     "<span class='span-stars'>" +
@@ -625,9 +690,16 @@ function CarregaEstabelecimento(dados) {
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
-   
     "</div>" +
+    "</div>" +
+
     "<div>" +
+    "<div class='one-half'>" +
+    "Máx: " + formataValores(dados.VALOR_MAXIMO, '') +
+    "</div>" +
+    "<div class='two-half last-column'>" +
+    "Min: " + formataValores(dados.VALOR_MINIMO, '') +
+    "</div>" +
     "</div>" +
     "</div>";
 
@@ -649,4 +721,49 @@ function AlteraDadosUsuario() {
     var DATA_NASCIMENTO = jQuery('#DATA_NASCIMENTO').val();
     var ID_TP_USUARIO = 1;
     var usu = AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO, CONTA, AGENCIA, null, ERROCONEXAO);
+}
+
+//============================================
+
+function FotoDocumentoCPF() {
+    navigator.camera.getPicture(sucessoCPF, onFail, {
+        quality: 50,
+        destinationType: destinationType.DATA_URL
+    });
+}
+function FotoDocumentoRG() {
+    navigator.camera.getPicture(sucessoRG, onFail, {
+        quality: 50,
+        destinationType: destinationType.DATA_URL
+    });
+}
+function FotoDocumentoComprovante() {
+    navigator.camera.getPicture(sucessoComprovante, onFail, {
+        quality: 50,
+        destinationType: destinationType.DATA_URL
+    });
+}
+
+//===========================================
+
+function sucessoCPF(imageData) {
+    IMAGEM_BASE64_CPF = imageData;
+    jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesCPF').removeClass("fa-times").addClass("fa-check");
+}
+
+function sucessoComprovante(imageData) {
+    IMAGEM_BASE64_COMPROVANTE = imageData
+    jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesComprovante').removeClass("fa-times").addClass("fa-check");
+}
+
+function sucessoRG(imageData) {
+    IMAGEM_BASE64_RG = imageData
+    jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesRG').removeClass("fa-times").addClass("fa-check");
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
 }
