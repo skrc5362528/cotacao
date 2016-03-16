@@ -1,20 +1,32 @@
-﻿var ID_ESTABELECIMENTO = '';
+﻿
+var ID_ESTABELECIMENTO = '';
 var ID_USUARIO = '';
 var ID_ENDERECO_ENTREGA = '';
 var SIMBOLO = '';
 var DATA_COTACAO = '';
+var ID_VENDA = '';
 var DATA_USU = '';
 var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
 var SYSCONFIG = '';
+var IMAGEM_BASE64_CPF = '';
+var IMAGEM_BASE64_RG = '';
+var IMAGEM_BASE64_COMPROVANTE = '';
 var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
+var pictureSource;   // picture source
+var destinationType; // sets the format of returned value
 
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
+}
 
 function BuscaCotacaoEstabelecimento() {
     DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
     CarregaUltimaCotacao(DATA_COTACAO);
 }
-
 
 function MostraMapa(obj) {
     localStorage.setItem('VIEWMAP', obj.id)
@@ -64,28 +76,6 @@ function CalculaCotacao(VALOR, VALOR_COTACAO) {
 
     var VALOR = parseFloat(parseFloat(VALOR) * parseFloat(VALOR_COTACAO)).toFixed(2);
     jQuery('#VALOR_CONVERTIDO').val(formataValores(VALOR,''));
-}
-
-function formataDinheiroInverso(valor) {
-    valor.value = parseFloat(valor.value).toFixed(2);
-    CalculaCotacaoInversa(valor.value, jQuery('#VALOR_COTACAO').val())
-}
-
-function MontaConversaoInversa(valordesejado, valorcotacao, valorMaximo, valorMinimo) {
-
-    //if (parseFloat(valordesejado).toFixed(2) > parseFloat(valorMaximo).toFixed(2) || parseFloat(valordesejado).toFixed(2) < parseFloat(valorMinimo).toFixed(2)) {
-    //    ExibeMensagem("Valor fora do limite de negociação");
-    //}
-    //else {
-    //    formataDinheiroInverso(valorconvertido);
-    //    CalculaCotacaoInversa(jQuery('#VALOR_CONVERTIDO').val(), jQuery('#VALOR_COTACAO').val());
-
-    //}
-}
-
-function CalculaCotacaoInversa(VALOR, VALOR_COTACAO) {
-    var VALOR = (parseFloat(parseFloat(VALOR) / parseFloat(VALOR_COTACAO)).toFixed(2));
-    jQuery('#VALOR_DESEJADO').val(VALOR);
 }
 
 function Confirmar(PASSO) {
@@ -168,10 +158,9 @@ function Confirmar(PASSO) {
 }
 
 function ConfirmarCompra() {
-    BloqueiaTela('Processando operação...')
+    ExibeMensagem('Processando operação...');
     var ret = GravaPedidoCompra();
     if (ret.length > 0) {
-        DesbloqueiaTela();
         ExibeMensagem('Operação realizada com sucesso!');
         CarregaDivConfirmacao(DATA_COTACAO[0]);
         jQuery('#DIVDADOSVALORES').hide();
@@ -181,11 +170,9 @@ function ConfirmarCompra() {
         jQuery('#DIVDADOSCONFIRMACAO').show();
     }
     else {
-        DesbloqueiaTela();
         ExibeMensagem('Operação não realizada!');
         CarregaMenu("estabelecimento.html");
     }
-    DesbloqueiaTela();
 }
 
 function RetornaValoresCompra() {
@@ -200,18 +187,9 @@ function RetornaValoresCompra() {
     return formataValores(parseFloat(total).toFixed(2), '');
 }
 
-
-
 function CarregaDivOperacao() {
   //  debugger;
 
-    //var valTAXA = parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2);
-
-    //var valCONVER = ValidaValoresNumericos(jQuery('#VALOR_CONVERTIDO').val());
-
-    //var valEntrega = parseFloat(jQuery('#TAXA_ENTREGA').val()).toFixed(2);
-
-    //var valortot = formataValores(parseFloat(valCONVER + valTAXA + valEntrega).toFixed(2), '');
 
 
     var html = "<div class='container no-bottom'>" +
@@ -230,12 +208,48 @@ function CarregaDivOperacao() {
             MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
             " <strong><label >Total R$ : " + RetornaValoresCompra() + "</label></strong>   " +
             "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>" + //"<label><strong></strong></label>" +
-            " <strong><label  >Nome : " + jQuery('#NOME').val() + "</label> " +
-            " <strong><label  >Cpf : " + jQuery('#CPF').val() + "</label>  " +
-            " <strong><label  >Rg : " + jQuery('#RG').val() + "</label>   " +
-            "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
+            " <strong><label  >Nome : " + jQuery('#NOME').val() + "</label></strong> " +
+            " <strong><label  >Cpf : " + jQuery('#CPF').val() + "</label></strong>" +
+            " <strong><label  >Rg : " + jQuery('#RG').val() + "</label></strong>" +
+           //==========================================
+           "<div>"+
+           "<div class='one-half-exchange' >" +
+           "<div class='btn' onclick='FotoDocumentoRG()'>" +
+           "<i class='fa fa-camera'></i><strong> Identidade</strong>" +
+           "</div>" +
+           "</div>"+
+           "<div class='two-half last-column' >" +
+           "<div class='icon-selector-exchange icon-red-exchange' id='iconeRG'><i id='iconeTimesRG' class='fa fa-times'></i></div>" +
+           "</div>" +
+           "</div>" +
+            //==========================================
+            "<div>" +
+           "<div class='one-half-exchange' >" +
+           "<div class='btn'  onclick='FotoDocumentoCPF()'>" +
+           "<i class='fa fa-camera'></i><strong> C.P.F</strong>" +
+           "</div>" +
+           "</div>"+
+           "<div class='two-half last-column' >" +
+           "<div class='icon-selector-exchange icon-red-exchange' id='iconeCPF'><i id='iconeTimesCPF' class='fa fa-times'></i></div>" +
+           "</div>" +
+           "</div>" +
+            //==========================================
+            "<div>" +
+           "<div class='one-half-exchange' >" +
+           "<div class='btn'  onclick='FotoDocumentoComprovante()'>" +
+           "<i class='fa fa-camera'></i><strong> Comp. Residência</strong>" +
+           "</div>" +
+           "</div>"+
+           "<div class='two-half last-column' >" +
+           "<div class='icon-selector-exchange icon-red-exchange' id='iconeComprovante'><i id='iconeTimesComprovante' class='fa fa-times'></i></div>" +
+           "</div>"+
+           "</div>" +
+           "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
            "<p class='center-text' style='color: white;'><strong>Finalizar Compra</strong></p>" +
            "</div>" +
+    
+           //==========================================
+
             "</div>" +
             "</fieldset>" +
             "</div>" +
@@ -318,19 +332,33 @@ function GravaPedidoCompra() {
     var CPF = jQuery('#CPF').val();
     var RG = jQuery('#RG').val();
     var ID_TIPO_DEPOSITO = jQuery('#FORMA_PAGAMENTO').val();
-
+    var COD_VENDA = '';
 
     if (ID_ENDERECO_ENTREGA == '' && jQuery('#FORMA_ENTREGA').val() == '3') {
         AlteraDadosUsuario();
         InsereEndereco();
-        return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        InsereImagens(ID_USUARIO, COD_VENDA);
+        return COD_VENDA;
     }
     else {
         AlteraDadosUsuario();
         ID_ENDERECO_ENTREGA = null;
-        return InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
+        InsereImagens(ID_USUARIO, COD_VENDA);
+        return COD_VENDA;
     }
 
+}
+
+function InsereImagens(ID_USUARIO, COD_VENDA, NOME_USUARIO)
+{
+    var DESCRICAO = 'Imagem do cpf de :'+NOME_USUARIO;
+    InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_CPF, null, ERROCONEXAO);
+    DESCRICAO = 'Imagem do RG de :' + NOME_USUARIO;
+    InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_RG, null, ERROCONEXAO);
+    DESCRICAO = 'Imagem do comprovante de residência de :' + NOME_USUARIO;
+    InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_COMPROVANTE, null, ERROCONEXAO);
 }
 
 function ValidaDadosOperacao() {
@@ -468,9 +496,7 @@ jQuery(document).ready(function () {
     jQuery('#DIVDADOSENDERECO').hide();
     jQuery('#DIVDADOSOPERACAO').hide();
     jQuery('#DIVDADOSUSUARIO').hide();
-}
-
-);
+});
 
 function CarregaPerfilEstabelecimento() {
     if (DATA_ESTABELECIMENTO[0].VALOR_DELIVERY == null || DATA_ESTABELECIMENTO[0].VALOR_DELIVERY == '') {
@@ -479,8 +505,6 @@ function CarregaPerfilEstabelecimento() {
     else {
         jQuery('#TAXA_ENTREGA').val(parseFloat(DATA_ESTABELECIMENTO[0].VALOR_DELIVERY).toFixed(2));
     }
-
-
 }
 
 function CarregaFormaRecebimento(data) {
@@ -645,9 +669,6 @@ function MontaSelect(OBJETO, CODIGO, NOME) {
 
 function CarregaEstabelecimento(dados) {
 
-    //if (DATA_ESTABELECIMENTO.length == 0) {
-    //    DATA_ESTABELECIMENTO = RetornaEstabelecimento(ID_ESTABELECIMENTO);
-    //}
     var DISTANCIA = parseFloat(calculoDistancia(DATA_ESTABELECIMENTO[0].LATITUDE, DATA_ESTABELECIMENTO[0].LONGITUDE));
 
     var html =
@@ -700,4 +721,49 @@ function AlteraDadosUsuario() {
     var DATA_NASCIMENTO = jQuery('#DATA_NASCIMENTO').val();
     var ID_TP_USUARIO = 1;
     var usu = AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO, CONTA, AGENCIA, null, ERROCONEXAO);
+}
+
+//============================================
+
+function FotoDocumentoCPF() {
+    navigator.camera.getPicture(sucessoCPF, onFail, {
+        quality: 50,
+        destinationType: destinationType.DATA_URL
+    });
+}
+function FotoDocumentoRG() {
+    navigator.camera.getPicture(sucessoRG, onFail, {
+        quality: 50,
+        destinationType: destinationType.DATA_URL
+    });
+}
+function FotoDocumentoComprovante() {
+    navigator.camera.getPicture(sucessoComprovante, onFail, {
+        quality: 50,
+        destinationType: destinationType.DATA_URL
+    });
+}
+
+//===========================================
+
+function sucessoCPF(imageData) {
+    IMAGEM_BASE64_CPF = imageData;
+    jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesCPF').removeClass("fa-times").addClass("fa-check");
+}
+
+function sucessoComprovante(imageData) {
+    IMAGEM_BASE64_COMPROVANTE = imageData
+    jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesComprovante').removeClass("fa-times").addClass("fa-check");
+}
+
+function sucessoRG(imageData) {
+    IMAGEM_BASE64_RG = imageData
+    jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesRG').removeClass("fa-times").addClass("fa-check");
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
 }

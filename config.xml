@@ -1,5 +1,5 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.exchangeapp" version="1.0.0">
-  <name>eXCHANGE</name>
+  <name>eXCHANGEAPP</name>
   <description>Hello World sample application that responds to the deviceready event.</description>
   <author href="http://phonegap.com" email="support@phonegap.com">Bunker07</author>
   <content src="index.html"/>
@@ -51,6 +51,7 @@
 		<gap:splash src="www/splash.png" />
 
 
+  <gap:plugin name="cordova-plugin-device" />
   <gap:plugin name="cordova-plugin-geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
   <gap:plugin name="cordova-plugin-dialogs"/>

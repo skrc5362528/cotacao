@@ -31,7 +31,6 @@ function BuscarEstabelecimento(campo, ordena) {
 
 function Buscar(campo, ordena)
 {
-    //debugger;
     if (flagdelivery == false) {
         BuscarEstabelecimento(campo, ordena);
     }
@@ -58,21 +57,22 @@ function BuscarEstabelecimentoDelivery(campo, ordena) {
            
         });
     }
+
     data = OrdenaResultados('DISTANCIA', ordena, ARRAY);
     CarregaDados(ARRAY);
     DesbloqueiaTela();
 }
 
 function CarregaFiltros() {
-    jQuery('#DIVFILTROS').append("<div>" +
-                            "<div class='one-third center-text' >" +
-                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+    jQuery('#DIVFILTRO').html("<div>" +
+                            "<div class='one-half center-text' >" +
+                            "<a data-toggle='modal' data-target='#MODALFILTROS'> <label class='contact-text' style='color:white;'> Filtrar </label> <i class='fa fa-filter' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
-                            "<div class='one-third center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
-                            "</div>" +
-                            "<div class='one-third last-column center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_delivery);Buscar(cpo_distancia, true);' id='ordenadelivery'><label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i></a>" +
+                            //"<div class='one-third center-text'>" +
+                            //"<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            //"</div>" +
+                            "<div class='two-half last-column center-text'>" +
+                            "<a data-toggle='modal' data-target='#MODALORDENAR'><label class='contact-text' style='color:white;'> Ordernar </label><i class='fa fa-sort' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
                             "</div>");
 }
@@ -95,45 +95,45 @@ function CarregaDados(data) {
 
 }
 
-function OrdenaBusca(obj, campo, ordena) {
+//function OrdenaBusca(obj, campo, ordena) {
 
 
-    FiltraBusca(campo, ordena);
+//    FiltraBusca(campo, ordena);
 
-    if (ordena == true) {
-        if (obj.id == 'ordenatxvenda') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-            ord_tx_venda = false;
-        }
-        if (obj.id == 'ordenadistancia') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-            ord_distancia = false;
-        }
-        if (obj.id == 'ordenadelivery') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
-            ord_tx_delivery = false;
-            flagdelivery = false;
-        }
-    }
-    else {
+//    if (ordena == true) {
+//        if (obj.id == 'ordenatxvenda') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+//            ord_tx_venda = false;
+//        }
+//        if (obj.id == 'ordenadistancia') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+//            ord_distancia = false;
+//        }
+//        if (obj.id == 'ordenadelivery') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
+//            ord_tx_delivery = false;
+//            flagdelivery = false;
+//        }
+//    }
+//    else {
 
-        if (obj.id == 'ordenatxvenda') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-            ord_tx_venda = true;
-        }
-        if (obj.id == 'ordenadistancia') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-            ord_distancia = true;
-        }
-        if (obj.id == 'ordenadelivery') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
-            ord_tx_delivery = true;
-            flagdelivery = true;
-        }
-    }
+//        if (obj.id == 'ordenatxvenda') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+//            ord_tx_venda = true;
+//        }
+//        if (obj.id == 'ordenadistancia') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+//            ord_distancia = true;
+//        }
+//        if (obj.id == 'ordenadelivery') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
+//            ord_tx_delivery = true;
+//            flagdelivery = true;
+//        }
+//    }
 
 
-}
+//}
 
 function CarregaEstabelecimento(data) {
 

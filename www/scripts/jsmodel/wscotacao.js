@@ -1724,12 +1724,6 @@ function RetronaStatusVenda(successFunc, errorFunc) {
 
 // -- RetornaOperacaoPorCodigo
 function RetornaOperacaoPorCodigo(COD_VENDA, successFunc, errorFunc) {
-    /// <summary></summary>
-    /// <param name="COD_VENDA" type="string">COD_VENDA</param>
-
-    /// <param name='successFunc' type='function'>Success Function</param>
-    /// <param name='errorFunc' type='function'>Error Function</param>
-    /// <returns type=''>RetornaOperacaoPorCodigoResult as </returns>
     var $res = '';
     jQuery.ajax({
         type: 'POST',
@@ -1778,6 +1772,105 @@ function RetornaConfiguracaoSistema(successFunc, errorFunc) {
         cache: false,
         dataType: 'json',
         data: "{}",
+        success: function (data) {
+            if (data.hasOwnProperty('d')) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}
+// -- InsereUsuario
+function InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64, successFunc, errorFunc) {
+    
+    var $res = '';
+    jQuery.ajax({
+        type: 'POST',
+        url: 'http://www.visional.com.br/wscotacao/cotacao.asmx/InsereImagemVendaCPF',
+        contentType: 'application/json; charset=utf-8',
+        async: true,
+        cache: false,
+        dataType: 'json',
+        data: "{DESCRICAO:" + JSON.stringify(DESCRICAO) + ",ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",COD_VENDA:" + JSON.stringify(COD_VENDA) + ",IMAGEM_BASE64:" + JSON.stringify(IMAGEM_BASE64) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty('d')) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}
+
+function InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64, successFunc, errorFunc) {
+ 
+    var $res = '';
+    jQuery.ajax({
+        type: 'POST',
+        url: 'http://www.visional.com.br/wscotacao/cotacao.asmx/InsereImagemVendaRG',
+        contentType: 'application/json; charset=utf-8',
+        async: true,
+        cache: false,
+        dataType: 'json',
+        data: "{DESCRICAO:" + JSON.stringify(DESCRICAO) + ",ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",COD_VENDA:" + JSON.stringify(COD_VENDA) + ",IMAGEM_BASE64:" + JSON.stringify(IMAGEM_BASE64) + "}",
+        success: function (data) {
+            if (data.hasOwnProperty('d')) {
+                $res = data.d;
+                if (successFunc != null)
+                    successFunc(data.d);
+            }
+            else {
+                $res = data;
+                if (successFunc != null)
+                    successFunc(data);
+            }
+        },
+        error: function (data) {
+            if (errorFunc != null)
+                errorFunc(data);
+        }
+
+
+    });
+    return $res;
+}
+
+function InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64, successFunc, errorFunc) {
+
+    var $res = '';
+    jQuery.ajax({
+        type: 'POST',
+        url: 'http://www.visional.com.br/wscotacao/cotacao.asmx/InsereImagemVendaComprovante',
+        contentType: 'application/json; charset=utf-8',
+        async: true,
+        cache: false,
+        dataType: 'json',
+        data: "{DESCRICAO:" + JSON.stringify(DESCRICAO) + ",ID_USUARIO:" + JSON.stringify(ID_USUARIO) + ",COD_VENDA:" + JSON.stringify(COD_VENDA) + ",IMAGEM_BASE64:" + JSON.stringify(IMAGEM_BASE64) + "}",
         success: function (data) {
             if (data.hasOwnProperty('d')) {
                 $res = data.d;

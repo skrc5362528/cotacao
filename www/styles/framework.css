@@ -474,6 +474,12 @@ a{
 	margin-right:10%;
 }
 
+.one-half-exchange{
+	/* width:45%; */
+	float:left;
+	margin-right:10%;
+}
+
 @media (max-width:760px){
 	
 .hide-if-mobile{
@@ -645,7 +651,38 @@ a{
 .icon-setting{background-image:url(../images/icons/settings/cog4.html);}
 .icon-mail{background-image:url(../images/icons/misc/mail.html);}*/
 
+.icon-selector-exchange{
+	width:35px;
+	height:35px;
+	border-radius:35px;
+	text-align:center;	
+	color:#FFFFFF;
+	font-size:12px;
+	margin-bottom:30px;
+	margin-left:5px;
+	margin-right:5px;
+	float:left;
+}
 
+.icon-green-exchange{
+	background-color:#27ae60;
+	line-height:30px;
+}
+
+.icon-darkblue-exchange{
+	background-color:#3b5998;	
+	line-height:34px;
+}
+
+.icon-blue-exchange{
+	background-color:#4099FF;
+	line-height:34px;	
+}
+
+.icon-red-exchange{
+	background-color:#d34836;
+	line-height:34px;	
+}
 /*////////////////*/
 /*Mobile Detectors*/
 /*////////////////*/
