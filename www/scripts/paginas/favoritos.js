@@ -7,7 +7,7 @@ var cpo_distancia = 'DISTANCIA';
 var ord_distancia = false;
 var ord_tx_venda = false;
 var ord_tx_compra = false;
-
+var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 
 function BuscarEstabelecimento(campo, ordena) {
@@ -18,7 +18,7 @@ function BuscarEstabelecimento(campo, ordena) {
     data = jQuery.parseJSON(RetornaFavoritosUsuario(usu.ID_USUARIO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
-                    this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
+                    this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO,IOF).toFixed(2);
                     this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
                     this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
         });

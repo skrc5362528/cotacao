@@ -17,7 +17,7 @@
     <!--CSS DE ESTILOS-->
 
 
-
+    <link href="styles/bootstrap.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <link href="styles/framework.css" rel="stylesheet" type="text/css">
     <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
@@ -46,8 +46,8 @@
                     <!--<a class="close-nav" href="#"><i class="fa  fa-times"></i></a>-->
                 </div>
                 <div class="sidebar-logo">
-                    <a onclick="CarregaMenu('estabelecimento.html')">  
-                    <img src="img/ICONE_eXCHANGE_BRANCO_GRANDE.png" width="128" height="128" />
+                    <a onclick="CarregaMenu('estabelecimento.html')">
+                        <img src="img/ICONE_eXCHANGE_BRANCO_GRANDE.png" width="128" height="128" />
                     </a>
                 </div>
                 <div class="navigation-item">
@@ -57,7 +57,7 @@
                         <i class="fa"></i>
                     </a>
                 </div>
-                <!--<div class="sidebar-decoration"></div>-->
+
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('perfil.html')" class="nav-item">
                         <i class="fa fa-user"></i>
@@ -72,7 +72,7 @@
                         <i class="fa"></i>
                     </a>
                 </div>
-                <!--<div class="sidebar-decoration"></div>-->
+
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('favoritos.html')" class="nav-item">
                         <i class="fa fa-clock-o"></i>
@@ -80,7 +80,6 @@
                         <i class="fa"></i>
                     </a>
                 </div>
-  
                 <div class="navigation-item">
                     <a onclick="CarregaMenu('contato.html')" class="nav-item">
                         <i class="fa fa-envelope"></i>
@@ -100,21 +99,114 @@
         <div id="maincontent">
 
         </div>
+        <div class="modal fade" id="MODALFILTROS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content-exchange">
+                    <div class="modal-header">
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <h4 class="modal-title nav-item-modal" id="myModalLabel">Filtrar por</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKDELIVERY" checked>
+                                        <label class="onoffswitch-label" for="CHKDELIVERY">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="nav-item-modal">Delivery</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKABERTO" checked>
+                                        <label class="onoffswitch-label" for="CHKABERTO">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="nav-item-modal">Aberto/Fechado</td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="modal-footer">
+                    <div class="center-element">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>
+                    </div>
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                </div>
+            </div>
+        </div>
     </div>
+
+        <div class="modal fade" id="MODALORDENAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content-exchange">
+                    <div class="modal-header">
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <h4 class="modal-title nav-item-modal" id="myModalLabel">Ordenar por</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKVALOR" checked>
+                                        <label class="onoffswitch-label" for="CHKVALOR">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="nav-item-modal">Menor Valor</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKDISTANCIA" checked>
+                                        <label class="onoffswitch-label" for="CHKDISTANCIA">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="nav-item-modal">Menor distância</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="center-element">
+                            <a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>
+                        </div>
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
     <script type="text/javascript" src="cordova.js"></script>
     <!--SCRIPTS BASICOS-->
     <!--<script src="scripts/jquery-2.1.4.js"></script>-->
-    <script src="scripts/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery-2.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/my.accounting.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.price_format.2.0.min.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/modal.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
 
     <!--SCRIPTS DE PÁGINAS-->
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
 
-   
+
 </body>
 </html>
 

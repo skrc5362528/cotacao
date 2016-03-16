@@ -5,43 +5,76 @@ var cpo_tx_venda = 'VALOR_COTACAO';
 var cpo_tx_compra = 'VALOR_COTACAO_COMPRA';
 var cpo_distancia = 'DISTANCIA';
 var ord_distancia = false;
+var ord_tx_delivery = false;
 var ord_tx_venda = false;
-//var ord_tx_compra = false;
+var flagdelivery = false;
+var IOF =  jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 function BuscarEstabelecimento(campo, ordena) {
-    BloqueiaTela("Carregando...");
+
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').empty();
     CarregaFiltros();
-
      data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
 
-            this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO).toFixed(2);
+            this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO, IOF).toFixed(2);
             this.VALOR_COTACAO_COMPRA = calculoCompra(this.TAXA_COMPRA, this.VALOR_COTACAO_COMPRA).toFixed(2);
             this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
         });
     }
-
-
     data = OrdenaResultados('DISTANCIA', ordena, data);
     CarregaDados(data);
-    DesbloqueiaTela();//ordenadistancia
+    DesbloqueiaTela();
+}
+
+function Buscar(campo, ordena)
+{
+    if (flagdelivery == false) {
+        BuscarEstabelecimento(campo, ordena);
+    }
+    else {
+        BuscarEstabelecimentoDelivery(campo, ordena);
+    }
+}
+
+function BuscarEstabelecimentoDelivery(campo, ordena) {
+
+    var ARRAY = [];
+    var SIMBOLO = jQuery('#SUA_MOEDA').val();
+    jQuery('#DIVESTABELECIMENTO').empty();
+    CarregaFiltros();
+    data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
+    if (data.length > 0) {
+        jQuery.each(data, function () {
+
+            if (this.DELIVERY == 'S') {
+                this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO, IOF).toFixed(2);
+                this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
+                ARRAY.push(this);
+            }
+           
+        });
+    }
+
+    data = OrdenaResultados('DISTANCIA', ordena, ARRAY);
+    CarregaDados(ARRAY);
+    DesbloqueiaTela();
 }
 
 function CarregaFiltros() {
-    jQuery('#DIVESTABELECIMENTO').append("<p><div>" +
-                            "<div class='one-third center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_tx_venda,ord_tx_venda);' id='ordenatxvenda'> <label class='contact-text' style='color:white;'> Venda </label> <i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+    jQuery('#DIVFILTRO').html("<div>" +
+                            "<div class='one-half center-text' >" +
+                            "<a data-toggle='modal' data-target='#MODALFILTROS'> <label class='contact-text' style='color:white;'> Filtrar </label> <i class='fa fa-filter' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
-                            "<div class='one-third center-text'>" +
-                           // "<a onclick='OrdenaBusca(this,cpo_tx_compra,ord_tx_compra);' id='ordenatxcompra'><label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            //"<div class='one-third center-text'>" +
+                            //"<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
+                            //"</div>" +
+                            "<div class='two-half last-column center-text'>" +
+                            "<a data-toggle='modal' data-target='#MODALORDENAR'><label class='contact-text' style='color:white;'> Ordernar </label><i class='fa fa-sort' style='font-size:18px; color:white;'></i></a>" +
                             "</div>" +
-                            "<div class='one-third last-column center-text'>" +
-                            "<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
-                            "</div>" +
-                            "</div></p>");
+                            "</div>");
 }
 
 function FiltraBusca(campo, ordena) {
@@ -62,58 +95,59 @@ function CarregaDados(data) {
 
 }
 
-function OrdenaBusca(obj, campo, ordena) {
-
-    FiltraBusca(campo, ordena);
-
-    if (ordena == true) {
-        if (obj.id == 'ordenatxvenda') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-            ord_tx_venda = false;
-
-        }
-        //if (obj.id == 'ordenatxcompra') {
-        //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-        //    ord_tx_compra = false;
-        //}
-        if (obj.id == 'ordenadistancia') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-            ord_distancia = false;
-        }
-    }
-    else {
-
-        if (obj.id == 'ordenatxvenda') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Venda </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-            ord_tx_venda = true;
-        }
-        //if (obj.id == 'ordenatxcompra') {
-        //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Compra </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-        //    ord_tx_compra = true;
-        //}
-        if (obj.id == 'ordenadistancia') {
-            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-            ord_distancia = true;
-        }
-    }
+//function OrdenaBusca(obj, campo, ordena) {
 
 
-}
+//    FiltraBusca(campo, ordena);
+
+//    if (ordena == true) {
+//        if (obj.id == 'ordenatxvenda') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+//            ord_tx_venda = false;
+//        }
+//        if (obj.id == 'ordenadistancia') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
+//            ord_distancia = false;
+//        }
+//        if (obj.id == 'ordenadelivery') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
+//            ord_tx_delivery = false;
+//            flagdelivery = false;
+//        }
+//    }
+//    else {
+
+//        if (obj.id == 'ordenatxvenda') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+//            ord_tx_venda = true;
+//        }
+//        if (obj.id == 'ordenadistancia') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
+//            ord_distancia = true;
+//        }
+//        if (obj.id == 'ordenadelivery') {
+//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
+//            ord_tx_delivery = true;
+//            flagdelivery = true;
+//        }
+//    }
+
+
+//}
 
 function CarregaEstabelecimento(data) {
+
+    var dt = new Date(data.DATA_COTACAO);
 
 
     var html =
     "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
     "<div>" +
-    "<strong><label class='contact-text'>" + data.NOME + "</label></strong> " +
+    "<strong>" + data.NOME + "</strong> " +
     "</div>" +
+    "<div>" +
     "<div class='one-half'>" +
-    //"<label class='contact-text'> Tel : " + data.FONE + "</label>" +
-    "<label class='contact-text'>Venda : R$ " + data.VALOR_COTACAO + " </label>" +
-    //"<label class='contact-text'>Compra : R$ " + data.VALOR_COTACAO_COMPRA + " </label>" +
-    //"<label class='contact-text'>R$ " + data.VALOR_COTACAO_COMPRA + "</label>" +// + + data.VALOR_COTACAO + "</label>" +
-     //"<label class='contact-text'> " + venda + "</label>" +
+    "Venda : R$ " + data.VALOR_COTACAO +
     "</div>" +
     "<div class='two-half last-column'>" +
     "<span class='span-stars'>" +
@@ -123,19 +157,31 @@ function CarregaEstabelecimento(data) {
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
-     //"<label class='contact-text'></label>" +
-    //"<label class='contact-text'>R$ " + data.VALOR_COTACAO + "</label>" +
-    "<label class='contact-text'>Km " + data.DISTANCIA + "</label>" +
     "</div>" +
-    //  "<div class='one-half'>" +
-    //  "<a onclick='MostraMapa(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-map-marker' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //  "</div>" +
-    // "<div class='two-half last-column'>" +
-    //   "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
-    //"</div>" +
+    "</div>" +
+
+    "<div>" +
+    "<div class='one-half'>" +
+    "IOF 0,38% já incluso " +
+    "</div>" +
+    "<div class='two-half last-column'>" +
+  "Km " + data.DISTANCIA +
+    "</div>" +
+
+   "<div class='one-half'>" +
+   "Última atualização : "+
+   "</div>" +
+   "<div class='two-half'>" +
+    dt.getDate()+"/"+(dt.getMonth()+1)+"/"+dt.getFullYear()+" ás "+data.HORA_COTACAO+
+    "</div>" +
+    "</div>" +
+
+    "<div>" +
     "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
     "<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
     "</div>" +
+    "</div>" +
+
     "<div>" +
     MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
     "</div>" +
@@ -232,5 +278,11 @@ function MontaInfo(RETIRADA, DELIVERY, RECARGA)
 jQuery(document).ready(function () {
     PreencheSelectSuaMoeda();
     EqualizaTamanhoTela();
+  //  jQuery(document).ajaxStart(ExibeMensagem("Carregando...")).ajaxStop(DesbloqueiaTela());
 });
 
+jQuery('#myModal').on('hidden.bs.modal', function (e) {
+    
+    //colocar aqui a busca a ser realizada com os filtros 
+
+})

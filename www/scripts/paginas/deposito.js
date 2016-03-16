@@ -1,5 +1,6 @@
 ﻿var OPERACAO = '';
 var COD_VENDA = '';
+var OP_REALIZADA = '';
 jQuery(document).ready(function () {
 
     COD_VENDA = RecebeValores();
@@ -68,30 +69,42 @@ function ClkConfirmarDeposito()
 }
 
 function ConfirmaDeposito() {
+    if (OP_REALIZADA == '')
+    {
+        var msg = ValidaDadosBancarios();
 
-    var msg = ValidaDadosBancarios();
 
-    if (msg == '') {
-        var BANCOS = jQuery('#BANCOS').val();
-        var AGENCIA = jQuery('#AGENCIA').val();
-        var CONTA = jQuery('#CONTA').val();
-        var DATA = jQuery('#DATA').val();
-        var NUM_DOC = jQuery('#NUM_DOC').val();
-        var VALOR_PRODUTO = OPERACAO[0].VALOR_TOTAL_OPERACAO;
-        var ID_VENDA = OPERACAO[0].ID_VENDA;
-        var ID_STATUS_VENDA = 6;
-        var ID_TIPO_DEPOSITO = jQuery('#DEPOSITO').val();
-        var ID_TIPO_VENDA = OPERACAO[0].ID_TIPO_VENDA;
 
-        var ret = AlteraDepositoOperacao(ID_VENDA,COD_VENDA, ID_STATUS_VENDA, NUM_DOC, DATA, ID_TIPO_DEPOSITO, VALOR_PRODUTO, ID_TIPO_VENDA, null, ERROCONEXAO);
-        if (ret > 0) {
-            
-            ExibeMensagem('Depósito informado com sucesso');
+        if (msg == '') {
+
+            var VALOR_PRODUTO = OPERACAO[0].VALOR_TOTAL_OPERACAO;
+            var ID_VENDA = OPERACAO[0].ID_VENDA;
+            var ID_STATUS_VENDA = 6;
+            var ID_TIPO_VENDA = OPERACAO[0].ID_TIPO_VENDA;
+
+
+            var BANCOS = jQuery('#BANCOS').val();
+            var AGENCIA = jQuery('#AGENCIA').val();
+            var CONTA = jQuery('#CONTA').val();
+            var DATA = jQuery('#DATA').val();
+            var NUM_DOC = jQuery('#NUM_DOC').val();
+            var ID_TIPO_DEPOSITO = jQuery('#DEPOSITO').val();
+           
+      
+            var ret = AlteraDepositoOperacao(ID_VENDA, COD_VENDA, ID_STATUS_VENDA, NUM_DOC, DATA, ID_TIPO_DEPOSITO, VALOR_PRODUTO, ID_TIPO_VENDA, null, ERROCONEXAO);
+            OP_REALIZADA = ret;
+            if (ret > 0) {
+
+                ExibeMensagem('Depósito informado com sucesso');
+            }
+        }
+        else {
+
+            ExibeMensagem(msg);
         }
     }
     else {
-
-        ExibeMensagem(msg);
+         ExibeMensagem("Este depósito já foi informado!")
     }
 }
 

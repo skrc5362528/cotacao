@@ -3660,6 +3660,7 @@
 
 var BloqueiaTela = function BloqueiaTela(mensagem) {
 
+    //debugger;
     jQuery.blockUI({
 
         css: {
@@ -3726,7 +3727,7 @@ var EqualizaTamanhoTela = function EqualizaTamanhoTela() {
     jQuery("#content").css('min-height', (tam));
 }
 
-var IsEmail =function IsEmail(email) {
+var IsEmail = function IsEmail(email) {
     var exclude = /[^@\-\.\w]|^[_@\.\-]|[\._\-]{2}|[@\.]{2}|(@)[^@]*\1/;
     var check = /@[\w\-]+\./;
     var checkend = /\.[a-zA-Z]{2,3}$/;
@@ -3761,24 +3762,25 @@ var OrdenaResultados = function OrdenaResultados(prop, asc, obj) {
 
 var calculoCompra = function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA, TIPO_COTACAO) {
 
-   
-        var taxa = parseFloat(TAXA_COMPRA.replace(',', '.'))
-        var valorCot = parseFloat(VALOR_COTACAO_COMPRA);
-        var percent = parseFloat((valorCot / 100));
-        var valor = parseFloat((taxa * percent));
-        return parseFloat(taxa + valor);
- 
+    var taxa = parseFloat(TAXA_COMPRA.replace(',', '.'))
+    var valorCot = parseFloat(VALOR_COTACAO_COMPRA);
+    var percent = parseFloat((valorCot / 100));
+    var valor = parseFloat((taxa * percent));
+    return parseFloat(taxa + valor);
+
 }
 
 
 
-var calculoVenda = function calculoVenda(TAXA_VENDA, VALOR_COTACAO, TIPO_COTACAO) {
-
-        var taxa = parseFloat(TAXA_VENDA.replace(',', '.'))
-        var valorCot = parseFloat(VALOR_COTACAO);
-        var percent = parseFloat((valorCot / 100));
-        var valor = parseFloat((taxa * percent));
-        return parseFloat(taxa + valor);
+var calculoVenda = function calculoVenda(TAXA_VENDA, VALOR_COTACAO, IOF) {
+    var valorCot = parseFloat(VALOR_COTACAO);
+    var taxa = parseFloat(TAXA_VENDA.replace(',', '.'))
+    var percIOF = parseFloat(IOF);
+    var percent = parseFloat((valorCot / 100));
+    var valiIncidenciaIOF = parseFloat(taxa * percIOF);
+    var valor = parseFloat((taxa * percent));
+    return parseFloat(taxa + valor + valiIncidenciaIOF);
+    
 }
 
 function calculoDistancia(latPara, longPara) {
@@ -3802,20 +3804,24 @@ var getUrlVars = function getUrlVars() {
     return vars;
 }
 
-function CalculaValorTotal(IOF, VALOR_EXCHANGE, VALOR_CONVERTIDO, ENTREGA) {
+function CalculaValorTotal(VALOR_EXCHANGE, VALOR_CONVERTIDO, TAXA_ENTREGA) {
 
-    var valIOF = parseFloat(IOF).toFixed(2);
-    //alert(valIOF.toString());
-    //var valTAXA = parseFloat(VALOR_EXCHANGE).toFixed(2);
-    //alert(valTAXA);
-    var valCONVER = parseFloat(VALOR_CONVERTIDO).toFixed(2);
-    //alert(valCONVER);
-    var valEntrega = parseFloat(ENTREGA).toFixed(2);
-    //
-    var valorExchange = parseFloat(VALOR_EXCHANGE).toFixed(2);
-    //alert(valEntrega);
-    var valorTotalIof = (parseFloat(((valIOF / 100) * valCONVER)).toFixed(2));
-    //alert(valEntrega);
-    var valortot = '';
-    return valortot = parseFloat(parseFloat(valCONVER) + parseFloat(valEntrega) + parseFloat(valorTotalIof) + parseFloat(valorExchange)).toFixed(2);
+    var valTAXA = parseFloat(VALOR_EXCHANGE).toFixed(2);
+    var valCONVER = ValidaValoresNumericos(VALOR_CONVERTIDO);
+    var valEntrega = parseFloat(TAXA_ENTREGA).toFixed(2);
+    var valortot = formataValores(parseFloat(valCONVER + valTAXA + valEntrega).toFixed(2), '');
+}
+
+
+function formataValores(VALOR, SIMBOLO) {
+    return accounting.formatMoney(VALOR, SIMBOLO + " ", 2, ".", ",");
+}
+
+
+function ValidaValoresNumericos(valor) {
+    if (valor == '')
+    { return 0; }
+    else {
+        return valor.toString().replace('.', '').replace(',', '.');
+    }
 }

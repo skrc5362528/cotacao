@@ -48,13 +48,14 @@
         <div class="contact-text" >Estabelecimento sem cotação disponível</div>
     </div>-->
 
-    <script src="scripts/jquery-2.1.4.js"></script>
+    <!--<script src="scripts/jquery-2.1.4.js"></script>-->
+    <script src="scripts/jquery-2.2.1.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
     <script>
-
+        var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
         var DATA = '';
 
         //function PreencheSelect(ID_ESTABELECIMENTO) {
@@ -95,7 +96,7 @@
         }
 
         function CarregaUltimaCotacao(data) {
-            var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO, data[0].TIPO_COTACAO).toFixed(2);
+            var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO, IOF).toFixed(2);
             var VALOR_COMPRA = calculoCompra(data[0].TAXA_COMPRA, data[0].VALOR_COTACAO_COMPRA, data[0].TIPO_COTACAO).toFixed(2);
 
             jQuery('#VALOR_COMPRA').text('R$ ' + VALOR_COMPRA);

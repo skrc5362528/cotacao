@@ -14,7 +14,7 @@ function CarregaTela() {
 function PreparaSistema(pagina) {
     CarregaMenu(pagina);
    // CarregaTela();
-    MenuAdmin();
+   // MenuAdmin();
 }
 
 function success(pos) {

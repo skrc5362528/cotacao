@@ -1,5 +1,5 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.exchangeapp" version="1.0.0">
-  <name>eXCHANGE</name>
+  <name>eXCHANGEAPP</name>
   <description>Hello World sample application that responds to the deviceready event.</description>
   <author href="http://phonegap.com" email="support@phonegap.com">Bunker07</author>
   <content src="index.html"/>
@@ -51,15 +51,19 @@
 		<gap:splash src="www/splash.png" />
 
 
-  <gap:plugin name="cordova-plugin-geolocation" />
-  <gap:plugin name="org.apache.cordova.network-information" />
-  <gap:plugin name="cordova-plugin-dialogs"/>
+  <plugin name="cordova-plugin-device" />
+  <plugin name="cordova-plugin-geolocation" />
+  <plugin name="org.apache.cordova.network-information" />
+  <plugin name="cordova-plugin-camera"/>
+  <plugin name="cordova-plugin-file-transfer"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
+
   
+
     <feature name="http://api.phonegap.com/1.0/geolocation"/>
     <feature name="http://api.phonegap.com/1.0/network"/>
     <feature name="http://api.phonegap.com/1.0/notification"/>
-
+    <feature name="http://api.phonegap.com/1.0/camera"/>
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *"/>
 
