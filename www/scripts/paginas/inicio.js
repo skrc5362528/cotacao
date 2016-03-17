@@ -1,22 +1,12 @@
 ﻿//=============================================
-var pictureSource;
-var destinationType; // sets the format of returned value
 var optionsWatchPosition; 
-
 document.addEventListener("deviceready", onDeviceReady, false);
-
 function onDeviceReady() {
     optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
-    pictureSource = navigator.camera.PictureSourceType;
-    destinationType = navigator.camera.DestinationType;
 }
-
+navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 //============================================
 
-
-
-
-navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 
 
 function CarregaMenu(pagina) {
@@ -65,51 +55,3 @@ function MenuAdmin() {
    
 }
 
-
-
-
-function FotoDocumentoCPF() {
-    navigator.camera.getPicture(sucessoCPF, onFail, {
-        quality: 50,
-        destinationType: destinationType.DATA_URL
-    });
-}
-function FotoDocumentoRG() {
-    navigator.camera.getPicture(sucessoRG, onFail, {
-        quality: 50,
-        destinationType: destinationType.DATA_URL
-    });
-}
-function FotoDocumentoComprovante() {
-    navigator.camera.getPicture(sucessoComprovante, onFail, {
-        quality: 50,
-        destinationType: destinationType.DATA_URL
-    });
-}
-
-//===========================================
-
-
-function sucessoCPF(imageData) {
-    IMAGEM_BASE64_CPF = imageData;
-    // jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-    jQuery('#iconeTimesCPF').addClass("fa-check");
-}
-
-function sucessoComprovante(imageData) {
-    IMAGEM_BASE64_COMPROVANTE = imageData
-    //jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-    jQuery('#iconeTimesComprovante').addClass("fa-check");
-}
-
-function sucessoRG(imageData) {
-    IMAGEM_BASE64_RG = imageData
-    //jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-    jQuery('#iconeTimesRG').addClass("fa-check");
-}
-
-function onFail(message) {
-    alert('Failed because: ' + message);
-}
-
-//===========================================
