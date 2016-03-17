@@ -13,15 +13,15 @@ var IMAGEM_BASE64_CPF = '';
 var IMAGEM_BASE64_RG = '';
 var IMAGEM_BASE64_COMPROVANTE = '';
 var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
-var pictureSource;   // picture source
-var destinationType; // sets the format of returned value
+var pictureSource = navigator.camera.PictureSourceType;
+var destinationType = navigator.camera.DestinationType; // sets the format of returned value
 
-document.addEventListener("deviceready", onDeviceReady, false);
+//document.addEventListener("deviceready", onDeviceReady, false);
 
-function onDeviceReady() {
-    pictureSource = navigator.camera.PictureSourceType;
-    destinationType = navigator.camera.DestinationType;
-}
+//function onDeviceReady() {
+//    pictureSource 
+//    destinationType 
+//}
 
 function BuscaCotacaoEstabelecimento() {
     DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
