@@ -219,7 +219,7 @@ function CarregaDivOperacao() {
            "</div>" +
            "</div>"+
            "<div class='two-half last-column' >" +
-           "<div class='icon-selector-exchange icon-red-exchange' id='iconeRG'><i id='iconeTimesRG' class='fa fa-times'></i></div>" +
+           "<i id='iconeTimesRG' class=''></i>" +
            "</div>" +
            "</div>" +
             //==========================================
@@ -230,7 +230,7 @@ function CarregaDivOperacao() {
            "</div>" +
            "</div>"+
            "<div class='two-half last-column' >" +
-           "<div class='icon-selector-exchange icon-red-exchange' id='iconeCPF'><i id='iconeTimesCPF' class='fa fa-times'></i></div>" +
+           "<i id='iconeTimesCPF' class=''></i>" +
            "</div>" +
            "</div>" +
             //==========================================
@@ -241,7 +241,7 @@ function CarregaDivOperacao() {
            "</div>" +
            "</div>"+
            "<div class='two-half last-column' >" +
-           "<div class='icon-selector-exchange icon-red-exchange' id='iconeComprovante'><i id='iconeTimesComprovante' class='fa fa-times'></i></div>" +
+           "<i id='iconeTimesComprovante' class=''></i>" +
            "</div>"+
            "</div>" +
            "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
@@ -748,20 +748,20 @@ function FotoDocumentoComprovante() {
 
 function sucessoCPF(imageData) {
     IMAGEM_BASE64_CPF = imageData;
-    jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-    jQuery('#iconeTimesCPF').removeClass("fa-times").addClass("fa-check");
+   // jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesCPF').addClass("fa-check");
 }
 
 function sucessoComprovante(imageData) {
     IMAGEM_BASE64_COMPROVANTE = imageData
-    jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-    jQuery('#iconeTimesComprovante').removeClass("fa-times").addClass("fa-check");
+    //jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesComprovante').addClass("fa-check");
 }
 
 function sucessoRG(imageData) {
     IMAGEM_BASE64_RG = imageData
-    jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-    jQuery('#iconeTimesRG').removeClass("fa-times").addClass("fa-check");
+    //jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesRG').addClass("fa-check");
 }
 
 function onFail(message) {
