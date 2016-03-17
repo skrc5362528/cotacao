@@ -84,7 +84,8 @@
   </platform>
 
   <platform name="android">
-    <preference name="phonegap-version" value="4.1.1" />
+   <!--<preference name="phonegap-version" value="4.1.1" />--> 
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="orientation" value="portrait" />
     <allow-intent href="market:*"/>
   </platform>
