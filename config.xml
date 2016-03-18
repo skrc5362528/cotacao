@@ -51,19 +51,19 @@
 		<gap:splash src="www/splash.png" />
 
 
-  <gap:plugin name="cordova-plugin-camera" spec="2.1.1" />
-  <gap:plugin name="cordova-plugin-device" spec="1.1.1" />
-  <gap:plugin name="cordova-plugin-file-transfer" spec="1.5.0" />
-  <gap:plugin name="cordova-plugin-geolocation" spec="2.1.0" />
-  <gap:plugin name="cordova-plugin-whitelist" spec="1.2.1" />
-  <gap:plugin name="org.apache.cordova.network-information" spec="1.2.0" />
+  <plugin name="cordova-plugin-camera" spec="2.1.1" />
+  <plugin name="cordova-plugin-device" spec="1.1.1" />
+  <plugin name="cordova-plugin-file-transfer" spec="1.5.0" />
+  <plugin name="cordova-plugin-geolocation" spec="2.1.0" />
+  <plugin name="cordova-plugin-whitelist" spec="1.2.1" />
+  <plugin name="org.apache.cordova.network-information" spec="1.2.0" />
 
 
 
-  <!--<feature name="http://api.phonegap.com/1.0/geolocation"/>
+  <feature name="http://api.phonegap.com/1.0/geolocation"/>
     <feature name="http://api.phonegap.com/1.0/network"/>
     <feature name="http://api.phonegap.com/1.0/notification"/>
-    <feature name="http://api.phonegap.com/1.0/camera"/>-->
+    <feature name="http://api.phonegap.com/1.0/camera"/>
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *"/>
 
