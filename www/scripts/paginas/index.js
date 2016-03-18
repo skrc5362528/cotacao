@@ -45,13 +45,10 @@ function Registrar() {
     window.location.assign("registro.html")
 }
 
-
-
 function CarregaTelaTeste() {
         jQuery('#EMAIL').val('vitorcastro78@gmail.com');
         jQuery('#SENHA').val('lara2308');
 }
-
 
 jQuery(document).ready(function myfunction() {
     CarregaLogin();
