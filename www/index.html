@@ -1,91 +1,109 @@
 ﻿<!DOCTYPE html>
 <html>
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/splash/splash-icon.png">
-    <link rel="apple-touch-startup-image" href="images/splash/splash-screen.png" media="screen and (max-device-width: 320px)" />
-    <link rel="apple-touch-startup-image" href="images/splash/splash-screen%402x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
-    <link rel="apple-touch-startup-image" sizes="640x1096" href="images/splash/splash-screen%403x.png" />
-    <link rel="apple-touch-startup-image" sizes="1024x748" href="images/splash/splash-screen-ipad-landscape.html" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
-    <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
-    <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png" media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)" />
-    <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />
-    <title>eXCHANGE</title>
-    <link href="styles/style.css" rel="stylesheet" type="text/css">
-    <link href="styles/framework.css" rel="stylesheet" type="text/css">
-    <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
-    <link href="styles/owl.theme.css" rel="stylesheet" type="text/css">
-    <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
-    <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
-    <link href="styles/animate.css" rel="stylesheet" type="text/css">
+    <title>Capture Photo</title>
 
     <script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="cordova_plugins.js"></script>
-    <!--SCRIPTS BASICOS-->
-    <!--<script type="text/javascript" src="scripts/jquery-2.1.4.js"></script>-->
-    <script src="scripts/jquery-2.2.1.js"></script>
-    <script type="text/javascript" src="scripts/jqueryui.js"></script>
-    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
-    <script type="text/javascript" src="scripts/custom.js"></script>
-    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
-    <script type="text/javascript" src="scripts/paginas/index.js"></script>
+    <script type="text/javascript" charset="utf-8">
 
+        var pictureSource;   // picture source
+        var destinationType; // sets the format of returned value
+
+        // Wait for Cordova to connect with the device
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // Cordova is ready to be used!
+        //
+        function onDeviceReady() {
+            pictureSource = navigator.camera.PictureSourceType;
+            destinationType = navigator.camera.DestinationType;
+        }
+
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoDataSuccess(imageData) {
+            // Uncomment to view the base64 encoded image data
+            //console.log(imageData);
+            //alert(imageData);
+            // Get image handle
+            //
+            var largeImage = document.getElementById('largeImage');
+
+            // Unhide image elements
+            //
+            largeImage.style.display = 'block';
+
+            // Show the captured photo
+            // The inline CSS rules are used to resize the image
+            //
+            largeImage.src = "data:image/jpeg;base64," + imageData;
+        }
+
+        // Called when a photo is successfully retrieved
+        //
+        function onPhotoURISuccess(imageURI) {
+            // Uncomment to view the image file URI
+            alert(imageURI);
+
+            // Get image handle
+            //
+            var largeImage = document.getElementById('largeImage');
+
+            // Unhide image elements
+            //
+            largeImage.style.display = 'block';
+
+            // Show the captured photo
+            // The inline CSS rules are used to resize the image
+            //
+            largeImage.src = imageURI;
+        }
+
+        // A button will call this function
+        //
+        function capturePhoto() {
+            // Take picture using device camera and retrieve image as base64-encoded string
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+                quality: 50,
+                destinationType: destinationType.DATA_URL
+            });
+        }
+
+        // A button will call this function
+        //
+        function capturePhotoEdit() {
+            // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+                quality: 20, allowEdit: true,
+                destinationType: destinationType.DATA_URL
+            });
+        }
+
+        // A button will call this function
+        //
+        function getPhoto(source) {
+            // Retrieve image file location from specified source
+            navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+                quality: 50,
+                destinationType: destinationType.FILE_URI,
+                sourceType: source
+            });
+        }
+
+        // Called if something bad happens.
+        //
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+    </script>
 </head>
 <body>
-    <div id="preloader">
-        <div id="status">
-        </div>
-    </div>
-    <div>
-        <div class="header">
-            <!--<a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>-->
-            <a><i></i></a>
-            <a class="header-logo">eXCHANGE</a>
-            <a href="#"><i></i></a>
-        </div>
-        <div class="header-clear"></div>
-        <div class="header-clear"></div>
-        <div class="content">
-            <div class="container no-bottom">
-                <div class="no-bottom">
-                    <div>
-                        <!--<fieldset>-->
-                        <label class="input-label"><strong> Entrar </strong></label>
-                        <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
-                        <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
-                        <!--</fieldset>-->
-                    </div>
-                    <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="BuscaLogin();">
-                        <p class="center-text" style="color: #0489B1; font-size: 15px;">Entrar</p>
-                    </div>
-                    <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="Registrar();">
-                        <p class=" center-text" style="color: #0489B1; font-size: 15px;">
-                            Cadastrar
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div style="font-size:32px; text-align:center;">
-                <div class='one-half'>
-                    <i class="fa fa-facebook-f" style="color:white;"></i>
-                </div>
-                <div class='two-half last-column'>
-                    <i class="fa fa-google-plus" style="color:white;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
+    <button onclick="capturePhoto();">Capture Photo</button> <br>
+    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
+    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+    <!--<img  id="smallImage" src="" />-->
+    <img  id="largeImage" width="100" height="100" src="" />
 </body>
 </html>
-
-
-
-
-
-
-
-
