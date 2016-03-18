@@ -1,13 +1,22 @@
 ﻿//=============================================
+var pictureSource;
+var destinationType; // sets the format of returned value
 var optionsWatchPosition; 
+
 document.addEventListener("deviceready", onDeviceReady, false);
+
 function onDeviceReady() {
     optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
 }
-navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+
 //============================================
 
 
+
+
+navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
 
 
 function CarregaMenu(pagina) {
@@ -55,4 +64,7 @@ function MenuAdmin() {
     }
    
 }
+
+
+
 

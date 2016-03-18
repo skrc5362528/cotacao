@@ -51,12 +51,25 @@
 		<gap:splash src="www/splash.png" />
 
 
-  <gap:plugin name="cordova-plugin-camera" spec="2.1.1" />
-  <gap:plugin name="cordova-plugin-device" spec="1.1.1" />
-  <gap:plugin name="cordova-plugin-file-transfer" spec="1.5.0" />
-  <gap:plugin name="cordova-plugin-geolocation" spec="2.1.0" />
-  <gap:plugin name="cordova-plugin-whitelist" spec="1.2.1" />
-  <gap:plugin name="org.apache.cordova.network-information" spec="1.2.0" />
+  <gap:plugin name="org.apache.cordova.battery-status"/>
+  <gap:plugin name="org.apache.cordova.camera"/>
+  <gap:plugin name="org.apache.cordova.media-capture"/>
+  <gap:plugin name="org.apache.cordova.console"/>
+  <gap:plugin name="org.apache.cordova.contacts"/>
+  <gap:plugin name="org.apache.cordova.device"/>
+  <gap:plugin name="org.apache.cordova.device-motion"/>
+  <gap:plugin name="org.apache.cordova.device-orientation"/>
+  <gap:plugin name="org.apache.cordova.dialogs"/>
+  <gap:plugin name="org.apache.cordova.file"/>
+  <gap:plugin name="org.apache.cordova.file-transfer"/>
+  <gap:plugin name="org.apache.cordova.geolocation"/>
+  <gap:plugin name="org.apache.cordova.globalization"/>
+  <gap:plugin name="org.apache.cordova.inappbrowser"/>
+  <gap:plugin name="org.apache.cordova.media"/>
+  <gap:plugin name="org.apache.cordova.network-information"/>
+  <gap:plugin name="org.apache.cordova.splashscreen"/>
+  <gap:plugin name="org.apache.cordova.vibration"/>
+  
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *"/>
 
