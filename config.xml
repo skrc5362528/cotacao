@@ -70,7 +70,6 @@
 
   
   <platform name="android">
-    <preference name="orientation" value="portrait" />
     <allow-intent href="market:*"/>
   </platform>
   <platform name="ios">
