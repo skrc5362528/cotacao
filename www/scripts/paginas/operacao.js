@@ -15,17 +15,17 @@ var IMAGEM_BASE64_COMPROVANTE = '';
 var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 //=============================================
-var pictureSource;
-var destinationType; // sets the format of returned value
-var optionsWatchPosition;
+//var pictureSource;
+//var destinationType; // sets the format of returned value
+//var optionsWatchPosition;
 
-document.addEventListener("deviceready", onDeviceReady, false);
+//document.addEventListener("deviceready", onDeviceReady, false);
 
-function onDeviceReady() {
-    optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
-    pictureSource = navigator.camera.PictureSourceType;
-    destinationType = navigator.camera.DestinationType;
-}
+//function onDeviceReady() {
+//    optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+//    pictureSource = navigator.camera.PictureSourceType;
+//    destinationType = navigator.camera.DestinationType;
+//}
 //================================================
 
 function BuscaCotacaoEstabelecimento() {

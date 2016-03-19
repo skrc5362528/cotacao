@@ -1,11 +1,17 @@
-﻿//=============================================
-var optionsWatchPosition; 
+﻿var pictureSource;
+var destinationType; // sets the format of returned value
+var optionsWatchPosition;
+
 document.addEventListener("deviceready", onDeviceReady, false);
+
 function onDeviceReady() {
     optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
+    
+    alert(destinationType.DATA_URL);
+    //alert(pictureSource.DATA_URL);
 }
-navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-//============================================
 
 
 
