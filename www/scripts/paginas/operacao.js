@@ -735,19 +735,19 @@ function AlteraDadosUsuario() {
 function FotoDocumentoCPF() {
     navigator.camera.getPicture(sucessoCPF, onFail, {
         quality: 50,
-        destinationType: navigator.camera.DestinationType.DATA_URL
+        destinationType: Camera.DestinationType.DATA_URL
     });
 }
 function FotoDocumentoRG() {
     navigator.camera.getPicture(sucessoRG, onFail, {
-        quality: 50,
-        destinationType: navigator.camera.DestinationType.DATA_URL
+       quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL
     });
 }
 function FotoDocumentoComprovante() {
     navigator.camera.getPicture(sucessoComprovante, onFail, {
         quality: 50,
-        destinationType: navigator.camera.DestinationType.DATA_URL
+        destinationType: Camera.DestinationType.DATA_URL
     });
 }
 
