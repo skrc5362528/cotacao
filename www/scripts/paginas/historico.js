@@ -8,9 +8,11 @@ function BuscarEstabelecimento() {
         jQuery.each(data, function () {
             html+= CarregaDivOperacao(this);
         });
+        jQuery('#DIVHISTORICO').html(html);
     }
-    jQuery('#DIVHISTORICO').html(html);
-    //DesbloqueiaTela();
+else {
+        jQuery('#DIVHISTORICO').html(MensagemRetornoVazioBUsca());
+    }
 }
 
 function CarregaDivOperacao(data) {
@@ -62,4 +64,16 @@ function CarregaDados(data) {
         });
     }
 
+}
+
+function MensagemRetornoVazioBUsca()
+{
+    var html =
+ "<div  class='big-notification static-notification-white'>" +
+ "<div>" +
+ "<strong>Nenhuma compra realizada</strong> " +
+ "</div>" +
+ "</div>";
+
+    return html;
 }

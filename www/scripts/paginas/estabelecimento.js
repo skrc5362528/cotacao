@@ -92,6 +92,9 @@ function CarregaDados(data) {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
         });
     }
+    else {
+        jQuery('#DIVESTABELECIMENTO').append(MensagemRetornoVazioBUsca());
+    }
 
 }
 
@@ -286,3 +289,16 @@ jQuery('#myModal').on('hidden.bs.modal', function (e) {
     //colocar aqui a busca a ser realizada com os filtros 
 
 })
+
+
+function MensagemRetornoVazioBUsca()
+{
+    var html =
+ "<div  class='big-notification static-notification-white'>" +
+ "<div>" +
+ "<strong>Não há resultados para sua busca</strong> " +
+ "</div>" +
+ "</div>";
+
+    return html;
+}

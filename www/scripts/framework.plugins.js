@@ -3750,7 +3750,6 @@ GeoCodeCalc.CalcDistance = function (lat1, lng1, lat2, lng2, radius) {
     return radius * 2 * Math.asin(Math.min(1, Math.sqrt((Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lat1, lat2)) / 2.0), 2.0) + Math.cos(GeoCodeCalc.ToRadian(lat1)) * Math.cos(GeoCodeCalc.ToRadian(lat2)) * Math.pow(Math.sin((GeoCodeCalc.DiffRadian(lng1, lng2)) / 2.0), 2.0)))));
 };
 
-
 var OrdenaResultados = function OrdenaResultados(prop, asc, obj) {
     obj = obj.sort(function (a, b) {
         if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
@@ -3769,8 +3768,6 @@ var calculoCompra = function calculoCompra(TAXA_COMPRA, VALOR_COTACAO_COMPRA, TI
     return parseFloat(taxa + valor);
 
 }
-
-
 
 var calculoVenda = function calculoVenda(TAXA_VENDA, VALOR_COTACAO, IOF) {
     var valorCot = parseFloat(VALOR_COTACAO);
@@ -3792,7 +3789,6 @@ function calculoDistancia(latPara, longPara) {
     return (km).toString().substring(0, 4);
 }
 
-
 var getUrlVars = function getUrlVars() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -3812,7 +3808,6 @@ function CalculaValorTotal(VALOR_EXCHANGE, VALOR_CONVERTIDO, TAXA_ENTREGA) {
     var valortot = formataValores(parseFloat(valCONVER + valTAXA + valEntrega).toFixed(2), '');
 }
 
-
 function formataValores(VALOR, SIMBOLO) {
     return accounting.formatMoney(VALOR, SIMBOLO + " ", 2, ".", ",");
 }
@@ -3825,3 +3820,24 @@ function ValidaValoresNumericos(valor) {
         return valor.toString().replace('.', '').replace(',', '.');
     }
 }
+
+var app = {
+   
+    initialize: function () {
+        this.bindEvents();
+    },
+
+    bindEvents: function () {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+
+    onDeviceReady: function () {
+        optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+        pictureSource = navigator.camera.PictureSourceType;
+        destinationType = navigator.camera.DestinationType;
+
+        alert(destinationType.DATA_URL);
+        //alert(pictureSource.DATA_URL);
+    }
+};
+
