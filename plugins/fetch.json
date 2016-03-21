@@ -66,11 +66,7 @@
     "cordova-plugin-camera": {
         "source": {
             "type": "registry",
-<<<<<<< HEAD
             "id": "cordova-plugin-camera@~2.1.0"
-=======
-            "id": "cordova-plugin-camera"
->>>>>>> 703b679aa04f250cefdf54c023a112fd7e177526
         },
         "is_top_level": true,
         "variables": {}
