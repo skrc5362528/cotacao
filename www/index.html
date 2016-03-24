@@ -23,17 +23,16 @@
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="cordova-plugins.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../cordova_plugins.js"></script>
     <!--SCRIPTS BASICOS-->
+    <!--<script type="text/javascript" src="scripts/jquery-2.1.4.js"></script>-->
     <script src="scripts/jquery-2.2.1.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
     <script type="text/javascript" src="scripts/paginas/index.js"></script>
-    <script type="text/javascript">app.initialize();</script>
 
 </head>
 <body>
@@ -55,7 +54,7 @@
                 <div class="no-bottom">
                     <div>
                         <!--<fieldset>-->
-                        <label class="input-label"><strong> Entrar </strong></label>
+                        <label class="input-label" style="top:-2px;"><strong> Entre com seu usuário e senha </strong></label>
                         <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
                         <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
                         <!--</fieldset>-->
@@ -63,7 +62,10 @@
                     <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="BuscaLogin();">
                         <p class="center-text" style="color: #0489B1; font-size: 15px;">Entrar</p>
                     </div>
-                    <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="Registrar();">
+                 <br clear="all" />
+                    <br clear="all" />
+                    <label class="input-label" style="top:-2px;"><strong> Novo usuário </strong></label>
+                       <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="Registrar();">
                         <p class=" center-text" style="color: #0489B1; font-size: 15px;">
                             Cadastrar
                         </p>

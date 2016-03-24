@@ -15,6 +15,8 @@
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />
     <title>COTACAO</title>
     <!--CSS DE ESTILOS-->
+    <script type="text/javascript" charset="utf-8" src="../cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../cordova_plugins.js"></script>
 
     <link href="styles/bootstrap.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
@@ -24,6 +26,214 @@
     <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
+
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+    var IMAGEM_BASE64_CPF = '';
+    var IMAGEM_BASE64_RG = '';
+    var IMAGEM_BASE64_COMPROVANTE = '';
+    var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value
+
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        pictureSource = navigator.camera.PictureSourceType;
+        destinationType = navigator.camera.DestinationType;
+    }
+
+
+
+    function FotoDocumentoCPF() {
+        navigator.camera.getPicture(sucessoCPF, onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.DATA_URL
+        });
+    }
+    function FotoDocumentoRG() {
+        navigator.camera.getPicture(sucessoRG, onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.DATA_URL
+        });
+    }
+    function FotoDocumentoComprovante() {
+        navigator.camera.getPicture(sucessoComprovante, onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.DATA_URL
+        });
+    }
+
+    //===========================================
+
+
+    function sucessoCPF(imageData) {
+        IMAGEM_BASE64_CPF = imageData;
+        // jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+        jQuery('#cpfImagem').addClass("fa-check");
+    }
+
+    function sucessoComprovante(imageData) {
+        IMAGEM_BASE64_COMPROVANTE = imageData
+        //jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+        jQuery('#iconeTimesComprovante').addClass("fa-check");
+    }
+
+    function sucessoRG(imageData) {
+        IMAGEM_BASE64_RG = imageData
+        //jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+        jQuery('#rgImagem').addClass("fa-check");
+    }
+
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
+
+    // Called when a photo is successfully retrieved
+    //
+    //function onPhotoDataSuccess(imageData) {
+    //    // Uncomment to view the base64-encoded image data
+    //    // console.log(imageData);
+
+    //    // Get image handle
+    //    //
+    //    var smallImage = document.getElementById('rgImagem');
+
+    //    // Unhide image elements
+    //    //
+    //    smallImage.style.display = 'block';
+
+    //    // Show the captured photo
+    //    // The inline CSS rules are used to resize the image
+    //    //
+    //    smallImage.src = "data:image/jpeg;base64," + imageData;
+    //}
+
+
+    //function onPhotoDataSuccessCPF(imageData) {
+    //    // Uncomment to view the base64-encoded image data
+    //    // console.log(imageData);
+
+    //    // Get image handle
+    //    //
+    //    var smallImage = document.getElementById('cpfImagem');
+
+    //    // Unhide image elements
+    //    //
+    //    smallImage.style.display = 'block';
+
+    //    // Show the captured photo
+    //    // The inline CSS rules are used to resize the image
+    //    //
+    //    smallImage.src = "data:image/jpeg;base64," + imageData;
+    //}
+
+    //// Called when a photo is successfully retrieved
+    ////
+    //function onPhotoURISuccess(imageURI) {
+    //    // Uncomment to view the image file URI
+    //    // console.log(imageURI);
+
+    //    // Get image handle
+    //    //
+    //    var largeImage = document.getElementById('rgImagem');
+
+    //    // Unhide image elements
+    //    //
+    //    largeImage.style.display = 'block';
+
+    //    // Show the captured photo
+    //    // The inline CSS rules are used to resize the image
+    //    //
+    //    largeImage.src = imageURI;
+    //}
+
+
+    //function onPhotoURISuccessCPF(imageURI) {
+    //    // Uncomment to view the image file URI
+    //    // console.log(imageURI);
+
+    //    // Get image handle
+    //    //
+    //    var largeImage = document.getElementById('cpfImagem');
+
+    //    // Unhide image elements
+    //    //
+    //    largeImage.style.display = 'block';
+
+    //    // Show the captured photo
+    //    // The inline CSS rules are used to resize the image
+    //    //
+    //    largeImage.src = imageURI;
+    //}
+
+    //// A button will call this function
+    ////
+    //function capturePhoto() {
+    //    // Take picture using device camera and retrieve image as base64-encoded string
+    //    navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+    //        quality: 50,
+    //        destinationType: destinationType.DATA_URL
+    //    });
+    //}
+
+    //function capturePhotoCPF() {
+    //    // Take picture using device camera and retrieve image as base64-encoded string
+    //    navigator.camera.getPicture(onPhotoDataSuccessCPF, onFail, {
+    //        quality: 50,
+    //        destinationType: destinationType.DATA_URL
+    //    });
+    //}
+
+    //// A button will call this function
+    ////
+    //function capturePhotoEdit() {
+    //    // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+    //    navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+    //        quality: 20, allowEdit: true,
+    //        destinationType: destinationType.DATA_URL
+    //    });
+    //}
+
+    //// A button will call this function
+    ////
+    //function getPhoto(source) {
+    //    // Retrieve image file location from specified source
+    //    navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+    //        quality: 50,
+    //        destinationType: destinationType.FILE_URI,
+    //        sourceType: source
+    //    });
+    //}
+
+    //function getPhotoCPF(source) {
+    //    // Retrieve image file location from specified source
+    //    navigator.camera.getPicture(onPhotoDataSuccessCPF, onFail, {
+    //        quality: 50,
+    //        destinationType: destinationType.FILE_URI,
+    //        sourceType: source
+    //    });
+    //}
+
+    //// Called if something bad happens.
+    ////
+    //function onFail(message) {
+    //    alert('Failed because: ' + message);
+    //}
+
+    </script>
+
+
+
+
+
+
+
 </head>
 <body onload="PreparaSistema('estabelecimento.html');">
     <!--class="snapjs-left"-->
@@ -31,6 +241,29 @@
         <div id="status">
         </div>
     </div>
+
+
+    <style>
+        .spinner {
+            position: fixed;
+            z-index: 9999; /* make higher than whatever is on the page */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            background: gray;
+            opacity: 0.95;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <div class="spinner">
+        <img src="img/loadingbar.gif" style="top: 238px;left: 106px;" />
+        <h3 style="position: absolute;left: 27%;top: 30%;color:white;">Aguarde, Carregando...</h3>
+        <!--<img src="http://www.exchangeapp.com.br/images/ICONe_GRANDE.png" style="position: absolute;left: 39%;top: 42%;width:20%" />-->
+    </div>
+
     <div class="all-elements">
         <div id="sidebar" class="page-sidebar">
             <div id="page_sidebar" class="page-sidebar">
@@ -104,41 +337,103 @@
                     </div>
                     <div class="modal-body">
                         <table>
+
                             <tr>
-                                <td>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKDELIVERY" checked>
-                                        <label class="onoffswitch-label" for="CHKDELIVERY">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                        </label>
-                                    </div>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
+
+                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>-->
+                                    <!--</div>-->
+                                </td>
+                                <td class="nav-item-modal">Retirada na agência</td>
+                            </tr>
+
+
+                            <tr>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox-inline" id="CHKDELIVERY">
+                                    <!--<label class="onoffswitch-label" for="CHKDELIVERY">-->
+                                    <!--<span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>-->
+                                    <!--</label>-->
+                                    <!--</div>-->
                                 </td>
                                 <td class="nav-item-modal">Delivery</td>
                             </tr>
+
+
+
                             <tr>
-                                <td>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKABERTO" checked>
-                                        <label class="onoffswitch-label" for="CHKABERTO">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                        </label>
-                                    </div>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
+
+                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>-->
+                                    <!--</div>-->
                                 </td>
-                                <td class="nav-item-modal">Aberto/Fechado</td>
+                                <td class="nav-item-modal">Recarga</td>
                             </tr>
+
+
+                            <tr>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
+
+                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>-->
+                                    <!--</div>-->
+                                </td>
+                                <td class="nav-item-modal">Estabelecimento aberto</td>
+                            </tr>
+
+                            <tr>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
+
+                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>-->
+                                    <!--</div>-->
+                                </td>
+                                <td class="nav-item-modal">Estabelecimento fechado</td>
+                            </tr>
+
+
+
+
+
+
                         </table>
-                </div>
-                <div class="modal-footer">
-                    <div class="center-element">
-                        <a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>
                     </div>
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                    <div class="modal-footer">
+                        <div class="center-element">
+                            <!--<a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>-->
+                            <!--<button type="button" class="static-notification-exchange" data-dismiss="modal" value="Filtrar">Filtrar</button>-->
+
+
+                            <div class="static-notification-exchange" style="border-radius: 10px;" id="btnFiltra">
+                                <p class='center-text' style='font-size:15px; color:white;'>Filtrar</p>
+                            </div>
+
+                        </div>
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <div class="modal fade" id="MODALORDENAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -184,11 +479,10 @@
                 </div>
             </div>
         </div>
-</div>
 
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="cordova-plugins.js"></script>
+    </div>
+    <!--SCRIPTS BASICOS-->
+    <!--<script src="scripts/jquery-2.1.4.js"></script>-->
     <script type="text/javascript" src="scripts/jquery-2.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/jqueryui.js"></script>
     <script type="text/javascript" src="scripts/framework.plugins.js"></script>
@@ -197,11 +491,9 @@
     <script type="text/javascript" src="scripts/custom.js"></script>
     <script type="text/javascript" src="scripts/modal.js"></script>
     <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
-    <script type="text/javascript">
-        app.initialize();</script>
+
     <!--SCRIPTS DE PÁGINAS-->
-    <script type="text/javascript" src="scripts/paginas/inicio.js"></script>>
-    <!--<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>-->
+    <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
 
 

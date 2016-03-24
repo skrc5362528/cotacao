@@ -2,69 +2,90 @@
 <html>
 <head>
     <title></title>
+
+    <script src="scripts/jquery-2.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/paginas/estabelecimento.js"></script>
 </head>
 <body>
+
+
+
     <div id="content" class="page-content">
-        <div class="header">
+        <div class="header" style="height:154px;">
             <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
             <a class="header-logo">eXCHANGE</a>
             <a><i></i></a>
-        </div>
-        <div class="header-clear-small"></div>
-        <div class="content">
-            <div class="container no-bottom">
-                <div class="no-bottom">
-                    <div>
-                        <fieldset>
-                            <label class="input-label"><strong> Busca </strong></label>                        
-                            <select name="" class="contactField" id="SUA_MOEDA" onchange="Buscar('DISTANCIA', true);"></select>
-                        </fieldset>
+
+
+</body>
+
+<div class="content">
+    <div class="container no-bottom">
+        <div class="no-bottom">
+            <div>
+                <fieldset>
+                    <label class="input-label"><strong> Busca </strong></label>
+                    <select name="" class="contactField" id="SUA_MOEDA" onchange="Buscar('DISTANCIA', true);"></select>
+                    <div id="DIVFILTRO" style="z-index:9998;position:fixed;width:99%;">
+
+                        <div class='center-text' style="float:left;width:20%;" id="ordenatxvenda" onclick="OrdenaBusca(this, cpo_tx_venda, ord_tx_venda);">
+                            <label class='contact-text' style='color:white;'>
+                                Preço
+                                <i class='fa fa-caret-up' style='font-size:18px; color:white;'></i>
+                            </label>
+                        </div>
+
+                        <div class='center-text' style="float:left;width:27%;" id="ordenadistancia" onclick="OrdenaBusca(this, cpo_distancia, ord_distancia);">
+                            <label class='contact-text' style='color:white;'>
+                                Distância
+                                <i class='fa fa-caret-down' style='font-size:18px; color:white;'></i>
+                            </label>
+                        </div>
+
+
+                        <div class='center-text' style="float:left;width:52%;" data-toggle='modal' data-target='#MODALFILTROS'>
+                            <label class='contact-text' style='color:white;margin-left: 54px;'>
+                                Filtrar
+                                <i class='fa fa-filter' style='font-size:18px; color:white;z-index:20;'></i>
+                            </label>
+                        </div>
+
                     </div>
-                </div>
+                </fieldset>
             </div>
-        </div>
-        <div class="content">
-            <div class="container no-bottom">
-                <div class="no-bottom">
-                    <div>
-                        <fieldset>
-                             <div id="DIVFILTRO">
-                             </div>
-                            <div id="DIVESTABELECIMENTO" style="overflow-x:auto; overflow-y:auto;">
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
         </div>
     </div>
-    <script src="scripts/jquery-2.2.1.min.js"></script>
-    <script type="text/javascript" src="scripts/jqueryui.js"></script>
-    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
-    <script type="text/javascript" src="scripts/custom.js"></script>
+</div>
+
+
+        </div>
+<div class="header-clear-small"></div>
+<br clear="all" />
+<br clear="all" />
+<br clear="all" />
+<br clear="all" />
+<br clear="all" />
+<br clear="all" />
+
+<div class="content">
+    <div class="container no-bottom">
+        <div class="no-bottom">
+            <div>
+                <fieldset>
+                    <div id="DIVESTABELECIMENTO" style="overflow-x:auto; overflow-y:auto;">
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+
+<script src="scripts/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="scripts/jqueryui.js"></script>
+<script type="text/javascript" src="scripts/framework.plugins.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
