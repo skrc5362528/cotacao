@@ -253,11 +253,11 @@ function CarregaDivOperacao() {
 
 
 
-
-           "<div class='two-half last-column' >" +
-           "<i id='iconeTimesRG'></i>" +
-           "</div>" +
-           "</div>" +
+           //"<div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesRG'></i>" +
+           //"</div>" +
+           //"</div>" +
             //==========================================
             "<div>" +
            "<div class='one-half-exchange' >" +
@@ -265,9 +265,20 @@ function CarregaDivOperacao() {
            "<i class='fa fa-camera'></i><strong> C.P.F</strong>" +
            "</div>" +
            "</div>" +
-           "<div class='two-half last-column' >" +
-           "<i id='iconeTimesCPF'></i>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesCPF'></i>" +
+           //"</div>" +
            "</div>" +
+                //==========================================
+            "<div>" +
+           "<div class='one-half-exchange' >" +
+           "<div class='btn'  onclick='FotoDocumentoRG()'>" +
+           "<i class='fa fa-camera'></i><strong> R.G.</strong>" +
+           "</div>" +
+           "</div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesCPF'></i>" +
+           //"</div>" +
            "</div>" +
             //==========================================
             "<div>" +
@@ -276,9 +287,9 @@ function CarregaDivOperacao() {
            "<i class='fa fa-camera'></i><strong> Comp. Residência</strong>" +
            "</div>" +
            "</div>" +
-           "<div class='two-half last-column' >" +
-           "<i id='iconeTimesComprovante'></i>" +
-           "</div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesComprovante'></i>" +
+           //"</div>" +
            "</div>" +
            "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
            "<p class='center-text' style='color: white;'><strong>Finalizar Compra</strong></p>" +
