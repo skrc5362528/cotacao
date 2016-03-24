@@ -57,7 +57,7 @@ jQuery(document).ready(function myfunction() {
     CarregaLogin();
     CarregaSisConfig();
 
-    CarregaTelaTeste();
+    //CarregaTelaTeste();
 });
 
 function CarregaSisConfig() {
