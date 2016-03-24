@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css" rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="styles/animate.css" rel="stylesheet" type="text/css">
+
+    <!--SCRIPTS BASICOS-->
+
+</head>
+<body style="background-color:white;">
+    <div id="DIVINFO">
+
+    </div>
+    <!--<div id="DIVBUSCACOTACAO" style="display:none;">
+        <div class="contact-text">Moeda:</div>
+        <select name="" class="contact-text" id="MOEDA" onchange="BuscaCotacaoEstabelecimento();"></select>
+        <span>
+            <label class="contact-text">Compra :</label>
+            <label class="contact-text" id="VALOR_COMPRA"></label>
+        </span>
+        <span>
+            <label class="contact-text">Venda :</label>
+            <label class="contact-text" id="VALOR_VENDA"></label>
+        </span>
+    </div>
+
+    <div id="DIVCOTACAO" style="display:none;">
+        <div class="contact-text">Moeda:</div>
+        <label class="contact-text" id="NOME_MOEDA_INFO"></label>
+        <span>
+            <label class="contact-text">Compra :</label>
+            <label class="contact-text" id="VALOR_COMPRA_INFO"></label>
+        </span>
+        <span>
+            <label class="contact-text">Venda :</label>
+            <label class="contact-text" id="VALOR_VENDA_INFO"></label>
+        </span>
+    </div>
+    <div id="DIVMSG" style="display:none;">
+        <br />
+        <div class="contact-text" >Estabelecimento sem cotação disponível</div>
+    </div>-->
+
+    <!--<script src="scripts/jquery-2.1.4.js"></script>-->
+    <script src="scripts/jquery-2.2.1.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript" src="scripts/jsmodel/wscotacao.js"></script>
+    <script>
+        var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
+        var DATA = '';
+
+        //function PreencheSelect(ID_ESTABELECIMENTO) {
+        //    jQuery('#MOEDA').append('<option value="" selected>Selecione uma moeda</option>');
+        //    var data = jQuery.parseJSON(RetornaListaMoedaEstabelecimentoCotacao(ID_ESTABELECIMENTO, null, null));
+        //    if (data.length > 0) {
+        //        jQuery.each(data, function () {
+        //            MontaSelect('MOEDA', this.SIMBOLO, this.NOME_MOEDA, this.PAIS);
+        //        });
+        //    }
+
+        //    return data.length;
+        //}
+
+        //function MontaSelect(OBJETO, SIMBOLO, NOME_MOEDA, PAIS) {
+        //    jQuery('#' + OBJETO + '').append('<option value=' + SIMBOLO + '>' + NOME_MOEDA + '</option>');
+        //}
+
+        //function BuscaCotacaoEstabelecimento() {
+
+        //    var ID_ESTABELECIMENTO = DATA.ID_ESTABELECIMENTO;
+        //    var SIMBOLO = jQuery('#MOEDA').val();
+        //    var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
+        //    CarregaUltimaCotacao(data);
+        //}
+
+        //function CarregaCotacaoEstabelecimento(ID_ESTABELECIMENTO, MOEDA) {
+
+        //}
+
+        function RetornaEstabelecimento(ID_ESTABELECIMENTO) {
+            var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
+            if (data.length > 0) {
+                jQuery.each(data, function () {
+                    MontaMapa(this);
+                });
+            }
+        }
+
+        function CarregaUltimaCotacao(data) {
+            var VALOR_VENDA = calculoVenda(data[0].TAXA_VENDA, data[0].VALOR_COTACAO, IOF).toFixed(2);
+            var VALOR_COMPRA = calculoCompra(data[0].TAXA_COMPRA, data[0].VALOR_COTACAO_COMPRA, data[0].TIPO_COTACAO).toFixed(2);
+
+            jQuery('#VALOR_COMPRA').text('R$ ' + VALOR_COMPRA);
+            jQuery('#VALOR_VENDA').text('R$ ' + VALOR_VENDA);
+        }
+
+
+
+        jQuery(document).ready(function () {
+            DATA = getUrlVars();
+            //if (!DATA.hasOwnProperty('SIMBOLO')) {
+
+                RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
+
+                //var count = PreencheSelect(DATA.ID_ESTABELECIMENTO);
+                //if (count > 0) {
+                //    jQuery('#DIVBUSCACOTACAO').css('display', 'block');
+                //}
+                //else {
+                //    jQuery('#DIVMSG').css('display', 'block');
+                //}
+            //}
+            //else {
+            //    RetornaEstabelecimento(DATA.ID_ESTABELECIMENTO);
+            //    var data = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(DATA.ID_ESTABELECIMENTO, DATA.SIMBOLO, null, ERROCONEXAO));
+            //    if (data.length > 0) {
+            //        jQuery.each(data, function () {
+            //            jQuery('#DIVCOTACAO').html(CarregaDivCotacao(this));
+            //        });
+            //    }
+            //    jQuery('#DIVCOTACAO').css('display', 'block');
+            //}
+        });
+
+        function MontaMapa(data) {
+
+            var html = "<strong class='contact-text'>" + data.NOME + "</strong><br>" +
+               //"<a class='contact-text' href='#'>Tel :" + data.FONE + "</a>" +
+               //"<a class='contact-mail' href='#'>Email: " + data.EMAIL + "</a>" +
+               "<a class='contact-text' href='#'>Endereço :" + data.ENDERECO + " , " + data.NUMERO + "</a>" +
+               "<a class='contact-text' href='#'>Comp. :" + data.COMPLEMENTO + "</a>" +
+               "<a class='contact-text' href='#'>Bairro :" + data.BAIRRO + "</a>" +
+               "<a class='contact-text' href='#'>Cidade :" + data.CIDADE + ", " + data.UF + " </a>";
+
+            jQuery('#DIVINFO').html(html);
+        }
+
+        //function CarregaDivInfo() {
+
+        //}
+        //function CarregaDivCotacao(data) {
+
+        //    var html = "<a class='contact-text' href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
+        //                "<a class='contact-text' href='#'>Compra :R$ "+calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2)+"</a>" +
+        //                "<a class='contact-text' href='#'>Venda :R$ "+calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO).toFixed(2)+"</a>";
+        //    return html;
+        //}
+        //function CarregaDivBuscaCotacao() {
+
+        //}
+    </script>
+
+</body>
+</html>

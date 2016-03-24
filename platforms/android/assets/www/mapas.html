@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!--CSS DE ESTILOS-->
+    <!--SCRIPTS BASICOS-->
+
+    <link href="leaflet/leaflet.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="leaflet-routing-machine/leaflet-routing-machine.css" rel="stylesheet" />
+
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        /*html, body, #map {
+            height: 100%;
+        }*/
+    </style>
+</head>
+<body>
+
+    <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim" tabindex="0" style="position: relative;">
+
+    </div>
+
+    <!--<script src="scripts/jquery-2.1.4.js"></script>-->
+    <script src="scripts/jquery-2.2.1.min.js"></script>
+    <script src="leaflet/leaflet.js"></script>
+
+    <script src="leaflet-routing-machine/leaflet-routing-machine.js"></script>
+
+    <script src="scripts/jqueryui.js"></script>
+    <script src="scripts/jsmodel/wscotacao.js"></script>
+    <script src="scripts/framework.plugins.js"></script>
+
+    <script>
+
+        BloqueiaTela("Carregando mapa...");
+            var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
+            navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+            var rota = '';
+            var map = '';
+         
+            CarregaMapa();
+
+       
+       
+        //==============================================================================================================================//
+        function CarregaMapa() {
+          
+
+            map = L.map('map');
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                maxZoom: 18,
+                attribution: '&copy; eXchangeapp',
+                id: 'vitorcastro.cigoy6vp700eyusm1aljj8ifi',
+                accessToken: 'pk.eyJ1Ijoidml0b3JjYXN0cm8iLCJhIjoiY2lnb3k2d3ZoMDBmMnVzbTFqc3VhajMybSJ9._iZ9ySIFcj7si5opBAwDwA'
+            }).addTo(map);
+
+            map.on('locationfound', onLocationFound);
+            map.on('locationerror', onLocationError);
+            map.locate({ setView: true, maxZoom: 16 });
+            map.on('popupopen', onMapClick);
+           
+        }
+
+        //=============================================================================================================================//
+
+        function success(pos) {
+            var crd = pos.coords;
+            localStorage.setItem('latitude', crd.latitude);
+            localStorage.setItem('longitude', crd.longitude);
+            DesbloqueiaTelaDelay(2000);
+        };
+
+        function error(err) {
+            BloqueiaTela('Localização desabilitada, favor habilitar a localização');
+            DesbloqueiaTelaDelay(2000);
+        };
+
+        function onLocationFound(e) {
+            var radius = 10;// e.accuracy / 2;
+
+            if ( localStorage.getItem('VIEWMAP') == undefined) {
+                CarregaEstabelecimentos();
+                L.marker(e.latlng).addTo(map).bindPopup("Você está aqui!").openPopup();
+                map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
+            }
+            else
+            {
+                var obj = localStorage.getItem('VIEWMAP');
+
+               
+                var id = obj.split("_");
+                var ID_ESTABELECIMENTO = id[0];
+                var SIMBOLO = id[1];
+                
+
+                var data = jQuery.parseJSON(RetornaEstabelecimentoPorId(ID_ESTABELECIMENTO, null, null));
+                if (data.length > 0) {
+                    jQuery.each(data, function () {
+                        if (this.LATITUDE != null && this.LONGITUDE != null) {
+                            L.marker([this.LATITUDE, this.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + this.ID_ESTABELECIMENTO + "&SIMBOLO=" + SIMBOLO + "' class='' height='180'  weight='180' frameBorder='0'></iframe>").openPopup().fire('onMapClick');
+                            map.panTo(new L.LatLng(this.LATITUDE, this.LONGITUDE));
+
+                        }
+                    });
+                }
+                localStorage.removeItem('VIEWMAP');
+                DesbloqueiaTela();
+            }
+        }
+
+        function onLocationError(e) {
+            navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+        }
+
+        function CarregaEstabelecimentos() {
+
+            var data = '';
+
+            if (localStorage.getItem('ESTABELECIMENTOS') == undefined) {
+                data = jQuery.parseJSON(RetornaListaEstabelecimentos(null, null));
+                localStorage.setItem('ESTABELECIMENTOS', JSON.stringify(data));
+            }
+            else {
+                data = jQuery.parseJSON(localStorage.getItem('ESTABELECIMENTOS'));
+            }
+
+
+            if (data.length > 0) {
+                jQuery.each(data, function () {
+                    if (this.LATITUDE != null && this.LONGITUDE != null) {
+                        MontaMapa(this);
+                    }
+                });
+            }
+
+
+
+        }
+
+        function MontaMapa(data) {
+            //L.marker([data.LATITUDE, data.LONGITUDE]).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='260'  weight='200' frameBorder='0'></iframe>");
+            L.circle([data.LATITUDE, data.LONGITUDE], 20, { color: 'red', fillColor: '#f03', fillOpacity: 0.5 }).addTo(map).bindPopup("<iframe id='FRMCONTATO' src='pg_contato.html?ID_ESTABELECIMENTO=" + data.ID_ESTABELECIMENTO + "' class='' height='300'  weight='200' frameBorder='0'></iframe>").fire('onMapClick');
+        }
+
+        function onMapClick(e) {
+
+            if (rota != '') {
+                rota.spliceWaypoints(0, 2);
+            }
+            var lat = localStorage.getItem('latitude');
+            var lng = localStorage.getItem('longitude');
+
+            rota = L.Routing.control(
+                {
+                    waypoints: [L.latLng(lat, lng), L.latLng(e.popup._latlng.lat, e.popup._latlng.lng)],
+                    routeWhileDragging: true,
+                    autoRoute: true
+                }
+                ).addTo(map);
+
+            jQuery(".leaflet-control").hide();
+        }
+
+    </script>
+
+    <script>
+    jQuery(document).ready(function () {
+        var tam = localStorage.getItem('height');
+        jQuery("#map").height(tam);
+        jQuery("#body").height(tam);
+        jQuery("#html").height(tam);
+    });
+    </script>
+
+</body>
+</html>
