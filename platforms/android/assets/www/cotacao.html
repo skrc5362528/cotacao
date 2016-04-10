@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script>
+    jQuery(document).ready(
+        function () {
+            PreencheSelect();
+            jQuery('#DIVCOTACAO').css('visibility', 'hidden');
+        }
+        );
+    </script>
+
+</head>
+<body>
+
+    <div id="content" class="page-content">
+        <div class=" header">
+            <a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>
+            <em> compra moeda </em>
+            <a onclick="BuscaValores();"><i class="fa fa-check"></i></a>
+        </div>
+        <div class="header-clear"></div>
+        <div class="decoration"></div>
+        <div class="content">
+            <div class="container no-bottom">
+                <div class="no-bottom">
+                    <div>
+                        <fieldset>
+                            <div class="formFieldWrap">
+                                <h2>Moeda : </h2>
+                                <select name="" class="contactField" id="MOEDA"></select>
+                            </div>
+                            <!--<div class="formFieldWrap">
+                                <h2>Data da cotação: </h2>
+                                <input type="date" class="contactField" name="DATA_COTACAO" id="DATA_COTACAO" />
+                            </div>-->
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div id="DIVCOTACAO" class="container no-bottom" style="visibility:hidden">
+                <h1>Cotação : </h1>
+   
+                    <h2>Data da Cotação : </h2>
+                    <h3><label id="DATACOTACAO"></label></h3>
+                    <h2>Tipo : </h2>
+                    <h3><label id="NOMEABREVIADOFIELD"></label></h3>
+                    <h2>Valor : </h2>
+                    <h3><label id="SVALORFIELD"></label></h3>
+                    <br />
+
+                    <h2>Outras Informações : </h2>
+
+                    <h4>Unidade padrão : <label id="UNIDADEPADRAOFIELD"></label></h4>
+                    <h4>Periodicidade : <label id="PERIODICIDADEFIELD"></label></h4>
+                    <h4>Descrição : <label id="FULLNAMEFIELD"></label></h4>
+
+                </p>
+
+            </div>
+        </div>
+        <div class="decoration"></div>
+    </div>
+
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <!--<script type="text/javascript" src="scripts/framework.plugins.js"></script>-->
+    <script type="text/javascript" src="scripts/custom.js"></script>
+</body>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
