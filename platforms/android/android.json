@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -95,15 +99,15 @@
                             "count": 3
                         },
                         {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
                             "count": 1
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
                         }
                     ]
@@ -133,10 +137,10 @@
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.phonegap.exchangeapp"
         },
-        "cordova-plugin-geolocation": {
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "com.phonegap.exchangeapp"
         },
-        "org.apache.cordova.network-information": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.phonegap.exchangeapp"
         }
     },
@@ -382,6 +386,18 @@
             "clobbers": [
                 "Connection"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+            "id": "cordova-plugin-geolocation.geolocation",
+            "clobbers": [
+                "navigator.geolocation"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+            "id": "cordova-plugin-geolocation.PositionError",
+            "runs": true
         }
     ],
     "plugin_metadata": {
@@ -392,7 +408,7 @@
         "cordova-plugin-dialogs": "1.1.1",
         "cordova-plugin-file": "4.1.1",
         "cordova-plugin-file-transfer": "1.5.0",
-        "cordova-plugin-geolocation": "1.0.1",
-        "org.apache.cordova.network-information": "0.2.15"
+        "org.apache.cordova.network-information": "0.2.15",
+        "cordova-plugin-geolocation": "2.1.0"
     }
 }

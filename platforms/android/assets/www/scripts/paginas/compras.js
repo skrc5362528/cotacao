@@ -40,11 +40,25 @@ function CarregaDivOperacao(data) {
    "<div class='two-half last-column'>" +
        "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "_' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
     "</div>" +
-        MontaConfirmaDeposito(data.ID_STATUS_VENDA, data.COD_VENDA) +
+        MontaComplemento(data.ID_STATUS_VENDA, data.COD_VENDA) +
     "</div>";
 
     return  html;
 
+}
+
+function MontaComplemento(ID_STATUS_VENDA, COD_VENDA)
+{
+    var html = '';
+    
+    if (ID_STATUS_VENDA == '5') {
+      html =   MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA);
+    }
+    if (ID_STATUS_VENDA == '5') {
+      html =   MontaAvalicao(ID_STATUS_VENDA, COD_VENDA);
+    }
+   
+    return html;
 }
 
 jQuery(document).ready(function () {
@@ -66,6 +80,21 @@ function MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA)
                   "</div>";
     }
     return  html;
+}
+
+function MontaAvalicao(ID_STATUS_VENDA, COD_VENDA) {
+    var html = '';
+    if (ID_STATUS_VENDA == '5') {
+        html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaAvaliacao(this)' id='" + COD_VENDA + "' >" +
+                   "<p class='center-text' style='font-size:15px; color:white;'>Avalie o serviço</p>" +
+                   "</div>";
+    }
+    return html;
+}
+
+function ConfirmaAvaliacao(COD_VENDA) {
+    localStorage.setItem('VIEWCODVENDA', COD_VENDA.id)
+    CarregaMenu('ranking.html');
 }
 
 function ConfirmaDeposito(COD_VENDA) {

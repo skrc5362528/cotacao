@@ -1,5 +1,4 @@
-﻿
-var ID_ESTABELECIMENTO = '';
+﻿var ID_ESTABELECIMENTO = '';
 var ID_USUARIO = '';
 var ID_ENDERECO_ENTREGA = '';
 var SIMBOLO = '';
@@ -9,9 +8,14 @@ var DATA_USU = '';
 var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
 var SYSCONFIG = '';
+
 var IMAGEM_BASE64_CPF = '';
 var IMAGEM_BASE64_RG = '';
 var IMAGEM_BASE64_COMPROVANTE = '';
+//var pictureSource;   // picture source
+//var destinationType; // sets the format of returned value
+//var optionsWatchPosition;
+
 var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 
@@ -39,9 +43,9 @@ function formataDinheiro(valor) {
 }
 
 function MontaConversao(valordesejado, valorcotacao, valorMaximo, valorMinimo) {
-    
-    var val1 = ValidaValoresNumericos( jQuery('#VALOR_DESEJADO').val());
-    var val2 =  ValidaValoresNumericos(valorMaximo);
+
+    var val1 = ValidaValoresNumericos(jQuery('#VALOR_DESEJADO').val());
+    var val2 = ValidaValoresNumericos(valorMaximo);
     var val3 = ValidaValoresNumericos(valorMinimo);
 
 
@@ -67,7 +71,7 @@ function MontaConversao(valordesejado, valorcotacao, valorMaximo, valorMinimo) {
 function CalculaCotacao(VALOR, VALOR_COTACAO) {
 
     var VALOR = parseFloat(parseFloat(VALOR) * parseFloat(VALOR_COTACAO)).toFixed(2);
-    jQuery('#VALOR_CONVERTIDO').val(formataValores(VALOR,''));
+    jQuery('#VALOR_CONVERTIDO').val(formataValores(VALOR, ''));
 }
 
 function Confirmar(PASSO) {
@@ -93,7 +97,7 @@ function Confirmar(PASSO) {
                         jQuery('#DIVDADOSUSUARIO').hide();
                         jQuery('#DIVDADOSOPERACAO').hide();
                         jQuery('#DIVDADOSCONFIRMACAO').hide();
-                        V_PASSO = PASSO+1;
+                        V_PASSO = PASSO + 1;
                     } else {
                         ExibeMensagem(ret);
                     }
@@ -180,9 +184,9 @@ function RetornaValoresCompra() {
 }
 
 function CarregaDivOperacao() {
-  //  debugger;
+    //  debugger;
 
-
+   
 
     var html = "<div class='container no-bottom'>" +
             "<div class='no-bottom'>   " +
@@ -190,40 +194,84 @@ function CarregaDivOperacao() {
             "<fieldset>" +
             " <div class='big-notification static-notification-white'> " +
             "<strong><h3 style='color:black;'>Resumo da compra</h3></strong>" +
-            "<strong><label>" + jQuery('#NOME_ESTABELECIMENTO').val() + "</label></strong></br>" +
-            " <strong><label>Moeda : " + jQuery('#NOME_MOEDA').val() + "</label></strong>  " +
-            " <strong><label>Valor desejado : " + formataValores(parseFloat(jQuery('#VALOR_DESEJADO').val()), '') + "</label></strong>   " +
-            " <strong><label>Cotação do dia (REAL) : " + jQuery('#VALOR_COTACAO').val() + "</label></strong>   " +
-            " <strong><label>Valor convertido (REAL) : " + jQuery('#VALOR_CONVERTIDO').val() + "</label></strong>   " +
-            " <strong><label>IOF % : " + SYSCONFIG[0].IOF + "</label></strong>   " +
-            "<strong><label>Serviço eXchange R$ : " + formataValores(parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), '') + "</label></strong>   " +
-            MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) +
-            " <strong><label >Total R$ : " + RetornaValoresCompra() + "</label></strong>   " +
-            "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>" + //"<label><strong></strong></label>" +
-            " <strong><label  >Nome : " + jQuery('#NOME').val() + "</label></strong> " +
-            " <strong><label  >Cpf : " + jQuery('#CPF').val() + "</label></strong>" +
-            " <strong><label  >Rg : " + jQuery('#RG').val() + "</label></strong>" +
-           //==========================================
-           "<div>"+
-           "<div class='one-half-exchange' >" +
-           "<div class='btn' onclick='FotoDocumentoRG()'>" +
-           "<i class='fa fa-camera'></i><strong> Identidade</strong>" +
-           "</div>" +
-           "</div>"+
-           "<div class='two-half last-column' >" +
-           "<i id='iconeTimesRG'></i>" +
-           "</div>" +
-           "</div>" +
+            "<strong><h3 style='color:black;'>" + jQuery('#NOME_ESTABELECIMENTO').val() + "</h3></strong>" +
+            " <strong>Moeda:</strong> " + jQuery('#NOME_MOEDA').val() + "<br/>" +
+            " <strong>Valor desejado: </strong> " + formataValores(parseFloat(jQuery('#VALOR_DESEJADO').val()), '') + "<br/>" +
+            " <strong>Cotação do dia (REAL):</strong>  " + jQuery('#VALOR_COTACAO').val() + "<br/>" +
+            " <strong>Valor convertido (REAL):</strong>  " + jQuery('#VALOR_CONVERTIDO').val() + "<br/>" +
+            " <strong>IOF %:</strong>  " + SYSCONFIG[0].IOF + "<br/>" +
+            "<strong>Serviço eXchange R$:</strong>  " + formataValores(parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), '') +
+            MontaInforRetirada(jQuery('#FORMA_ENTREGA').val()) + "<br/>" +
+            " <strong>Total R$:</strong>  <span style='background-color:green;color:white;'>" + RetornaValoresCompra() + "</span><br/>" +
+            "<strong><h3 style='color:black;'>Dados do comprador</h3></strong>" + //"<label><strong>" + "<br/>" +
+            " <strong>Nome:</strong>  " + jQuery('#NOME').val() + "<br/>" +
+            " <strong>CPF:</strong>  " + jQuery('#CPF').val() + "<br/>" +
+
+           //"<div>" +
+           //"<div class='one-half-exchange' >" +
+           //"<div class='btn' onclick='FotoDocumentoCPF();'>" +
+           //"<i class='fa fa-camera'></i><strong> Tirar foto do CPF</strong>" +
+           //"</div>" +
+           //"</div>" +
+           //"</div>" +
+
+           //"<div class='two-half last-column' >" +
+           //"<div class='btn' onclick='getPhotoCPF(pictureSource.SAVEDPHOTOALBUM);'>" +
+           //"<i class='fa fa-book'></i><strong> Selecionar CPF do album</strong>" +
+           //" <img style='display:none;width:60px;height:60px;' id='cpfImagem' src='' />" +
+           //"</div>" + 
+
+
+
+           // //"<br/> <strong>RG:</strong>  " + jQuery('#RG').val() + "<br/>" +
+           ////==========================================
+           //"<div>" +
+           //"<div class='one-half-exchange' >" +
+           //"<div class='btn' onclick='FotoDocumentoRG();'>" +
+           //"<i class='fa fa-camera'></i><strong> Tirar foto da Identidade</strong>" +
+
+           //"</div>" +
+           //"</div>" +
+           //"</div>" +
+
+           //"<div class='two-half last-column' >" +
+           //"<div class='btn' onclick='getPhoto(pictureSource.SAVEDPHOTOALBUM);'>" +
+           //"<i class='fa fa-book'></i><strong> Selecionar Identidade do album</strong>" +
+
+           //       " <img style='display:none;width:60px;height:60px;' id='rgImagem' src='' />" +
+
+           //"</div>" +
+       
+    
+
+
+
+           //"<div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesRG'></i>" +
+           //"</div>" +
+           //"</div>" +
             //==========================================
             "<div>" +
            "<div class='one-half-exchange' >" +
            "<div class='btn'  onclick='FotoDocumentoCPF()'>" +
            "<i class='fa fa-camera'></i><strong> C.P.F</strong>" +
            "</div>" +
-           "</div>"+
-           "<div class='two-half last-column' >" +
-           "<i id='iconeTimesCPF'></i>" +
            "</div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesCPF'></i>" +
+           //"</div>" +
+           "</div>" +
+                //==========================================
+            "<div>" +
+           "<div class='one-half-exchange' >" +
+           "<div class='btn'  onclick='FotoDocumentoRG()'>" +
+           "<i class='fa fa-camera'></i><strong> R.G.</strong>" +
+           "</div>" +
+           "</div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesCPF'></i>" +
+           //"</div>" +
            "</div>" +
             //==========================================
             "<div>" +
@@ -231,15 +279,15 @@ function CarregaDivOperacao() {
            "<div class='btn'  onclick='FotoDocumentoComprovante()'>" +
            "<i class='fa fa-camera'></i><strong> Comp. Residência</strong>" +
            "</div>" +
-           "</div>"+
-           "<div class='two-half last-column' >" +
-           "<i id='iconeTimesComprovante'></i>" +
-           "</div>"+
+           "</div>" +
+           //"<div class='two-half last-column' >" +
+           //"<i id='iconeTimesComprovante'></i>" +
+           //"</div>" +
            "</div>" +
            "<div class='static-notification-exchange'  onclick='ConfirmarCompra()'>" +
            "<p class='center-text' style='color: white;'><strong>Finalizar Compra</strong></p>" +
            "</div>" +
-    
+
            //==========================================
 
             "</div>" +
@@ -289,7 +337,7 @@ function GravaPedidoCompra() {
     var VALOR_COTACAO = DATA_COTACAO[0].TAXA_VENDA;
     var VALOR_DESEJADO = jQuery('#VALOR_DESEJADO').val();
     var VALOR_CONVERTIDO = jQuery('#VALOR_CONVERTIDO').val();
-    var VALOR_TOTAL_OPERACAO =ValidaValoresNumericos(RetornaValoresCompra());//CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
+    var VALOR_TOTAL_OPERACAO = ValidaValoresNumericos(RetornaValoresCompra());//CalculaValorTotal(parseFloat(SYSCONFIG[0].IOF).toFixed(2), parseFloat(SYSCONFIG[0].VALOR_SERVICO).toFixed(2), jQuery('#VALOR_CONVERTIDO').val(), jQuery('#TAXA_ENTREGA').val())
     var VARLOR_PERC_ESTABELEC = DATA_COTACAO[0].VALOR_COTACAO;
     var VALOR_EXCHANGE = jQuery('#TAXA_SERVICO').val();
     var VALOR_IOF = jQuery('#IOF').val();
@@ -330,27 +378,29 @@ function GravaPedidoCompra() {
         AlteraDadosUsuario();
         InsereEndereco();
         COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
-        InsereImagens(ID_USUARIO, COD_VENDA);
+        InsereImagens(ID_USUARIO, COD_VENDA, jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME);
         return COD_VENDA;
     }
     else {
         AlteraDadosUsuario();
         ID_ENDERECO_ENTREGA = null;
         COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
-        InsereImagens(ID_USUARIO, COD_VENDA);
+        InsereImagens(ID_USUARIO, COD_VENDA, jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME);
         return COD_VENDA;
     }
 
 }
 
-function InsereImagens(ID_USUARIO, COD_VENDA, NOME_USUARIO)
-{
-    var DESCRICAO = 'Imagem do cpf de :'+NOME_USUARIO;
-    InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_CPF, null, ERROCONEXAO);
+function InsereImagens(ID_USUARIO, COD_VENDA, NOME_USUARIO) {
+    var DESCRICAO = 'Imagem do cpf de :' + NOME_USUARIO;
+    var tst = InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_CPF, null, ERROCONEXAO);
+    alert(tst)
     DESCRICAO = 'Imagem do RG de :' + NOME_USUARIO;
-    InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_RG, null, ERROCONEXAO);
+    var tst1 =  InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_RG, null, ERROCONEXAO);
+    alert(tst1)
     DESCRICAO = 'Imagem do comprovante de residência de :' + NOME_USUARIO;
-    InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_COMPROVANTE, null, ERROCONEXAO);
+    var tst2 = InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_COMPROVANTE, null, ERROCONEXAO);
+    alert(tst2)
 }
 
 function ValidaDadosOperacao() {
@@ -423,11 +473,11 @@ function CarregaUltimaCotacao(data) {
            "              <fieldset>" +
            "                  <div class='big-notification static-notification-white'> " +
                                 CarregaEstabelecimento(data[0]) +
-           "                  <label >Moeda Escolhida :" + data[0].NOME_MOEDA + "</label>" +
+           "                <strong> Moeda desejada: </strong>" + data[0].NOME_MOEDA + "" +
            "                  <input type='hidden' name='NOME_MOEDA' class='contactFieldExchange' value='" + data[0].NOME_MOEDA + "' id='NOME_MOEDA' readonly />" +
-           "                  <label >Cotação :" + VALOR_VENDA + "</label>" +
+           "                <br/> <strong> Cotação: </strong>" + VALOR_VENDA + "<br/>" +
            "                  <input type='hidden' name='VALOR_COTACAO' class='contactFieldExchange' value='" + VALOR_VENDA + "' id='VALOR_COTACAO'/>" +
-           "                  <label >Valor em " + data[0].NOME_MOEDA + "</label>" +
+           "                <br/>  <label >Valor em " + data[0].NOME_MOEDA + "</label>" +
            "                  <input type='text' name='VALOR_DESEJADO'  class='contactFieldExchange'  onblur='MontaConversao(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'   id='VALOR_DESEJADO' placeholder='Digite o valor desejado' />" +
            "                  <label >Valor em REAL</label>" +
            //"                  <input type='number' name='VALOR_CONVERTIDO' class='contactFieldExchange' onchange='MontaConversaoInversa(this,\"" + VALOR_VENDA + "\",\"" + data[0].VALOR_MAXIMO + "\",\"" + data[0].VALOR_MINIMO + "\");'  id='VALOR_CONVERTIDO' readonly   />" +
@@ -488,6 +538,8 @@ jQuery(document).ready(function () {
     jQuery('#DIVDADOSENDERECO').hide();
     jQuery('#DIVDADOSOPERACAO').hide();
     jQuery('#DIVDADOSUSUARIO').hide();
+
+    jQuery('.spinner').hide();
 });
 
 function CarregaPerfilEstabelecimento() {
@@ -531,7 +583,7 @@ function MontaInforRetirada(FORMA_RETIRADA) {
 
     var ret = '';
     if (FORMA_RETIRADA == '3') {
-        ret = "<strong><label  >Taxa de Entrega R$ : " + jQuery('#TAXA_ENTREGA').val() + "</label></strong>   ";
+        ret = "<br/><strong>Taxa de Entrega R$:</strong>" + jQuery('#TAXA_ENTREGA').val();
     }
     else {
         jQuery('#TAXA_ENTREGA').val('0');
@@ -556,7 +608,7 @@ function CarregaDivCotacao(data) {
 
     var html = "<a  href='#'>Moeda :" + data.NOME_MOEDA + "</a>" +
      "<a  href='#'>Compra :R$ " + calculoCompra(data.TAXA_COMPRA, data.VALOR_COTACAO_COMPRA).toFixed(2) + "</a>" +
-     "<a  href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO,IOF).toFixed(2) + "</a>";
+     "<a  href='#'>Venda :R$ " + calculoVenda(data.TAXA_VENDA, data.VALOR_COTACAO, IOF).toFixed(2) + "</a>";
     return html;
 }
 
@@ -661,20 +713,18 @@ function MontaSelect(OBJETO, CODIGO, NOME) {
 
 function CarregaEstabelecimento(dados) {
 
+
     var DISTANCIA = parseFloat(calculoDistancia(DATA_ESTABELECIMENTO[0].LATITUDE, DATA_ESTABELECIMENTO[0].LONGITUDE));
 
     var html =
     "<div id='" + dados.ID_ESTABELECIMENTO + "'>" +
     "<div>" +
-    "<strong><label>" + dados.NOME + "</label></strong> " +
+    "<strong><label><h3 style='color:black;'>" + dados.NOME + "</h3></label></strong> " +
     "<input type='hidden' name='NOME_ESTABELECIMENTO' value='" + dados.NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
     "</div>" +
 
-    "<div>" +
-    "<div class='one-half'>" +
-    "Km " + DISTANCIA +
-    "</div>" +
-    "<div class='two-half last-column'>" +
+
+    "<div class='two-half last-column' style='top:-10px;'>" +
     "<span class='span-stars'>" +
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star'></i>" +
@@ -683,17 +733,57 @@ function CarregaEstabelecimento(dados) {
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
     "</div>" +
+
+    "<div>" +
+    "<div class='one-half'>" +
+    "<strong>Distância</strong>: " + DISTANCIA + " Km <br/>" +
+    "</div>" +
+    
     "</div>" +
 
     "<div>" +
     "<div class='one-half'>" +
-    "Máx: " + formataValores(dados.VALOR_MAXIMO, '') +
-    "</div>" +
+    "<strong>Valor mínimo:</strong> " + formataValores(dados.VALOR_MINIMO, '') +
+    "</div><br/>" +
     "<div class='two-half last-column'>" +
-    "Min: " + formataValores(dados.VALOR_MINIMO, '') +
+    "<strong>Valor máximo:</strong> " + formataValores(dados.VALOR_MAXIMO, '') +
     "</div>" +
     "</div>" +
     "</div>";
+
+    //var DISTANCIA = parseFloat(calculoDistancia(DATA_ESTABELECIMENTO[0].LATITUDE, DATA_ESTABELECIMENTO[0].LONGITUDE));
+
+    //var html =
+    //"<div id='" + dados.ID_ESTABELECIMENTO + "'>" +
+    //"<div>" +
+    //"<strong><label>" + dados.NOME + "</label></strong> " +
+    //"<input type='hidden' name='NOME_ESTABELECIMENTO' value='" + dados.NOME + "' id='NOME_ESTABELECIMENTO' readonly />" +
+    //"</div>" +
+
+    //"<div>" +
+    //"<div class='one-half'>" +
+    //"Km " + DISTANCIA +
+    //"</div>" +
+    //"<div class='two-half last-column'>" +
+    //"<span class='span-stars'>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star-o'></i>" +
+    //"</span>" +
+    //"</div>" +
+    //"</div>" +
+
+    //"<div>" +
+    //"<div class='one-half'>" +
+    //"Máx: " + formataValores(dados.VALOR_MAXIMO, '') +
+    //"</div>" +
+    //"<div class='two-half last-column'>" +
+    //"Min: " + formataValores(dados.VALOR_MINIMO, '') +
+    //"</div>" +
+    //"</div>" +
+    //"</div>";
 
     return html;
 
@@ -716,3 +806,80 @@ function AlteraDadosUsuario() {
 }
 
 
+// Wait for device API libraries to load
+//
+//document.addEventListener("deviceready", onDeviceReady, false);
+
+//document.addEventListener("deviceready", function () {
+//    alert("ouvindo o evento");
+//    optionsWatchPosition = { timeout: 5000, maximumAge: 11000, enableHighAccuracy: true };
+//    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+//    pictureSource = navigator.camera.PictureSourceType;
+//    destinationType = navigator.camera.DestinationType;
+
+//    alert("tudo pronto");
+
+//}, true);
+
+// device APIs are available
+//
+//function onDeviceReady() {
+//    alert("teste");
+
+//}
+
+function FotoDocumentoCPF() {
+    navigator.camera.getPicture(sucessoCPF, onFail, {
+        targetWidth: 331,
+        allowEdit: true,
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+function FotoDocumentoRG() {
+    navigator.camera.getPicture(sucessoRG, onFail, {
+        targetWidth: 331,
+        allowEdit: true,
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+function FotoDocumentoComprovante() {
+    navigator.camera.getPicture(sucessoComprovante, onFail, {
+        targetWidth: 331,
+        allowEdit: true,
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+
+//===========================================
+
+
+function sucessoCPF(imageData) {
+    IMAGEM_BASE64_CPF = imageData;
+    // jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#cpfImagem').addClass("fa-check");
+}
+
+function sucessoComprovante(imageData) {
+    IMAGEM_BASE64_COMPROVANTE = imageData
+    //jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesComprovante').addClass("fa-check");
+}
+
+function sucessoRG(imageData) {
+    IMAGEM_BASE64_RG = imageData
+    //jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#rgImagem').addClass("fa-check");
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
+}
+
+
+
+
+
+//===========================================

@@ -8,14 +8,14 @@ var ord_distancia = false;
 var ord_tx_delivery = false;
 var ord_tx_venda = false;
 var flagdelivery = false;
-var IOF =  jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
+var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
 function BuscarEstabelecimento(campo, ordena) {
 
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').empty();
     CarregaFiltros();
-     data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
+    data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
     if (data.length > 0) {
         jQuery.each(data, function () {
 
@@ -29,60 +29,69 @@ function BuscarEstabelecimento(campo, ordena) {
     DesbloqueiaTela();
 }
 
-function Buscar(campo, ordena)
-{
+function Buscar(campo, ordena) {
     if (flagdelivery == false) {
+        debugger;
         BuscarEstabelecimento(campo, ordena);
     }
     else {
+        debugger;
         BuscarEstabelecimentoDelivery(campo, ordena);
     }
 }
 
 function BuscarEstabelecimentoDelivery(campo, ordena) {
 
+    var CHKRETIRADA = jQuery('#CHKRETIRADA').val();
+    var CHKDELIVERY = jQuery('#CHKDELIVERY').val();
+    var CHKRECARGA = jQuery('#CHKRECARGA').val();
+    var CHKABERTO = jQuery('#CHKABERTO').val();
+
     var ARRAY = [];
     var SIMBOLO = jQuery('#SUA_MOEDA').val();
     jQuery('#DIVESTABELECIMENTO').empty();
     CarregaFiltros();
     data = jQuery.parseJSON(RetornaListaEstabelecimentoPorMoeda(SIMBOLO, null, ERROCONEXAO));
+
     if (data.length > 0) {
         jQuery.each(data, function () {
-
             if (this.DELIVERY == 'S') {
                 this.VALOR_COTACAO = calculoVenda(this.TAXA_VENDA, this.VALOR_COTACAO, IOF).toFixed(2);
                 this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
                 ARRAY.push(this);
             }
-           
         });
     }
-
     data = OrdenaResultados('DISTANCIA', ordena, ARRAY);
     CarregaDados(ARRAY);
     DesbloqueiaTela();
 }
 
 function CarregaFiltros() {
-    jQuery('#DIVFILTRO').html("<div>" +
-                            "<div class='one-half center-text' >" +
-                            "<a data-toggle='modal' data-target='#MODALFILTROS'> <label class='contact-text' style='color:white;'> Filtrar </label> <i class='fa fa-filter' style='font-size:18px; color:white;'></i></a>" +
-                            "</div>" +
-                            //"<div class='one-third center-text'>" +
-                            //"<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i></a>" +
-                            //"</div>" +
-                            "<div class='two-half last-column center-text'>" +
-                            "<a data-toggle='modal' data-target='#MODALORDENAR'><label class='contact-text' style='color:white;'> Ordernar </label><i class='fa fa-sort' style='font-size:18px; color:white;'></i></a>" +
-                            "</div>" +
-                            "</div>");
+
+    jQuery('#DIVFILTRO').show();
+
+    //jQuery('#DIVFILTRO').html("<div>" +
+    //                        "<div class='one-half center-text' >" +
+    //                        "<a data-toggle='modal' data-target='#MODALFILTROS'> <label class='contact-text' style='color:white;'> Filtrar </label> <i class='fa fa-filter' style='font-size:18px; color:white;'></i></a>" +
+    //                        "</div>" +
+    //                        //"<div class='one-third center-text'>" +
+    //                        //"<a onclick='OrdenaBusca(this,cpo_distancia,ord_distancia);' id='ordenadistancia'><label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-caret-up' style='font-size:18px; color:white;'></i></a>" +
+    //                        //"</div>" +
+    //                        "<div class='two-half last-column center-text'>" +
+    //                        "<a data-toggle='modal' data-target='#MODALORDENAR'><label class='contact-text' style='color:white;'> Ordernar </label><i class='fa fa-sort' style='font-size:18px; color:white;'></i></a>" +
+    //                        "</div>" +
+    //                        "</div>");
 }
 
 function FiltraBusca(campo, ordena) {
 
+    jQuery('.spinner').show();
     data = OrdenaResultados(campo, ordena, data);
     jQuery('#DIVESTABELECIMENTO').html('');
     CarregaFiltros();
     CarregaDados(data);
+    jQuery('.spinner').hide();
 }
 
 function CarregaDados(data) {
@@ -92,48 +101,71 @@ function CarregaDados(data) {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
         });
     }
+    else {
+        jQuery('#DIVESTABELECIMENTO').append(MensagemRetornoVazioBUsca());
+    }
 
 }
 
-//function OrdenaBusca(obj, campo, ordena) {
+function OrdenaBusca(obj, campo, ordena) {
 
 
-//    FiltraBusca(campo, ordena);
+    FiltraBusca(campo, ordena);
 
-//    if (ordena == true) {
-//        if (obj.id == 'ordenatxvenda') {
-//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-//            ord_tx_venda = false;
-//        }
-//        if (obj.id == 'ordenadistancia') {
-//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-desc' style='font-size:18px; color:white;'></i>";
-//            ord_distancia = false;
-//        }
-//        if (obj.id == 'ordenadelivery') {
-//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
-//            ord_tx_delivery = false;
-//            flagdelivery = false;
-//        }
-//    }
-//    else {
+    // alert(ordena);
 
-//        if (obj.id == 'ordenatxvenda') {
-//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-//            ord_tx_venda = true;
-//        }
-//        if (obj.id == 'ordenadistancia') {
-//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-sort-amount-asc' style='font-size:18px; color:white;'></i>";
-//            ord_distancia = true;
-//        }
-//        if (obj.id == 'ordenadelivery') {
-//            document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
-//            ord_tx_delivery = true;
-//            flagdelivery = true;
-//        }
-//    }
+    //if (obj.id == 'ordenadistancia') {
+    //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância </label><i class='fa fa-caret-down' style='font-size:18px; color:white;'></i>";
+    //    ord_distancia = false;
+    //}
+    //if (obj.id == 'ordenatxvenda') {
+    //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço </label><i class='fa fa-caret-down' style='font-size:18px; color:white;'></i>";
+    //    ord_tx_venda = false;
+    //}
+
+    //if (ordena == true) {
 
 
-//}
+
+    if (obj.id == 'ordenatxvenda') {
+        document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço <i class='fa fa-caret-down' style='font-size:18px; color:white;'></i></label>";
+        document.getElementById("ordenadistancia").innerHTML = "<label class='contact-text' style='color:white;'> Distância <i class='fa fa-caret-up' style='font-size:18px; color:white;'></i></label>";
+        ord_tx_venda = false;
+    }
+    if (obj.id == 'ordenadistancia') {
+        document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância <i class='fa fa-caret-down' style='font-size:18px; color:white;'></i></label>";
+        document.getElementById("ordenatxvenda").innerHTML = "<label class='contact-text' style='color:white;'> Preço <i class='fa fa-caret-up' style='font-size:18px; color:white;'></i></label>";
+        ord_distancia = false;
+    }
+    //if (obj.id == 'ordenadelivery') {
+    //    document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery <i class='fa fa-filter' style='font-size:18px; color:white;'></i></label>";
+    //    ord_tx_delivery = false;
+    //    flagdelivery = false;
+    //}
+    //}
+    //else {
+
+    //    if (obj.id == 'ordenatxvenda') {
+    //        document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Preço <i class='fa fa-caret-up' style='font-size:18px; color:white;'></i></label>";
+    //        document.getElementById("ordenadistancia").innerHTML = "<label class='contact-text' style='color:white;'> Distância <i class='fa fa-caret-down' style='font-size:18px; color:white;'></i></label>";
+
+    //        ord_tx_venda = true;
+    //    }
+    //    if (obj.id == 'ordenadistancia') {
+    //        document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Distância <i class='fa fa-caret-up' style='font-size:18px; color:white;'></i></label>";
+    //        document.getElementById("ordenatxvenda").innerHTML = "<label class='contact-text' style='color:white;'> Preço <i class='fa fa-caret-down' style='font-size:18px; color:white;'></i></label>";
+
+    //        ord_distancia = true;
+    //    }
+    //    if (obj.id == 'ordenadelivery') {
+    //        document.getElementById(obj.id).innerHTML = "<label class='contact-text' style='color:white;'> Delivery </label><i class='fa fa-filter' style='font-size:18px; color:white;'></i>";
+    //        ord_tx_delivery = true;
+    //        flagdelivery = true;
+    //    }
+    //}
+
+
+}
 
 function CarregaEstabelecimento(data) {
 
@@ -141,15 +173,57 @@ function CarregaEstabelecimento(data) {
 
 
     var html =
-    "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
-    "<div>" +
+
+
+
+ "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white' style='height: 140px;'>" +
+    "<div><img src='img/icon.png' style='float:left; width:60px;margin-right: 5px;'" +
+    "</div>" +
+    "<div class='two-half'>" +
     "<strong>" + data.NOME + "</strong> " +
     "</div>" +
     "<div>" +
-    "<div class='one-half'>" +
-    "Venda : R$ " + data.VALOR_COTACAO +
+    "<div class='one-half' style='width:95%;'>" +
+    "<strong>Venda:</strong> R$ " + data.VALOR_COTACAO +
+    " / <strong>Dist.:</strong> " + data.DISTANCIA + " KM </div>" +
+    //"<div class='two-half last-column'>" +
+    //"<span class='span-stars'>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star'></i>" +
+    //"<i class='fa fa-star-o'></i>" +
+    //"</span>" +
+    //"</div>" +
     "</div>" +
-    "<div class='two-half last-column'>" +
+
+    "<div>" +
+    //"<div class='one-half'>" +
+    //"IOF 0,38% incluso " +
+    //"</div>" +
+  //  "<div class='two-half last-column'>" +
+  //"Km " + data.DISTANCIA +
+  //  "</div>" +
+
+
+ 
+
+
+   "<div class='one-half' style='width:95%;'>" +
+   "<strong>Atualização:</strong>" +
+   "</div>" +
+
+
+   
+
+   "<div class='two-half' style='width:95%;margin-left: 70px;top: -20px;'>" +
+    dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear() + " ás " + data.HORA_COTACAO +
+    "</div>" +
+    "</div>" +
+
+     
+
+     "<div class='two-half last-column' style='margin-left: 1px;top: -19px;'>" +
     "<span class='span-stars'>" +
     "<i class='fa fa-star'></i>" +
     "<i class='fa fa-star'></i>" +
@@ -158,34 +232,70 @@ function CarregaEstabelecimento(data) {
     "<i class='fa fa-star-o'></i>" +
     "</span>" +
     "</div>" +
+
+
+    "<div style='width:95%;margin-left: 189px;top: -40px;'>" +
+    "<strong>IOF 0,38% incluso </strong>    " +
     "</div>" +
 
-    "<div>" +
-    "<div class='one-half'>" +
-    "IOF 0,38% já incluso " +
-    "</div>" +
-    "<div class='two-half last-column'>" +
-  "Km " + data.DISTANCIA +
-    "</div>" +
 
-   "<div class='one-half'>" +
-   "Última atualização : "+
-   "</div>" +
-   "<div class='two-half'>" +
-    dt.getDate()+"/"+(dt.getMonth()+1)+"/"+dt.getFullYear()+" ás "+data.HORA_COTACAO+
-    "</div>" +
-    "</div>" +
-
-    "<div>" +
-    "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
+   
+    "<div class='static-notification-exchange' style='border-radius: 10px;top: -40px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
     "<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
     "</div>" +
-    "</div>" +
+   
 
-    "<div>" +
+   "<div style='border-radius: 10px;top: -40px;'>" +
     MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
-    "</div>" +
+    + "</div>"
     "</div>";
+
+
+    //  "<div id='" + data.ID_ESTABELECIMENTO + "' class='big-notification static-notification-white'>" +
+    //  "<div>" +
+    //  "<strong>" + data.NOME + "</strong> " +
+    //  "</div>" +
+    //  "<div>" +
+    //  "<div class='one-half'>" +
+    //  "Venda : R$ " + data.VALOR_COTACAO +
+    //  "</div>" +
+    //  "<div class='two-half last-column'>" +
+    //  "<span class='span-stars'>" +
+    //  "<i class='fa fa-star'></i>" +
+    //  "<i class='fa fa-star'></i>" +
+    //  "<i class='fa fa-star'></i>" +
+    //  "<i class='fa fa-star'></i>" +
+    //  "<i class='fa fa-star-o'></i>" +
+    //  "</span>" +
+    //  "</div>" +
+    //  "</div>" +
+
+    //  "<div>" +
+    //  "<div class='one-half'>" +
+    //  "IOF 0,38% já incluso " +
+    //  "</div>" +
+    //  "<div class='two-half last-column'>" +
+    //"Km " + data.DISTANCIA +
+    //  "</div>" +
+
+    // "<div class='one-half'>" +
+    // "Última atualização : " +
+    // "</div>" +
+    // "<div class='two-half'>" +
+    //  dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear() + " ás " + data.HORA_COTACAO +
+    //  "</div>" +
+    //  "</div>" +
+
+    //  "<div>" +
+    //  "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='MostraReserva(this)' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "' >" +
+    //  "<p class='center-text' style='font-size:15px; color:white;'>Comprar</p>" +
+    //  "</div>" +
+    //  "</div>" +
+
+    //  "<div>" +
+    //  MontaInfo(data.RETIRADA, data.DELIVERY, data.RECARGA);//"<label class='contact-text'>" + data.NOME + "</label>" +
+    //  "</div>" +
+    //  "</div>";
 
     return html;
 
@@ -193,14 +303,15 @@ function CarregaEstabelecimento(data) {
 
 function MostraMapa(obj) {
 
- localStorage.setItem('VIEWMAP', obj.id)
+    localStorage.setItem('VIEWMAP', obj.id)
     CarregaMenu('mapa.html');
 }
 
-function MostraReserva(obj)
-{
+function MostraReserva(obj) {
+    jQuery('.spinner').show();
     localStorage.setItem('VIEWRESERVA', obj.id)
     CarregaMenu('operacao.html');
+    jQuery('.spinner').show();
 }
 
 function estrelas(numeroestrelas) {
@@ -256,33 +367,49 @@ function PreencheSelectSuaMoeda() {
 
 }
 
-function MontaInfo(RETIRADA, DELIVERY, RECARGA)
-{
-    var ret='';
-    if (RETIRADA == 'S')
-    {
+function MontaInfo(RETIRADA, DELIVERY, RECARGA) {
+    var ret = '';
+    if (RETIRADA == 'S') {
         ret += '<a class="base-text one-third"><i class="fa fa-university"></i> Retirada </a>';
     }
-    if (DELIVERY == 'S')
-    {
+    if (DELIVERY == 'S') {
         ret += '<a class="base-text one-third"><i class="fa fa-motorcycle"></i> Delivery </a>'; //'Delivery';
     }
-    if (RECARGA == 'S')
-    {
+    if (RECARGA == 'S') {
         ret += '<a class="base-text one-third last-column"><i class="fa fa-credit-card"></i> Recarga </a>'//'Recarga'; 
     }
     ret += "";
     return ret;
 }
 
+
 jQuery(document).ready(function () {
     PreencheSelectSuaMoeda();
     EqualizaTamanhoTela();
-  //  jQuery(document).ajaxStart(ExibeMensagem("Carregando...")).ajaxStop(DesbloqueiaTela());
+    jQuery('#DIVFILTRO').hide();
+    jQuery('.spinner').hide();
+    
+
+    //jQuery('#SUA_MOEDA').click();
+
+    //  jQuery(document).ajaxStart(ExibeMensagem("Carregando...")).ajaxStop(DesbloqueiaTela());
 });
 
 jQuery('#myModal').on('hidden.bs.modal', function (e) {
-    
+
     //colocar aqui a busca a ser realizada com os filtros 
 
 })
+
+
+
+function MensagemRetornoVazioBUsca() {
+    var html =
+ "<div  class='big-notification static-notification-white'>" +
+ "<div>" +
+ "<strong>Não há resultados para sua busca</strong> " +
+ "</div>" +
+ "</div>";
+
+    return html;
+}

@@ -23,8 +23,6 @@ function BuscarEstabelecimento(campo, ordena) {
                     this.DISTANCIA = parseFloat(calculoDistancia(this.LATITUDE, this.LONGITUDE));
         });
     }
-    
-  ///  dt = OrdenaResultados(campo, ordena, dt);
     CarregaDados(data);
     DesbloqueiaTela();//ordenadistancia
 }
@@ -52,11 +50,14 @@ function FiltraBusca(campo, ordena) {
 }
 
 function CarregaDados(data) {
-
+    debugger
     if (data.length > 0) {
         jQuery.each(data, function () {
             jQuery('#DIVESTABELECIMENTO').append(CarregaEstabelecimento(this));
         });
+    }
+    else {
+        jQuery('#DIVESTABELECIMENTO').append(MensagemRetornoVazioBusca());
     }
 
 }
@@ -238,3 +239,15 @@ jQuery(document).ready(function () {
     BuscarEstabelecimento("DISTANCIA", true);
 });
 
+
+
+function MensagemRetornoVazioBusca() {
+    var html =
+ "<div  class='big-notification static-notification-white'>" +
+ "<div>" +
+ "<strong> Nenhum favorito selecionado </strong> " +
+ "</div>" +
+ "</div>";
+
+    return html;
+}

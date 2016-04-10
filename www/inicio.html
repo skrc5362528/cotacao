@@ -15,8 +15,8 @@
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />
     <title>COTACAO</title>
     <!--CSS DE ESTILOS-->
-    <script type="text/javascript" charset="utf-8" src="../cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="../cordova_plugins.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
 
     <link href="styles/bootstrap.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
@@ -27,213 +27,33 @@
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-
-    <script type="text/javascript" charset="utf-8">
-    var IMAGEM_BASE64_CPF = '';
-    var IMAGEM_BASE64_RG = '';
-    var IMAGEM_BASE64_COMPROVANTE = '';
+    <!--<script type="text/javascript" charset="utf-8" src="cordova.js"></script>-->
+    <script ype="text/javascript" charset="utf-8">
     var pictureSource;   // picture source
     var destinationType; // sets the format of returned value
+    var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
 
-    // Wait for device API libraries to load
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // device APIs are available
-    //
-    function onDeviceReady() {
+    document.addEventListener("deviceready", function () { 
+        navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
         pictureSource = navigator.camera.PictureSourceType;
         destinationType = navigator.camera.DestinationType;
-    }
+    }, false);
 
+    function success(pos) {
+       // alert("teste");
+        var crd = pos.coords;
+        localStorage.setItem('latitude', crd.latitude);
+        localStorage.setItem('longitude', crd.longitude);
+    };
+    function error(err) {
+        ExibeMensagem('Localização desabilitada, favor habilitar a localização');
+        //navigator.geolocation.getCurrentPosition(success, errorMesmo, optionsWatchPosition);
+    };
 
-
-    function FotoDocumentoCPF() {
-        navigator.camera.getPicture(sucessoCPF, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL
-        });
-    }
-    function FotoDocumentoRG() {
-        navigator.camera.getPicture(sucessoRG, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL
-        });
-    }
-    function FotoDocumentoComprovante() {
-        navigator.camera.getPicture(sucessoComprovante, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL
-        });
-    }
-
-    //===========================================
-
-
-    function sucessoCPF(imageData) {
-        IMAGEM_BASE64_CPF = imageData;
-        // jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-        jQuery('#cpfImagem').addClass("fa-check");
-    }
-
-    function sucessoComprovante(imageData) {
-        IMAGEM_BASE64_COMPROVANTE = imageData
-        //jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-        jQuery('#iconeTimesComprovante').addClass("fa-check");
-    }
-
-    function sucessoRG(imageData) {
-        IMAGEM_BASE64_RG = imageData
-        //jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
-        jQuery('#rgImagem').addClass("fa-check");
-    }
-
-    function onFail(message) {
-        alert('Failed because: ' + message);
-    }
-
-    // Called when a photo is successfully retrieved
-    //
-    //function onPhotoDataSuccess(imageData) {
-    //    // Uncomment to view the base64-encoded image data
-    //    // console.log(imageData);
-
-    //    // Get image handle
-    //    //
-    //    var smallImage = document.getElementById('rgImagem');
-
-    //    // Unhide image elements
-    //    //
-    //    smallImage.style.display = 'block';
-
-    //    // Show the captured photo
-    //    // The inline CSS rules are used to resize the image
-    //    //
-    //    smallImage.src = "data:image/jpeg;base64," + imageData;
-    //}
-
-
-    //function onPhotoDataSuccessCPF(imageData) {
-    //    // Uncomment to view the base64-encoded image data
-    //    // console.log(imageData);
-
-    //    // Get image handle
-    //    //
-    //    var smallImage = document.getElementById('cpfImagem');
-
-    //    // Unhide image elements
-    //    //
-    //    smallImage.style.display = 'block';
-
-    //    // Show the captured photo
-    //    // The inline CSS rules are used to resize the image
-    //    //
-    //    smallImage.src = "data:image/jpeg;base64," + imageData;
-    //}
-
-    //// Called when a photo is successfully retrieved
-    ////
-    //function onPhotoURISuccess(imageURI) {
-    //    // Uncomment to view the image file URI
-    //    // console.log(imageURI);
-
-    //    // Get image handle
-    //    //
-    //    var largeImage = document.getElementById('rgImagem');
-
-    //    // Unhide image elements
-    //    //
-    //    largeImage.style.display = 'block';
-
-    //    // Show the captured photo
-    //    // The inline CSS rules are used to resize the image
-    //    //
-    //    largeImage.src = imageURI;
-    //}
-
-
-    //function onPhotoURISuccessCPF(imageURI) {
-    //    // Uncomment to view the image file URI
-    //    // console.log(imageURI);
-
-    //    // Get image handle
-    //    //
-    //    var largeImage = document.getElementById('cpfImagem');
-
-    //    // Unhide image elements
-    //    //
-    //    largeImage.style.display = 'block';
-
-    //    // Show the captured photo
-    //    // The inline CSS rules are used to resize the image
-    //    //
-    //    largeImage.src = imageURI;
-    //}
-
-    //// A button will call this function
-    ////
-    //function capturePhoto() {
-    //    // Take picture using device camera and retrieve image as base64-encoded string
-    //    navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
-    //        quality: 50,
-    //        destinationType: destinationType.DATA_URL
-    //    });
-    //}
-
-    //function capturePhotoCPF() {
-    //    // Take picture using device camera and retrieve image as base64-encoded string
-    //    navigator.camera.getPicture(onPhotoDataSuccessCPF, onFail, {
-    //        quality: 50,
-    //        destinationType: destinationType.DATA_URL
-    //    });
-    //}
-
-    //// A button will call this function
-    ////
-    //function capturePhotoEdit() {
-    //    // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-    //    navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
-    //        quality: 20, allowEdit: true,
-    //        destinationType: destinationType.DATA_URL
-    //    });
-    //}
-
-    //// A button will call this function
-    ////
-    //function getPhoto(source) {
-    //    // Retrieve image file location from specified source
-    //    navigator.camera.getPicture(onPhotoURISuccess, onFail, {
-    //        quality: 50,
-    //        destinationType: destinationType.FILE_URI,
-    //        sourceType: source
-    //    });
-    //}
-
-    //function getPhotoCPF(source) {
-    //    // Retrieve image file location from specified source
-    //    navigator.camera.getPicture(onPhotoDataSuccessCPF, onFail, {
-    //        quality: 50,
-    //        destinationType: destinationType.FILE_URI,
-    //        sourceType: source
-    //    });
-    //}
-
-    //// Called if something bad happens.
-    ////
-    //function onFail(message) {
-    //    alert('Failed because: ' + message);
-    //}
-
+    function errorMesmo(err) {
+        ExibeMensagem('Localização desabilitada, favor habilitar a localização');
+    };
     </script>
-
-
-
-
-
-
-
 </head>
 <body onload="PreparaSistema('estabelecimento.html');">
     <!--class="snapjs-left"-->
@@ -259,9 +79,8 @@
         }
     </style>
     <div class="spinner">
-        <img src="img/loadingbar.gif" style="top: 238px;left: 106px;" />
+        <i class="fa fa-spinner fa-pulse"></i> <!--<img src="img/loadingbar.gif" style="top: 238px;left: 106px;" />-->
         <h3 style="position: absolute;left: 27%;top: 30%;color:white;">Aguarde, Carregando...</h3>
-        <!--<img src="http://www.exchangeapp.com.br/images/ICONe_GRANDE.png" style="position: absolute;left: 39%;top: 42%;width:20%" />-->
     </div>
 
     <div class="all-elements">
@@ -276,7 +95,7 @@
                 </div>
                 <div class="sidebar-logo">
                     <a onclick="CarregaMenu('estabelecimento.html')">
-                        <img src="img/ICONE_eXCHANGE_BRANCO_GRANDE.png" width="128" height="128" />
+                        <img src="img/COMPRA_MOEDA_LOGO_BRANCA.png" width="100%" height="100%" />
                     </a>
                 </div>
                 <div class="navigation-item">
@@ -317,6 +136,13 @@
                     </a>
                 </div>
                 <div class="navigation-item">
+                    <a onclick="CarregaMenu('ranking.html')" class="nav-item">
+                        <i class="fa fa-envelope"></i>
+                        Ranking
+                        <i class="fa"></i>
+                    </a>
+                </div>
+                <div class="navigation-item">
                     <a href="index.html" class="nav-item">
                         <i class="fa  fa-sign-out"></i>
                         Sair
@@ -332,114 +158,59 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content-exchange">
                     <div class="modal-header">
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                         <h4 class="modal-title nav-item-modal" id="myModalLabel">Filtrar por</h4>
                     </div>
                     <div class="modal-body">
                         <table>
-
                             <tr>
                                 <td width="7px">
                                     <!--<div class="onoffswitch">-->
-                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
-
-                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>-->
-                                    <!--</div>-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKRETIRADA">
                                 </td>
                                 <td class="nav-item-modal">Retirada na agência</td>
                             </tr>
-
-
                             <tr>
                                 <td width="7px">
                                     <!--<div class="onoffswitch">-->
                                     <input type="checkbox" name="onoffswitch" class="checkbox-inline" id="CHKDELIVERY">
-                                    <!--<label class="onoffswitch-label" for="CHKDELIVERY">-->
-                                    <!--<span class="onoffswitch-inner"></span>
-                                    <span class="onoffswitch-switch"></span>-->
-                                    <!--</label>-->
-                                    <!--</div>-->
                                 </td>
                                 <td class="nav-item-modal">Delivery</td>
                             </tr>
-
-
-
                             <tr>
                                 <td width="7px">
                                     <!--<div class="onoffswitch">-->
-                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
-
-                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>-->
-                                    <!--</div>-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKRECARGA">
                                 </td>
                                 <td class="nav-item-modal">Recarga</td>
                             </tr>
-
-
                             <tr>
                                 <td width="7px">
                                     <!--<div class="onoffswitch">-->
                                     <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
-
-                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>-->
                                     <!--</div>-->
                                 </td>
                                 <td class="nav-item-modal">Estabelecimento aberto</td>
                             </tr>
-
-                            <tr>
-                                <td width="7px">
-                                    <!--<div class="onoffswitch">-->
-                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
-
-                                    <!--<label class="onoffswitch-label" for="CHKABERTO">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>-->
-                                    <!--</div>-->
-                                </td>
-                                <td class="nav-item-modal">Estabelecimento fechado</td>
-                            </tr>
-
-
-
-
-
-
                         </table>
                     </div>
                     <div class="modal-footer">
                         <div class="center-element">
-                            <!--<a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>-->
-                            <!--<button type="button" class="static-notification-exchange" data-dismiss="modal" value="Filtrar">Filtrar</button>-->
 
-
-                            <div class="static-notification-exchange" style="border-radius: 10px;" id="btnFiltra">
+                            <div class="static-notification-exchange" style="border-radius: 10px;" onclick="" id="btnFiltra">
                                 <p class='center-text' style='font-size:15px; color:white;'>Filtrar</p>
                             </div>
-
                         </div>
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+            
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="MODALORDENAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!--<div class="modal fade" id="MODALORDENAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content-exchange">
                     <div class="modal-header">
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title nav-item-modal" id="myModalLabel">Ordenar por</h4>
                     </div>
                     <div class="modal-body">
@@ -474,11 +245,11 @@
                         <div class="center-element">
                             <a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>
                         </div>
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
     </div>
     <!--SCRIPTS BASICOS-->
@@ -495,6 +266,7 @@
     <!--SCRIPTS DE PÁGINAS-->
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
+   
 
 
 </body>

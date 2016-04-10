@@ -29,8 +29,8 @@ function CarregaDivOperacao(data) {
     "<label class='contact-text'>Data:" + data.DATA_VENDA + "</label>" +
     "<label class='contact-text'>Moeda:" + data.SIMBOLO + "</label>" +
     "<label class='contact-text'>Cotação:R$ " + parseFloat(data.VALOR_PRODUTO).toFixed(2) + " </label>" +
-    "<label class='contact-text'>Requerido:("+data.SIMBOLO+")" + parseFloat(data.QUANTIDADE).toFixed(2) + " </label>" +
-    "<label class='contact-text'>total:R$ " + parseFloat((data.QUANTIDADE * data.VALOR_PRODUTO)).toFixed(2)+ " </label>" +
+    "<label class='contact-text'>Requerido:(" + data.SIMBOLO + ")" + parseFloat(data.QUANTIDADE).toFixed(2) + " </label>" +
+    "<label class='contact-text'>total:R$ " + parseFloat((data.QUANTIDADE * data.VALOR_PRODUTO)).toFixed(2) + " </label>" +
     "<div>" +
     "<strong><label class='contact-text'>Status:" + data.DESCRICAO + "</label></strong> " +
     "</div>" +
@@ -40,11 +40,29 @@ function CarregaDivOperacao(data) {
    "<div class='two-half last-column'>" +
        "<a onclick='check(this);' id='" + data.ID_ESTABELECIMENTO + "_" + data.SIMBOLO + "_' class='button button-white'><i class='fa fa-star-o' style='font-size:18px; color:#0489B1;'></i></a>" +
     "</div>" +
-        MontaConfirmaDeposito(data.ID_STATUS_VENDA, data.COD_VENDA) +
+        MontaComplemento(data.ID_STATUS_VENDA, data.COD_VENDA) +
     "</div>";
+    
 
     return  html;
 
+}
+
+function MontaComplemento(ID_STATUS_VENDA, COD_VENDA)
+{
+    var html = '';
+    
+   // if (ID_STATUS_VENDA == '5') {
+   //   html =   MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA);
+    //}
+    //if (ID_STATUS_VENDA == '9') {
+      html =   MontaAvalicao(ID_STATUS_VENDA, COD_VENDA);
+   // }
+   // if (ID_STATUS_VENDA == '8')
+   // {
+    //    html = MontaConfirmaEntrega(ID_STATUS_VENDA,COD_VENDA);
+    //}
+    return html;
 }
 
 jQuery(document).ready(function () {
@@ -60,12 +78,42 @@ function MostraMapa(obj) {
 function MontaConfirmaDeposito(ID_STATUS_VENDA, COD_VENDA)
 {
     var html = '';
-    if (ID_STATUS_VENDA == '5') {
+
        html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaDeposito(this)' id='" + COD_VENDA + "' >" +
                   "<p class='center-text' style='font-size:15px; color:white;'>Confirmar Deposito</p>" +
                   "</div>";
-    }
+    
     return  html;
+}
+
+function MontaAvalicao(ID_STATUS_VENDA, COD_VENDA) {
+    var html = '';
+  
+        html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaAvaliacao(this)' id='" + COD_VENDA + "' >" +
+                   "<p class='center-text' style='font-size:15px; color:white;'>Avalie o serviço</p>" +
+                   "</div>";
+    
+    return html;
+}
+
+function MontaConfirmaEntrega(ID_STATUS_VENDA, COD_VENDA) {
+    var html = '';
+  
+        html = "<div class='static-notification-exchange' style='border-radius: 10px;' onclick='ConfirmaEntrega(this)' id='" + COD_VENDA + "' >" +
+                   "<p class='center-text' style='font-size:15px; color:white;'>Avalie o serviço</p>" +
+                   "</div>";
+    
+    return html;
+}
+
+function ConfirmaAvaliacao(COD_VENDA) {
+    localStorage.setItem('VIEWCODVENDA', COD_VENDA.id)
+    CarregaMenu('ranking.html');
+}
+
+function ConfirmaEntrega(COD_VENDA) {
+    localStorage.setItem('VIEWCODVENDA', COD_VENDA.id)
+    AlteraStatusOperacao(COD_VENDA.id, '4', null, ERROCONEXAO)
 }
 
 function ConfirmaDeposito(COD_VENDA) {

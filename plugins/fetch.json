@@ -5,21 +5,12 @@
             "id": "cordova-plugin-camera"
         },
         "is_top_level": true,
-        "variables": { }
+        "variables": {}
     },
     "mp-cordova-plugin-camera": {
         "source": {
             "type": "registry",
             "id": "mp-cordova-plugin-camera"
-        },
-        "is_top_level": true,
-        "variables": { }
-    },
-    
-    "cordova-plugin-geolocation": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-geolocation"
         },
         "is_top_level": true,
         "variables": {}
@@ -67,7 +58,15 @@
     "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-whitelist@1.2.1"
+            "id": "cordova-plugin-whitelist"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-geolocation"
         },
         "is_top_level": true,
         "variables": {}

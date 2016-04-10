@@ -1,4 +1,8 @@
-﻿document.addEventListener("deviceready", onDeviceReady, false);
+﻿//document.addEventListener("deviceready", function () {
+//    onDeviceReady();
+//}, true);
+
+
 
 
 function CarregaLogin() {
@@ -65,19 +69,19 @@ function CarregaSisConfig() {
 }
 
 
-function onDeviceReady() {
-    var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
-    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-}
+//function onDeviceReady() {
+//    var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: false };
+//    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+//}
 
-function success(pos) {
-    var crd = pos.coords;
-    localStorage.setItem('latitude', crd.latitude);
-    localStorage.setItem('longitude', crd.longitude);
+//function success(pos) {
+//    var crd = pos.coords;
+//    localStorage.setItem('latitude', crd.latitude);
+//    localStorage.setItem('longitude', crd.longitude);
 
-};
-function error(err) {
-    ExibeMensagem('Localização desabilitada, favor habilitar a localização');
-};
+//};
+//function error(err) {
+//    ExibeMensagem('Localização desabilitada, favor habilitar a localização');
+//};
 
 

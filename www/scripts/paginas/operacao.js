@@ -1,5 +1,4 @@
-﻿
-var ID_ESTABELECIMENTO = '';
+﻿var ID_ESTABELECIMENTO = '';
 var ID_USUARIO = '';
 var ID_ENDERECO_ENTREGA = '';
 var SIMBOLO = '';
@@ -10,21 +9,15 @@ var DATA_ESTABELECIMENTO = '';
 var V_PASSO = 0;
 var SYSCONFIG = '';
 
+var IMAGEM_BASE64_CPF = '';
+var IMAGEM_BASE64_RG = '';
+var IMAGEM_BASE64_COMPROVANTE = '';
+//var pictureSource;   // picture source
+//var destinationType; // sets the format of returned value
+//var optionsWatchPosition;
+
 var IOF = jQuery.parseJSON(localStorage.getItem('SYSCONFIG'))[0].IOF;
 
-//=============================================
-var pictureSource;
-var destinationType; // sets the format of returned value
-var optionsWatchPosition;
-
-document.addEventListener("deviceready", onDeviceReady, false);
-
-function onDeviceReady() {
-    optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
-    pictureSource = navigator.camera.PictureSourceType;
-    destinationType = navigator.camera.DestinationType;
-}
-//================================================
 
 function BuscaCotacaoEstabelecimento() {
     DATA_COTACAO = jQuery.parseJSON(RetornaCotacaoEstabelecimentoPorMoeda(ID_ESTABELECIMENTO, SIMBOLO, null, null));
@@ -385,14 +378,14 @@ function GravaPedidoCompra() {
         AlteraDadosUsuario();
         InsereEndereco();
         COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
-        InsereImagens(ID_USUARIO, COD_VENDA);
+        InsereImagens(ID_USUARIO, COD_VENDA, jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME);
         return COD_VENDA;
     }
     else {
         AlteraDadosUsuario();
         ID_ENDERECO_ENTREGA = null;
         COD_VENDA = InsereOperacao(ID_USUARIO, ID_ESTABELECIMENTO, STATUS_VENDA, OBS_COMPRA, SITUACAO_COMPRA, ID_ENDERECO_ENTREGA, SIMBOLO, DESCRICAO_DETALHADA, VALOR_DESEJADO, VALOR_COTACAO, ID_TIPO_VENDA, VALOR_TOTAL_OPERACAO, VARLOR_PERC_ESTABELEC, VALOR_DESEJADO, VALOR_COTACAO, null, ERROCONEXAO);
-        InsereImagens(ID_USUARIO, COD_VENDA);
+        InsereImagens(ID_USUARIO, COD_VENDA, jQuery.parseJSON(localStorage.getItem("USUARIO")).NOME);
         return COD_VENDA;
     }
 
@@ -400,11 +393,14 @@ function GravaPedidoCompra() {
 
 function InsereImagens(ID_USUARIO, COD_VENDA, NOME_USUARIO) {
     var DESCRICAO = 'Imagem do cpf de :' + NOME_USUARIO;
-    InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_CPF, null, ERROCONEXAO);
+    var tst = InsereImagemVendaCPF(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_CPF, null, ERROCONEXAO);
+    alert(tst)
     DESCRICAO = 'Imagem do RG de :' + NOME_USUARIO;
-    InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_RG, null, ERROCONEXAO);
+    var tst1 =  InsereImagemVendaRG(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_RG, null, ERROCONEXAO);
+    alert(tst1)
     DESCRICAO = 'Imagem do comprovante de residência de :' + NOME_USUARIO;
-    InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_COMPROVANTE, null, ERROCONEXAO);
+    var tst2 = InsereImagemVendaComprovante(DESCRICAO, ID_USUARIO, COD_VENDA, IMAGEM_BASE64_COMPROVANTE, null, ERROCONEXAO);
+    alert(tst2)
 }
 
 function ValidaDadosOperacao() {
@@ -809,6 +805,78 @@ function AlteraDadosUsuario() {
     var usu = AlteraUsuario(ID_USUARIO, LOGIN, NOME, SENHA, ID_TP_USUARIO, EMAIL, CPF, RG, DATA_NASCIMENTO, BANCO, CONTA, AGENCIA, null, ERROCONEXAO);
 }
 
+
+// Wait for device API libraries to load
+//
+//document.addEventListener("deviceready", onDeviceReady, false);
+
+//document.addEventListener("deviceready", function () {
+//    alert("ouvindo o evento");
+//    optionsWatchPosition = { timeout: 5000, maximumAge: 11000, enableHighAccuracy: true };
+//    navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+//    pictureSource = navigator.camera.PictureSourceType;
+//    destinationType = navigator.camera.DestinationType;
+
+//    alert("tudo pronto");
+
+//}, true);
+
+// device APIs are available
+//
+//function onDeviceReady() {
+//    alert("teste");
+
+//}
+
+function FotoDocumentoCPF() {
+    navigator.camera.getPicture(sucessoCPF, onFail, {
+        targetWidth: 331,
+        allowEdit: true,
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+function FotoDocumentoRG() {
+    navigator.camera.getPicture(sucessoRG, onFail, {
+        targetWidth: 331,
+        allowEdit: true,
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+function FotoDocumentoComprovante() {
+    navigator.camera.getPicture(sucessoComprovante, onFail, {
+        targetWidth: 331,
+        allowEdit: true,
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+
+//===========================================
+
+
+function sucessoCPF(imageData) {
+    IMAGEM_BASE64_CPF = imageData;
+    // jQuery('#iconeCPF').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#cpfImagem').addClass("fa-check");
+}
+
+function sucessoComprovante(imageData) {
+    IMAGEM_BASE64_COMPROVANTE = imageData
+    //jQuery('#iconeComprovante').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#iconeTimesComprovante').addClass("fa-check");
+}
+
+function sucessoRG(imageData) {
+    IMAGEM_BASE64_RG = imageData
+    //jQuery('#iconeRG').removeClass("icon-red-exchange").addClass("icon-green-exchange");
+    jQuery('#rgImagem').addClass("fa-check");
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
+}
 
 
 

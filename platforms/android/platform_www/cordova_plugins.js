@@ -240,6 +240,18 @@ module.exports = [
         "clobbers": [
             "Connection"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+        "id": "cordova-plugin-geolocation.geolocation",
+        "clobbers": [
+            "navigator.geolocation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "id": "cordova-plugin-geolocation.PositionError",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -252,8 +264,8 @@ module.exports.metadata =
     "cordova-plugin-dialogs": "1.1.1",
     "cordova-plugin-file": "4.1.1",
     "cordova-plugin-file-transfer": "1.5.0",
-    "cordova-plugin-geolocation": "1.0.1",
-    "org.apache.cordova.network-information": "0.2.15"
+    "org.apache.cordova.network-information": "0.2.15",
+    "cordova-plugin-geolocation": "2.1.0"
 };
 // BOTTOM OF METADATA
 });

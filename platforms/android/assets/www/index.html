@@ -14,7 +14,7 @@
     <link rel="apple-touch-startup-image" sizes="768x1004" href="images/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
     <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png" media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)" />
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />
-    <title>eXCHANGE</title>
+    <title>compra moeda</title>
     <link href="styles/style.css" rel="stylesheet" type="text/css">
     <link href="styles/framework.css" rel="stylesheet" type="text/css">
     <link href="styles/owl.carousel.css" rel="stylesheet" type="text/css">
@@ -23,8 +23,9 @@
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="cordova_plugins.js"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="cordova.js"></script>-->
+    <!--<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>-->
+
     <!--SCRIPTS BASICOS-->
     <!--<script type="text/javascript" src="scripts/jquery-2.1.4.js"></script>-->
     <script src="scripts/jquery-2.2.1.js"></script>
@@ -44,7 +45,7 @@
         <div class="header">
             <!--<a class="open-nav" href="#"><i class="fa fa-navicon"></i></a>-->
             <a><i></i></a>
-            <a class="header-logo">eXCHANGE</a>
+            <a class="header-logo">compra moeda</a>
             <a href="#"><i></i></a>
         </div>
         <div class="header-clear"></div>
@@ -54,7 +55,7 @@
                 <div class="no-bottom">
                     <div>
                         <!--<fieldset>-->
-                        <label class="input-label"><strong> Entrar </strong></label>
+                        <label class="input-label" style="top:-2px;"><strong> Entre com seu usuário e senha </strong></label>
                         <input type="email" name="contactNameField" value="" class="contactField  " id="EMAIL" placeholder="E-mail" required />
                         <input type="password" name="contactNameField" value="" class="contactField" id="SENHA" placeholder="Senha" required />
                         <!--</fieldset>-->
@@ -62,7 +63,10 @@
                     <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="BuscaLogin();">
                         <p class="center-text" style="color: #0489B1; font-size: 15px;">Entrar</p>
                     </div>
-                    <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="Registrar();">
+                 <br clear="all" />
+                    <br clear="all" />
+                    <label class="input-label" style="top:-2px;"><strong> Novo usuário </strong></label>
+                       <div class="static-notification-exchange-login" style="border-radius: 10px;" onclick="Registrar();">
                         <p class=" center-text" style="color: #0489B1; font-size: 15px;">
                             Cadastrar
                         </p>

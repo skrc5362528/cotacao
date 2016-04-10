@@ -3672,7 +3672,7 @@ var BloqueiaTela = function BloqueiaTela(mensagem) {
             opacity: .5,
             color: '#fff'
         },
-        message: "<img src='img/ICONE_eXCHANGE_BRANCO_GRANDE.png' width='64' height='64' /><br/> <label style='font-size:16px; color:white;'>" + mensagem + "</label>",
+        message: "<img src='img/COMPRA_MOEDA_BRANCA.png' width='64' height='64' /><br/> <label style='font-size:16px; color:white;'>" + mensagem + "</label>",
     });
 }
 

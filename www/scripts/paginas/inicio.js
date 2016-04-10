@@ -1,13 +1,4 @@
-﻿//=============================================
-var optionsWatchPosition; 
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-    optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
-}
-navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
-//============================================
-
-
+﻿
 
 function CarregaMenu(pagina) {
     jQuery("#maincontent").load(pagina + '#content');
@@ -24,18 +15,6 @@ function PreparaSistema(pagina) {
    // CarregaTela();
    // MenuAdmin();
 }
-
-function success(pos) {
-
-    var crd = pos.coords;
-
-    localStorage.setItem('latitude', crd.latitude);
-    localStorage.setItem('longitude', crd.longitude);
-};
-
-function error(err) {
-    ExibeMensagem('Localização desabilitada, favor habilitar a localização');
-};
 
 function MenuAdmin() {
 
@@ -55,4 +34,3 @@ function MenuAdmin() {
     }
    
 }
-

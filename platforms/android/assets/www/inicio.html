@@ -15,7 +15,8 @@
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)" />
     <title>COTACAO</title>
     <!--CSS DE ESTILOS-->
-
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
 
     <link href="styles/bootstrap.css" rel="stylesheet" />
     <link href="styles/style.css" rel="stylesheet" type="text/css">
@@ -26,8 +27,31 @@
     <link href="styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="styles/animate.css" rel="stylesheet" type="text/css">
 
+    <!--<script type="text/javascript" charset="utf-8" src="cordova.js"></script>-->
+    <script ype="text/javascript" charset="utf-8">
+    var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value
+    var optionsWatchPosition = { timeout: 10000, maximumAge: 11000, enableHighAccuracy: true };
 
+    document.addEventListener("deviceready", function () { 
+        navigator.geolocation.watchPosition(success, error, optionsWatchPosition);
+        pictureSource = navigator.camera.PictureSourceType;
+        destinationType = navigator.camera.DestinationType;
+    }, false);
 
+    function success(pos) {
+        var crd = pos.coords;
+        localStorage.setItem('latitude', crd.latitude);
+        localStorage.setItem('longitude', crd.longitude);
+    };
+    function error(err) {
+        navigator.geolocation.getCurrentPosition(success, errorMesmo, optionsWatchPosition);
+    };
+
+    function errorMesmo(err) {
+        ExibeMensagem('Localização desabilitada, favor habilitar a localização');
+    };
+    </script>
 </head>
 <body onload="PreparaSistema('estabelecimento.html');">
     <!--class="snapjs-left"-->
@@ -35,6 +59,28 @@
         <div id="status">
         </div>
     </div>
+
+
+    <style>
+        .spinner {
+            position: fixed;
+            z-index: 9999; /* make higher than whatever is on the page */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            background: gray;
+            opacity: 0.95;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <div class="spinner">
+        <img src="img/loadingbar.gif" style="top: 238px;left: 106px;" />
+        <h3 style="position: absolute;left: 27%;top: 30%;color:white;">Aguarde, Carregando...</h3>
+    </div>
+
     <div class="all-elements">
         <div id="sidebar" class="page-sidebar">
             <div id="page_sidebar" class="page-sidebar">
@@ -47,7 +93,7 @@
                 </div>
                 <div class="sidebar-logo">
                     <a onclick="CarregaMenu('estabelecimento.html')">
-                        <img src="img/ICONE_eXCHANGE_BRANCO_GRANDE.png" width="128" height="128" />
+                        <img src="img/icon.png" width="128" height="128" />
                     </a>
                 </div>
                 <div class="navigation-item">
@@ -103,52 +149,59 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content-exchange">
                     <div class="modal-header">
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                         <h4 class="modal-title nav-item-modal" id="myModalLabel">Filtrar por</h4>
                     </div>
                     <div class="modal-body">
                         <table>
                             <tr>
-                                <td>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKDELIVERY" checked>
-                                        <label class="onoffswitch-label" for="CHKDELIVERY">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                        </label>
-                                    </div>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKRETIRADA">
+                                </td>
+                                <td class="nav-item-modal">Retirada na agência</td>
+                            </tr>
+                            <tr>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox-inline" id="CHKDELIVERY">
                                 </td>
                                 <td class="nav-item-modal">Delivery</td>
                             </tr>
                             <tr>
-                                <td>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="CHKABERTO" checked>
-                                        <label class="onoffswitch-label" for="CHKABERTO">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                        </label>
-                                    </div>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKRECARGA">
                                 </td>
-                                <td class="nav-item-modal">Aberto/Fechado</td>
+                                <td class="nav-item-modal">Recarga</td>
+                            </tr>
+                            <tr>
+                                <td width="7px">
+                                    <!--<div class="onoffswitch">-->
+                                    <input type="checkbox" name="onoffswitch" class="checkbox" id="CHKABERTO">
+                                    <!--</div>-->
+                                </td>
+                                <td class="nav-item-modal">Estabelecimento aberto</td>
                             </tr>
                         </table>
-                </div>
-                <div class="modal-footer">
-                    <div class="center-element">
-                        <a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>
                     </div>
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                    <div class="modal-footer">
+                        <div class="center-element">
+
+                            <div class="static-notification-exchange" style="border-radius: 10px;" onclick="" id="btnFiltra">
+                                <p class='center-text' style='font-size:15px; color:white;'>Filtrar</p>
+                            </div>
+                        </div>
+            
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-        <div class="modal fade" id="MODALORDENAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!--<div class="modal fade" id="MODALORDENAR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content-exchange">
                     <div class="modal-header">
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title nav-item-modal" id="myModalLabel">Ordenar por</h4>
                     </div>
                     <div class="modal-body">
@@ -183,15 +236,13 @@
                         <div class="center-element">
                             <a class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-search"></i></a>
                         </div>
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Buscar</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
-</div>
-      <script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="cordova_plugins.js"></script>
+    </div>
     <!--SCRIPTS BASICOS-->
     <!--<script src="scripts/jquery-2.1.4.js"></script>-->
     <script type="text/javascript" src="scripts/jquery-2.2.1.min.js"></script>
@@ -206,6 +257,7 @@
     <!--SCRIPTS DE PÁGINAS-->
     <script type="text/javascript" src="scripts/paginas/inicio.js"></script>
 
+   
 
 
 </body>
